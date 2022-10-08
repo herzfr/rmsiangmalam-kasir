@@ -1,0 +1,10 @@
+<main class="card-user">
+    <img [src]="user?.picture !== null ? user?.picture : 'assets/images/profile.jpg'" class="user-image"
+        [alt]="user?.id">
+    <h1 class="user-title">{{ user?.firstName }} {{ user?.lastName }}</h1>
+    <p class="user-description">{{ user?.id }}</p>
+    <h4 class="text-center text-justify mb-0 font-weight-bold">Cabang Pusat</h4>
+    <p class="text-center text-justify">{{ user?.branch }}</p>
+    <h4 class="text-center text-justify mb-0 font-weight-bold">Terakhir Masuk</h4>
+    <p class="text-center text-justify">{{ user?.lastLogin }}</p>
+</main>

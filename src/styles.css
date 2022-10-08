@@ -1,1 +1,159 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Questrial&display=swap");
+
+html {
+  background: #e5e5e5;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Questrial", sans-serif;
+  /* font-family: Roboto, "Helvetica Neue", sans-serif; */
+  background: url("assets/svg/pattern/path1.svg");
+  background-attachment: fixed;
+  background-position: center center;
+  background-size: cover;
+}
+
+.image-container {
+  height: 100%;
+  background-attachment: fixed;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  z-index: 1;
+}
+
+.illustration {
+  min-width: 400px !important;
+  min-height: 400px !important;
+}
+
+.illustration-dialog {
+  min-width: 100% !important;
+  min-height: 200px !important;
+}
+
+/* BUTTON */
+
+.btn-submit {
+  min-width: 250px !important;
+  height: 50px;
+  background: #045b62;
+  color: white;
+  border-radius: 50px !important;
+}
+
+.btn-confirm {
+  background: #045b62;
+  color: white;
+  min-width: 100px !important;
+  margin-right: 10px !important;
+}
+
+.btn-cancel {
+  background: #e0b91a;
+  color: white;
+  min-width: 100px !important;
+  margin-right: 10px !important;
+}
+
+/* ---------------- */
+
+* {
+  font-family: "Questrial", sans-serif;
+}
+
+.mat-progress-spinner {
+  margin-left: 10px !important;
+}
+
+.mat-progress-bar-fill::after {
+  background-color: #045b62;
+}
+
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #fff !important;
+}
+
+.mat-progress-bar-buffer {
+  background-color: #90aea3;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #045b62 !important;
+}
+
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: #045b62 !important;
+}
+
+.img-title {
+  width: 20%;
+}
+
+.mat-form-field {
+  width: 100% !important;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0px;
+}
+
+.mat-button.mat-button-disabled.mat-button-disabled {
+  background: #c2c2c2;
+}
+
+/* MAT DIALOG */
+
+.cdk-overlay-pane.panel-dialog-x {
+  position: relative !important;
+}
+.close.mat-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  line-height: 14px;
+  min-width: auto;
+}
+
+/*  WEB KIT  */
+
+.backdropBackground {
+  backdrop-filter: blur(4px);
+  -webkit-filter: blur(5px) !important;
+  -moz-filter: blur(5px) !important;
+  -o-filter: blur(5px) !important;
+  -ms-filter: blur(5px) !important;
+  filter: blur(5px) !important;
+}
+
+::-webkit-scrollbar {
+  width: 20px;
+  height: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ffc107;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}

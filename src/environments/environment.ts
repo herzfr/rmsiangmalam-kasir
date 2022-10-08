@@ -3,7 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  url: 'https://app.rmsiangmalam.com/',
+  sessionName: 'TIME',
+  minuteSum: 10,
+  thresholdTime: 300,
+  checkinterval: 10000,
+  timeout: 3000,
 };
 
 /*
