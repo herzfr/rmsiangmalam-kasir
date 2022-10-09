@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'field-builder',
-    template: `
+  selector: 'field-builder',
+  template: `
     <div class="form-group row" [formGroup]="form">
 
       <div [ngSwitch]="field.type">
@@ -30,7 +30,25 @@ import { Component, Input, OnInit } from '@angular/core';
             [form]="form"
           ></textbox>
         </ng-container>
+
+        <ng-container *ngSwitchCase="'currency'">
+          <textbox
+            *ngIf="field.visibility"
+            [field]="field"
+            [form]="form"
+          ></textbox>
+        </ng-container>
         <!-- Textbox -->
+
+        <!-- Dropdown -->
+        <ng-container *ngSwitchCase="'dropdown'">
+          <dropdown
+            *ngIf="field.visibility"
+            [field]="field"
+            [form]="form"
+          ></dropdown>
+        </ng-container>
+        <!-- Dropdown -->
 
 
         <ul class="text-danger list-unstyled my-1">
@@ -49,17 +67,17 @@ import { Component, Input, OnInit } from '@angular/core';
   `,
 })
 export class FieldBuilderComponent implements OnInit {
-    @Input() field: any;
-    @Input() form: any;
+  @Input() field: any;
+  @Input() form: any;
 
-    get isValid() {
-        return this.form.controls[this.field.name].valid;
-    }
-    get isDirty() {
-        return this.form.controls[this.field.name].dirty;
-    }
+  get isValid() {
+    return this.form.controls[this.field.name].valid;
+  }
+  get isDirty() {
+    return this.form.controls[this.field.name].dirty;
+  }
 
-    constructor() { }
+  constructor() { }
 
-    ngOnInit() { }
+  ngOnInit() { }
 }

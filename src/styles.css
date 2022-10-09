@@ -72,6 +72,12 @@ body {
 
 /* ---------------- */
 
+/* MAT ICON */
+.mat-form-field-suffix .mat-icon {
+  margin-left: 10px;
+}
+/* MAT ICON */
+
 * {
   font-family: "Questrial", sans-serif;
 }

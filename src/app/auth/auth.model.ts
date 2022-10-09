@@ -17,7 +17,7 @@ export class UserLogin {
 
 export class UserLoginSubBranch {
     constructor(
-        public id?: number,
+        public id?: number | null,
         public name?: string
     ) { }
 }

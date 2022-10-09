@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainComponent } from './main/main.component';
 import { AuthGuard } from './_guard/auth.guard';
+import { httpInterceptorProviders } from './_helpers/http.interceptor';
 
 const routes: Routes = [
   { path: '', pathMatch: 'prefix', redirectTo: 'v2' },
@@ -12,6 +13,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [httpInterceptorProviders]
 })
 export class AppRoutingModule { }

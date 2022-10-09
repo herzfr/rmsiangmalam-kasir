@@ -23,6 +23,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ShiftService } from './_service/shift.service';
+import { ShiftRepository } from './_model/shift/shift.repository';
+import { RandomUtil } from '../_utility/random';
 
 
 const material = [
@@ -43,6 +46,6 @@ const material = [
     ],
     exports: [],
     declarations: [MainComponent],
-    providers: [MatIconRegistry, FormUtil, TimeUtil, UserRespository]
+    providers: [MatIconRegistry, FormUtil, TimeUtil, UserRespository, ShiftService, ShiftRepository, RandomUtil]
 })
 export class MainModule { }

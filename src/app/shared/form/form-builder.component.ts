@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Component({
-    selector: 'form-apps',
-    template: `
+  selector: 'form-apps',
+  template: `
     <form
       (ngSubmit)="onSubmit.emit(this.form.value)"
       [formGroup]="form"
@@ -16,7 +16,7 @@ import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors }
         <!-- <button type="submit" [disabled]="!form.valid" class="btn btn-primary">Save</button> -->
         <button [disabled]="!form.valid" class="btn-submit" mat-button>
             <div class="d-flex align-items-center justify-content-center">
-                {{ isLoading? 'Memuat...' : 'Masuk'}}
+                {{ isLoading? 'Memuat...' : submitName}}
                 <ng-container *ngIf="isLoading">
                     <mat-spinner [diameter]="20"></mat-spinner>
                 </ng-container>
@@ -40,32 +40,33 @@ import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors }
   `,
 })
 export class DynamicFormComponent implements OnInit {
-    @Output() onSubmit = new EventEmitter<any>();
-    @Input() fields: any[] = [];
-    @Input() isLoading?: boolean;
-    form: FormGroup = new FormGroup({});
+  @Output() onSubmit = new EventEmitter<any>();
+  @Input() fields: any[] = [];
+  @Input() isLoading?: boolean;
+  @Input() submitName?: string;
+  form: FormGroup = new FormGroup({});
 
-    constructor() {
-        console.log(this.fields);
-        console.log(this.form);
-    }
+  constructor() {
+    console.log(this.fields);
+    console.log(this.form);
+  }
 
-    ngOnInit() {
-        let fieldsCtrls: any = {};
-        for (let f of this.fields) {
-            if (f.type != 'checkbox') {
-                fieldsCtrls[f.name] = new FormControl(
-                    f.value || '',
-                    Validators.required
-                );
-            } else {
-                let opts: any = {};
-                for (let opt of f.options) {
-                    opts[opt.key] = new FormControl(opt.value);
-                }
-                fieldsCtrls[f.name] = new FormGroup(opts);
-            }
+  ngOnInit() {
+    let fieldsCtrls: any = {};
+    for (let f of this.fields) {
+      if (f.type != 'checkbox') {
+        fieldsCtrls[f.name] = new FormControl(
+          f.value || '',
+          Validators.required
+        );
+      } else {
+        let opts: any = {};
+        for (let opt of f.options) {
+          opts[opt.key] = new FormControl(opt.value);
         }
-        this.form = new FormGroup(fieldsCtrls);
+        fieldsCtrls[f.name] = new FormGroup(opts);
+      }
     }
+    this.form = new FormGroup(fieldsCtrls);
+  }
 }

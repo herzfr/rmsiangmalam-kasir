@@ -1,15 +1,18 @@
 <div class="container-fluid">
+    <!-- Panel Shift -->
     <div class="shift d-flex justify-content-center" style="height: 30vh;">
         <div class="card-shift">
-            TEST
+            <shift-card-app class="w-100" [shift]="shift"></shift-card-app>
         </div>
     </div>
+    <!-- Panel User -->
     <div class="user d-flex justify-content-center" style="height: 80vh;">
         <user-apps [user]="user"></user-apps>
     </div>
+    <!-- Panel Card -->
     <div class="page d-flex justify-content-center" style="height: auto;">
-        <div class="card-shift">
-            TEST
+        <div class="card-choose">
+            TEST C
         </div>
     </div>
     <div class="input d-flex justify-content-center" style="height: auto;">

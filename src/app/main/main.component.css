@@ -41,7 +41,8 @@
   cursor: pointer;
 }
 
-.card-shift {
+.card-shift,
+.card-choose {
   width: 100% !important;
   height: inherit !important;
   display: flex;

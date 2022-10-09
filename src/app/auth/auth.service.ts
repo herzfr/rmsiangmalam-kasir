@@ -9,6 +9,8 @@ const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
+
+
 @Injectable({
     providedIn: 'root',
 })
@@ -21,7 +23,11 @@ export class AuthService {
     }
 
     refresh(): Observable<GeneralResponse> {
-        return this.http.post<GeneralResponse>(URL + 'auth/refresh', {}, httpOptions);
+        let httpOptionsRefresh = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+            withCredentials: true,
+        };
+        return this.http.post<GeneralResponse>(URL + 'auth/refresh', {}, httpOptionsRefresh);
     }
 
     logout(): Observable<any> {

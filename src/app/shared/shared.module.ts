@@ -14,6 +14,10 @@ import { MaterialShared } from './material.module';
 import { UserRespository } from '../auth/auth.repository';
 import { VerifyDialogComponent } from './dialogs/general-dialogs/verification-dialog.component';
 import { UserCardComponent } from './component/user-card/user-card.component';
+import { ShiftCardComponent } from './component/shift-card/shift-card.component';
+import { FormDialogComponent } from './dialogs/form-dialogs/form-dynamic.component';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { DropDownComponent } from './form/atoms/dropdown';
 
 @NgModule({
     imports: [
@@ -21,11 +25,13 @@ import { UserCardComponent } from './component/user-card/user-card.component';
         MaterialShared,
         FormsModule,
         ReactiveFormsModule,
+        CurrencyMaskModule
     ],
     exports: [
         DynamicFormComponent,
         FieldBuilderComponent,
         TextBoxComponent,
+        DropDownComponent,
         HiLowValidatorDirective,
         ValidationHelper,
         ValidationErrorDirective,
@@ -33,15 +39,18 @@ import { UserCardComponent } from './component/user-card/user-card.component';
         // DIALOG
         InfoDialogComponent,
         VerifyDialogComponent,
+        FormDialogComponent,
 
         // COMPONENT
         UserCardComponent,
+        ShiftCardComponent,
     ],
     declarations: [
         // FORM
         DynamicFormComponent,
         FieldBuilderComponent,
         TextBoxComponent,
+        DropDownComponent,
         HiLowValidatorDirective,
         ValidationHelper,
         ValidationErrorDirective,
@@ -49,9 +58,11 @@ import { UserCardComponent } from './component/user-card/user-card.component';
         // DIALOG
         InfoDialogComponent,
         VerifyDialogComponent,
+        FormDialogComponent,
 
         // COMPONENT
-        UserCardComponent
+        UserCardComponent,
+        ShiftCardComponent
     ],
     providers: [DialogService],
 })

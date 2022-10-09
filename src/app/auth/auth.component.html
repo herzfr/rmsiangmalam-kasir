@@ -9,7 +9,8 @@
                     </mat-card-subtitle>
                     <mat-card-title> {{ isLoading? 'Tunggu sebentar ya...' : 'Kasir Login'}} </mat-card-title>
                     <mat-card-content>
-                        <form-apps (onSubmit)="onSubmitData($event)" [isLoading]="isLoading" [fields]="getFields()">
+                        <form-apps (onSubmit)="onSubmitData($event)" [submitName]="'Masuk'" [isLoading]="isLoading"
+                            [fields]="getFields()">
                         </form-apps>
                     </mat-card-content>
                     <mat-card-footer>

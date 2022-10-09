@@ -21,22 +21,22 @@ export class ValidationHelper {
                     break;
                 case 'minlength':
                     message.push(
-                        `A ${name} must be at least ${errors['minlength'].requiredLength} characters`
+                        `${name} harus setidaknya ${errors['minlength'].requiredLength} karakter`
                     );
                     break;
                 case 'pattern':
-                    message.push(`A ${name} contains illegal character`);
+                    message.push(`A ${name} mengandung karakter ilegal`);
                     break;
                 case 'limit':
-                    message.push(`The ${name} must be less than
+                    message.push(`The ${name} harus kurang dari
             ${errors['limit'].limit}`);
                     break;
                 case 'hilow':
-                    message.push(`The ${name} must be between
-            ${errors['hilow'].low} and ${errors['hilow'].high}`);
+                    message.push(`${name} tidak boleh kurang dari
+            ${errors['hilow'].low} dan tidak boleh lebih dari ${errors['hilow'].high}`);
                     break;
                 case 'unique':
-                    message.push(`The ${name} must be unique`);
+                    message.push(`${name} harus unik tidak boleh sama`);
                     break;
                 case 'prohibited':
                     message.push(`The ${name} may not contain
