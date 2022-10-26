@@ -41,9 +41,6 @@ export class QueryShiftDetail {
     ) { }
 }
 
-
-
-
 export interface Shift {
     id?: number,
     username?: string,

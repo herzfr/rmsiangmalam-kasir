@@ -64,17 +64,10 @@ export class ShiftRepository {
         return this.replaySubjectShift;
     }
 
+    addCash() { }
 
-    addCash() {
+    shiftAll() { }
 
-    }
-
-    shiftAll() {
-
-    }
-
-    detailShift() {
-
-    }
+    detailShift() { }
 
 }

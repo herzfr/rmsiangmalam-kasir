@@ -18,6 +18,9 @@ import { ShiftCardComponent } from './component/shift-card/shift-card.component'
 import { FormDialogComponent } from './dialogs/form-dialogs/form-dynamic.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { DropDownComponent } from './form/atoms/dropdown';
+import { ProductCardComponent } from './component/product-card/product-card.component';
+import { CurrencyRupiahPipe } from './directives/currency.pipe';
+import { PackageCardComponent } from './component/package-card/package-card.component';
 
 @NgModule({
     imports: [
@@ -36,6 +39,10 @@ import { DropDownComponent } from './form/atoms/dropdown';
         ValidationHelper,
         ValidationErrorDirective,
 
+        // PIPE
+        CurrencyRupiahPipe,
+
+
         // DIALOG
         InfoDialogComponent,
         VerifyDialogComponent,
@@ -44,6 +51,8 @@ import { DropDownComponent } from './form/atoms/dropdown';
         // COMPONENT
         UserCardComponent,
         ShiftCardComponent,
+        ProductCardComponent,
+        PackageCardComponent
     ],
     declarations: [
         // FORM
@@ -55,6 +64,9 @@ import { DropDownComponent } from './form/atoms/dropdown';
         ValidationHelper,
         ValidationErrorDirective,
 
+        // PIPE
+        CurrencyRupiahPipe,
+
         // DIALOG
         InfoDialogComponent,
         VerifyDialogComponent,
@@ -62,7 +74,9 @@ import { DropDownComponent } from './form/atoms/dropdown';
 
         // COMPONENT
         UserCardComponent,
-        ShiftCardComponent
+        ShiftCardComponent,
+        ProductCardComponent,
+        PackageCardComponent
     ],
     providers: [DialogService],
 })

@@ -10,7 +10,9 @@ import { TimeUtil } from '../_utility/time.util';
 import { MainComponent } from './main.component';
 
 const routes: Routes = [
-    { path: '', component: MainComponent }
+    { path: '', component: MainComponent },
+    { path: 'order', loadChildren: () => import('./pages/order/order.module').then((m) => m.OrderModule) },
+    { path: 'tables', loadChildren: () => import('./pages/tables/tables.module').then((m) => m.TableModule) }
 ];
 
 // MATERIAL 
@@ -26,6 +28,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ShiftService } from './_service/shift.service';
 import { ShiftRepository } from './_model/shift/shift.repository';
 import { RandomUtil } from '../_utility/random';
+import { ButtonCardComponent } from './button-card/button-card.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { AuthGuard } from '../_guard/auth.guard';
+import { TableModule } from './pages/tables/tables.module';
 
 
 const material = [
@@ -37,15 +43,16 @@ const material = [
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatSidenavModule
 ]
 
 
 @NgModule({
     imports: [
-        CommonModule, RouterModule.forChild(routes), material, IconMaterialModule, SharedeModule
+        CommonModule, RouterModule.forChild(routes), material, IconMaterialModule, SharedeModule, TableModule
     ],
     exports: [],
-    declarations: [MainComponent],
+    declarations: [MainComponent, ButtonCardComponent],
     providers: [MatIconRegistry, FormUtil, TimeUtil, UserRespository, ShiftService, ShiftRepository, RandomUtil]
 })
 export class MainModule { }

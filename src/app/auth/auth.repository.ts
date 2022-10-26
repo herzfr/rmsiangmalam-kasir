@@ -11,6 +11,7 @@ import { environment } from "src/environments/environment";
 import { Static } from "../_constant/static";
 import { HttpErrorResponse } from "@angular/common/http";
 import { DialogService } from "../shared/dialogs/dialog.service";
+import { Role } from "../_constant/role";
 
 @Injectable()
 export class UserRespository {
@@ -32,10 +33,16 @@ export class UserRespository {
         let login: boolean = false;
         await this.authService.login(username, password).subscribe((res: GeneralResponse) => {
             if (res.statusCode == 0) {
-                this.setUserLogin(res.data as UserLogin)
-                this.setTimeSession()
-                this.authorizationTimer()
-                login = true
+                let usr = res.data as UserLogin
+                if (_.isEqual(usr.role, Role.KASIR)) {
+                    this.setUserLogin(usr)
+                    this.setTimeSession()
+                    this.authorizationTimer()
+                    login = true
+                } else {
+                    this.dialog.showInfoDialog("Oops!!!", "Terjadi kesalahan", "Anda bukan user Kasir", "access-danied")
+                }
+
             }
         }, (err: HttpErrorResponse) => {
             if (err.status == 401) {
@@ -131,6 +138,12 @@ export class UserRespository {
 
     get isLogin(): boolean {
         return Boolean(sessionStorage.getItem('isLogin') ? sessionStorage.getItem('isLogin') : false)
+    }
+
+    isCashier(): any {
+        let user = this.getUserLogin() as UserLogin
+        return (user.role === Role.KASIR)
+
     }
 
 

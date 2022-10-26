@@ -39,7 +39,9 @@ export class AuthComponent implements OnInit {
         });
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+
+    }
 
     onSubmitData(data: any) {
         this.isLoading = true;
@@ -58,5 +60,11 @@ export class AuthComponent implements OnInit {
     ngDistroy() {
         this.unsubcribe();
     }
+
+
+
+
+
+
 
 }

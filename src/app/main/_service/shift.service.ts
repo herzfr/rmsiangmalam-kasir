@@ -9,7 +9,7 @@ import { AddCash, QueryShift, QueryShiftDetail, StartShift } from '../_model/shi
 const URL = environment.url
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-    // withCredentials: true,
+    withCredentials: true,
 };
 
 

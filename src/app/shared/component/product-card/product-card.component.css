@@ -1,0 +1,27 @@
+.card-product {
+  width: 156px;
+  cursor: pointer;
+  /* width: 192.67px; */
+  /* height: 250px; */
+  min-height: 190px;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.02);
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.disable-product {
+  cursor: not-allowed !important;
+  background: #d3d3d3 !important;
+}
+
+.disable-product img {
+  -webkit-filter: grayscale(100%) !important; /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%) !important;
+}
+
+.img-product {
+  width: 70%;
+  border-radius: 10px;
+}

@@ -1,0 +1,29 @@
+.card-product {
+  width: 156px;
+  cursor: pointer;
+  /* width: 192.67px; */
+  /* height: 250px; */
+  max-height: 300px;
+  overflow: auto;
+  min-height: 190px;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.02);
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.img-product {
+  width: 70%;
+  height: 10vh;
+  border-radius: 10px;
+}
+
+.p-shadow {
+  box-shadow: 0px 8px 11px 0px rgb(177 165 165 / 5%);
+}
+
+.scroll-list {
+  max-height: 100px;
+  overflow: auto;
+}

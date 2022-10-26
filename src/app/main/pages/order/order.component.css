@@ -1,0 +1,303 @@
+.sidenav {
+  width: 15%;
+  height: 100vh;
+  position: fixed;
+  z-index: 1;
+  /* top: 20px; */
+  /* left: 10px; */
+  background: #eee;
+  overflow-x: hidden;
+  padding: 8px 0;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #2196f3;
+  display: block;
+}
+
+.btn-indicator-left.active {
+  background-color: #045b62;
+  border-radius: 6px;
+  color: #fff;
+  animation: animBtn 4s cubic-bezier(0.11, 0, 0.5, 0) 1s infinite normal
+    backwards;
+}
+
+.btn-indicator-left {
+  background-color: #ffffff;
+  border-radius: 6px;
+  color: #202020;
+}
+
+.mat-drawer-order {
+  width: 100%;
+  height: 100vh;
+}
+
+.mat-drawer {
+  width: 10%;
+}
+
+.bottom-fixed {
+  position: fixed;
+  /* right: 0; */
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+.btn-flip {
+  background-color: #b9941a;
+  border-radius: 6px;
+  color: #fff;
+}
+
+@keyframes animBtn {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+
+.cart-container {
+  height: 100vh !important;
+}
+
+.h-cart {
+  height: 60vh !important;
+  overflow: auto;
+}
+
+.h-total {
+  height: 5% !important;
+  padding: 0px 10px !important;
+}
+
+input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* padding: 0px; */
+  /* gap: 136px; */
+  width: 100%;
+  height: 40px;
+  background: transparent;
+  border: none;
+}
+
+input:focus-visible {
+  outline: none;
+}
+
+.search-input {
+  padding: 0px;
+  background-color: white;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.mat-select {
+  height: 70%;
+  align-items: center;
+  padding: 10px !important;
+  width: 100%;
+  padding: 0px;
+  background-color: white;
+  box-shadow: 0px 4px 20px rgb(0 0 0 / 5%);
+  border-radius: 4px;
+  margin: 8px 0px 0px 0px;
+}
+
+.img-cart {
+  width: 100%;
+}
+
+.btn-plus-minus {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  cursor: pointer;
+  background: #045b62;
+}
+
+.btn-plus-minus-disabled {
+  background: #6a6a6a;
+  cursor: not-allowed;
+}
+
+.price-item {
+  font-size: 12px;
+}
+
+.carding-cart {
+  box-shadow: 0px 4px 20px rgb(0 0 0 / 5%);
+}
+
+.menu-content {
+  height: 80vh;
+  overflow: auto;
+}
+
+.position-number {
+  font-size: 25px;
+  font-weight: bold;
+  padding: 0px;
+}
+
+.btn-delete-shortcut {
+  position: relative;
+  left: 50px;
+  bottom: 10px;
+}
+
+.card-product {
+  width: 161.67px;
+  cursor: pointer;
+  /* width: 192.67px; */
+  height: 250px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.02);
+  margin-right: 10px;
+  margin-bottom: 10px;
+  /* background-image: radial-gradient(#045b62 2px, transparent 2px); */
+  background-size: 32px 32px;
+  background-color: #ffffff;
+}
+
+.img-product {
+  width: 70%;
+  border-radius: 10px;
+}
+
+.items-prod {
+  width: fit-content !important;
+}
+
+owl-carousel-o {
+  height: fit-content !important;
+}
+
+.owl-category-price {
+  background: white;
+  padding: 15px 10px;
+  width: fit-content;
+  /* min-height: 50px; */
+  border-radius: 10px;
+}
+
+.bg-active {
+  background-color: #045b62;
+  color: white;
+}
+
+/* .owl-carousel .owl-stage {
+  display: flex;
+}
+
+.owl-carousel .owl-item img {
+  width: auto;
+  height: 100%;
+} */
+
+.w-min-display {
+  min-width: 110px;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+svg {
+  width: auto;
+  height: 300px;
+}
+
+.food {
+  width: 100%;
+  height: auto;
+}
+
+#maincontent-selector {
+  position: relative;
+}
+
+.footer-selector {
+  position: fixed;
+  bottom: 10px;
+}
+
+.button-next-prev {
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgb(0 0 0 / 5%);
+  border-radius: 4px;
+  gap: 10px;
+  /* width: 100%;
+  height: 100%; */
+}
+
+.error-border {
+  border: 1px solid #b84f4f;
+}
+
+.new-order {
+  background: #045b62;
+  border-radius: 3px;
+  color: white;
+  box-shadow: 0px 4px 20px rgb(0 0 0 / 5%);
+  cursor: pointer;
+}
+
+.utama {
+  color: #ff4081;
+  position: relative;
+  bottom: 220px;
+  left: 65px;
+}
+
+::ng-deep .utama-disabled {
+  color: #9f9f9f !important;
+}
+
+::ng-deep .mat-badge-accent .mat-badge-content {
+  background: #045b62 !important;
+  color: #fff !important;
+}
+
+.utama-package {
+  color: #ff4081;
+  position: relative;
+  bottom: 260px;
+  left: 65px;
+}
+
+.center-empty-cart {
+  margin: auto;
+  /* width: 50%; */
+  height: auto;
+  padding: 10px;
+  padding: 10%;
+}
+
+.icon-empty-cart {
+  width: 100%;
+  min-width: 200px;
+  height: 100%;
+}
+
+.center-shortcut {
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}

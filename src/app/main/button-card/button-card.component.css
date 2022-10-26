@@ -1,0 +1,14 @@
+.button-display-card {
+  width: auto;
+  min-width: 100px;
+  height: auto;
+  min-height: 100px;
+  background-color: #a18700;
+  border-radius: 1.25rem;
+  color: white;
+  box-shadow: 0 10px 15px rgb(0 0 0 / 5%);
+}
+
+.text-button-card {
+  max-width: 70px;
+}
