@@ -1,15 +1,16 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import * as _ from 'lodash';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { map, Observable } from 'rxjs';
 import { Pageable } from 'src/app/_model/general.model';
 import { ShiftRepository } from '../../_model/shift/shift.repository';
-import { CartLine } from './_model/cart.model';
-import { CartRepository } from './_model/cart.repository';
+import { CartLine } from './_model/_cart/cart.model';
 import { DataProduct, Package, Price, Product, Shortcut } from './_model/menu.model';
 import { PriceCategory } from './_model/order.model';
 import { OrderRepository } from './_model/order.repository';
+import { CartRepository } from './_model/_cart/cart.repository';
 
 @Component({
     selector: 'order-apps',
@@ -18,7 +19,7 @@ import { OrderRepository } from './_model/order.repository';
 })
 
 export class OrderComponent implements OnInit {
-    // filter$!: Observable<string | null>;
+    search = '';
     selected = '';
     // tableSelected: number | null = null;
     // name = '';
@@ -60,7 +61,10 @@ export class OrderComponent implements OnInit {
         return pc;
     }
 
-
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.search = filterValue.trim().toLowerCase();
+    }
 
 
     get activeRoute(): string | null {
@@ -91,7 +95,10 @@ export class OrderComponent implements OnInit {
     }
 
     get products() {
-        return this.order.productList?.content;
+        let prod = this.order.productList?.content.filter((x) => {
+            return x.name.toLowerCase().includes(this.search.toLowerCase())
+        });
+        return prod
     }
 
     get pagineProduct(): Pageable {
@@ -107,7 +114,11 @@ export class OrderComponent implements OnInit {
     }
 
     get packages() {
-        return this.order.packageList?.content;
+        // return this.order.packageList?.content;
+        let pack = this.order.packageList?.content.filter((x) => {
+            return x.name.toLowerCase().includes(this.search.toLowerCase())
+        });
+        return pack;
     }
 
     get paginePackage(): Pageable {
@@ -137,12 +148,12 @@ export class OrderComponent implements OnInit {
     // MASIH BELUM BENAR
     nextProd() {
         this.order.searchProduct.page = ((this.pagineProduct.pageNumber ?? 0) + 1)
-        this.order.reCheckPackage(this.order.searchProduct)
+        this.order.reCheckProduct(this.order.searchProduct)
     }
 
     prevProd() {
         this.order.searchProduct.page = ((this.pagineProduct.pageNumber ?? 0) - 1)
-        this.order.reCheckPackage(this.order.searchProduct)
+        this.order.reCheckProduct(this.order.searchProduct)
     }
 
     nextPack() {
@@ -164,14 +175,12 @@ export class OrderComponent implements OnInit {
         this.cartRepo.cart.id = 0;
         this.cartRepo.cart.branchId = this.shiftRepo.onBranch;
         this.cartRepo.cart.subBranchId = this.shiftRepo.onSubBranch;
-        // if (this.cartRepo.cart.tableIds.length > 0) {
-        //     this.cartRepo.cart.tableIds = []
-        // }
-        // this.cartRepo.cart.tableIds.push(this.tableSelected ?? 0)
-        // this.cartRepo.cart.note = this.note
         this.shiftRepo.getShiftObs().subscribe(res => this.cartRepo.cart.shiftId = res.id)
-        console.log(this.cartRepo.cartComplete);
-
+        if (this.cartRepo.cartComplete && this.cartRepo.lines.length > 0) {
+            this.order.saveOrder(this.cartRepo.cartComplete)
+        } else {
+            this.order.openSnackBar("Keranjang masih (Kosong)")
+        }
     }
 
     newOrder() {
@@ -191,8 +200,5 @@ export class OrderComponent implements OnInit {
     getPosition(menuId: string) {
         return this.shortcuts.find(x => x.id == menuId)?.position ?? 0
     }
-
-
-
 
 }
