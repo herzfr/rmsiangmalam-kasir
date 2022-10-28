@@ -47,8 +47,8 @@ export class DynamicFormComponent implements OnInit {
   form: FormGroup = new FormGroup({});
 
   constructor() {
-    console.log(this.fields);
-    console.log(this.form);
+    // console.log(this.fields);
+    // console.log(this.form);
   }
 
   ngOnInit() {
@@ -56,7 +56,7 @@ export class DynamicFormComponent implements OnInit {
     for (let f of this.fields) {
       if (f.type != 'checkbox') {
         fieldsCtrls[f.name] = new FormControl(
-          f.value || '',
+          f.value,
           Validators.required
         );
       } else {

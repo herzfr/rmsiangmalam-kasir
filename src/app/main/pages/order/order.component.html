@@ -39,8 +39,7 @@
             </div>
         </a>
 
-        <a class="bottom-fixed" style="width: 10%" routerLink="/order" [queryParams]="{nav: 'package'}"
-            queryParamsHandling="merge">
+        <a class="bottom-fixed" style="width: 10%" routerLink="/cashier">
             <div class="d-flex px-3 py-2 w-100">
                 <button mat-button class="w-100 btn-indicator-left btn-flip">
                     <mat-icon>point_of_sale</mat-icon>
@@ -68,7 +67,8 @@
                         <div class="col py-2">
                             <div class="d-flex align-items-center search-input">
                                 <mat-icon class="col-2 mx-3" svgIcon="search"></mat-icon>
-                                <input placeholder="Search" class="col" type="text" mat-input>
+                                <input (keyup)="applyFilter($event)" placeholder="Search" class="col" type="text"
+                                    mat-input>
                             </div>
                         </div>
                     </div>
@@ -313,7 +313,8 @@
                                                     [priceCategory]="selected" [active]="item.active"
                                                     [pictures]="item.pic" [name]="item.name" [desc]="item.description"
                                                     [products]="item.products" [prices]="item.prices"></package-card>
-                                                <mat-icon (click)="shortcutThis(item.id)" matBadge="15"
+                                                <mat-icon [ngClass]="getPosition(item.id) > 0? null : 'utama-disabled'"
+                                                    (click)="shortcutThis(item.id)" [matBadge]="getPosition(item.id)"
                                                     matBadgeColor="accent" atBadgeSize="large" class="utama-package"
                                                     color="accent">bookmark</mat-icon>
                                             </div>
@@ -611,8 +612,10 @@
 
                         <div class="row py-2">
                             <div class="col d-flex align-items-center">
-                                Order ID # <strong class="text-custom-general">{{ cartRepo.cart.id?? ' PesananBaru'
-                                    }}</strong>
+                                Order ID # <strong class="text-custom-general">
+                                    {{ cartRepo.cart.id === null || cartRepo.cart.id === 0? ' PesananBaru' :
+                                    cartRepo.cart.id }}
+                                </strong>
                             </div>
                             <div (click)="newOrder()"
                                 class="col-3 d-flex align-items-center justify-content-center new-order">
@@ -630,6 +633,7 @@
                                             <img class="img-cart"
                                                 [src]="ct.pic === ''? 'assets/images/no_pic_square.png' : ct.pic"
                                                 alt="">
+                                            <div class="category-box">{{ ct.priceCat }}</div>
                                         </div>
                                         <div class="col py-2">
                                             <p>{{ ct.name }}</p>
@@ -637,7 +641,7 @@
                                             <div class="d-flex">
                                                 <div class="col d-flex justify-content-center">
                                                     <div [ngClass]="ct.amount === 1? 'btn-plus-minus-disabled' : null"
-                                                        (click)="cartRepo.updateQuantityMinus(ct, 1)"
+                                                        (click)="cartRepo.updateQuantityMinus(ct, 1, ct.priceCatId)"
                                                         class="btn-plus-minus d-flex align-items-center justify-content-center"
                                                         mat-button>
                                                         <mat-icon svgIcon="minus"></mat-icon>
@@ -647,7 +651,7 @@
                                                     <strong class="w-100 text-center">{{ ct.amount }}</strong>
                                                 </div>
                                                 <div class="col d-flex justify-content-center">
-                                                    <div (click)="cartRepo.updateQuantityPlus(ct, 1)"
+                                                    <div (click)="cartRepo.updateQuantityPlus(ct, 1, ct.priceCatId)"
                                                         class="btn-plus-minus d-flex align-items-center justify-content-center"
                                                         mat-button>
                                                         <mat-icon svgIcon="plus"></mat-icon>
@@ -657,8 +661,9 @@
 
                                         </div>
                                         <div class="col-3 py-2 px-0">
-                                            <strong class="price-item text-break">{{ ct.totalPrice | rupiah }}</strong>
-                                            <div (click)="cartRepo.removeLine(ct.menuId)"
+                                            <p class="price-item text-break text-end">{{ ct.totalPrice | rupiah
+                                                }}</p>
+                                            <div (click)="cartRepo.removeLine(ct.menuId, ct.priceCatId)"
                                                 class="col d-flex align-items-end justify-content-end p-0 h-50">
                                                 <mat-icon svgIcon="remove"></mat-icon>
                                             </div>

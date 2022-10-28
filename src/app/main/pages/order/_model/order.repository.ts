@@ -7,8 +7,11 @@ import { ShiftRepository } from 'src/app/main/_model/shift/shift.repository';
 import { FindTable, Table } from '../../tables/_model/table.model';
 import { TableService } from '../../tables/_services/table.service';
 import { OrderService } from '../_service/order.service';
+import { TemporarySalesService } from '../../cashier/_service/temporarysales.service';
 import { DataPackage, DataProduct, DataShortcut, Product, ProductCategory, Shortcut } from './menu.model';
 import { Customer, FillShortcut, FindMenu, PriceCategory } from './order.model';
+import { CartLine, ItemCart } from './_cart/cart.model';
+import { CartRepository } from './_cart/cart.repository';
 
 @Injectable({ providedIn: 'root' })
 export class OrderRepository {
@@ -31,7 +34,8 @@ export class OrderRepository {
 
     subs: Subscription[] = [];
     constructor(private orderService: OrderService, private shiftRepo: ShiftRepository,
-        private tableService: TableService, private _snackBar: MatSnackBar) {
+        private tableService: TableService, private _snackBar: MatSnackBar,
+        private tempSalesService: TemporarySalesService, private cartRepo: CartRepository) {
         this.initFindTable()
         forkJoin([
             this.orderService.getPriceCategory(),
@@ -65,7 +69,7 @@ export class OrderRepository {
             this.productList = value[0].data
             this.packageList = value[1].data
             this.shortcutList = value[2].data
-            console.log(this.shortcutList);
+            // console.log(this.shortcutList);
 
         })
     }
@@ -178,6 +182,27 @@ export class OrderRepository {
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
         });
+    }
+
+    saveOrder(cart: CartLine) {
+        this.tempSalesService.createTempSales(cart).subscribe(res => {
+            if (_.isEqual(res.statusCode, 0)) {
+                this.openSnackBar('Pesanan berhasil disimpan')
+                this.cartRepo.cart = (res.data as CartLine)
+                this.cartRepo.lines = (res.data as CartLine).items as ItemCart[]
+            }
+        }, (err: HttpErrorResponse) => {
+            console.log(err.error);
+            this.openSnackBar(err.error.message)
+            // switch (err.error.statusCode) {
+            //     case 1804:
+            //         this.openSnackBar('Menu sudah teregistrasi')
+            //         break;
+            //     default:
+            //         this.openSnackBar(err.error.message)
+            //         break;
+            // }
+        })
     }
 
 

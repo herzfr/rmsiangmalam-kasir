@@ -136,6 +136,7 @@ input:focus-visible {
 
 .price-item {
   font-size: 12px;
+  font-weight: bold;
 }
 
 .carding-cart {
@@ -300,4 +301,18 @@ svg {
   width: 100%;
   height: 100%;
   padding: 10px;
+}
+
+.category-box {
+  font-size: 9px;
+  background-color: #045b62;
+  width: auto;
+  position: relative;
+  font-size: 9px;
+  background-color: #620453;
+  top: 11px;
+  border-radius: 3px;
+  color: white;
+  padding: 0px 2px;
+  text-align: center;
 }

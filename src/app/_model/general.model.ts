@@ -6,3 +6,14 @@ export class Pageable {
     constructor(
     ) { }
 }
+
+
+export class FindGeneral {
+    constructor(
+        search: string = "",
+        size: number = 50,
+        page: number = 0,
+        branchId: number | null = null,
+        subBranchId: number | null = null,
+    ) { }
+}

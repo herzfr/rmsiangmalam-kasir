@@ -9,11 +9,6 @@ import { FormUtil } from '../_utility/form.util';
 import { TimeUtil } from '../_utility/time.util';
 import { MainComponent } from './main.component';
 
-const routes: Routes = [
-    { path: '', component: MainComponent },
-    { path: 'order', loadChildren: () => import('./pages/order/order.module').then((m) => m.OrderModule) },
-    { path: 'tables', loadChildren: () => import('./pages/tables/tables.module').then((m) => m.TableModule) }
-];
 
 // MATERIAL 
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
@@ -34,6 +29,14 @@ import { AuthGuard } from '../_guard/auth.guard';
 import { TableModule } from './pages/tables/tables.module';
 
 
+const routes: Routes = [
+    { path: '', component: MainComponent },
+    { path: 'order', loadChildren: () => import('./pages/order/order.module').then((m) => m.OrderModule) },
+    { path: 'cashier', loadChildren: () => import('./pages/cashier/cashier.module').then((m) => m.CashierModule) },
+    { path: 'tables', loadChildren: () => import('./pages/tables/tables.module').then((m) => m.TableModule) }
+];
+
+
 const material = [
     MatIconModule,
     MatFormFieldModule,
@@ -49,7 +52,7 @@ const material = [
 
 @NgModule({
     imports: [
-        CommonModule, RouterModule.forChild(routes), material, IconMaterialModule, SharedeModule, TableModule
+        CommonModule, RouterModule.forChild(routes), material, IconMaterialModule, SharedeModule,
     ],
     exports: [],
     declarations: [MainComponent, ButtonCardComponent],

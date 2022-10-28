@@ -1,6 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Questrial&display=swap");
 
+:root {
+  --red: hsl(0, 78%, 62%);
+  --cyan: hsl(180, 62%, 55%);
+  --orange: hsl(34, 97%, 64%);
+  --blue: hsl(212, 86%, 64%);
+  --varyDarkBlue: hsl(234, 12%, 34%);
+  --grayishBlue: hsl(229, 6%, 66%);
+  --veryLightGray: hsl(0, 0%, 98%);
+  --weight1: 200;
+  --weight2: 400;
+  --weight3: 600;
+}
+
 html {
   background: #e5e5e5;
 }
@@ -53,7 +66,8 @@ body {
 /* BUTTON */
 
 .btn-submit {
-  min-width: 250px !important;
+  /* min-width: 250px !important; */
+  width: 100% !important;
   height: 50px;
   background: #045b62;
   color: white;

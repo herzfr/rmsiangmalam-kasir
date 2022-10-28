@@ -5,7 +5,7 @@ export class FormUtil {
         asLabel: string,
         asPlaceholer: string | null,
         asIcon: string | undefined,
-        asValue: string | null,
+        asValue: string | null | number | boolean,
         asVisible: boolean,
         asRequired: boolean,
         asOpt: any

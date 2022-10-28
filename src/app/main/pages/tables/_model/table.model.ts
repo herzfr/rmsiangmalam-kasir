@@ -1,3 +1,10 @@
+import { Pageable } from "src/app/_model/general.model"
+
+export interface DataTable {
+    content: Table[]
+    pageable: Pageable
+}
+
 export interface Table {
     id: number
     branchId: number
@@ -20,3 +27,35 @@ export class FindTable {
     branchId?: number = 0
     subBranchId?: number | null
 }
+
+export class CreateTable {
+    constructor(
+        name?: string,
+        description?: string,
+        branchId?: number,
+        subBranchId?: number | null
+    ) { }
+}
+
+
+export class UpdateTable {
+    constructor(
+        id?: number,
+        name: string = "",
+        description: string = "",
+        branchId?: number,
+        subBranchId?: number | null,
+        isOccupied: boolean = false
+    ) { }
+}
+
+export class UpdateOccupation {
+    constructor(
+        id?: number,
+        isOccupied: boolean = true,
+        salesId?: number | null,
+        capacity?: number
+    ) { }
+}
+
+

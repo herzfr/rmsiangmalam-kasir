@@ -21,10 +21,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { OrderRepository } from './_model/order.repository';
 import { OrderService } from './_service/order.service';
 import { CarouselModule } from 'ngx-owl-carousel-o';
-import { CartRepository } from './_model/cart.repository';
 import { FormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TemporarySalesService } from '../cashier/_service/temporarysales.service';
+import { TempSalesRepository } from './_model/_tempsales/tempsales.repository';
+import { CartRepository } from './_model/_cart/cart.repository';
 
 
 const routes: Routes = [
@@ -50,6 +52,6 @@ const material = [
     imports: [CommonModule, RouterModule.forChild(routes), SharedeModule, IconMaterialModule, material, CarouselModule, FormsModule],
     exports: [],
     declarations: [OrderComponent],
-    providers: [OrderRepository, OrderService, CartRepository],
+    providers: [OrderRepository, OrderService, CartRepository, TemporarySalesService, TempSalesRepository],
 })
 export class OrderModule { }
