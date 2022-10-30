@@ -37,11 +37,16 @@ export class TablesRepository {
     }
 
     get dataTables(): Table[] {
+        // return []
         return this.tableList?.content ?? []
     }
 
     get tablePagine(): Pageable {
         return this.tableList?.pageable ?? {}
+    }
+
+    findTable(id: number): Table | undefined {
+        return this.dataTables.find(x => x.id === id)
     }
 
     createT() {

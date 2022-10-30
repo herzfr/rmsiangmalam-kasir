@@ -1,0 +1,53 @@
+.info-nav {
+  background: #4d979d;
+  color: #fff;
+  min-height: 100px;
+}
+
+.bottom-fixed {
+  position: fixed;
+  /* right: 0; */
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+.btn-flip {
+  /* background-color: #b9941a; */
+  /* border-radius: 6px; */
+  /* color: #fff; */
+  width: 10%;
+}
+
+.section-page {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.detail-list-checkout {
+  background: #fff;
+  height: 90vh;
+  overflow: auto;
+}
+
+.mat-card-sm-image {
+  width: 50px;
+  height: 50px;
+}
+
+.items-card {
+  padding: 5px 10px;
+}
+
+.payment-list-checkout {
+  background: #9dc2c5;
+  height: auto;
+  overflow: auto;
+}
+
+.btn-pay {
+  background: #4d979d;
+  color: #fff;
+  width: 100%;
+}

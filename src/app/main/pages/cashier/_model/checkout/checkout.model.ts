@@ -1,0 +1,35 @@
+export class Checkout {
+    tempSalesId: number | null = null;
+    name: string = '';
+    tableIds: number[] = []
+    note: string = ''
+    customerId: number | null = null;
+    customerName: string | null = null;
+    cashierUserName: string | null = null;
+    cashierName: string | null = null;
+    waiterName: string | null = null;
+    waiterUserName: string | null = null;
+    subTotal: number = 0;
+    discount: number = 0;
+    tax: number = 0;
+    service: number = 0;
+    total: number = 0;
+    paymentMethod: string | null = null;
+    paymentTypeId: number | null = null;
+    cash: number = 0;
+    change: number = 0;
+    isDineIn: boolean = false;
+    status: string = '';
+    shiftId: number | null = null;
+    isTax: boolean = false;
+    deposit: number = 0;
+    bookingId: number | null = null;
+    transactionNo: string | null = null;
+    merchantId: string | null = null;
+    cardNo: string | null = null;
+    cardName: string | null = null;
+    batchNo: string | null = null;
+    employeeUserName: string | null = null;
+    adminFee?: number | null = null;
+    image?: string | null = null;
+}

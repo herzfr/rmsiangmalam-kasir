@@ -130,7 +130,7 @@ export class OrderComponent implements OnInit {
     }
 
     get disbaleNextPack() {
-        return (this.paginePackage.totalPage ?? 0) === (this.paginePackage.pageNumber ?? 0)
+        return (this.paginePackage.totalPage ?? 0) > ((this.paginePackage.pageNumber ?? 0) - 1)
     }
 
     get shortcuts() {

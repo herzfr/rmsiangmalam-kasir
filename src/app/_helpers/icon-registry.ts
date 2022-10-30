@@ -23,6 +23,7 @@ export class IconMaterialModule {
         ["empty-cart", `${PathRegistry.ASSETS_SVG}empty-cart.svg`],
         ["food", `${PathRegistry.ASSETS_SVG}food.svg`],
         ["hands", `${PathRegistry.ASSETS_SVG}3d-image/hands.svg`],
+        ["empty-data", `${PathRegistry.ASSETS_SVG}empty-data.svg`],
     ];
 
 

@@ -1,7 +1,7 @@
 <div class="container-fluid">
-    <div class="row">
+    <div class="row container-table">
         <div class="col-4 side">
-            <div class="row">
+            <div class="row justify-content-between">
                 <div (click)="back()" class="d-flex align-items-center px-3 py-2 mt-2 mx-2 cursor-pointer btn-back">
                     <mat-icon svgIcon="back"></mat-icon>
                     <p class="mb-0 px-2"><strong>Kembali</strong></p>
@@ -27,27 +27,40 @@
             <div class="row">
                 <div class="center-content">
                     <mat-icon class="icon-center-content" svgIcon="hands"></mat-icon>
-                    <p class="text-center">
-                        Tombol <strong>Tambah</strong> untuk persiapan pembuatan meja baru, klik salah satu tombol
-                        <strong>Perbaharui</strong> untuk merubah data tersebut.
+                    <p class="text-center display-4">
+                        Meja
                     </p>
                 </div>
             </div>
         </div>
         <div class="col bg-white">
             <div class="container-fluid container-general">
-                <div class="row justify-content-between px-2">
-                    <div [ngClass]="tbl.isOccupied? 'red' : 'cyan'" class="box box-down"
-                        *ngFor="let tbl of tablesRepo.dataTables">
-                        <h2>T.{{ tbl.name }} - K.{{ tbl.capacity === null? '0' : tbl.capacity }}</h2>
-                        <p class="m-0">{{ tbl.description }}</p>
-                        <div (click)="generateFieldUpdate(tbl)"
-                            [ngClass]="tbl.isOccupied? 'box-status-used' : 'box-status'">
-                            <p class="text-white m-0 text-center">{{ tbl.isOccupied? 'Terpakai' : 'Perbaharui' }}</p>
+                <div class="row justify-content-between px-2 r-container">
+                    <ng-container *ngIf="tablesRepo.dataTables.length > 0; else isEmpty">
+                        <div [ngClass]="tbl.isOccupied? 'red' : 'cyan'" class="box box-down"
+                            *ngFor="let tbl of tablesRepo.dataTables">
+                            <h2>T.{{ tbl.name }} - K.{{ tbl.capacity === null? '0' : tbl.capacity }}</h2>
+                            <p class="m-0">{{ tbl.description }}</p>
+                            <div (click)="generateFieldUpdate(tbl)"
+                                [ngClass]="tbl.isOccupied? 'box-status-used' : 'box-status'">
+                                <p class="text-white m-0 text-center">{{ tbl.isOccupied? 'Terpakai' : 'Perbaharui' }}
+                                    <span *ngIf="tbl.isOccupied">- {{ tbl.capacity }}</span>
+                                </p>
+                            </div>
+                            <mat-icon (click)="tablesRepo.deleteT(tbl.id)" *ngIf="!tbl.isOccupied" class="close">close
+                            </mat-icon>
                         </div>
-                        <mat-icon (click)="tablesRepo.deleteT(tbl.id)" *ngIf="!tbl.isOccupied" class="close">close
-                        </mat-icon>
-                    </div>
+                    </ng-container>
+                    <ng-template #isEmpty>
+                        <div class="center-empty">
+                            <h2 class="text-center">Meja masih kosong, silahkan buat meja terlebih dahulu</h2>
+                            <p class="text-center">
+                                Tombol <strong>Tambah</strong> untuk persiapan pembuatan meja baru, klik salah satu
+                                tombol
+                                <strong>Perbaharui</strong> untuk merubah data tersebut.
+                            </p>
+                        </div>
+                    </ng-template>
                 </div>
             </div>
         </div>

@@ -39,7 +39,8 @@
             </div>
         </a>
 
-        <a class="bottom-fixed" style="width: 10%" routerLink="/cashier">
+        <a class="bottom-fixed" style="width: 10%" routerLink="/cashier" [queryParams]="{nav: 'list'}"
+            queryParamsHandling="merge">
             <div class="d-flex px-3 py-2 w-100">
                 <button mat-button class="w-100 btn-indicator-left btn-flip">
                     <mat-icon>point_of_sale</mat-icon>

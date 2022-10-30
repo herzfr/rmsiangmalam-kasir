@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { GeneralResponse } from 'src/app/_model/general.interface';
 import { environment } from 'src/environments/environment';
 import { CartLine } from '../../order/_model/_cart/cart.model';
-import { Merge, Split } from '../../order/_model/_tempsales/tempsales.model';
+import { FindTempSales, Merge, Split } from '../_model/tempsales.model';
 
 const URL = environment.url
 const httpOptions = {
@@ -15,6 +15,16 @@ const httpOptions = {
 @Injectable({ providedIn: 'root' })
 export class TemporarySalesService {
     constructor(private http: HttpClient) { }
+
+    // GET ALL
+    getTempSales(find: FindTempSales): Observable<GeneralResponse> {
+        return this.http.post<GeneralResponse>(URL + 'pos/tempsales/get', find, httpOptions)
+    }
+
+    // GET BY ID 
+    getTempSalesById(id: number): Observable<GeneralResponse> {
+        return this.http.get<GeneralResponse>(URL + 'pos/tempsales/get/' + id, httpOptions)
+    }
 
     // CREATE
     createTempSales(cart: CartLine): Observable<GeneralResponse> {

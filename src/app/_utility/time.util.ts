@@ -37,4 +37,27 @@ export class TimeUtil {
     public endTodayTime(date: Date) {
         return date.setUTCHours(23, 59, 59, 999)
     }
+
+    public getDate(val: number) {
+        let dt = new Date(val);
+        return moment(dt).format('DD/MM/yyyy HH:mm:ss');
+    }
+
+    public getJustDate(val: number) {
+        let dt = new Date(val);
+        return moment(dt).format('DD/MM/yyyy');
+    }
+
+    public getJustTime(val: number) {
+        let dt = new Date(val);
+        return moment(dt).format('HH:mm');
+    }
+
+    public setTimeInDate(time: string, date: Date): number {
+        let t = time.split(':')
+        let hour = Number(t[0])
+        let minute = Number(t[1])
+        return new Date(date).setHours(hour, minute, 0, 0)
+    }
+
 }

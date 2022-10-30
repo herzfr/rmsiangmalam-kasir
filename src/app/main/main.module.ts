@@ -27,6 +27,12 @@ import { ButtonCardComponent } from './button-card/button-card.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { AuthGuard } from '../_guard/auth.guard';
 import { TableModule } from './pages/tables/tables.module';
+import { DiscountService } from './_service/discount.service';
+import { DiscountRepository } from './_model/discount/discount.repository';
+import { AdditionalService } from './_service/additional.service';
+import { AdditionalRepository } from './_model/additional/additional.repository';
+import { CustomerService } from './_service/customer.service';
+import { CustomerRepository } from './_model/customer/customer.repository';
 
 
 const routes: Routes = [
@@ -56,6 +62,20 @@ const material = [
     ],
     exports: [],
     declarations: [MainComponent, ButtonCardComponent],
-    providers: [MatIconRegistry, FormUtil, TimeUtil, UserRespository, ShiftService, ShiftRepository, RandomUtil]
+    providers: [
+        MatIconRegistry,
+        FormUtil,
+        TimeUtil,
+        UserRespository,
+        ShiftService,
+        ShiftRepository,
+        RandomUtil,
+        DiscountService,
+        DiscountRepository,
+        AdditionalService,
+        AdditionalRepository,
+        CustomerService,
+        CustomerRepository
+    ]
 })
 export class MainModule { }

@@ -27,7 +27,7 @@ export interface ButtonRoute {
 export class ButtonCardComponent implements OnInit {
 
     buttons: ButtonRoute[] = [
-        { icon: 'point_of_sale', title: 'Sistem Kasir', route: 'v2/cashier', params: null },
+        { icon: 'point_of_sale', title: 'Sistem Kasir', route: 'v2/cashier', params: { nav: 'list' } },
         { icon: 'brunch_dining', title: 'Pesan Menu', route: 'v2/order', params: { nav: 'shortcut' } },
         { icon: 'edit_calendar', title: 'Reservasi', route: 'v2/order', params: null },
         { icon: 'table_restaurant', title: 'Meja', route: 'v2/tables', params: null },

@@ -1,1 +1,107 @@
-<h1>Cashier Work</h1>
+<mat-drawer-container class="mat-drawer-order">
+    <mat-drawer mode="side" opened>
+        <!-- SIDEBAR -->
+
+        <img class="logo-small" src="assets/images/sm_logo.png" alt="logo-small">
+
+        <!-- <h4 class="fw-bold text-center mb-0">POS</h4>
+        <p class="d-flex justify-content-center align-items-center text-center info-nav px-2"> {{ activeRoute }}</p>
+
+        <hr> -->
+        <h4 class="fw-bold text-center mb-0">PINTAS</h4>
+
+        <a routerLink="/order" [queryParams]="{nav: 'shortcut'}" queryParamsHandling="merge">
+            <div class="d-flex px-3 py-2 w-100">
+                <button [ngClass]="{'active': activeRoute === 'shortcut'}" mat-button
+                    class="w-100 btn-indicator-left active">
+                    <mat-icon>brunch_dining</mat-icon>
+                    <p class="mb-0">Pesan</p>
+                </button>
+            </div>
+        </a>
+
+
+        <div (click)="back()" class="d-flex align-items-center px-3 py-2 mt-2 cursor-pointer btn-flip bottom-fixed">
+            <!-- <mat-icon class="btn-indicator-left" svgIcon="back"></mat-icon> -->
+            <p class="mb-0 px-2"><strong>Kembali</strong></p>
+        </div>
+
+        <!-- <a class="bottom-fixed" style="width: 10%" routerLink="/cashier">
+            <div class="d-flex px-3 py-2 w-100">
+                <button mat-button class="w-100 btn-indicator-left btn-flip">
+                    <mat-icon>point_of_sale</mat-icon>
+                    <p class="mb-0">Kasir</p>
+                </button>
+            </div>
+        </a> -->
+
+
+    </mat-drawer>
+    <mat-drawer-content>
+
+        <div class="row m-0 section-page">
+            <!-- PAGE SECTION -->
+            <div class="col p-0">
+                <list-order-app></list-order-app>
+            </div>
+
+            <!-- CHECKOUT SECTION -->
+            <div class="col-4 p-0">
+                <!-- LIST ITEM -->
+                <div class="detail-list-checkout">
+                    <ng-container *ngIf="tempRepo.tempSalesActive?.items !== null; else emptyCart">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">ID Order #{{ tempRepo.tempSalesActive?.id }}</li>
+                        </ul>
+
+                        <div class="item-temp p-1 bg-white" *ngFor="let item of tempRepo.tempSalesActive?.items">
+
+                            <mat-card class="items-card">
+                                <mat-card-title-group>
+                                    <mat-card-subtitle>
+                                        <p class="mb-0 fw-bold">{{ item.name }}</p>{{ item.unitPrice | rupiah }}
+                                    </mat-card-subtitle>
+                                    <img mat-card-sm-image
+                                        [src]="item.pic !== null || item.pic !== ''? item.pic : 'assets/images/no_pic_square.png'">
+                                </mat-card-title-group>
+                                <mat-card-content>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex justify-content-start">
+                                            <p style="margin-right: 10px;" class="fw-bold mb-0"> x{{ item.amount }} </p>
+                                            <p class="fw-bold mb-0"> {{ item.totalPrice | rupiah }} </p>
+                                        </div>
+                                        <p> {{ item.isPackage? 'Paket' : 'Satuan' }} </p>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+
+                        </div>
+                    </ng-container>
+                    <ng-template #emptyCart>
+                        Review Item masih kosong
+                    </ng-template>
+                </div>
+                <!-- LIST ITEM -->
+
+                <!-- DESCRIPTION CHECKOUT -->
+                <div class="payment-list-checkout">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">Jumlah item #
+                            {{tempRepo.tempSalesActive?.items?.length }}
+                            <div class="col-4 fw-bold">
+                                Rp 10.000.000
+                            </div>
+                        </li>
+                    </ul>
+
+                    <button mat-button class="btn-pay">Bayar</button>
+
+                </div>
+                <!-- DESCRIPTION CHECKOUT -->
+            </div>
+        </div>
+
+
+
+    </mat-drawer-content>
+</mat-drawer-container>

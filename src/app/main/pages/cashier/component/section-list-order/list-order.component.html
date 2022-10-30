@@ -1,0 +1,148 @@
+<mat-card class="example-card">
+    <mat-card-title>Daftar Pesanan</mat-card-title>
+    <mat-card-subtitle class="mb-0">Berikut merupakan daftar pesanan sementara</mat-card-subtitle>
+    <mat-card-content class="mb-0">
+        <div class="row align-items-center">
+            <ng-container *ngIf="tempRepo.findTempSales.option !== 'table'; else teableOpt">
+                <div class="col py-2">
+                    <div class="d-flex align-items-center search-input">
+                        <mat-icon (click)="tempRepo.getTempSales()" class="col-2 mx-3 cursor-pointer" svgIcon="search">
+                        </mat-icon>
+                        <input (keyup)="applyFilter($event)" placeholder="Search" class="col" type="text"
+                            [value]="tempRepo.findTempSales.search" mat-input>
+                        <mat-icon (click)="clear()" class="col-2 mx-3 cursor-pointer" svgIcon="remove"></mat-icon>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #teableOpt>
+                <div class="col py-2">
+                    <mat-select [(value)]="searchTable" class="search-input"
+                        (selectionChange)="selectTableFindTempSales()">
+                        <mat-option [value]="null" selected>Pilih Meja</mat-option>
+                        <mat-option *ngFor="let opt of tableRepo.dataTables" [value]="opt.id">
+                            {{ opt.name }} - {{ opt.description }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </ng-template>
+            <div class="col-4">
+                <mat-select [(value)]="tempRepo.findTempSales.option">
+                    <mat-option [value]="item.value" *ngFor="let item of optionType">{{
+                        item.key }}</mat-option>
+                </mat-select>
+            </div>
+        </div>
+    </mat-card-content>
+    <mat-divider inset></mat-divider>
+    <mat-card-actions class="row d-flex justify-content-between mb-0 mb-0">
+        <div class="col">
+            <div class="d-flex box-range">
+                <mat-date-range-input [formGroup]="rangeDate" [rangePicker]="picker">
+                    <input matStartDate formControlName="start" placeholder="Tanggal Awal" #dateStart>
+                    <input matEndDate formControlName="end" placeholder="Tanggal Akhir" #dateEnd
+                        (dateChange)="findByDate()">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </div>
+        </div>
+
+        <div class="col-5 text-end">
+            <!-- <button mat-button color="accent" class="button-next-prev">
+                <mat-icon>chevron_left</mat-icon>
+            </button>
+            <strong class="mx-2"> 1 </strong>
+            <button mat-button color="accent" class="button-next-prev">
+                <mat-icon>chevron_right</mat-icon>
+            </button> -->
+            <div class="d-flex justify-content-between">
+                <div class="box-time d-flex align-items-center">
+                    <!-- <label for="appt">Waktu Awal :</label> -->
+                    <input type="time" id="appt" name="appt" [value]="firstTime" (change)="startTime($event.target)"
+                        required>
+                </div>
+                <div class="col d-flex align-items-center justify-content-center">
+                    <mat-icon>remove</mat-icon>
+                </div>
+                <div class="box-time d-flex align-items-center">
+                    <!-- <label for="appt">Waktu Awal :</label> -->
+                    <input type="time" id="appt" name="appt" [value]="lastTime" (change)="endTime($event.target)"
+                        required>
+                </div>
+            </div>
+
+
+        </div>
+    </mat-card-actions>
+    <mat-card-footer>
+        <mat-progress-bar *ngIf="tempRepo.isLoading" mode="indeterminate"></mat-progress-bar>
+    </mat-card-footer>
+</mat-card>
+<div class="container-fluid h-auto list-order-container">
+    <div class="row px-2 py-2">
+        <div class="list-group">
+            <!-- LIST DATA AREA IF NOT LOADING -->
+            <ng-container *ngIf="!tempRepo.isLoading; else isNotLoad">
+                <!-- CARD LIST -->
+                <ng-container *ngIf="tempRepo.tempSales.length > 0; else listEmpty">
+                    <a [class.is-active]="getActive(temp.id)" class="list-group-item list-group-item-action mb-1"
+                        aria-current="true" *ngFor="let temp of tempRepo.tempSales">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1 d-flex align-items-center">
+                                {{ temp.name == ""? '': temp.name }} <span *ngIf="temp.tableIds.length > 0"
+                                    style="padding-left: 10px;">T.</span> {{
+                                temp.tableIds.length > 0? getTable(temp.tableIds[0]) : 'Take Away' }}</h5>
+                            <div class="d-flex">
+                                <small class="d-flex align-items-center">{{ temp.createdAt | milistodate: 'full'
+                                    }}</small>
+                                <button mat-button [matMenuTriggerFor]="menu">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                            </div>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item>Perbaharui</button>
+                                <button mat-menu-item>Gabung Tagihan</button>
+                                <button mat-menu-item>Pisah Tagihan</button>
+                                <button mat-menu-item>Batalkan</button>
+                            </mat-menu>
+                        </div>
+                        <p class="mb-0">Order ID <strong>#{{ temp.id }}</strong></p>
+                        <p>{{ temp.note }}</p>
+                        <!-- <small>Jumlah item {{ temp.items.length }}</small> -->
+                        <div class="d-flex justify-content-between">
+                            <small class="d-flex align-items-center">Jumlah item {{ temp.items.length }}</small>
+                            <button (click)="tempRepo.tempSalesActive = temp" mat-button>Lihat</button>
+                        </div>
+                    </a>
+                </ng-container>
+                <!-- CARD LIST -->
+                <!-- LIST EMPTY -->
+                <ng-template #listEmpty>
+                    <div class="center-empty-cart">
+                        <mat-icon class="icon-empty-cart" svgIcon="empty-data"></mat-icon>
+                        <h4 class="text-center fw-bold mb-0">Daftar pesanan kosong</h4>
+                        <p class="text-center">Yuk buat pesanan terlebih dahulu <a routerLink="/order"
+                                [queryParams]="{nav: 'shortcut'}">disini</a></p>
+                    </div>
+                </ng-template>
+                <!-- LIST EMPTY -->
+            </ng-container>
+            <!-- THERE WILL BE SKLETON HERE -->
+            <ng-template #isNotLoad>
+                Loading...
+            </ng-template>
+
+        </div>
+    </div>
+</div>
+<div class="child text-end">
+    <button [disabled]="tempRepo.disablePrevList" (click)="tempRepo.prevList()" mat-button color="accent"
+        class="button-next-prev">
+        <mat-icon>chevron_left</mat-icon>
+    </button>
+    <strong class="mx-2"> 1 </strong>
+    <button [disabled]="tempRepo.disbaleNextList" (click)="tempRepo.nextList()" mat-button color="accent"
+        class="button-next-prev">
+        <mat-icon>chevron_right</mat-icon>
+    </button>
+</div>
