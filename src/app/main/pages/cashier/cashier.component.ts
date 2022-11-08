@@ -39,6 +39,11 @@ export class CashierComponent implements OnInit {
     }
 
 
+    getTable(id: number) {
+        return this.tableRepo.findTable(id)?.name
+    }
+
+
 
     applyFilter(event: any) {
         console.log(event);
@@ -49,4 +54,8 @@ export class CashierComponent implements OnInit {
         // this.location.back()
         this.router.navigate(['/'])
     }
+
+    // ngOnDestroy() {
+    //     this.tempRepo.tempSalesActive = undefined
+    // }
 }

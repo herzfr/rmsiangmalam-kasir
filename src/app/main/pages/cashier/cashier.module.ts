@@ -12,12 +12,13 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedeModule } from 'src/app/shared/shared.module';
 import { IconMaterialModule } from 'src/app/_helpers/icon-registry';
 import { MilisToDatePipe } from 'src/app/_pipe/datepipe-custom.pipe';
 import { TablesRepository } from '../tables/_model/tables.repository';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 import { CashierComponent } from './cashier.component';
@@ -52,7 +53,8 @@ const material = [
     MatDividerModule,
     MatMenuModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule
 ]
 
 @NgModule({
@@ -63,6 +65,8 @@ const material = [
         ListOrderComponent,
         MilisToDatePipe
     ],
-    providers: [TempSalesRepository, TablesRepository, CheckoutRepository],
+    providers: [TempSalesRepository, TablesRepository, CheckoutRepository,
+        { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } }
+    ],
 })
 export class CashierModule { }

@@ -72,11 +72,11 @@ export class ItemSplit {
 }
 
 export class Merge {
+    name: string = "";
+    note: string = "";
+    waiter: string = "";
+    bills: number[] = []
     constructor(
-        name: string,
-        note: string,
-        waiter: string,
-        bills: number[]
     ) { }
 }
 

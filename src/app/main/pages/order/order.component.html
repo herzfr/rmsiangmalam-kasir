@@ -578,10 +578,13 @@
                                 <mat-icon>table_restaurant</mat-icon>Meja
                             </li>
                             <li class="list-group-item col py-0">
-                                <mat-select [(value)]="cartRepo.cart.tableIds[0]">
-                                    <mat-option [value]="null">Pilih Meja</mat-option>
-                                    <mat-option [value]="tb.id" *ngFor="let tb of order.tables">{{
-                                        tb.name }}</mat-option>
+                                <mat-select [(ngModel)]="cartRepo.cart.tableIds[0]">
+                                    <mat-option [value]="0">Tanpa Meja</mat-option>
+                                    <mat-option [disabled]="tb.isOccupied" [value]="tb.id"
+                                        *ngFor="let tb of order.tables">{{
+                                        tb.name }} {{
+                                        tb.isOccupied? 'Terisi': ''}}
+                                    </mat-option>
                                 </mat-select>
                             </li>
                         </ul>

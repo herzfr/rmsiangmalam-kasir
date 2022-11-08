@@ -300,3 +300,7 @@ svg {
   padding: 0px 2px;
   text-align: center;
 }
+
+.mat-option .mat-icon {
+  color: goldenrod;
+}

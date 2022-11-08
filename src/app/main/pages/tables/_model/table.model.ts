@@ -1,3 +1,4 @@
+import { ShiftRepository } from "src/app/main/_model/shift/shift.repository"
 import { Pageable } from "src/app/_model/general.model"
 
 export interface DataTable {
@@ -39,22 +40,22 @@ export class CreateTable {
 
 
 export class UpdateTable {
-    constructor(
-        id?: number,
-        name: string = "",
-        description: string = "",
-        branchId?: number,
-        subBranchId?: number | null,
-        isOccupied: boolean = false
-    ) { }
+    id?: number | null = null;
+    name: string = "";
+    description: string = "";
+    branchId?: number;
+    subBranchId?: number | null;
+    isOccupied: boolean = false
+    constructor() {
+    }
 }
 
 export class UpdateOccupation {
+    id?: number;
+    isOccupied: boolean = true;
+    salesId?: number | null;
+    capacity?: number
     constructor(
-        id?: number,
-        isOccupied: boolean = true,
-        salesId?: number | null,
-        capacity?: number
     ) { }
 }
 

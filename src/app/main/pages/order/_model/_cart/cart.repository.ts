@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { CartLine, ItemCart } from "./cart.model";
 import { Package, Product } from ".././menu.model";
 import { PriceCategory } from ".././order.model";
+import { BaseService } from "src/app/main/_service/base.service";
+import { ItemTempSales, TempSales } from "../../../cashier/_model/tempsales.model";
 
 @Injectable()
 export class CartRepository {
@@ -9,6 +11,15 @@ export class CartRepository {
     public cart: CartLine = new CartLine();
     public itemCount: number = 0;
     public cartPrice: number = 0;
+
+    constructor(private _baseService: BaseService) {
+        _baseService.tempSale$.subscribe(res => {
+            console.log(res);
+            this.clear()
+            this.cart = res
+            this.lines = this.cart.items ?? []
+        })
+    }
 
 
     addLineProduct(prodpack: Product | Package, quantity: number = 1, typePrice: string, priceCat: PriceCategory | undefined, isPackage: boolean) {
@@ -19,11 +30,12 @@ export class CartRepository {
         } else {
             let price = (prodpack.prices.find(x => x.priceCategory == typePrice)?.price ?? 0)
             let totalPrice = price * quantity
-            this.lines.push(new ItemCart(
+            let newItem = new ItemCart(
+                0,
                 prodpack.id,
                 prodpack.name,
                 quantity,
-                isPackage ? null : (prodpack as Product).unit,
+                isPackage ? 'package' : (prodpack as Product).unit,
                 price,
                 totalPrice,
                 isPackage,
@@ -32,7 +44,8 @@ export class CartRepository {
                 priceCat!.id,
                 priceCat!.name,
                 isPackage ? (prodpack as Package).stockIds : [],
-            ));
+            );
+            this.lines.push(newItem);
         }
         this.recalculate();
     }
@@ -82,10 +95,55 @@ export class CartRepository {
 
     get cartComplete() {
         if (this.cart) {
-            this.cart.items = this.lines
+            this.cart.items = undefined
+            let data: any[] = this.lines
+            data.forEach(el => {
+                console.log(el);
+
+                if (el.isPackage) {
+                    delete el.stockId
+                } else {
+                    delete el.stockIds
+                }
+            })
+            this.cart.items = data
             return this.cart
         }
         return;
+    }
+
+    insertCartLineFromTemp(temp: TempSales) {
+        let tmp_sales: any = temp
+        this.cart = tmp_sales as CartLine
+        this.cart.items = []
+        this.lines = this.validationUpdatePackageOrProduct(temp.items) ?? []
+        // console.log(this.cart);
+        // console.log(this.lines);
+    }
+
+    validationUpdatePackageOrProduct(tempItem: ItemTempSales[]) {
+        let items: ItemCart[] = []
+        tempItem.forEach((x) => {
+            let ic: ItemCart = new ItemCart(
+                x.id,
+                x.menuId,
+                x.name,
+                x.amount,
+                x.unit,
+                x.unitPrice,
+                x.totalPrice,
+                x.isPackage,
+                x.isPackage ? 0 : (JSON.parse(x.stockId) as number[])[0], // STOCK ID
+                x.pic,
+                x.priceCatId,
+                x.priceCat,
+                x.isPackage ? (JSON.parse(x.stockId) as number[]) : [] // STOCKIDS
+            );
+
+            items.push(ic)
+            console.log(items);
+        })
+        return items;
     }
 
     saveTemporaryOrder(cart: CartLine) {

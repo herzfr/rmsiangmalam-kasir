@@ -31,6 +31,34 @@
   overflow: auto;
 }
 
+.detail-list-checkout-in-merge {
+  background: #fff;
+  height: 45vh;
+  overflow: auto;
+}
+
+.detail-list-merge {
+  background: #fff;
+  height: 40vh;
+  overflow: hidden;
+}
+
+input:focus-visible {
+  outline: none;
+}
+
+input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* padding: 0px; */
+  /* gap: 136px; */
+  width: 100%;
+  height: 40px;
+  background: transparent;
+  border: none;
+}
+
 .mat-card-sm-image {
   width: 50px;
   height: 50px;
@@ -50,4 +78,8 @@
   background: #4d979d;
   color: #fff;
   width: 100%;
+}
+
+.pb-5rem {
+  padding-bottom: 5rem !important;
 }

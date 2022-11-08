@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { GeneralResponse } from 'src/app/_model/general.interface';
 import { environment } from 'src/environments/environment';
-import { CreateTable, FindTable, UpdateTable } from '../_model/table.model';
+import { CreateTable, FindTable, UpdateOccupation, UpdateTable } from '../_model/table.model';
 
 const URL = environment.url
 const httpOptions = {
@@ -29,7 +29,7 @@ export class TableService {
         return this.http.put<GeneralResponse>(URL + 'pos/tables/update', body, httpOptions)
     }
 
-    updateOccupation(body: UpdateTable): Observable<GeneralResponse> {
+    updateOccupation(body: UpdateOccupation): Observable<GeneralResponse> {
         return this.http.put<GeneralResponse>(URL + 'pos/tables/occupation', body, httpOptions)
     }
 

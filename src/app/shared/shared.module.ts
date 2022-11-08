@@ -21,6 +21,7 @@ import { DropDownComponent } from './form/atoms/dropdown';
 import { ProductCardComponent } from './component/product-card/product-card.component';
 import { CurrencyRupiahPipe } from './directives/currency.pipe';
 import { PackageCardComponent } from './component/package-card/package-card.component';
+import { InputDialogComponent } from './dialogs/general-dialogs/input-dialog.component';
 
 @NgModule({
     imports: [
@@ -47,6 +48,7 @@ import { PackageCardComponent } from './component/package-card/package-card.comp
         InfoDialogComponent,
         VerifyDialogComponent,
         FormDialogComponent,
+        InputDialogComponent,
 
         // COMPONENT
         UserCardComponent,
@@ -71,6 +73,7 @@ import { PackageCardComponent } from './component/package-card/package-card.comp
         InfoDialogComponent,
         VerifyDialogComponent,
         FormDialogComponent,
+        InputDialogComponent,
 
         // COMPONENT
         UserCardComponent,

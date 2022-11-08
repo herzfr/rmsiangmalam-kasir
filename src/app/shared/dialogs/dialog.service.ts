@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FormDialog, FormDialogComponent } from './form-dialogs/form-dynamic.component';
 import { InfoDialog, InfoDialogComponent } from './general-dialogs/info-dialog.component';
+import { InputDialog, InputDialogComponent } from './general-dialogs/input-dialog.component';
 import { VerifyDialog, VerifyDialogComponent } from './general-dialogs/verification-dialog.component';
 
 @Injectable()
@@ -52,6 +53,22 @@ export class DialogService {
         );
         return dialogCustom.afterClosed();
     }
+
+    showInputDialog(title: string, subtitle: string, message: string, icon: string, confirm: string) {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.data = { title: title, message: message, icon: icon, confirm: confirm } as InputDialog;
+        dialogConfig.backdropClass = 'backdropBackground';
+        dialogConfig.disableClose = true;
+        dialogConfig.minWidth = '400px';
+        dialogConfig.panelClass = 'panel-dialog-x';
+
+        const dialogCustom = this.dialog.open(
+            InputDialogComponent,
+            dialogConfig
+        );
+        return dialogCustom.afterClosed();
+    }
+
 
 
 }

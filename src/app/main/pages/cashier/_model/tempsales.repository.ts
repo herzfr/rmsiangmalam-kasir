@@ -1,11 +1,19 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
+import * as _ from "lodash";
 import { Subscription } from "rxjs";
 import { Additional } from "src/app/main/_model/additional/additional.model";
 import { Discount } from "src/app/main/_model/discount/discount.model";
 import { ShiftRepository } from "src/app/main/_model/shift/shift.repository";
+import { BaseService } from "src/app/main/_service/base.service";
+import { DialogService } from "src/app/shared/dialogs/dialog.service";
 import { TimeUtil } from "src/app/_utility/time.util";
+import { CartLine, ItemCart } from "../../order/_model/_cart/cart.model";
+import { TablesRepository } from "../../tables/_model/tables.repository";
 import { TemporarySalesService } from "../_service/temporarysales.service";
-import { DataTempSales, FindTempSales, TempSales } from "./tempsales.model";
+import { DataTempSales, FindTempSales, ItemTempSales, Merge, TempSales } from "./tempsales.model";
 
 @Injectable()
 export class TempSalesRepository {
@@ -21,6 +29,7 @@ export class TempSalesRepository {
 
     // CHOOSEE ACTIVE
     public tempSalesActive: TempSales | undefined;
+    public merge: Merge = new Merge()
     // ==============
 
     // DISCOUNT / TAX / SERVICE
@@ -35,17 +44,30 @@ export class TempSalesRepository {
 
     // BOOLEAN OPERATOR
     public isLoading = false
+    public isMergeBill = false;
+    public isLoadingMerge = false;
+    // ================
+
+    // SNACKBAR
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
     // ================
 
 
 
     allsubs: Subscription[] = []
-    constructor(private tempSalesService: TemporarySalesService, private shiftRepo: ShiftRepository, public timeUtil: TimeUtil) {
+    constructor(private tempSalesService: TemporarySalesService,
+        private shiftRepo: ShiftRepository, public timeUtil: TimeUtil,
+        private _snackBar: MatSnackBar, private dlg: DialogService,
+        private tableRepo: TablesRepository,
+        private _baseService: BaseService, private router: Router) {
         this.findTempSales.branchId = shiftRepo.onBranch;
         this.findTempSales.subBranchId = shiftRepo.onSubBranch;
         this.getTempSales()
     }
 
+    // =======================================================
+    // TEMPORARY SALES
     getTempSales() {
         this.isLoading = true
         setTimeout(() => {
@@ -89,9 +111,6 @@ export class TempSalesRepository {
         this.findTempSales.endDate = get_milis_time
     }
 
-
-
-
     get disablePrevList() {
         return ((this.tempSalesPagine?.pageNumber ?? 0) === 0)
     }
@@ -118,6 +137,244 @@ export class TempSalesRepository {
         })
     }
 
+    seeDetail(i: number) {
+        this.tempSalesActive = this.tempSales.find((x, idx) => idx === i)
+    }
+    // TEMPORARY SALES
+    // =======================================================
+
+
+    // =======================================================
+    // MERGE BILL
+    setMergeBill(id: number, waiter: string) {
+        this.merge.bills.push(id)
+        this.merge.waiter = waiter
+        this.isMergeBill = true
+    }
+
+    isExistMerge(id: number): boolean {
+        let d = this.merge.bills.find(x => x === id)
+        return d !== undefined ? true : false
+    }
+
+    set checkList(id: number) {
+        let d = this.merge.bills.find(x => x === id)
+        if (!d) {
+            this.merge.bills.push(id)
+        } else {
+            this.removeIdBills(id)
+        }
+    }
+
+    clearMerge() {
+        this.merge.bills = []
+        this.merge = new Merge()
+        this.isMergeBill = false
+    }
+
+    removeIdBills(id: number) {
+        let index = this.merge.bills.findIndex(line => line == id);
+        this.merge.bills.splice(index, 1);
+    }
+
+    get mergeList(): number[] {
+        return this.merge?.bills ?? [];
+    }
+
+    get listBillInbound(): TempSales[] {
+        let tempS: TempSales[] = [];
+        this.mergeList.forEach(y => {
+            let t = this.tempSales.find(x => x.id === y) ?? undefined
+            if (t) {
+                tempS.push(t)
+            }
+        })
+        return tempS;
+    }
+
+    getTotalPrice(tempItems: ItemTempSales[]) {
+        return tempItems.reduce((a, b) => +a + b.totalPrice, 0)
+    }
+
+    getGrandTotal(totalPrice: number[]) {
+        return totalPrice.reduce((a, b) => +a + +b, 0);
+    }
+
+    get grand_total() {
+        let totalPrice: number[] = []
+        for (const key in this.listBillInbound) {
+            if (Object.prototype.hasOwnProperty.call(this.listBillInbound, key)) {
+                const el = this.listBillInbound[key];
+                totalPrice.push(this.getTotalPrice(el.items))
+            }
+        }
+        return this.getGrandTotal(totalPrice)
+    }
+
+    submitMerge() {
+        this.isLoadingMerge = true
+        this.tempSalesService.mergeTempSales(this.merge).subscribe(res => {
+            if (_.isEqual(res.statusCode, 0)) {
+                this.openSnackBar('Penggabungan tagihan berhasil')
+                this.clearMerge()
+                this.getTempSales()
+                this.isLoadingMerge = false
+            }
+        }, (err: HttpErrorResponse) => {
+            this.openSnackBar('Penggabungan tagihan gagal')
+            this.isLoadingMerge = false
+        })
+
+    }
+    // MERGE BILL
+    // =======================================================
+
+
+    // =======================================================
+    // SPLIT BILL
+
+    // SPLIT BILL
+    // =======================================================
+
+    // =======================================================
+    // UBAH BILL
+    updateBill(tempItems: CartLine) {
+        setTimeout(() => this.router.navigate(['v2/order'], { queryParams: { nav: 'shortcut' } }), 1)
+        this._baseService.setTempSales(tempItems)
+
+    }
+
+    checkKey(obj: any, keyname: string) {
+        let keyExist = Object.keys(obj).some(key => key === keyname);
+        return keyExist
+    }
+
+    async updateTempSales() {
+        let cart: CartLine = (this.tempSalesActive as CartLine)
+        // console.log(cart);
+        for (let index = 0; index < cart.items!.length; index++) {
+            const it: ItemCart = cart.items![index];
+            // console.log(it);
+            let keyExist = Object.keys(it).some(key => key === 'stockIds');
+            if (!keyExist) {
+                if (it.isPackage) {
+                    it.stockIds = (JSON.parse(it.stockId?.toString() ?? '') as number[]) ?? []
+                    it.stockId = null
+                }
+
+                if (!it.isPackage) {
+                    if (!_.isEqual((typeof it.stockId), 'number')) {
+                        it.stockId = Number((JSON.parse(it.stockId?.toString() ?? '') as number[]))
+                        delete it.stockIds
+                    }
+                    delete it.stockIds
+                }
+            }
+        }
+        this.router.navigate(['v2/order'], { queryParams: { nav: 'shortcut' } })
+        this._baseService.setTempSales(cart)
+    }
+
+    validationUpdatePackageOrProduct(tempItem: ItemTempSales[]) {
+        console.log(tempItem);
+
+        let items: ItemCart[] = []
+        for (const it of tempItem) {
+            let stock_package_id = it.isPackage ? JSON.parse(it.stockId) as number[] : []
+            let stock_product_id = it.isPackage ? null : (JSON.parse(it.stockId) as number[])
+            console.log(it);
+            console.log(stock_package_id);
+            console.log(stock_product_id);
+
+
+        }
+        // console.log(tempItem);
+        // tempItem.forEach((x, i) => {
+        //     // console.log('index ke ' + i);
+        //     // console.log(x);
+        //     // console.log(typeof x.stockId);
+        //     // if ((typeof x.stockId) === 'number') {
+        //     //     let numStock: number[] = []
+        //     //     numStock.push(Number(x.stockId))
+        //     //     console.log('"' + JSON.stringify(numStock) + '"');
+        //     //     x.stockId = JSON.stringify(numStock)
+        //     // }
+        //     console.log("ini paket apa nggk ", x.isPackage);
+
+        //     let stockId$: number | null = null;
+        //     let stockIds$: number[] = []
+        //     if (x.isPackage) {
+        //         if (typeof x.stockId == 'string') {
+        //             stockId$ = (JSON.parse(x.stockId) as number[])[0]
+        //             stockIds$ = (JSON.parse(x.stockId) as number[])
+        //         } else if (typeof x.stockId == 'object') {
+        //             stockId$ = 0
+        //         }
+        //     }
+
+        //     console.log((JSON.parse(x.stockId) as number[]));
+        //     console.log((JSON.parse(x.stockId) as number[])[0]);
+
+        //     let ic: ItemCart = new ItemCart(
+        //         x.id,
+        //         x.menuId,
+        //         x.name,
+        //         x.amount,
+        //         x.unit,
+        //         x.unitPrice,
+        //         x.totalPrice,
+        //         x.isPackage,
+        //         stockId$, // STOCK ID
+        //         x.pic,
+        //         x.priceCatId,
+        //         x.priceCat,
+        //         stockIds$// STOCKIDS
+        //     );
+        //     console.log(ic);
+        //     items.push(ic)
+        // })
+        return items;
+    }
+    // UBAH BILL
+    // =======================================================
+
+    // =======================================================
+    // CANCEL BILL
+    confirmationCancelDialog(id: number) {
+        let idTemp = id;
+        this.dlg.showInputDialog("Batalkan Pesanan?", "Pembatalan pesanan", `apakah anda akan membatalkan pesanan ID# ${idTemp}`, "cancel", "Batalkan")
+            .subscribe(resp => {
+                if (resp.result) {
+                    this.tempSalesService.cancelTempSales(idTemp, resp.data)
+                        .subscribe(response => {
+                            if (_.isEqual(response.statusCode, 0)) {
+                                this.openSnackBar('Pembatalan tagihan berhasil')
+                                this.clearMerge()
+                                this.getTempSales()
+                            }
+                        }, (err: HttpErrorResponse) => {
+                            this.openSnackBar('Pembatalan tagihan gagal')
+                        })
+                }
+            })
+    }
+    // CANCEL BILL
+    // =======================================================
+
+    // =======================================================
+    // DIALOG INFO
+
+    openSnackBar(message: string) {
+        this._snackBar.open(message, 'Tutup', {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+        });
+    }
+
+
+
+    // DIALOG INFO
+    // =======================================================
 
 
     ngOnDestroy() {
@@ -127,3 +384,5 @@ export class TempSalesRepository {
         this.allsubs = []
     }
 }
+
+

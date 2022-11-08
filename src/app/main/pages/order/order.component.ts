@@ -172,15 +172,29 @@ export class OrderComponent implements OnInit {
     }
 
     save() {
-        this.cartRepo.cart.id = 0;
-        this.cartRepo.cart.branchId = this.shiftRepo.onBranch;
-        this.cartRepo.cart.subBranchId = this.shiftRepo.onSubBranch;
-        this.shiftRepo.getShiftObs().subscribe(res => this.cartRepo.cart.shiftId = res.id)
-        if (this.cartRepo.cartComplete && this.cartRepo.lines.length > 0) {
-            this.order.saveOrder(this.cartRepo.cartComplete)
+        // console.log(this.cartRepo.cartComplete);
+
+        if (_.isNull(this.cartRepo.cart.id)) {
+            this.cartRepo.cart.id = 0;
+            this.cartRepo.cart.branchId = this.shiftRepo.onBranch;
+            this.cartRepo.cart.subBranchId = this.shiftRepo.onSubBranch;
+            this.shiftRepo.getShiftObs().subscribe(res => this.cartRepo.cart.shiftId = res.id)
+            if (this.cartRepo.cartComplete && this.cartRepo.lines.length > 0) {
+                this.order.saveOrder(this.cartRepo.cartComplete)
+            } else {
+                this.order.openSnackBar("Keranjang masih (Kosong)")
+            }
         } else {
-            this.order.openSnackBar("Keranjang masih (Kosong)")
+            this.cartRepo.cart.branchId = this.shiftRepo.onBranch;
+            this.cartRepo.cart.subBranchId = this.shiftRepo.onSubBranch;
+            this.shiftRepo.getShiftObs().subscribe(res => this.cartRepo.cart.shiftId = res.id)
+            if (this.cartRepo.cartComplete && this.cartRepo.lines.length > 0) {
+                this.order.updateOrder(this.cartRepo.cartComplete)
+            } else {
+                this.order.openSnackBar("Keranjang masih (Kosong)")
+            }
         }
+
     }
 
     newOrder() {
@@ -200,5 +214,7 @@ export class OrderComponent implements OnInit {
     getPosition(menuId: string) {
         return this.shortcuts.find(x => x.id == menuId)?.position ?? 0
     }
+
+
 
 }

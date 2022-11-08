@@ -26,6 +26,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TemporarySalesService } from '../cashier/_service/temporarysales.service';
 import { CartRepository } from './_model/_cart/cart.repository';
+import { TempSalesRepository } from '../cashier/_model/tempsales.repository';
+import { TablesRepository } from '../tables/_model/tables.repository';
 
 
 const routes: Routes = [
@@ -51,6 +53,6 @@ const material = [
     imports: [CommonModule, RouterModule.forChild(routes), SharedeModule, IconMaterialModule, material, CarouselModule, FormsModule],
     exports: [],
     declarations: [OrderComponent],
-    providers: [OrderRepository, OrderService, CartRepository, TemporarySalesService],
+    providers: [OrderRepository, OrderService, CartRepository, TemporarySalesService, TempSalesRepository, TablesRepository],
 })
 export class OrderModule { }

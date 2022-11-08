@@ -48,12 +48,15 @@
             <!-- CHECKOUT SECTION -->
             <div class="col-4 p-0">
                 <!-- LIST ITEM -->
-                <div class="detail-list-checkout">
+                <div [ngClass]="tempRepo.isMergeBill? 'detail-list-checkout-in-merge' : 'detail-list-checkout'"
+                    class="">
+                    <ul class="list-group list-group-flush sticky">
+                        <li class="list-group-item d-flex align-items-center">ID Order #{{ tempRepo.tempSalesActive?.id
+                            }} <button (click)="tempRepo.updateTempSales()" *ngIf="tempRepo.tempSalesActive?.id"
+                                mat-button class="col mx-2 btn-confirm">Ubah</button>
+                        </li>
+                    </ul>
                     <ng-container *ngIf="tempRepo.tempSalesActive?.items !== null; else emptyCart">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">ID Order #{{ tempRepo.tempSalesActive?.id }}</li>
-                        </ul>
-
                         <div class="item-temp p-1 bg-white" *ngFor="let item of tempRepo.tempSalesActive?.items">
 
                             <mat-card class="items-card">
@@ -83,18 +86,79 @@
                 </div>
                 <!-- LIST ITEM -->
 
+                <!-- IF LIST MERGE BILL ACTIVE -->
+                <div *ngIf="tempRepo.isMergeBill" class="detail-list-merge">
+                    <div class="d-flex align-items-center search-input px-2">
+                        <input placeholder="Nama" class="col" type="text" [(ngModel)]="tempRepo.merge.name" mat-input>
+                        <mat-icon (click)="tempRepo.merge.name = ''" class="col-2 mx-3 cursor-pointer" svgIcon="remove">
+                        </mat-icon>
+                    </div>
+                    <div class="d-flex align-items-center search-input px-2">
+                        <input placeholder="Catatan" class="col" type="text" [(ngModel)]="tempRepo.merge.note"
+                            mat-input>
+                        <mat-icon (click)="tempRepo.merge.note = ''" class="col-2 mx-3 cursor-pointer" svgIcon="remove">
+                        </mat-icon>
+                    </div>
+                    <div class="container row h-inherit overflow-auto m-0 pb-5rem">
+
+                        <ng-container *ngIf="tempRepo.listBillInbound">
+
+                            <ol class="list-group list-group-numbered p-0">
+                                <li class="list-group-item d-flex justify-content-between align-items-start"
+                                    *ngFor="let bill of tempRepo.listBillInbound">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">{{ bill.id }}</div>
+                                        {{ bill.name == ""? '': bill.name }} <span *ngIf="bill.tableIds.length > 0"
+                                            style="padding-left: 10px;">T.</span> {{
+                                        bill.tableIds.length > 0? getTable(bill.tableIds[0]) : 'Take Away' }}
+                                    </div>
+                                    <span class="badge text-dark rounded-pill">
+                                        {{ tempRepo.getTotalPrice(bill.items) | rupiah}}
+                                    </span>
+                                </li>
+                            </ol>
+
+                        </ng-container>
+
+                    </div>
+                </div>
+                <!-- IF LIST MERGE BILL ACTIVE-->
+
+
                 <!-- DESCRIPTION CHECKOUT -->
                 <div class="payment-list-checkout">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between">Jumlah item #
+                        <li *ngIf="!tempRepo.isMergeBill" class="list-group-item d-flex justify-content-between">Jumlah
+                            item #
                             {{tempRepo.tempSalesActive?.items?.length }}
                             <div class="col-4 fw-bold">
-                                Rp 10.000.000
+                                {{ tempRepo.getTotalPrice(tempRepo.tempSalesActive?.items?? []) | rupiah }}
+                            </div>
+                        </li>
+                        <li *ngIf="tempRepo.isMergeBill" class="list-group-item d-flex justify-content-between">Jumlah
+                            item #
+                            {{tempRepo.listBillInbound.length }}
+                            <div class="col-4 fw-bold">
+                                {{ tempRepo.grand_total | rupiah}}
                             </div>
                         </li>
                     </ul>
 
-                    <button mat-button class="btn-pay">Bayar</button>
+
+
+                    <ng-container *ngIf="tempRepo.isMergeBill; else isNormal">
+                        <div class="d-flex">
+                            <button [disabled]="tempRepo.isLoadingMerge" (click)="tempRepo.clearMerge()" mat-button
+                                color="accent" class="col-4">{{ tempRepo.isLoadingMerge? '' : 'Batal' }}</button>
+                            <button [disabled]="tempRepo.isLoadingMerge" (click)="tempRepo.submitMerge()" mat-button
+                                class="btn-pay"> {{ tempRepo.isLoadingMerge? 'Loading...' : 'Gabung Tagihan' }}</button>
+                        </div>
+                    </ng-container>
+                    <ng-template #isNormal>
+                        <button mat-button class="btn-pay">Bayar</button>
+                    </ng-template>
+
+
 
                 </div>
                 <!-- DESCRIPTION CHECKOUT -->

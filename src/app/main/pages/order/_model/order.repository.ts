@@ -4,7 +4,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import * as _ from 'lodash';
 import { BehaviorSubject, forkJoin, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { ShiftRepository } from 'src/app/main/_model/shift/shift.repository';
-import { FindTable, Table } from '../../tables/_model/table.model';
+import { FindTable, Table, UpdateOccupation, UpdateTable } from '../../tables/_model/table.model';
 import { TableService } from '../../tables/_services/table.service';
 import { OrderService } from '../_service/order.service';
 import { TemporarySalesService } from '../../cashier/_service/temporarysales.service';
@@ -12,6 +12,7 @@ import { DataPackage, DataProduct, DataShortcut, Product, ProductCategory, Short
 import { Customer, FillShortcut, FindMenu, PriceCategory } from './order.model';
 import { CartLine, ItemCart } from './_cart/cart.model';
 import { CartRepository } from './_cart/cart.repository';
+import { TempSalesRepository } from '../../cashier/_model/tempsales.repository';
 
 @Injectable({ providedIn: 'root' })
 export class OrderRepository {
@@ -28,6 +29,7 @@ export class OrderRepository {
     public productCategory: ProductCategory[] = [];
     public tables: Table[] = []
     public position: number[] = []
+    public capacityTemporary = 0;
 
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -35,7 +37,8 @@ export class OrderRepository {
     subs: Subscription[] = [];
     constructor(private orderService: OrderService, private shiftRepo: ShiftRepository,
         private tableService: TableService, private _snackBar: MatSnackBar,
-        private tempSalesService: TemporarySalesService, private cartRepo: CartRepository) {
+        private tempSalesService: TemporarySalesService, private cartRepo: CartRepository,
+        private tempRepo: TempSalesRepository) {
         this.initFindTable()
         forkJoin([
             this.orderService.getPriceCategory(),
@@ -101,6 +104,12 @@ export class OrderRepository {
     reCheckShortcut() {
         this.orderService.getMenuShortcut(this.shiftRepo.onSubBranch).subscribe(res => {
             this.shortcutList = res.data
+        })
+    }
+
+    reCheckTable() {
+        this.tableService.getTables(this.findTable).subscribe(res => {
+            this.tables = res.data.content
         })
     }
 
@@ -187,9 +196,29 @@ export class OrderRepository {
     saveOrder(cart: CartLine) {
         this.tempSalesService.createTempSales(cart).subscribe(res => {
             if (_.isEqual(res.statusCode, 0)) {
-                this.openSnackBar('Pesanan berhasil disimpan')
-                this.cartRepo.cart = (res.data as CartLine)
-                this.cartRepo.lines = (res.data as CartLine).items as ItemCart[]
+                // console.log(res.data);
+                if (cart.tableIds.length > 0 && cart.tableIds[0] !== 0) {
+                    let tblUpd: UpdateOccupation = new UpdateOccupation()
+                    tblUpd.id = cart.tableIds[0]
+                    tblUpd.salesId = (res.data as CartLine).id
+                    tblUpd.capacity = this.capacityTemporary
+
+                    this.tableService.updateOccupation(tblUpd).subscribe(res => {
+                        console.log(res.data);
+                        if (_.isEqual(res.statusCode, 0)) {
+                            this.openSnackBar('Pesanan berhasil perbaharui')
+                            this.initProductAndPackage()
+                            this.tempRepo.getTempSales()
+                            this.reCheckTable()
+                            this.tempRepo.tempSalesActive = undefined
+                        }
+                    })
+                } else {
+                    this.openSnackBar('Pesanan berhasil perbaharui')
+                    this.initProductAndPackage()
+                    this.tempRepo.getTempSales()
+                    this.tempRepo.tempSalesActive = undefined
+                }
             }
         }, (err: HttpErrorResponse) => {
             console.log(err.error);
@@ -202,6 +231,44 @@ export class OrderRepository {
             //         this.openSnackBar(err.error.message)
             //         break;
             // }
+        })
+    }
+
+    updateOrder(cart: CartLine) {
+        this.tempSalesService.updateTempSales(cart).subscribe(resp => {
+            if (cart.tableIds.length > 0 && cart.tableIds[0] !== 0) {
+                let tblUpd: UpdateOccupation = new UpdateOccupation()
+                tblUpd.id = cart.tableIds[0]
+                tblUpd.salesId = (resp.data as CartLine).id
+                tblUpd.capacity = this.capacityTemporary
+
+                this.tableService.updateOccupation(tblUpd).subscribe(res => {
+                    console.log(res.data);
+                    if (_.isEqual(res.statusCode, 0)) {
+                        this.openSnackBar('Pesanan berhasil perbaharui')
+                        this.initProductAndPackage()
+                        this.tempRepo.getTempSales()
+                        this.reCheckTable()
+                        this.tempRepo.tempSalesActive = undefined
+                    }
+                })
+            } else {
+                this.openSnackBar('Pesanan berhasil perbaharui')
+                this.initProductAndPackage()
+                this.tempRepo.getTempSales()
+                this.tempRepo.tempSalesActive = undefined
+            }
+        }, (err: HttpErrorResponse) => {
+            console.log(err.error);
+            this.openSnackBar(err.error.message)
+            switch (err.error.statusCode) {
+                case 2215:
+                    this.openSnackBar('Orderan dengan ID tertera tidak ada, mohon memuat ulang orderan baru')
+                    break;
+                default:
+                    this.openSnackBar(err.error.message)
+                    break;
+            }
         })
     }
 
