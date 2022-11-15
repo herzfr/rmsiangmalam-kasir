@@ -25,14 +25,23 @@ import { ShiftRepository } from './_model/shift/shift.repository';
 import { RandomUtil } from '../_utility/random';
 import { ButtonCardComponent } from './button-card/button-card.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { AuthGuard } from '../_guard/auth.guard';
-import { TableModule } from './pages/tables/tables.module';
 import { DiscountService } from './_service/discount.service';
 import { DiscountRepository } from './_model/discount/discount.repository';
 import { AdditionalService } from './_service/additional.service';
 import { AdditionalRepository } from './_model/additional/additional.repository';
 import { CustomerService } from './_service/customer.service';
 import { CustomerRepository } from './_model/customer/customer.repository';
+import { PaymentRepository } from './_model/payment/payment.repository';
+import { UsersService } from './_service/user.service';
+import { PaymentService } from './_service/payment.service';
+import { UserRepository } from './_model/users/user.repository';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { NumpadComponent } from './_dialog/numpad.component';
+import { DiscountComponent } from './_dialog/discount.component';
+import { AdditionalComponent } from './_dialog/additional.component';
+import { MatListModule } from '@angular/material/list';
+import { CustomerListComponent } from './_dialog/customerlist.component';
+import { MatTableModule } from '@angular/material/table';
 
 
 const routes: Routes = [
@@ -52,7 +61,10 @@ const material = [
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatBottomSheetModule,
+    MatListModule,
+    MatTableModule
 ]
 
 
@@ -61,7 +73,7 @@ const material = [
         CommonModule, RouterModule.forChild(routes), material, IconMaterialModule, SharedeModule,
     ],
     exports: [],
-    declarations: [MainComponent, ButtonCardComponent],
+    declarations: [MainComponent, ButtonCardComponent, NumpadComponent, DiscountComponent, AdditionalComponent, CustomerListComponent],
     providers: [
         MatIconRegistry,
         FormUtil,
@@ -75,7 +87,11 @@ const material = [
         AdditionalService,
         AdditionalRepository,
         CustomerService,
-        CustomerRepository
+        CustomerRepository,
+        PaymentRepository,
+        UsersService,
+        PaymentService,
+        UserRepository
     ]
 })
 export class MainModule { }

@@ -4,7 +4,7 @@ export class FindAdditional {
     size: number = 100;
     page: number = 0;
     search: string = '';
-    type: string = 'FEE';
+    type: string = 'ALL';
     constructor(
 
     ) { }

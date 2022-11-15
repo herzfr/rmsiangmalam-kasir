@@ -1,12 +1,11 @@
 import { Pageable } from "src/app/_model/general.model"
 
 export class FindDiscount {
-    constructor(
-        search: string = '',
-        size: number = 1000,
-        page: number = 0,
-        sortBy: string = 'desc',
-    ) { }
+    search: string = '';
+    size: number = 1000;
+    page: number = 0;
+    sortBy: string = 'desc';
+    constructor() { }
 }
 
 export interface DataDiscount {

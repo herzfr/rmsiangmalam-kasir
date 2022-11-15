@@ -155,7 +155,8 @@
                         </div>
                     </ng-container>
                     <ng-template #isNormal>
-                        <button mat-button class="btn-pay">Bayar</button>
+                        <button [disabled]="!tempRepo.tempSalesActive?.id" (click)="goToPaymentPage()" mat-button
+                            class="btn-pay">Bayar</button>
                     </ng-template>
 
 

@@ -5,3 +5,4 @@ export function generateArray(total: number): number[] {
     }
     return ttl;
 }
+

@@ -1,0 +1,198 @@
+<div class="container-fluid payment-container">
+    <div class="row h-100">
+        <!-- LEFT SIDE -->
+        <div class="col-4 py-2 p-section-left">
+
+            <!-- CARD ORDER HEAD -->
+            <li class="list-group-item d-flex justify-content-between align-items-start bg-white p-2">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">{{ checkoutRepo.checkout.name !== ''? checkoutRepo.checkout.name : 'Pelanggan'
+                        }}
+                    </div>
+                    {{ checkoutRepo.checkout.note !== ''? checkoutRepo.checkout.note : ': -'}}
+                    <p class="m-0">{{ checkoutRepo.checkout.isDineIn? 'Makan ditempat' : 'Bawa pulang' }}</p>
+                </div>
+                <span class="badge bg-dark rounded-pill id-order"> ID Order #{{ checkoutRepo.checkout.tempSalesId
+                    }}</span>
+            </li>
+
+            <!-- CARD LIST ITEM -->
+            <ol class="list-group list-item">
+                <li class="list-group-item d-flex justify-content-between align-items-start mb-1"
+                    *ngFor="let item of checkoutRepo.lines">
+                    <div class="d-flex w-100">
+                        <div class="col-1">
+                            {{ item.amount }}
+                        </div>
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">{{ item.name }}</div>
+                            <!-- Content for list item -->
+                        </div>
+                        <span class="text-dark">{{ item.totalPrice | rupiah }}</span>
+                    </div>
+                </li>
+            </ol>
+
+            <!-- CARD LIST TOTAL -->
+            <ul class=" list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Sub-total
+                    <span class="">{{ checkoutRepo.checkout.subTotal | rupiah }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <button (click)="openDiscount()" mat-button class="btn-input-additional">Diskon</button>
+                    <span #tooltip="matTooltip" matTooltip="{{checkoutRepo.discount.name}}"
+                        [matTooltipPosition]="'above'" matTooltipHideDelay="100" *ngIf="checkoutRepo.discount"
+                        class="text-truncate info-d">{{ checkoutRepo.discount.name
+                        }}</span>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <span class="">{{ checkoutRepo.checkout.discount | rupiah }}</span>
+                        <mat-icon (click)="checkoutRepo.clear_discount_tax_service('DISCOUNT')" class="cursor-pointer">
+                            close
+                        </mat-icon>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <button (click)="openAdditional('FEE')" mat-button class="btn-input-additional">Service</button>
+                    <span #tooltip="matTooltip" matTooltip="{{checkoutRepo.service.key}}" [matTooltipPosition]="'above'"
+                        matTooltipHideDelay="100" *ngIf="checkoutRepo.service" class="text-truncate info-d">{{
+                        checkoutRepo.service.key
+                        }}</span>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <span class="">{{ checkoutRepo.checkout.service | rupiah }}</span>
+                        <mat-icon (click)="checkoutRepo.clear_discount_tax_service('FEE')" class="cursor-pointer">close
+                        </mat-icon>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <button (click)="openAdditional('TAX')" mat-button class="btn-input-additional">Pajak</button>
+                    <span #tooltip="matTooltip" matTooltip="{{checkoutRepo.tax.key}} {{ checkoutRepo.tax.value }}%"
+                        [matTooltipPosition]="'above'" matTooltipHideDelay="100" *ngIf="checkoutRepo.tax"
+                        class="text-truncate info-d">{{
+                        checkoutRepo.tax.key }} {{
+                        checkoutRepo.tax.value
+                        }} <ng-container *ngIf="checkobjtax">%</ng-container></span>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <span class="">{{ checkoutRepo.checkout.tax | rupiah }}</span>
+                        <mat-icon (click)="checkoutRepo.clear_discount_tax_service('TAX')" class="cursor-pointer">close
+                        </mat-icon>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Total</strong>
+                    <span class="fw-bold">{{ checkoutRepo.checkout.total | rupiah }}</span>
+                </li>
+            </ul>
+
+        </div>
+        <!-- RIGHT SIDE -->
+        <div class="col-8 py-2  p-section-right">
+
+            <div class="bg-white container-fluid p-container-right">
+                <!-- type: 'CASH' | 'DEBIT' | 'EWALLET' | 'OTHER' | 'TRANSFER' -->
+                <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)" class="master-payment-page">
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">payments</mat-icon>
+                            Tunai
+                        </ng-template>
+                        <cash-payment></cash-payment>
+                    </mat-tab>
+
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">credit_card</mat-icon>
+                            Debit
+                        </ng-template>
+                        <debit-payment></debit-payment>
+                    </mat-tab>
+
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">account_balance_wallet</mat-icon>
+                            E-Wallet
+                        </ng-template>
+                        <e-wallet-payment></e-wallet-payment>
+                    </mat-tab>
+
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">request_quote</mat-icon>
+                            Lainnya
+                        </ng-template>
+                        <other-payment></other-payment>
+                    </mat-tab>
+
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">account_balance</mat-icon>
+                            Transfer
+                        </ng-template>
+                        <transfer-payment></transfer-payment>
+                    </mat-tab>
+                </mat-tab-group>
+
+                <mat-card class="checkout-card">
+                    <div class="d-flex">
+                        <mat-card-subtitle class="col mb-0">Total tagihan yang harus dibayarkan</mat-card-subtitle>
+                        <mat-card-subtitle class="col mb-0">Uang kembali (Jika pembayaran tunai)</mat-card-subtitle>
+                    </div>
+                    <div class="d-flex">
+                        <mat-card-title class="col mb-0 ">{{ checkoutRepo.checkout.total | rupiah }}</mat-card-title>
+                        <mat-card-title class="col mb-0">{{ checkoutRepo.checkout.change | rupiah }}</mat-card-title>
+                    </div>
+                    <mat-card-content>
+                        <div class="d-flex">
+                            <div class="col">
+                                <p class="mb-0 mt-3">Biaya Admin</p>
+                                <p class="mb-0">{{checkoutRepo.checkout.adminFee !== null?
+                                    checkoutRepo.checkout.adminFee : 0}}%</p>
+                                <section class="slide-section">
+                                    <mat-slide-toggle class="slide-margin" [color]="color"
+                                        [checked]="checkoutRepo.isTax" [disabled]="disabled"
+                                        (change)="toggleIsTax($event)">
+                                        Pajak {{ checkoutRepo.checkout.isTax ? 'Aktif' : 'Tidak Aktif'}}
+                                    </mat-slide-toggle>
+                                </section>
+                            </div>
+                            <div class="col">
+                                <ul class="mx-2 my-0 p-0">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center py-1">
+                                        <p class="text-1-line mb-0 col mw-40px">{{ checkoutRepo.in_customer ?
+                                            checkoutRepo.in_customer.name : 'Pelanggan?' }}</p>
+                                        <button
+                                            (click)="checkoutRepo.in_customer? checkoutRepo.clear_customer() :  openCustomer()"
+                                            mat-raised-button class="badge col-4">{{
+                                            checkoutRepo.in_customer? 'Hapus' : 'Pelanggan' }}</button>
+                                    </li>
+                                    <p class="mb-0">Nama pelanggan (opsional)</p>
+                                </ul>
+
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center py-1">
+                                        Rp 0
+                                        <button mat-raised-button class="badge">Deposit</button>
+                                    </li>
+                                    <p class="mb-0">Deposit Tunai</p>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="mb-0">Pastikan orderan pembayaran dengan benar.</p>
+                    </mat-card-content>
+                    <mat-divider inset></mat-divider>
+                    <mat-card-actions class="d-flex justify-content-between mb-0">
+                        <button mat-raised-button color="accent">BATAL</button>
+                        <div class="d-flex">
+                            <button (click)="clear()" mat-button>RESET ULANG</button>
+                            <button (click)="checkout()" mat-button class="btn-checkout">CHECKOUT</button>
+                        </div>
+                    </mat-card-actions>
+                    <mat-card-footer>
+                        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                    </mat-card-footer>
+                </mat-card>
+            </div>
+
+        </div>
+    </div>
+</div>

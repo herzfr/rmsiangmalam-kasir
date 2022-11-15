@@ -20,6 +20,7 @@ export class CashierComponent implements OnInit {
         public tableRepo: TablesRepository,
         public shiftRepo: ShiftRepository,
     ) { }
+    
     ngOnInit() { }
 
 
@@ -53,6 +54,11 @@ export class CashierComponent implements OnInit {
     back() {
         // this.location.back()
         this.router.navigate(['/'])
+    }
+
+    goToPaymentPage() {
+        this.router.navigate(['/cashier/payment'], { queryParams: { id: this.tempRepo.tempSalesActive?.id } })
+        // { params: { id: this.tempRepo.tempSalesActive?.id } }
     }
 
     // ngOnDestroy() {

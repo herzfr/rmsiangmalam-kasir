@@ -260,3 +260,32 @@ body {
   width: 100%;
   z-index: 100;
 }
+
+.backdrop-numpad {
+  background-color: transparent;
+}
+
+.panel-numpad {
+  min-width: none;
+}
+
+.backdrop-custom {
+  background-color: transparent;
+  min-height: 300px;
+  max-width: 350px !important;
+}
+
+.panel-custom {
+  max-width: 400px !important;
+  min-height: 300px;
+}
+
+.text-1-line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mw-40px {
+  width: 40px;
+}

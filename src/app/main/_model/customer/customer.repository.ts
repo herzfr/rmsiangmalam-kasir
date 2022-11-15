@@ -8,6 +8,7 @@ export class CustomerRepository {
 
     public dataCustomer: DataCustomer | undefined;
 
+
     subsDisc?: Subscription;
     constructor(private customerService: CustomerService) {
         this.getCustomer()
@@ -19,11 +20,15 @@ export class CustomerRepository {
         })
     }
 
-    get discounts() {
+    get dataCustomerObservable() {
+        return this.customerService.getCustomer()
+    }
+
+    get customer() {
         return this.dataCustomer?.content ?? []
     }
 
-    get discountPagine() {
+    get customerPagine() {
         return this.dataCustomer?.pageable
     }
 }

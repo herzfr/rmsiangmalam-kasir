@@ -12,12 +12,20 @@ const httpOptions = {
 };
 
 @Injectable({ providedIn: 'root' })
-export class PaymentService {
+export class UsersService {
     constructor(private http: HttpClient) { }
 
-    // GET ALL PAYMENT METHOD
-    getPaymentMethod(find: FindPayment): Observable<GeneralResponse> {
-        return this.http.post<GeneralResponse>(URL + 'general/paymenttype/get', find, httpOptions)
+    // GET ALL USER BY BRANCH
+    getUserByBranch(id: number): Observable<GeneralResponse> {
+        const obj = JSON.stringify({ branchId: id })
+        return this.http.post<GeneralResponse>(URL + 'users/userdata', obj, httpOptions)
     }
+
+    // GET USER BY ID
+    getUserById(id: string): Observable<GeneralResponse> {
+        return this.http.post<GeneralResponse>(URL + 'users/byid/' + id, httpOptions)
+    }
+
+
 
 }

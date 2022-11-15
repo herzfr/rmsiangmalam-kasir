@@ -13,6 +13,9 @@ export class ShiftRepository {
     public onBranch: number;
     public onSubBranch: number | null;
     public subBranchList: UserLoginSubBranch[] = [];
+    public name: string = '';
+    public username: string = '';
+    public shift?: Shift;
 
     private locator = (s: Shift, id?: number) => s.id == id;
     private replaySubjectShift = new ReplaySubject<Shift>();
@@ -55,6 +58,7 @@ export class ShiftRepository {
     check() {
         this.shiftService.checkShift(this.onBranch, this.onSubBranch).subscribe(res => {
             if (res.statusCode === 0) {
+                this.shift = res.data
                 this.replaySubjectShift.next(res.data)
             }
         })

@@ -9,3 +9,4 @@ export class RandomUtil {
         return uuid;
     }
 }
+

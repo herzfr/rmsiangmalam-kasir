@@ -1,0 +1,227 @@
+.payment-container {
+  height: 100vh !important;
+  max-height: 100vh;
+  overflow: auto;
+  position: relative;
+}
+
+.id-order {
+  border-radius: 1px !important;
+  font-size: smaller !important;
+}
+
+.p-section-left,
+.p-section-right {
+  height: auto;
+}
+
+.p-container-right {
+  height: 100% !important;
+}
+
+.p-section-left .list-item {
+  height: 53vh;
+  padding: 10px;
+  border-radius: unset;
+  background: #fbffff;
+  overflow: auto;
+}
+
+.info-d {
+  max-width: 50px;
+}
+
+.btn-input-additional {
+  background-color: #045b62;
+  color: white;
+  min-width: 75px;
+}
+
+.btn-checkout {
+  background-color: #045b62;
+  color: white;
+  min-width: 75px;
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  height: 30px;
+  width: 100vw;
+  background: yellow;
+}
+
+/* TAB ICON */
+.example-tab-icon {
+  margin-right: 8px;
+}
+
+.master-payment-page {
+  height: 60vh;
+}
+
+.slide-h2 {
+  margin: 10px;
+}
+
+.slide-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  /* height: 60px; */
+}
+
+.slide-margin {
+  height: 39px;
+}
+
+/* ================================== */
+/*               CASH CSS             */
+/* ================================== */
+
+.box-input {
+  border: 1px solid #d3d3d3;
+  border-radius: 10px;
+  background: #edeef1;
+}
+
+.input-cash {
+  width: inherit;
+  font-size: x-large;
+}
+
+.btn-shortcut-cash {
+  background: #000;
+  color: white;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.section-btn-shortcut {
+  padding-right: 1.4rem !important;
+}
+
+.btn-s-cash-delete {
+  background-color: #b41d1d;
+  color: white;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.checkout-card {
+  position: sticky;
+  bottom: 0px;
+}
+
+/* ================================== */
+/*               DEBIT CSS            */
+/* ================================== */
+
+.input-radio-group {
+  display: flex;
+  flex-direction: column;
+  /* margin: 15px 0; */
+  align-items: flex-start;
+}
+
+.input-decorate {
+  border: 1px solid transparent;
+  padding: 10px;
+  -webkit-box-shadow: inset 0px 0px 9px -3px #dddddd;
+  -moz-box-shadow: inset 0px 0px 9px -3px #dddddd;
+  box-shadow: inset 0px 0px 9px -3px #dddddd;
+}
+
+/* .mat-radio-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+} */
+
+.input-radio-button {
+  margin: 5px;
+}
+
+/* .payment-type {
+  background: #e9f5f5;
+  padding: 10px;
+  text-align: center;
+} */
+
+.owl-category-peyment {
+  background: white;
+  padding: 15px 10px;
+  width: fit-content;
+  border-radius: 10px;
+}
+.bg-active {
+  background-color: #045b62;
+  color: white;
+}
+
+.wrapper {
+  position: relative;
+  height: 100vh;
+}
+
+owl-carousel-o {
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.owl-item {
+  height: 100vh;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+* Feel free to change duration */ .animated {
+  -webkit-animation-duration: 1000 ms;
+  animation-duration: 1000 ms;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+/* .owl-animated-out - only for current item */
+/* This is very important class. Use z-index if you want move Out item above In item */
+.owl-animated-out {
+  z-index: 1;
+}
+/* .owl-animated-in - only for upcoming item
+/* This is very important class. Use z-index if you want move In item above Out item */
+.owl-animated-in {
+  z-index: 0;
+}
+/* .fadeOut is style taken from Animation.css and this is how it looks in owl.carousel.css:  */
+.fadeOut {
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+}
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ================================== */
+/*               EWALLET CSS          */
+/* ================================== */
+.card-upload {
+  height: 30vh;
+  margin: 10px 0px;
+}

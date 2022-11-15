@@ -250,20 +250,29 @@ export class TempSalesRepository {
     }
 
     async updateTempSales() {
+        // UBAH TEMPSALES KE CARTLINE
         let cart: CartLine = (this.tempSalesActive as CartLine)
-        // console.log(cart);
+
+        // PERIKSA TIAP ITEM DI CARTLINE
         for (let index = 0; index < cart.items!.length; index++) {
             const it: ItemCart = cart.items![index];
-            // console.log(it);
+            // LIHAT STOCKIDS APAKAH ADA ATAU TIDAK
             let keyExist = Object.keys(it).some(key => key === 'stockIds');
+
+            // JIKA STOCKIDS TIDAK ADA
             if (!keyExist) {
+                // APABILA PAKET
                 if (it.isPackage) {
+                    // UBAH BENTUK DARI CONTOH "[1, 4, 6]" <= ID STOK MENJADI => [1, 4, 6] DAN UBAH STOKID PRODUK JADI NULL
                     it.stockIds = (JSON.parse(it.stockId?.toString() ?? '') as number[]) ?? []
                     it.stockId = null
                 }
-
+                // APABILA PRODUK
                 if (!it.isPackage) {
+                    // PERIKSA DAHULU APAKAH DIA BENTUK NUMBER ATAU STRING
+                    // JIKA BUKAN NUMBER TAPI STRING BENTUK => "[1]"
                     if (!_.isEqual((typeof it.stockId), 'number')) {
+                        // CONVERT DARI CONTOH "[1]" <= MENJADI => 1, DAN HAPUS STOKIDS PAKET
                         it.stockId = Number((JSON.parse(it.stockId?.toString() ?? '') as number[]))
                         delete it.stockIds
                     }
@@ -271,70 +280,71 @@ export class TempSalesRepository {
                 }
             }
         }
+        // NAVIGASI KE HALAMAN CART DAN BYPASS DATA CART DARI SINI
         this.router.navigate(['v2/order'], { queryParams: { nav: 'shortcut' } })
-        this._baseService.setTempSales(cart)
+        setTimeout(() => this._baseService.setTempSales(cart), 100)
     }
 
-    validationUpdatePackageOrProduct(tempItem: ItemTempSales[]) {
-        console.log(tempItem);
+    // validationUpdatePackageOrProduct(tempItem: ItemTempSales[]) {
+    //     console.log(tempItem);
 
-        let items: ItemCart[] = []
-        for (const it of tempItem) {
-            let stock_package_id = it.isPackage ? JSON.parse(it.stockId) as number[] : []
-            let stock_product_id = it.isPackage ? null : (JSON.parse(it.stockId) as number[])
-            console.log(it);
-            console.log(stock_package_id);
-            console.log(stock_product_id);
+    //     let items: ItemCart[] = []
+    //     for (const it of tempItem) {
+    //         let stock_package_id = it.isPackage ? JSON.parse(it.stockId) as number[] : []
+    //         let stock_product_id = it.isPackage ? null : (JSON.parse(it.stockId) as number[])
+    //         console.log(it);
+    //         console.log(stock_package_id);
+    //         console.log(stock_product_id);
 
 
-        }
-        // console.log(tempItem);
-        // tempItem.forEach((x, i) => {
-        //     // console.log('index ke ' + i);
-        //     // console.log(x);
-        //     // console.log(typeof x.stockId);
-        //     // if ((typeof x.stockId) === 'number') {
-        //     //     let numStock: number[] = []
-        //     //     numStock.push(Number(x.stockId))
-        //     //     console.log('"' + JSON.stringify(numStock) + '"');
-        //     //     x.stockId = JSON.stringify(numStock)
-        //     // }
-        //     console.log("ini paket apa nggk ", x.isPackage);
+    //     }
+    // console.log(tempItem);
+    // tempItem.forEach((x, i) => {
+    //     // console.log('index ke ' + i);
+    //     // console.log(x);
+    //     // console.log(typeof x.stockId);
+    //     // if ((typeof x.stockId) === 'number') {
+    //     //     let numStock: number[] = []
+    //     //     numStock.push(Number(x.stockId))
+    //     //     console.log('"' + JSON.stringify(numStock) + '"');
+    //     //     x.stockId = JSON.stringify(numStock)
+    //     // }
+    //     console.log("ini paket apa nggk ", x.isPackage);
 
-        //     let stockId$: number | null = null;
-        //     let stockIds$: number[] = []
-        //     if (x.isPackage) {
-        //         if (typeof x.stockId == 'string') {
-        //             stockId$ = (JSON.parse(x.stockId) as number[])[0]
-        //             stockIds$ = (JSON.parse(x.stockId) as number[])
-        //         } else if (typeof x.stockId == 'object') {
-        //             stockId$ = 0
-        //         }
-        //     }
+    //     let stockId$: number | null = null;
+    //     let stockIds$: number[] = []
+    //     if (x.isPackage) {
+    //         if (typeof x.stockId == 'string') {
+    //             stockId$ = (JSON.parse(x.stockId) as number[])[0]
+    //             stockIds$ = (JSON.parse(x.stockId) as number[])
+    //         } else if (typeof x.stockId == 'object') {
+    //             stockId$ = 0
+    //         }
+    //     }
 
-        //     console.log((JSON.parse(x.stockId) as number[]));
-        //     console.log((JSON.parse(x.stockId) as number[])[0]);
+    //     console.log((JSON.parse(x.stockId) as number[]));
+    //     console.log((JSON.parse(x.stockId) as number[])[0]);
 
-        //     let ic: ItemCart = new ItemCart(
-        //         x.id,
-        //         x.menuId,
-        //         x.name,
-        //         x.amount,
-        //         x.unit,
-        //         x.unitPrice,
-        //         x.totalPrice,
-        //         x.isPackage,
-        //         stockId$, // STOCK ID
-        //         x.pic,
-        //         x.priceCatId,
-        //         x.priceCat,
-        //         stockIds$// STOCKIDS
-        //     );
-        //     console.log(ic);
-        //     items.push(ic)
-        // })
-        return items;
-    }
+    //     let ic: ItemCart = new ItemCart(
+    //         x.id,
+    //         x.menuId,
+    //         x.name,
+    //         x.amount,
+    //         x.unit,
+    //         x.unitPrice,
+    //         x.totalPrice,
+    //         x.isPackage,
+    //         stockId$, // STOCK ID
+    //         x.pic,
+    //         x.priceCatId,
+    //         x.priceCat,
+    //         stockIds$// STOCKIDS
+    //     );
+    //     console.log(ic);
+    //     items.push(ic)
+    // })
+    //     return items;
+    // }
     // UBAH BILL
     // =======================================================
 
