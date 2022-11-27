@@ -1,0 +1,141 @@
+<div class="container-fluid">
+    <div class="row card-box-header">
+        <mat-card class="info-split-card">
+            <mat-card-header>
+                <mat-card-title>{{ tempSales?.name?? 'BAWA PULANG' }}</mat-card-title>
+                <mat-card-subtitle>{{ tempSales?.note?? 'CATATAN' }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions class="d-flex justify-content-between">
+                <button class="m-0-16" (click)="location.back()" mat-button>BATAL</button>
+                <div class="d-flex col-6 justify-content-end">
+                    <button (click)="addBill()" mat-button>TAMBAH TAGIHAN</button>
+                    <button class="btn-confirm" (click)="doSplit()" mat-button>{{ tempRepo.isLoadingSplit ? 'Loading...'
+                        : 'PISAH BILL'}}</button>
+                </div>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <!--optionally select a child element as drag image-->
+            <!-- <ng-container *ngFor="let item of draggable.data">
+                    <div dndDragImageRef>{{ item.name }}</div> -->
+            <!-- CARD LIST ITEM -->
+            <ol class="list-group list-item">
+                <ng-container *ngFor="let item of tempSales?.items">
+                    <li *ngIf="item.amount > 0"
+                        class="list-group-item d-flex justify-content-between align-items-start mb-1">
+
+                        <!--a draggable element-->
+                        <div class="draggable" [dndDraggable]="item" [dndEffectAllowed]="draggable.effectAllowed"
+                            [dndDisableIf]="!(item.amount > 0)" (dndStart)="onDragStart($event)"
+                            (dndCopied)="onDraggableCopied($event)" (dndLinked)="onDraggableLinked($event)"
+                            (dndMoved)="onDraggableMoved($event)" (dndCanceled)="onDragCanceled($event)"
+                            (dndEnd)="onDragEnd($event)">
+
+                            <!--if [dndHandle] is used inside dndDraggable drag can only start from the handle-->
+                            <div *ngIf="draggable.handle" dndHandle>HANDLE
+                            </div>
+
+                            <!-- draggable ({{draggable.effectAllowed}}) <span [hidden]="!draggable.disable">DISABLED</span> -->
+                            <div dndDragImageRef class="d-flex w-100">
+                                <div class="col-1">
+                                    {{ item.amount }}
+                                </div>
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">{{ item.name }}/{{ item.priceCat }}</div>
+                                    <!-- Content for list item -->
+                                </div>
+                                <span class="text-dark">{{ item.totalPrice | rupiah }}</span>
+                            </div>
+                        </div>
+                    </li>
+                </ng-container>
+            </ol>
+            <!-- </ng-container> -->
+
+
+        </div>
+        <div class="col-8">
+            <div class="container-fluid list-drop-container">
+                <!--a dropzone-->
+                <!--to allow dropping content that is not [dndDraggable] set dndAllowExternal to true-->
+                <ng-container *ngFor="let item of bills; let i = index">
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-0">Tagihan {{ i + 1 }}</p>
+                        <div class="d-flex align-items-center">
+                            <p class="mb-0">Total Item #{{ item.items.length }}</p>
+                            <button (click)="remove_bill(i)" style="margin-left: 10px;" *ngIf="i > 1"
+                                mat-button>Hapus</button>
+                        </div>
+                    </div>
+                    <!--optional placeholder element for dropzone-->
+                    <!--will be removed from DOM on init-->
+                    <input [(ngModel)]="bills[i].name" matInput class="input-decorate w-100 mt-1" type="text"
+                        placeholder="Masukan nama tagihan">
+                    <input [(ngModel)]="bills[i].note" matInput class="input-decorate w-100 my-1" type="text"
+                        placeholder="Masukan catatan">
+                    <!-- {{ item.items | json }} -->
+
+                    <ng-container *ngIf="item.items.length > 0">
+                        <ol class="list-group list-drop">
+                            <ng-container *ngFor="let it of item.items; let idx = index">
+                                <li class="list-group-item d-flex justify-content-between align-items-start mb-1">
+                                    <div class="d-flex w-100">
+                                        <div class="col d-flex align-items-center">
+                                            <div class="fw-bold">{{ it.name }}/{{ get_desc_price(it.id) }}</div>
+                                            <!-- Content for list item -->
+                                        </div>
+                                        <div class="d-flex col-4">
+                                            <div class="col d-flex justify-content-center">
+                                                <div [ngClass]="it.amount === 1? 'btn-plus-minus-disabled' : null"
+                                                    (click)="minus(i, it.menuId?? '', (it.id?? 0))"
+                                                    class="btn-plus-minus d-flex align-items-center justify-content-center"
+                                                    mat-button>
+                                                    <mat-icon svgIcon="minus"></mat-icon>
+                                                </div>
+                                            </div>
+                                            <div class="col d-flex align-items-center mx-2">
+                                                <strong class="w-100 text-center">{{ it.amount }}</strong>
+                                            </div>
+                                            <div class="col d-flex justify-content-center">
+                                                <div [ngClass]="get_disablePlus(it.menuId?? '', (it.id?? 0))? 'btn-plus-minus-disabled' : null"
+                                                    (click)="plus(i, it.menuId?? '', (it.id?? 0))"
+                                                    class="btn-plus-minus d-flex align-items-center justify-content-center"
+                                                    mat-button>
+                                                    <mat-icon svgIcon="plus"></mat-icon>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div (click)="removeItemAt(i, it.menuId?? '', (it.id?? 0))"
+                                            class="col-1 d-flex align-items-end justify-content-end p-0 h-50 cursor-pointer">
+                                            <mat-icon svgIcon="remove"></mat-icon>
+                                        </div>
+                                        <!-- <span class="text-dark">{{ it.totalPrice | rupiah }}</span> -->
+                                    </div>
+                                </li>
+                            </ng-container>
+                        </ol>
+                    </ng-container>
+                    <!-- <ng-template #emptyItem>
+                        <div class="standby-input my-1">
+                            Area drop <mat-icon style="margin-left: 1rem;">keyboard_double_arrow_down</mat-icon>
+                        </div>
+                    </ng-template> -->
+
+                    <section id="{{i}}" class="dropzone" dndDropzone (dndDragover)="onDragover($event, i)"
+                        (dndDrop)="onDrop($event, i)">
+                        <div class="placeholder-here my-1" dndPlaceholderRef>
+                            masukan tagihan kesini <mat-icon style="margin-left: 1rem;">system_update_alt</mat-icon>
+                        </div>
+                        <div class="standby-input my-1">
+                            Area drop <mat-icon style="margin-left: 1rem;">keyboard_double_arrow_down</mat-icon>
+                        </div>
+                    </section>
+
+
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

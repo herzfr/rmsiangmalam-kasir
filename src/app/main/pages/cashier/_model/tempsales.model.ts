@@ -47,27 +47,27 @@ export class FindTempSales {
 
 
 export class Split {
+    tempSalesId?: number | null = null;
+    waiter: string | null = null;
+    bills: Bill[] = [];
     constructor(
-        tempSalesId: number,
-        waiter: string,
-        bills: Bill[],
     ) { }
 }
 
 export class Bill {
+    name: string | null = null;
+    note: string | null = null;
+    items: ItemSplit[] = []
     constructor(
-        name: string,
-        note: string,
-        items: ItemSplit[]
     ) { }
 }
 
 export class ItemSplit {
+    id: number | null = null
+    amount: number = 0
+    name: string | null = null;
+    menuId: string | null = null;
     constructor(
-        id: number,
-        amount: number,
-        name: string,
-        menuId: string
     ) { }
 }
 

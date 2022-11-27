@@ -1,3 +1,4 @@
+import { Location } from "@angular/common";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
@@ -13,7 +14,7 @@ import { TimeUtil } from "src/app/_utility/time.util";
 import { CartLine, ItemCart } from "../../order/_model/_cart/cart.model";
 import { TablesRepository } from "../../tables/_model/tables.repository";
 import { TemporarySalesService } from "../_service/temporarysales.service";
-import { DataTempSales, FindTempSales, ItemTempSales, Merge, TempSales } from "./tempsales.model";
+import { DataTempSales, FindTempSales, ItemTempSales, Merge, Split, TempSales } from "./tempsales.model";
 
 @Injectable()
 export class TempSalesRepository {
@@ -46,6 +47,7 @@ export class TempSalesRepository {
     public isLoading = false
     public isMergeBill = false;
     public isLoadingMerge = false;
+    public isLoadingSplit = false;
     // ================
 
     // SNACKBAR
@@ -60,7 +62,9 @@ export class TempSalesRepository {
         private shiftRepo: ShiftRepository, public timeUtil: TimeUtil,
         private _snackBar: MatSnackBar, private dlg: DialogService,
         private tableRepo: TablesRepository,
-        private _baseService: BaseService, private router: Router) {
+        private _baseService: BaseService, private router: Router,
+        private location: Location
+    ) {
         this.findTempSales.branchId = shiftRepo.onBranch;
         this.findTempSales.subBranchId = shiftRepo.onSubBranch;
         this.getTempSales()
@@ -97,6 +101,10 @@ export class TempSalesRepository {
 
     get tempSalesPagine() {
         return this.tempSalesData?.pageable
+    }
+
+    get_tempSalesById(id: number): TempSales | undefined {
+        return this.tempSales.find(x => x.id === id)
     }
 
     set setStartDate(date: Date) {
@@ -212,19 +220,22 @@ export class TempSalesRepository {
     }
 
     submitMerge() {
-        this.isLoadingMerge = true
-        this.tempSalesService.mergeTempSales(this.merge).subscribe(res => {
-            if (_.isEqual(res.statusCode, 0)) {
-                this.openSnackBar('Penggabungan tagihan berhasil')
-                this.clearMerge()
-                this.getTempSales()
+        if (this.merge.bills.length > 1) {
+            this.isLoadingMerge = true
+            this.tempSalesService.mergeTempSales(this.merge).subscribe(res => {
+                if (_.isEqual(res.statusCode, 0)) {
+                    this.openSnackBar('Penggabungan tagihan berhasil')
+                    this.clearMerge()
+                    this.getTempSales()
+                    this.isLoadingMerge = false
+                }
+            }, (err: HttpErrorResponse) => {
+                this.openSnackBar('Penggabungan tagihan gagal')
                 this.isLoadingMerge = false
-            }
-        }, (err: HttpErrorResponse) => {
-            this.openSnackBar('Penggabungan tagihan gagal')
-            this.isLoadingMerge = false
-        })
-
+            })
+        } else {
+            this.openSnackBar('Anda masih memilih 1 tagihan untuk digabungkan')
+        }
     }
     // MERGE BILL
     // =======================================================
@@ -232,6 +243,22 @@ export class TempSalesRepository {
 
     // =======================================================
     // SPLIT BILL
+    submit_split(split: Split) {
+        this.isLoadingSplit = true
+        setTimeout(() => {
+            this.tempSalesService.splitTempSales(split).subscribe(async res => {
+                this.isLoadingSplit = false
+                if (_.isEqual(res.statusCode, 0)) {
+                    this.openSnackBar('Pemisahan tagihan berhasil')
+                    this.getTempSales()
+                    this.location.back()
+                }
+            }, (err: HttpErrorResponse) => {
+                this.isLoadingSplit = false
+                this.openSnackBar('Pemisahan tagihan gagal')
+            })
+        }, 1000)
+    }
 
     // SPLIT BILL
     // =======================================================

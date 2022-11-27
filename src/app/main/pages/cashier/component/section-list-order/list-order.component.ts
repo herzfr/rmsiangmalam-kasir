@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IOpt, OptTempSales } from 'src/app/main/_const/options';
 import { ShiftRepository } from 'src/app/main/_model/shift/shift.repository';
 import { generateArray } from 'src/app/_utility/arraygenerator';
@@ -32,6 +33,7 @@ export class ListOrderComponent implements OnInit {
         public tempRepo: TempSalesRepository,
         public shiftRepo: ShiftRepository,
         public timeUtil: TimeUtil,
+        public router: Router,
         public cdr: ChangeDetectorRef
     ) {
         this.rangeDate = new FormGroup({
@@ -148,5 +150,9 @@ export class ListOrderComponent implements OnInit {
 
     seeOrder() {
 
+    }
+
+    goToSplitPage(id: number) {
+        this.router.navigate(['/cashier/split'], { queryParams: { id: id } })
     }
 }

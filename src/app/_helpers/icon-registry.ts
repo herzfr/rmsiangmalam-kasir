@@ -25,6 +25,7 @@ export class IconMaterialModule {
         ["hands", `${PathRegistry.ASSETS_SVG}3d-image/hands.svg`],
         ["empty-data", `${PathRegistry.ASSETS_SVG}empty-data.svg`],
         ["cancel", `${PathRegistry.ASSETS_SVG}cancel-icon.svg`],
+        ["split-image", `${PathRegistry.ASSETS_SVG}split-bill.svg`],
     ];
 
 

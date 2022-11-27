@@ -19,13 +19,13 @@ export class MainComponent implements OnInit {
     subsShift?: Subscription;
     constructor(private userRepo: UserRespository, private dialog: DialogService, public shiftRepo: ShiftRepository) {
         this.user = typeof (userRepo.getUserLogin() !== 'boolean') ? userRepo.getUserLogin() as UserLogin : new UserLogin();
-        console.log(this.user);
+        // console.log(this.user);
     }
 
     ngOnInit() {
         this.subsShift = this.shiftRepo.getShiftObs().subscribe((newData) => {
             this.shift = newData;
-            console.log(newData);
+            // console.log(newData);
         });
     }
 

@@ -116,7 +116,7 @@
                                 <button mat-menu-item (click)="tempRepo.setMergeBill(temp.id, temp.waiter)">
                                     Gabung Tagihan
                                 </button>
-                                <button mat-menu-item>Pisah Tagihan</button>
+                                <button (click)="goToSplitPage(temp.id)" mat-menu-item>Pisah Tagihan</button>
                                 <button (click)="tempRepo.confirmationCancelDialog(temp.id)" mat-menu-item>Batalkan
                                 </button>
                             </mat-menu>

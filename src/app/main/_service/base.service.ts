@@ -8,6 +8,7 @@ export class BaseService {
 
     temp_sales = new Subject<CartLine>();
     send_number_result = new Subject<number>();
+    send_number_result_general = new Subject<number>();
     trigger_function = new Subject<any>();
 
     constructor() { }
@@ -24,12 +25,20 @@ export class BaseService {
         this.send_number_result.next(result)
     }
 
+    set number_result_general(result: number) {
+        this.send_number_result_general.next(result)
+    }
+
     get tempSale$() {
         return this.temp_sales.asObservable()
     }
 
     get numberResult$() {
         return this.send_number_result.asObservable()
+    }
+
+    get numberResultGeneral$() {
+        return this.send_number_result_general.asObservable()
     }
 
     get triggerFn$() {

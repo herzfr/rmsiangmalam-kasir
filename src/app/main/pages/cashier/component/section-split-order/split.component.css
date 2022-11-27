@@ -1,0 +1,124 @@
+.draggable {
+  /* margin: 16px; */
+  padding: 10px;
+  width: 100%;
+  -webkit-box-shadow: -0.5px 4.5px 12px 0 #dddddd;
+  -moz-box-shadow: -0.5px 4.5px 12px 0 #dddddd;
+  box-shadow: -0.5px 4.5px 12px 0 #dddddd;
+}
+
+.draggable.dndDraggingSource {
+  /* display:none; */
+  opacity: 0.5;
+}
+
+.dropzone {
+  margin: 16px 0px;
+  padding: 16px;
+  min-height: 50px;
+  border: 1px darkgrey solid;
+  border-radius: 3px;
+}
+
+.dropzone.dndDragover {
+  border-color: green;
+}
+
+.placeholder-here {
+  border: 1px #00ff0d solid;
+  border-radius: 5px;
+  padding: 15px;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.standby-input {
+  border: 1px #427a9d solid;
+  border-radius: 5px;
+  padding: 15px;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.container-fluid {
+  background-color: white;
+}
+
+.card-box-header {
+  height: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+
+  -webkit-box-shadow: 3px 3px 10px 3px #dddddd;
+  -moz-box-shadow: 3px 3px 10px 3px #dddddd;
+  box-shadow: 3px 3px 10px 3px #dddddd;
+}
+
+.list-item {
+  height: 80vh;
+  padding: 5px;
+  border-radius: unset;
+  background: #fbffff;
+  overflow: auto;
+}
+
+.list-drop {
+  height: auto;
+  padding: 5px;
+  border-radius: unset;
+  background: #fbffff;
+  overflow: auto;
+}
+
+.list-drop-container {
+  height: 80vh;
+  padding: 5px;
+  border-radius: unset;
+  background: #fbffff;
+  overflow: auto;
+  overflow-x: hidden !important;
+}
+
+.info-split-card {
+  padding: 10px;
+}
+
+.mat-card-header,
+.mat-card-subtitle {
+  margin-bottom: 0;
+}
+
+.input-decorate {
+  border: 1px solid transparent;
+  padding: 10px;
+  -webkit-box-shadow: inset 0px 0px 9px -3px #dddddd;
+  -moz-box-shadow: inset 0px 0px 9px -3px #dddddd;
+  box-shadow: inset 0px 0px 9px -3px #dddddd;
+}
+
+.btn-plus-minus {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  cursor: pointer;
+  background: #045b62;
+}
+
+.btn-plus-minus-disabled {
+  background: #6a6a6a;
+  cursor: not-allowed;
+}
+
+svg {
+  width: auto;
+  height: 300px;
+}
+
+.m-0-16 {
+  margin: 0 16px !important;
+}

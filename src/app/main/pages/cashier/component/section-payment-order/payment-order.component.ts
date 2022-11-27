@@ -14,6 +14,7 @@ import { Customer } from 'src/app/main/_model/customer/customer.model';
 import { DiscountRepository } from 'src/app/main/_model/discount/discount.repository';
 import { PaymentRepository } from 'src/app/main/_model/payment/payment.repository';
 import { UserRepository } from 'src/app/main/_model/users/user.repository';
+import { BaseService } from 'src/app/main/_service/base.service';
 import { CheckoutRepository } from '../../_model/checkout/chekcout.repository';
 import { CashComponent } from './method-payment/cash.component';
 
@@ -60,14 +61,15 @@ export class PaymentComponent implements OnInit {
         public userRepo: UserRepository,
         public checkoutRepo: CheckoutRepository,
         public activeRoute: ActivatedRoute,
+        private baseService: BaseService,
         public router: Router,
         public location: Location,
         private _bottomSheet: MatBottomSheet
     ) {
-        setTimeout(() => console.log(paymentRepo.dataPayment), 1000)
+        // setTimeout(() => console.log(paymentRepo.dataPayment), 1000)
 
         activeRoute.queryParamMap.subscribe(res => {
-            console.log(res.get('id'));
+            // console.log(res.get('id'));
             if (!_.isNull(res.get('id'))) {
                 this.checkoutRepo.paymentId = Number(res.get('id'))
                 this.checkoutRepo.tempSalesForCheckout
@@ -82,7 +84,7 @@ export class PaymentComponent implements OnInit {
     }
 
     ngAfterViewInit() {
-        this.tabGroup!.selectedIndex = 2
+        // this.tabGroup!.selectedIndex = 3
         this.tabIndex = this.tabGroup?.selectedIndex
     }
 
@@ -125,6 +127,8 @@ export class PaymentComponent implements OnInit {
         // console.log('tabChangeEvent => ', tabChangeEvent);
         // console.log('index => ', tabChangeEvent.index);
         this.tabIndex = tabChangeEvent.index
+        this.checkoutRepo.reBuildPayment()
+        this.baseService.number_result = 0
         switch (this.tabIndex) {
             case 0:
                 this.checkoutRepo.checkout.paymentMethod = this._method_payment.at(0)?.paymentMethod
@@ -155,13 +159,17 @@ export class PaymentComponent implements OnInit {
     }
 
     clear() {
-        switch (this.tabIndex) {
-            case 0:
-                this.checkoutRepo.clear_cash()
-                this.cashcomponent?.checkCash()
-                this.checkoutRepo.check_discount_tax_service()
-                break;
-        }
+        this.checkoutRepo.reBuildPayment()
+        this.checkoutRepo.check_discount_tax_service()
+        this.baseService.number_result = 0
+        // switch (this.tabIndex) {
+        //     case 0:
+        //         this.checkoutRepo.reBuildPayment()
+        //         // this.checkoutRepo.clear_cash()
+        //         // this.cashcomponent?.checkCash()
+        //         // this.checkoutRepo.check_discount_tax_service()
+        //         break;
+        // }
         // this.checkoutRepo.clear_cash()
     }
 

@@ -42,15 +42,18 @@ import { AdditionalComponent } from './_dialog/additional.component';
 import { MatListModule } from '@angular/material/list';
 import { CustomerListComponent } from './_dialog/customerlist.component';
 import { MatTableModule } from '@angular/material/table';
+import { EmployeeListComponent } from './_dialog/employee.component';
+import { ReservationService } from './_service/reservation.service';
+import { ReservationRepository } from './_model/reservation/reservation.repository';
 
 
 const routes: Routes = [
     { path: '', component: MainComponent },
     { path: 'order', loadChildren: () => import('./pages/order/order.module').then((m) => m.OrderModule) },
     { path: 'cashier', loadChildren: () => import('./pages/cashier/cashier.module').then((m) => m.CashierModule) },
-    { path: 'tables', loadChildren: () => import('./pages/tables/tables.module').then((m) => m.TableModule) }
+    { path: 'tables', loadChildren: () => import('./pages/tables/tables.module').then((m) => m.TableModule) },
+    { path: 'reservation', loadChildren: () => import('./pages/reservation/reservation.module').then((m) => m.ReservationModule) }
 ];
-
 
 const material = [
     MatIconModule,
@@ -67,13 +70,20 @@ const material = [
     MatTableModule
 ]
 
-
 @NgModule({
     imports: [
-        CommonModule, RouterModule.forChild(routes), material, IconMaterialModule, SharedeModule,
+        CommonModule, RouterModule.forChild(routes), material, IconMaterialModule, SharedeModule
     ],
     exports: [],
-    declarations: [MainComponent, ButtonCardComponent, NumpadComponent, DiscountComponent, AdditionalComponent, CustomerListComponent],
+    declarations: [
+        MainComponent,
+        ButtonCardComponent,
+        NumpadComponent,
+        DiscountComponent,
+        AdditionalComponent,
+        CustomerListComponent,
+        EmployeeListComponent
+    ],
     providers: [
         MatIconRegistry,
         FormUtil,
@@ -91,7 +101,9 @@ const material = [
         PaymentRepository,
         UsersService,
         PaymentService,
-        UserRepository
+        UserRepository,
+        ReservationService,
+        ReservationRepository
     ]
 })
 export class MainModule { }

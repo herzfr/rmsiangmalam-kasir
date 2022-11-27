@@ -22,6 +22,8 @@ import { ProductCardComponent } from './component/product-card/product-card.comp
 import { CurrencyRupiahPipe } from './directives/currency.pipe';
 import { PackageCardComponent } from './component/package-card/package-card.component';
 import { InputDialogComponent } from './dialogs/general-dialogs/input-dialog.component';
+import { WebcamModule } from 'ngx-webcam';
+import { WebCamComponent } from '../shared/dialogs/general-dialogs/webcam.component';
 
 @NgModule({
     imports: [
@@ -29,7 +31,8 @@ import { InputDialogComponent } from './dialogs/general-dialogs/input-dialog.com
         MaterialShared,
         FormsModule,
         ReactiveFormsModule,
-        CurrencyMaskModule
+        CurrencyMaskModule,
+        WebcamModule
     ],
     exports: [
         DynamicFormComponent,
@@ -49,6 +52,7 @@ import { InputDialogComponent } from './dialogs/general-dialogs/input-dialog.com
         VerifyDialogComponent,
         FormDialogComponent,
         InputDialogComponent,
+        WebCamComponent,
 
         // COMPONENT
         UserCardComponent,
@@ -74,6 +78,7 @@ import { InputDialogComponent } from './dialogs/general-dialogs/input-dialog.com
         VerifyDialogComponent,
         FormDialogComponent,
         InputDialogComponent,
+        WebCamComponent,
 
         // COMPONENT
         UserCardComponent,

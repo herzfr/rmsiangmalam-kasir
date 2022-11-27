@@ -44,6 +44,8 @@ import { CardMaskDirective } from './_directives/cardmask.directive';
 import { EWalletComponent } from './component/section-payment-order/method-payment/e-wallet.component';
 import { OtherComponent } from './component/section-payment-order/method-payment/other.component';
 import { TransferComponent } from './component/section-payment-order/method-payment/transfer.component';
+import { SplitComponent } from './component/section-split-order/split.component';
+import { DndDraggableDirective, DndModule } from 'ngx-drag-drop';
 
 
 const customLayouts: IKeyboardLayouts = {
@@ -80,6 +82,7 @@ const customLayouts: IKeyboardLayouts = {
 const routes: Routes = [
     { path: '', component: CashierComponent },
     { path: 'payment', component: PaymentComponent },
+    { path: 'split', component: SplitComponent },
 ]
 
 const material = [
@@ -109,13 +112,15 @@ const material = [
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routes), SharedeModule,
-        IconMaterialModule, material, FormsModule, ReactiveFormsModule, CurrencyMaskModule, CarouselModule],
+        IconMaterialModule, material, FormsModule, ReactiveFormsModule,
+        CurrencyMaskModule, CarouselModule, DndModule],
     exports: [],
     declarations: [
         CashierComponent,
         ListOrderComponent,
         MilisToDatePipe,
         PaymentComponent,
+        SplitComponent,
 
         // CHILD COMPONENT
         CashComponent,
@@ -125,10 +130,10 @@ const material = [
         TransferComponent,
 
         // DIRECTIVE
-        CardMaskDirective
+        CardMaskDirective,
 
     ],
-    providers: [TempSalesRepository, TablesRepository, CheckoutRepository,
+    providers: [TempSalesRepository, TablesRepository, CheckoutRepository, DndDraggableDirective,
         { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
         { provide: MAT_KEYBOARD_LAYOUTS, useValue: customLayouts }
     ],

@@ -78,7 +78,7 @@ export class CashComponent implements OnInit, AfterViewInit {
 
     opeenKeybordSheet() {
         const configBottom: MatBottomSheetConfig = new MatBottomSheetConfig()
-        configBottom.data = this.checkoutRepo.cash
+        configBottom.data = [this.checkoutRepo.cash, true]
         configBottom.backdropClass = 'backdrop-numpad'
         configBottom.panelClass = 'panel-numpad'
         this._bottomSheet.open(NumpadComponent, configBottom);

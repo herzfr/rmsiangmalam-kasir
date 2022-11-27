@@ -30,6 +30,6 @@ export class Checkout {
     cardName: string | null = null;
     batchNo: string | null = null;
     employeeUserName: string | null = null;
-    adminFee?: number | null = null;
+    adminFee: number = 0;
     image?: string | null = null;
 }

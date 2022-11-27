@@ -40,7 +40,7 @@ export class CheckoutRepository {
     listenerNumberResult() {
         this.baseService.numberResult$.subscribe(res => {
             this.checkout.cash = res
-            console.log(this.checkout);
+            // console.log(this.checkout);
         })
     }
 
@@ -54,10 +54,10 @@ export class CheckoutRepository {
 
     get tempSalesForCheckout() {
         this.tempSalesService.getTempSalesById(this.paymentId).subscribe(res => {
-            console.log(res);
+            // console.log(res);
             this.lines = (res.data as TempSales).items
             this.firstTempSalesToCheckout = res.data
-            console.log(this.checkout);
+            // console.log(this.checkout);
         })
         return
     }
@@ -66,6 +66,8 @@ export class CheckoutRepository {
         this.checkout.tempSalesId = temp.id
         this.checkout.name = temp.name
         this.checkout.tableIds = temp.tableIds
+        console.log(temp.tableIds);
+
         this.checkout.note = temp.note
         this.checkout.waiterName = temp.waiter
         this.checkout.waiterUserName = temp.waiter
@@ -104,10 +106,10 @@ export class CheckoutRepository {
         // SET DISCOUNT
         if (Object.keys(this.disc).length > 0) {
             // CHECK PERCENT OR RUPIAH
-            console.log((this.disc as Discount).type);
+            // console.log((this.disc as Discount).type);
 
             if ((this.disc as Discount).type === 'PERCENT') {
-                console.log('in percent');
+                // console.log('in percent');
                 this.checkout.discount = ((this.disc as Discount).value / 100) * this.checkout.subTotal
             } else {
                 this.checkout.discount = (this.disc as Discount).value
@@ -116,7 +118,7 @@ export class CheckoutRepository {
             this.checkout.discount = 0
         }
 
-        console.log('after disc => ', this.checkout);
+        // console.log('after disc => ', this.checkout);
 
 
         // SET SERVICE
@@ -133,7 +135,6 @@ export class CheckoutRepository {
             this.checkout.tax = 0
         }
         this.calculateTotal()
-        console.log(this.checkout);
     }
 
     get discount(): Discount | undefined {
@@ -162,8 +163,10 @@ export class CheckoutRepository {
         this.check_discount_tax_service()
     }
 
-    private calculateTotal() {
-        this.checkout.total = ((((this.checkout.subTotal - this.checkout.deposit) - this.checkout.discount) + this.checkout.service) + this.checkout.tax) - this.checkout.deposit
+    public calculateTotal() {
+        let main_calculate = ((((this.checkout.subTotal - this.checkout.deposit) - this.checkout.discount) + this.checkout.service) + this.checkout.tax) - this.checkout.deposit
+        if (this.checkout.adminFee > 0) { this.checkout.total = main_calculate + (main_calculate * (this.checkout.adminFee / 100)) }
+        else { this.checkout.total = main_calculate }
     }
 
     public calculateChange() {
@@ -195,6 +198,21 @@ export class CheckoutRepository {
 
     public checkoutTest() {
         console.log(this.checkout);
+    }
+
+    reBuildPayment() {
+        this.checkout.cash = 0
+        this.checkout.change = 0
+        this.checkout.adminFee = 0
+        this.checkout.cardName = null
+        this.checkout.cardNo = null
+        this.checkout.merchantId = null
+        this.checkout.transactionNo = null
+        this.checkout.batchNo = null
+        this.checkout.image = null
+        this.checkout.employeeUserName = null
+        this.checkout.paymentTypeId = null
+        this.calculateTotal()
     }
 
 

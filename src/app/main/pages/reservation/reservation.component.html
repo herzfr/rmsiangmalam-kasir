@@ -1,0 +1,107 @@
+<div class="container-fluid">
+    <div class="row container-reservation">
+        <div class="col-4">
+            <div class="d-flex">
+                <div (click)="location.back()"
+                    class="col d-flex align-items-center px-3 py-2 my-2 mr-2 cursor-pointer btn-back">
+                    <mat-icon svgIcon="back"></mat-icon>
+                    <p class="mb-0 px-2"><strong>Kembali</strong></p>
+                </div>
+                <span class="mx-1"></span>
+                <div (click)="location.back()"
+                    class="col d-flex align-items-center px-3 py-2 my-2 mr-2 cursor-pointer btn-back">
+                    <mat-icon class="plus" svgIcon="plus"></mat-icon>
+                    <p class="mb-0 px-2"><strong>Tambah</strong></p>
+                </div>
+            </div>
+            <mat-card class="cal-inline-calendar-card">
+                <mat-calendar (selectedChange)="changeDate()" [(selected)]="selected"></mat-calendar>
+            </mat-card>
+            <!-- <p>Selected date: {{selected}}</p> -->
+
+        </div>
+        <div class="col-8">
+            <mat-tab-group #tabGroup mat-align-tabs="end" class="bg-white m-2" animationDuration="0ms">
+                <mat-tab label="DAFTAR RESERVASI">
+                    <div class="container-reservation">RESERVATION</div>
+                </mat-tab>
+                <mat-tab label="RESERVASI">
+                    <div class="container-reservation">
+
+                        <div class="col mx-2 mb-1">
+                            <div class="form-group">
+                                <label for="fname">Atas Nama</label>
+                                <div class="box-input">
+                                    <input id="fname" class="form-control" type="text">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col mx-2 mb-1">
+                            <div class="form-group">
+                                <label for="fname">Catatan</label>
+                                <textarea id="fname" class="form-control box-input" type="text"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="d-flex mx-2">
+                            <div class="col mr-10">
+                                <div class="form-group">
+                                    <label for="fname">Deposit</label>
+                                    <div class="box-input">
+                                        <!-- <input id="fname" class="form-control" type="text"> -->
+                                        <input id="fname" class="form-control" currencyMask
+                                            [(ngModel)]="resvRepo.createReservation.dpAmount"
+                                            [options]="{ prefix: 'Rp ', thousands: '.', decimal: ',',  precision: 0 }"
+                                            class="col text-start p-2 mb-0" matInput required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="lname">Jam</label>
+                                    <div class="box-time d-flex align-items-center">
+                                        <!-- <label for="appt">Waktu Awal :</label> -->
+                                        <input type="time" id="appt" name="appt" [value]="time_book"
+                                            (change)="startTime($event.target)" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="mb-0 m-2">Pembayaran deposit</p>
+                        <hr class="m-2">
+
+                        <mat-tab-group (selectedTabChange)="tabChanged($event)" mat-align-tabs="center"
+                            class="bg-white m-2 h-auto" animationDuration="0ms">
+                            <mat-tab style="min-height: 100%; min-height: calc(100% - 64px);" label="Tunai"
+                                cdk-scrollable="false">
+                                <div class="row">
+                                    <p class="text-center text-muted p-2 mb-0">Masukan Pembayaran</p>
+                                    <div class="container">
+                                        <div class="d-flex box-input p-4">
+                                            <button (click)="opeenKeybordSheet()" mat-icon-button class="m-1"
+                                                color="accent" aria-label="Example icon button with a menu icon">
+                                                <mat-icon>dialpad</mat-icon>
+                                            </button>
+                                            <input currencyMask [(ngModel)]="this.resvRepo.createReservation.cash"
+                                                [options]="{ prefix: 'Rp ', thousands: '.', decimal: ',',  precision: 0 }"
+                                                class="input-cash display-1 col bg-dark text-white text-end p-2 mb-0"
+                                                matInput />
+                                        </div>
+                                        <div class="d-flex justify-content-center box-input p-4">
+                                            <button class="reservation" mat-raised-button>Reservasi</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Debit">Debit</mat-tab>
+                            <mat-tab label="E-Wallet">E-Wallet</mat-tab>
+                        </mat-tab-group>
+
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

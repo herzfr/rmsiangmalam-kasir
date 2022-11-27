@@ -123,13 +123,13 @@
                         <other-payment></other-payment>
                     </mat-tab>
 
-                    <mat-tab>
+                    <!-- <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">account_balance</mat-icon>
                             Transfer
                         </ng-template>
                         <transfer-payment></transfer-payment>
-                    </mat-tab>
+                    </mat-tab> -->
                 </mat-tab-group>
 
                 <mat-card class="checkout-card">
@@ -181,7 +181,7 @@
                     </mat-card-content>
                     <mat-divider inset></mat-divider>
                     <mat-card-actions class="d-flex justify-content-between mb-0">
-                        <button mat-raised-button color="accent">BATAL</button>
+                        <button (click)="location.back()" mat-raised-button color="accent">BATAL</button>
                         <div class="d-flex">
                             <button (click)="clear()" mat-button>RESET ULANG</button>
                             <button (click)="checkout()" mat-button class="btn-checkout">CHECKOUT</button>

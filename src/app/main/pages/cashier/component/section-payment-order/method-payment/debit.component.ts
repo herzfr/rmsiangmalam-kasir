@@ -12,7 +12,7 @@ import { CheckoutRepository } from '../../../_model/checkout/chekcout.repository
                     {{ item.name }}
                 </div> -->
                 <label id="example-radio-group-label">Pilih tipe pembayaran?</label>
-                <mat-radio-group
+                <mat-radio-group (ngModelChange)="checkoutRepo.calculateTotal()"
                 aria-labelledby="input-radio-group-label"
                 class="input-radio-group flex-row flex-nowrap"
                 [(ngModel)]="checkoutRepo.checkout.paymentTypeId" >
@@ -64,7 +64,7 @@ export class DebitComponent implements OnInit {
     ngOnInit() { }
 
     changeInputCardNumber(e: any) {
-        console.log(e);
+        // console.log(e);
         if (e.length > 0) {
             let str_split = e.split('-')
             // console.log(str_split);
