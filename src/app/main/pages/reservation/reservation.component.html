@@ -15,24 +15,50 @@
                 </div>
             </div>
             <mat-card class="cal-inline-calendar-card">
-                <mat-calendar (selectedChange)="changeDate()" [(selected)]="selected"></mat-calendar>
+                <mat-calendar (selectedChange)="changeDate($event)" [(selected)]="selected"></mat-calendar>
             </mat-card>
-            <!-- <p>Selected date: {{selected}}</p> -->
+            <div class="footer-selector">
+                <button (click)="resvRepo.prevPage()" [disabled]="resvRepo.disablePrev" mat-button color="accent"
+                    class="button-next-prev">
+                    <mat-icon>chevron_left</mat-icon>
+                </button>
+                <strong class="mx-2"> Halaman {{ (resvRepo.reservationPagine?.pageNumber?? 0) + 1 }}</strong>
+                <button (click)="resvRepo.nextPage()" [disabled]="resvRepo.disbaleNext" mat-button color="accent"
+                    class="button-next-prev">
+                    <mat-icon>chevron_right</mat-icon>
+                </button>
+            </div>
 
         </div>
         <div class="col-8">
             <mat-tab-group #tabGroup mat-align-tabs="end" class="bg-white m-2" animationDuration="0ms">
+                <!-- DAFTAR RESERVASI -->
                 <mat-tab label="DAFTAR RESERVASI">
-                    <div class="container-reservation">RESERVATION</div>
+                    <div class="container-reservation">
+                        <div class="container-fluid p-2">
+                            <card-reservation (deleteItem)="deleteItem($event)" [reservation]="resvRepo.reservation"
+                                [reservationDone]="resvRepo.reservation_is_done">
+                            </card-reservation>
+                        </div>
+                    </div>
                 </mat-tab>
+
+                <!-- RESERVASI -->
                 <mat-tab label="RESERVASI">
                     <div class="container-reservation">
+                        <ul class="list-group">
+                            <li class="list-group-item fw-bold">Tanggal Reservasi : {{
+                                resvRepo.createReservation.bookingTime |
+                                milistodate: "date"}}</li>
+                        </ul>
+
 
                         <div class="col mx-2 mb-1">
                             <div class="form-group">
                                 <label for="fname">Atas Nama</label>
                                 <div class="box-input">
-                                    <input id="fname" class="form-control" type="text">
+                                    <input [(ngModel)]="resvRepo.createReservation.name" id="fname" class="form-control"
+                                        type="text">
                                 </div>
                             </div>
                         </div>
@@ -40,7 +66,8 @@
                         <div class="col mx-2 mb-1">
                             <div class="form-group">
                                 <label for="fname">Catatan</label>
-                                <textarea id="fname" class="form-control box-input" type="text"></textarea>
+                                <textarea [(ngModel)]="resvRepo.createReservation.note" id="fname"
+                                    class="form-control box-input" type="text"></textarea>
                             </div>
                         </div>
 
@@ -51,6 +78,7 @@
                                     <div class="box-input">
                                         <!-- <input id="fname" class="form-control" type="text"> -->
                                         <input id="fname" class="form-control" currencyMask
+                                            (ngModelChange)="inputDepositChange($event)"
                                             [(ngModel)]="resvRepo.createReservation.dpAmount"
                                             [options]="{ prefix: 'Rp ', thousands: '.', decimal: ',',  precision: 0 }"
                                             class="col text-start p-2 mb-0" matInput required />
@@ -89,14 +117,35 @@
                                                 class="input-cash display-1 col bg-dark text-white text-end p-2 mb-0"
                                                 matInput />
                                         </div>
+                                        <!-- <h4 class="text-right">Kembalian {{ resvRepo.createReservation.change | rupiah
+                                            }}</h4> -->
+                                        <ul class="list-group">
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center change">
+                                                Kembalian
+                                                <span class="badge text-dark">{{
+                                                    resvRepo.createReservation.change | rupiah }}</span>
+                                            </li>
+                                        </ul>
                                         <div class="d-flex justify-content-center box-input p-4">
-                                            <button class="reservation" mat-raised-button>Reservasi</button>
+                                            <button (click)="resvRepo.submitReservation()" class="reservation"
+                                                mat-raised-button>Reservasi</button>
                                         </div>
                                     </div>
                                 </div>
                             </mat-tab>
-                            <mat-tab label="Debit">Debit</mat-tab>
-                            <mat-tab label="E-Wallet">E-Wallet</mat-tab>
+                            <mat-tab label="Debit">
+                                <reservasi-debit></reservasi-debit>
+                            </mat-tab>
+                            <mat-tab label="E-Wallet">
+                                <reservasi-ewallet></reservasi-ewallet>
+                            </mat-tab>
+                            <!-- <mat-tab label="Langsung">
+                                <div class="d-flex justify-content-center box-input p-4 my-2">
+                                    <button (click)="resvRepo.submitReservation()" class="reservation"
+                                        mat-raised-button>Reservasi</button>
+                                </div>
+                            </mat-tab> -->
                         </mat-tab-group>
 
                     </div>

@@ -21,6 +21,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { ReservasiEWalletComponent } from './component/r-e-wallet.payment';
+import { ReservasiDebitComponent } from './component/r-debit.payment';
+import { MatRadioModule } from '@angular/material/radio';
+import { PipeModule } from 'src/app/_pipe/pipe.module';
+import { CardReservation } from './component/card-reservation.component';
+import { MatBottomSheetModule, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 
 
 const routes: Routes = [
@@ -39,7 +45,10 @@ const material = [
     MatSelectModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatTabsModule
+    MatNativeDateModule,
+    MatRadioModule,
+    MatTabsModule,
+    MatBottomSheetModule
 ]
 
 @NgModule({
@@ -52,10 +61,14 @@ const material = [
         FormsModule,
         ReactiveFormsModule,
         MatNativeDateModule,
-        CurrencyMaskModule
+        CurrencyMaskModule,
+        PipeModule,
     ],
     exports: [],
-    declarations: [ReservationComponent],
-    providers: [],
+    declarations: [ReservationComponent, ReservasiEWalletComponent, ReservasiDebitComponent, CardReservation],
+    providers: [
+        { provide: MatBottomSheetRef, useValue: {} },
+        { provide: MAT_BOTTOM_SHEET_DATA, useValue: {} }
+    ],
 })
 export class ReservationModule { }

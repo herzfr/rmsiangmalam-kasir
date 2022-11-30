@@ -5,6 +5,10 @@
 
 .cal-inline-calendar-card {
   width: auto;
+  background: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .btn-back {
@@ -92,6 +96,81 @@ input:focus-visible {
   letter-spacing: 2px;
 }
 
+.change {
+  font-size: large;
+  border: 0px;
+}
+
 ::ng-deep .mat-icon.plus svg {
   filter: invert(1) !important;
+}
+
+.footer-selector {
+  /* position: fixed;
+  bottom: 10px; */
+  margin: 10px 0px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.list-group-item {
+  border: 0px;
+  padding-right: 7px;
+  padding-left: 7px;
+}
+
+/* .mat-bottom-sheet-container {
+  position: absolute;
+  bottom: 0;
+  left: 100px;
+} */
+
+::ng-deep .mat-ink-bar {
+  background-color: #045b62 !important;
+}
+
+/* ================================== */
+/*               DEBIT CSS            */
+/* ================================== */
+
+.input-radio-group {
+  display: flex;
+  flex-direction: column;
+  /* margin: 15px 0; */
+  align-items: flex-start;
+}
+
+.input-decorate {
+  border: 1px solid transparent;
+  padding: 10px;
+  -webkit-box-shadow: inset 0px 0px 9px -3px #dddddd;
+  -moz-box-shadow: inset 0px 0px 9px -3px #dddddd;
+  box-shadow: inset 0px 0px 9px -3px #dddddd;
+}
+
+/* .mat-radio-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+} */
+
+.input-radio-button {
+  margin: 5px;
+}
+
+/* ================================== */
+/*               EWALLET CSS          */
+/* ================================== */
+.card-upload {
+  height: 30vh;
+  margin: 10px 0px;
+}
+
+.img-proof {
+  width: 100%;
 }

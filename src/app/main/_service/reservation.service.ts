@@ -23,7 +23,7 @@ export class ReservationService {
     // UPDATE STATUS RESERVATION METHOD
     updateReservation(id: number, status: boolean): Observable<GeneralResponse> {
         const obj = JSON.stringify({ id: id, isDone: status })
-        return this.http.post<GeneralResponse>(URL + 'pos/booking/update/status', obj, httpOptions)
+        return this.http.put<GeneralResponse>(URL + 'pos/booking/update/status', obj, httpOptions)
     }
 
     // GET ALL RESERVATION METHOD

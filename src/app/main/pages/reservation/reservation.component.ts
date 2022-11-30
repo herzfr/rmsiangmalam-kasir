@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
+import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MatBottomSheet, MatBottomSheetConfig, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { TimeUtil } from 'src/app/_utility/time.util';
 import { NumpadComponent } from '../../_dialog/numpad.component';
@@ -15,28 +15,32 @@ export class ReservationComponent implements OnInit, AfterViewInit {
     selected: Date = new Date();
     tabIndex: number | null | undefined;
     isInput: boolean = false;
+    fromCashier: boolean = false
     @ViewChild('tabGroup') tabGroup?: MatTabGroup;
     constructor(
         public location: Location,
         public resvRepo: ReservationRepository,
         public time: TimeUtil,
-        private _bottomSheet: MatBottomSheet
+        private _bottomSheet: MatBottomSheet,
+
     ) { }
 
     ngAfterViewInit(): void {
         setTimeout(() => {
-            this.tabGroup!.selectedIndex = 1
+            this.tabGroup!.selectedIndex = 0
             this.tabIndex = this.tabGroup?.selectedIndex
         }, 1)
     }
 
-    ngOnInit() { }
+    ngOnInit() {
 
-    changeDate() {
-        console.log(this.resvRepo.find);
+    }
+
+    changeDate(e: any) {
+        this.selected = this.time.convertDateTimeLocale(e);
         this.resvRepo.find.startDate = this.time.startTodayTime(this.selected)
         this.resvRepo.find.endDate = this.time.endTodayTime(this.selected)
-        console.log(this.resvRepo.find);
+        this.resvRepo.set_bookingTime(this.selected)
     }
 
     get time_book() {
@@ -55,9 +59,17 @@ export class ReservationComponent implements OnInit, AfterViewInit {
         switch (this.tabIndex) {
             case 0:
                 this.resvRepo.createReservation.paymentMethod = 'CASH'
+                this.resvRepo.createReservation.adminFee = 0
+                this.resvRepo.calculate()
+                break;
+            case 3:
+                this.resvRepo.createReservation.paymentMethod = null
+                this.resvRepo.createReservation.adminFee = 0
+                this.resvRepo.calculate()
                 break;
             default:
                 this.resvRepo.createReservation.paymentMethod = 'CUSTOM'
+                this.resvRepo.calculate()
                 break;
         }
     }
@@ -71,11 +83,26 @@ export class ReservationComponent implements OnInit, AfterViewInit {
         this._bottomSheet.open(NumpadComponent, configBottom);
     }
 
+    inputDepositChange(e: any) {
+        console.log(e);
+        this.resvRepo.createReservation.dpAmount = e
+        this.resvRepo.calculate()
+    }
+
+
+    deleteItem(id_booking: number) {
+        console.log(id_booking);
+        this.resvRepo.deleteReservation(id_booking)
+    }
+
+
     ngOnDestroy() {
         this.selected = new Date();
         this.tabGroup!.selectedIndex = 1
         this.tabIndex = this.tabGroup?.selectedIndex
         this.resvRepo.clean()
+        this.fromCashier = false
     }
 
 }
+

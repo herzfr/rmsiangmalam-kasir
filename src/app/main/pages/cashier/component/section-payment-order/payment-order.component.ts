@@ -15,6 +15,8 @@ import { DiscountRepository } from 'src/app/main/_model/discount/discount.reposi
 import { PaymentRepository } from 'src/app/main/_model/payment/payment.repository';
 import { UserRepository } from 'src/app/main/_model/users/user.repository';
 import { BaseService } from 'src/app/main/_service/base.service';
+import { CardReservation } from '../../../reservation/component/card-reservation.component';
+import { ReservationComponent } from '../../../reservation/reservation.component';
 import { CheckoutRepository } from '../../_model/checkout/chekcout.repository';
 import { CashComponent } from './method-payment/cash.component';
 
@@ -92,6 +94,20 @@ export class PaymentComponent implements OnInit {
 
     get checkobjtax() {
         return Object.keys(this.checkoutRepo.tax).length > 0
+    }
+
+    openReservationDeposit() {
+        const configBottomDisc: MatBottomSheetConfig = new MatBottomSheetConfig()
+        configBottomDisc.data = true
+        configBottomDisc.backdropClass = 'backdrop-reservation'
+        configBottomDisc.panelClass = 'panel-reservation'
+        this._bottomSheet.open(CardReservation, configBottomDisc).afterDismissed().subscribe(res => {
+            if (res) {
+                if (res.resp) {
+                    this.checkoutRepo.update_deposit(res.result)
+                }
+            }
+        })
     }
 
     openDiscount() {

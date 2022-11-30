@@ -170,8 +170,10 @@
 
                                 <ul class="list-group">
                                     <li class="list-group-item d-flex justify-content-between align-items-center py-1">
-                                        Rp 0
-                                        <button mat-raised-button class="badge">Deposit</button>
+                                        {{ checkoutRepo.checkout.deposit | rupiah }}
+                                        <button
+                                            (click)="this.checkoutRepo.reservation?  this.checkoutRepo.clear_reservation() : openReservationDeposit()"
+                                            mat-raised-button class="badge">Deposit</button>
                                     </li>
                                     <p class="mb-0">Deposit Tunai</p>
                                 </ul>

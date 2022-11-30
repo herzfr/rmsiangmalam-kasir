@@ -16,7 +16,6 @@ import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/mater
 import { RouterModule, Routes } from '@angular/router';
 import { SharedeModule } from 'src/app/shared/shared.module';
 import { IconMaterialModule } from 'src/app/_helpers/icon-registry';
-import { MilisToDatePipe } from 'src/app/_pipe/datepipe-custom.pipe';
 import { TablesRepository } from '../tables/_model/tables.repository';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -46,7 +45,7 @@ import { OtherComponent } from './component/section-payment-order/method-payment
 import { TransferComponent } from './component/section-payment-order/method-payment/transfer.component';
 import { SplitComponent } from './component/section-split-order/split.component';
 import { DndDraggableDirective, DndModule } from 'ngx-drag-drop';
-
+import { PipeModule } from 'src/app/_pipe/pipe.module';
 
 const customLayouts: IKeyboardLayouts = {
     ...keyboardLayouts,
@@ -107,18 +106,17 @@ const material = [
     MatSlideToggleModule,
     MatKeyboardModule,
     MatTooltipModule,
-    MatRadioModule
+    MatRadioModule,
 ]
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routes), SharedeModule,
         IconMaterialModule, material, FormsModule, ReactiveFormsModule,
-        CurrencyMaskModule, CarouselModule, DndModule],
+        CurrencyMaskModule, CarouselModule, DndModule, PipeModule],
     exports: [],
     declarations: [
         CashierComponent,
         ListOrderComponent,
-        MilisToDatePipe,
         PaymentComponent,
         SplitComponent,
 
@@ -131,6 +129,8 @@ const material = [
 
         // DIRECTIVE
         CardMaskDirective,
+
+        // PIPE
 
     ],
     providers: [TempSalesRepository, TablesRepository, CheckoutRepository, DndDraggableDirective,

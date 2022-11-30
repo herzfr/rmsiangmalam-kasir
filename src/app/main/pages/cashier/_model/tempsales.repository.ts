@@ -7,6 +7,7 @@ import * as _ from "lodash";
 import { Subscription } from "rxjs";
 import { Additional } from "src/app/main/_model/additional/additional.model";
 import { Discount } from "src/app/main/_model/discount/discount.model";
+import { Reservation } from "src/app/main/_model/reservation/reservation.model";
 import { ShiftRepository } from "src/app/main/_model/shift/shift.repository";
 import { BaseService } from "src/app/main/_service/base.service";
 import { DialogService } from "src/app/shared/dialogs/dialog.service";

@@ -5,6 +5,7 @@ import { Customer } from "src/app/main/_model/customer/customer.model";
 import { Discount } from "src/app/main/_model/discount/discount.model";
 import { PaymentMehod } from "src/app/main/_model/payment/payment.model";
 import { PaymentRepository } from "src/app/main/_model/payment/payment.repository";
+import { Reservation } from "src/app/main/_model/reservation/reservation.model";
 import { ShiftRepository } from "src/app/main/_model/shift/shift.repository";
 import { BaseService } from "src/app/main/_service/base.service";
 import { TemporarySalesService } from "../../_service/temporarysales.service";
@@ -19,6 +20,7 @@ export class CheckoutRepository {
     lines: ItemTempSales[] = [];
     itemCount: number = 0;
     cartPrice: number = 0;
+    reservation: Reservation | undefined;
 
     disc: any;
     fee: any;
@@ -180,6 +182,18 @@ export class CheckoutRepository {
         this.checkout.customerName = null
     }
 
+    update_deposit(item: Reservation) {
+        this.reservation = item
+        this.checkout.deposit = this.reservation.dpAmount
+        this.calculateTotal()
+    }
+
+    clear_reservation() {
+        this.reservation = undefined
+        this.checkout.deposit = 0
+        this.calculateTotal()
+    }
+
 
     // private recalculate() {
     //     this.itemCount = 0;
@@ -200,6 +214,19 @@ export class CheckoutRepository {
         console.log(this.checkout);
     }
 
+    validation_checkout() {
+        let val: any[] = [
+            (this.checkout.total < 0),
+        ]
+
+        let cash: any[] = [
+            (this.checkout.cash < 0),
+        ]
+
+        var general = (val.indexOf(true) > -1);
+        var general = (val.indexOf(true) > -1);
+    }
+
     reBuildPayment() {
         this.checkout.cash = 0
         this.checkout.change = 0
@@ -213,6 +240,7 @@ export class CheckoutRepository {
         this.checkout.employeeUserName = null
         this.checkout.paymentTypeId = null
         this.calculateTotal()
+        this.reservation = undefined
     }
 
 

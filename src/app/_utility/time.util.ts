@@ -60,4 +60,23 @@ export class TimeUtil {
         return new Date(date).setHours(hour, minute, 0, 0)
     }
 
+    public setTimeInDate2(time: string, date: Date): number {
+        let t = time.split(':')
+        let hour = Number(t[0])
+        let minute = Number(t[1])
+        return date.setHours(hour, minute, 0, 0)
+    }
+
+    public convertDateTimeLocale(date: Date) {
+        return new Date(moment(date).locale('id').utc().toString());
+    }
+
+    public convertTimeLocalUTC(date: Date) {
+        let min = new Date(moment(date).startOf('day').locale('id').toString());
+        let max = new Date(moment(date).endOf('day').locale('id').toString());
+        // console.log(min, max);
+        return { start: min.getTime(), end: max.getTime() }
+    }
+
+
 }

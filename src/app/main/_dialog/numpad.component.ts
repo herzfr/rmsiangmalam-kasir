@@ -80,7 +80,6 @@ export class NumpadComponent {
         event.preventDefault();
     }
 
-
     input(val: number) {
         if (this.inputResult === 0) {
             this.inputResult = val;

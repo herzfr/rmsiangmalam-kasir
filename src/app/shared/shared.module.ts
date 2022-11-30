@@ -46,7 +46,6 @@ import { WebCamComponent } from '../shared/dialogs/general-dialogs/webcam.compon
         // PIPE
         CurrencyRupiahPipe,
 
-
         // DIALOG
         InfoDialogComponent,
         VerifyDialogComponent,
@@ -58,7 +57,8 @@ import { WebCamComponent } from '../shared/dialogs/general-dialogs/webcam.compon
         UserCardComponent,
         ShiftCardComponent,
         ProductCardComponent,
-        PackageCardComponent
+        PackageCardComponent,
+
     ],
     declarations: [
         // FORM

@@ -45,6 +45,7 @@ import { MatTableModule } from '@angular/material/table';
 import { EmployeeListComponent } from './_dialog/employee.component';
 import { ReservationService } from './_service/reservation.service';
 import { ReservationRepository } from './_model/reservation/reservation.repository';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 const routes: Routes = [
@@ -67,7 +68,8 @@ const material = [
     MatSidenavModule,
     MatBottomSheetModule,
     MatListModule,
-    MatTableModule
+    MatTableModule,
+    MatSnackBarModule
 ]
 
 @NgModule({

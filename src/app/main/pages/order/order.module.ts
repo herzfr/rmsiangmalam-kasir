@@ -28,6 +28,7 @@ import { TemporarySalesService } from '../cashier/_service/temporarysales.servic
 import { CartRepository } from './_model/_cart/cart.repository';
 import { TempSalesRepository } from '../cashier/_model/tempsales.repository';
 import { TablesRepository } from '../tables/_model/tables.repository';
+import { PipeModule } from 'src/app/_pipe/pipe.module';
 
 
 const routes: Routes = [
@@ -50,7 +51,7 @@ const material = [
 ]
 
 @NgModule({
-    imports: [CommonModule, RouterModule.forChild(routes), SharedeModule, IconMaterialModule, material, CarouselModule, FormsModule],
+    imports: [CommonModule, RouterModule.forChild(routes), SharedeModule, IconMaterialModule, material, CarouselModule, FormsModule, PipeModule],
     exports: [],
     declarations: [OrderComponent],
     providers: [OrderRepository, OrderService, CartRepository, TemporarySalesService, TempSalesRepository, TablesRepository],

@@ -10,7 +10,7 @@ export class CreateReservation {
     subBranchId: number | null = null
     cash: number = 0
     change: number = 0
-    paymentMethod: string = 'CASH'
+    paymentMethod: string | null = 'CASH'
     paymentTypeId: number | null = null
     adminFee?: number = 0
     batchNo?: string | null = null
