@@ -23,6 +23,10 @@ export class CashierComponent implements OnInit {
 
     ngOnInit() { }
 
+    get activeRouteNav(): string | null {
+        return this.route.snapshot.queryParamMap.get('nav');
+    }
+
 
     get activeRoute(): string | null {
         // console.log(this.route.snapshot.queryParamMap.get('nav'));

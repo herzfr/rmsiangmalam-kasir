@@ -1,39 +1,55 @@
 <mat-drawer-container class="mat-drawer-order">
     <mat-drawer mode="side" opened>
         <!-- SIDEBAR -->
-
         <img class="logo-small" src="assets/images/sm_logo.png" alt="logo-small">
+        <h4 class="fw-bold text-center my-3 text-main">MENU</h4>
 
-        <!-- <h4 class="fw-bold text-center mb-0">POS</h4>
-        <p class="d-flex justify-content-center align-items-center text-center info-nav px-2"> {{ activeRoute }}</p>
-
-        <hr> -->
-        <h4 class="fw-bold text-center mb-0">PINTAS</h4>
 
         <a routerLink="/order" [queryParams]="{nav: 'shortcut'}" queryParamsHandling="merge">
-            <div class="d-flex px-3 py-2 w-100">
-                <button [ngClass]="{'active': activeRoute === 'shortcut'}" mat-button
-                    class="w-100 btn-indicator-left active">
-                    <mat-icon>brunch_dining</mat-icon>
-                    <p class="mb-0">Pesan</p>
-                </button>
+            <div [ngClass]="{'active-route': activeRoute === 'shortcut'}" class="menu-box cursor-pointer mb-10">
+                <mat-icon *ngIf="activeRoute !== 'shortcut'" [class.active-route-svg]="activeRoute === 'shortcut'"
+                    svgIcon="main"></mat-icon>
+                <mat-icon *ngIf="activeRoute === 'shortcut'" [class.active-route-svg]="activeRoute === 'shortcut'"
+                    svgIcon="main-active"></mat-icon>
+                <p class="mb-0">Utama</p>
             </div>
         </a>
 
+        <a routerLink="/order" [queryParams]="{nav: 'product'}" queryParamsHandling="merge">
+            <div [ngClass]="{'active-route': activeRoute === 'product'}" class="menu-box cursor-pointer mb-10">
+                <mat-icon *ngIf="activeRoute !== 'product'" [class.active-route-svg]="activeRoute === 'product'"
+                    svgIcon="product"></mat-icon>
+                <mat-icon *ngIf="activeRoute === 'product'" [class.active-route-svg]="activeRoute === 'product'"
+                    svgIcon="product-active"></mat-icon>
+                <p class="mb-0">Satuan</p>
+            </div>
+        </a>
 
-        <div (click)="back()" class="d-flex align-items-center px-3 py-2 mt-2 cursor-pointer btn-flip bottom-fixed">
-            <!-- <mat-icon class="btn-indicator-left" svgIcon="back"></mat-icon> -->
-            <p class="mb-0 px-2"><strong>Kembali</strong></p>
+        <a routerLink="/order" [queryParams]="{nav: 'package'}" queryParamsHandling="merge">
+            <div [ngClass]="{'active-route': activeRoute === 'package'}" class="menu-box cursor-pointer mb-10">
+                <mat-icon *ngIf="activeRoute !== 'package'" [class.active-route-svg]="activeRoute === 'package'"
+                    svgIcon="package"></mat-icon>
+                <mat-icon *ngIf="activeRoute === 'package'" [class.active-route-svg]="activeRoute === 'package'"
+                    svgIcon="package-active"></mat-icon>
+                <p class="mb-0">Paket</p>
+            </div>
+        </a>
+
+        <a routerLink="/cashier" [queryParams]="{nav: 'list'}" queryParamsHandling="merge">
+            <div [ngClass]="{'active-route': activeRouteNav === 'list'}" class="menu-box cursor-pointer mb-10">
+                <mat-icon *ngIf="activeRouteNav !== 'list'" [class.active-route-svg]="activeRouteNav === 'list'"
+                    svgIcon="cashier"></mat-icon>
+                <mat-icon *ngIf="activeRouteNav === 'list'" [class.active-route-svg]="activeRouteNav === 'list'"
+                    svgIcon="cashier-active"></mat-icon>
+                <p class="mb-0">Kasir</p>
+            </div>
+        </a>
+
+        <div (click)="back()" class="menu-box cursor-pointer mb-10 sticky-bottom left-17 w-100">
+            <mat-icon svgIcon="back-screen"></mat-icon>
+            <p class="mb-0">Kembali</p>
         </div>
 
-        <!-- <a class="bottom-fixed" style="width: 10%" routerLink="/cashier">
-            <div class="d-flex px-3 py-2 w-100">
-                <button mat-button class="w-100 btn-indicator-left btn-flip">
-                    <mat-icon>point_of_sale</mat-icon>
-                    <p class="mb-0">Kasir</p>
-                </button>
-            </div>
-        </a> -->
 
 
     </mat-drawer>

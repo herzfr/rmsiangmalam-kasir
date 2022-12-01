@@ -1,4 +1,61 @@
-<!-- <div>{{ shift?.id }}</div> -->
+<div class="card-primary">
+    <p class="text-title-general">Informasi Pergantian (SHIFT)</p>
+    <div class="d-flex">
+        <div class="col d-flex">
+            <div class="box-panel-success mr-10px">Shift Siang</div>
+            <div class="box-panel-uknown cursor-pointer">Shift Malam</div>
+        </div>
+        <div class="col text-end">
+            <mat-slide-toggle [checked]="isActive">{{ isActive ? 'Aktif' : 'Tidak Aktif'}}</mat-slide-toggle>
+        </div>
+    </div>
+    <hr>
+    <div class="d-flex">
+        <div class="col b-right pr-10px">
+            <p class="mb-0 text-nano-title">Area Kasir</p>
+            <div class="col-3 d-flex col-4 d-flex align-items-center box-dropdown box-dropdown-auto">
+                <mat-select [(value)]="onSubBranchID" [disabled]="isActive" disableOptionCentering
+                    panelClass="droprown-position-primary" class="position-inbottom-primary">
+                    <mat-option disabled value="area">Area</mat-option>
+                    <mat-option *ngFor="let food of listSub" [value]="food.id">
+                        {{ food.name }}
+                    </mat-option>
+                </mat-select>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item align-items-center d-flex px-0 pb-0">
+                    <mat-icon svgIcon="clock"></mat-icon>
+                    Jam Awal <strong class="ml-5px text-time"> : {{ shift?.startTime?? '-' }}</strong>
+                </li>
+                <li class="list-group-item align-items-center d-flex px-0 pt-0">
+                    <mat-icon svgIcon="clock"></mat-icon>
+                    Jam Akhir <strong class="ml-5px text-time"> : {{ shift?.endTime?? '-' }}</strong>
+                </li>
+            </ul>
+        </div>
+        <div class="col pl-10px">
+            <p class="mb-0 text-subtitle-general fw-bold">Total Terjual</p>
+            <p class="font-total-sale mb-0">0</p>
+            <div class="row justify-content-end">
+                <div [ngClass]="isRefresh? 'load' : 'button-rounded'" class="cursor-pointer  mr-10px"
+                    (click)="refreshShift()">
+                    <mat-icon *ngIf="!isRefresh" svgIcon="refresh"></mat-icon>
+                    <div class="d-flex">
+                        <span class="load-span" *ngIf="isRefresh">Tunggu...</span>
+                        <mat-spinner *ngIf="isRefresh" [diameter]="20"></mat-spinner>
+                    </div>
+                </div>
+                <div class="cursor-pointer button-rounded mr-10px">
+                    <mat-icon svgIcon="setting"></mat-icon>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <div>{{ shift?.id }}</div>
 
 
 <div class="container">
@@ -22,7 +79,7 @@
     </div>
 
 
-    <!-- SHIFT PANEL -->
+
     <div class="row">
         <div class="col">
             <div class="card-body">
@@ -85,4 +142,4 @@
         </div>
     </div>
 
-</div>
+</div> -->

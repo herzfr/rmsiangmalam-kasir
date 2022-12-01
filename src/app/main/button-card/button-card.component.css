@@ -12,3 +12,11 @@
 .text-button-card {
   max-width: 70px;
 }
+
+.button-box-menu {
+  padding: 15px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 16px;
+  margin-bottom: 10px;
+}

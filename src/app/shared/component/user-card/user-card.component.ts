@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserLogin } from 'src/app/auth/auth.model';
 
 @Component({
@@ -9,7 +9,12 @@ import { UserLogin } from 'src/app/auth/auth.model';
 
 export class UserCardComponent implements OnInit {
     @Input() user?: UserLogin;
+    @Output() logoutEmit = new EventEmitter<any>();
     constructor() { }
 
     ngOnInit() { }
+
+    logout_confirmation() {
+        this.logoutEmit.emit();
+    }
 }

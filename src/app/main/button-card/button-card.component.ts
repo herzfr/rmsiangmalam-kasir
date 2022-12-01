@@ -11,15 +11,28 @@ export interface ButtonRoute {
 @Component({
     selector: 'button-card',
     template: `
-        <div class="container">
-            <div class="row justify-content-around">
+        <div class="card-primary">
+            <p class="text-title-general">Menu</p>
+            <div class="container">
+                <div class="row row-cols-3">
+                    <div (click)="navigateTo(btn.route, btn.params)" class="col cursor-pointer" *ngFor="let btn of buttons">
+                        <div class="text-center button-box-menu">
+                            <mat-icon [svgIcon]="btn.icon"></mat-icon>
+                            <div class="text-wrap">
+                            {{ btn.title }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row justify-content-around">
                 <div (click)="navigateTo(btn.route, btn.params)" class="col-3 button-display-card text-center p-3 m-2" *ngFor="let btn of buttons">
                     <mat-icon>{{ btn.icon }}</mat-icon>
                     <div class="text-wrap" style="width: 6rem;">
                     {{ btn.title }}
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     `,
     styleUrls: ['button-card.component.css']
@@ -27,13 +40,13 @@ export interface ButtonRoute {
 export class ButtonCardComponent implements OnInit {
 
     buttons: ButtonRoute[] = [
-        { icon: 'point_of_sale', title: 'Sistem Kasir', route: 'v2/cashier', params: { nav: 'list' } },
-        { icon: 'brunch_dining', title: 'Pesan Menu', route: 'v2/order', params: { nav: 'shortcut' } },
-        { icon: 'edit_calendar', title: 'Reservasi', route: 'v2/reservation', params: null },
-        { icon: 'table_restaurant', title: 'Meja', route: 'v2/tables', params: null },
-        { icon: 'money_off', title: 'Pengeluaran Kas', route: 'v2/order', params: null },
-        { icon: 'payments', title: 'Pemasukan Lain', route: 'v2/order', params: null },
-        { icon: 'local_shipping', title: 'Stok In/Out Produk', route: 'v2/order', params: null },
+        { icon: 'cashier-menu', title: 'Sistem Kasir', route: 'v2/cashier', params: { nav: 'list' } },
+        { icon: 'order-menu', title: 'Pesan Menu', route: 'v2/order', params: { nav: 'shortcut' } },
+        { icon: 'reservation-menu', title: 'Reservasi', route: 'v2/reservation', params: null },
+        { icon: 'table-menu', title: 'Meja', route: 'v2/tables', params: null },
+        { icon: 'other-expanse-menu', title: 'Pengeluaran Kas', route: 'v2/order', params: null },
+        { icon: 'other-income-menu', title: 'Pemasukan Lain', route: 'v2/order', params: null },
+        { icon: 'stock-menu', title: 'Stok In/Out Produk', route: 'v2/order', params: null },
     ]
 
     //  { queryParams: { param: 'shortcut' } }

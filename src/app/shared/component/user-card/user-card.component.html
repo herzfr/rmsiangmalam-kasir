@@ -1,10 +1,25 @@
-<main class="card-user">
-    <img [src]="user?.picture !== null ? user?.picture : 'assets/images/profile.jpg'" class="user-image"
-        [alt]="user?.id">
-    <h1 class="user-title">{{ user?.firstName }} {{ user?.lastName }}</h1>
-    <p class="user-description">{{ user?.id }}</p>
-    <h4 class="text-center text-justify mb-0 font-weight-bold">Cabang Pusat</h4>
-    <p class="text-center text-justify">{{ user?.branch }}</p>
-    <h4 class="text-center text-justify mb-0 font-weight-bold">Terakhir Masuk</h4>
-    <p class="text-center text-justify">{{ user?.lastLogin }}</p>
+<main class="card-primary">
+    <p class="text-title-general">Profil</p>
+    <div class="d-flex justify-content-center">
+        <img [src]="user?.picture !== null ? user?.picture : 'assets/images/avatar.png'" class="user-image"
+            [alt]="user?.id">
+    </div>
+    <p class="mb-0 text-center fw-bold">{{ user?.firstName }} {{ user?.lastName }}</p>
+    <p class="text-subtitle-general text-center">{{ user?.id }}</p>
+    <hr>
+    <div class="d-flex">
+        <div class="col b-right">
+            <p class="mb-0 text-center fw-bold">Cabang Pusat</p>
+            <p class="mb-0 text-subtitle-general text-center">{{ user?.branch }}</p>
+        </div>
+        <div class="col">
+            <p class="mb-0 text-center fw-bold">Terakhir Masuk</p>
+            <p class="mb-0 text-subtitle-general text-center">{{ user?.lastLogin }}</p>
+        </div>
+    </div>
+    <hr>
+    <div (click)="logout_confirmation()" class="d-flex justify-content-center cursor-pointer">
+        <mat-icon class="mr-5px" svgIcon="back-screen"></mat-icon>
+        <p class="mb-0 l-height">Keluar</p>
+    </div>
 </main>

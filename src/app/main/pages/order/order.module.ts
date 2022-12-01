@@ -29,6 +29,7 @@ import { CartRepository } from './_model/_cart/cart.repository';
 import { TempSalesRepository } from '../cashier/_model/tempsales.repository';
 import { TablesRepository } from '../tables/_model/tables.repository';
 import { PipeModule } from 'src/app/_pipe/pipe.module';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 const routes: Routes = [
@@ -47,7 +48,10 @@ const material = [
     MatSidenavModule,
     MatSelectModule,
     MatBadgeModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDividerModule,
+    MatCardModule,
+    MatProgressBarModule
 ]
 
 @NgModule({

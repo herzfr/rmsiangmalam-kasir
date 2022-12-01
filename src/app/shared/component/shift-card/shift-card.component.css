@@ -250,8 +250,79 @@
 }
 
 .load {
-  width: 100px;
-  border-radius: 100px;
-  transition: all 500ms ease;
-  -webkit-transition: all 500ms ease;
+  width: auto;
+  align-items: center;
+  display: flex;
+  padding: 5px;
+  background: #e6efef;
+  border-radius: 200px;
+  transition: all 500ms ease !important;
+  -webkit-transition: all 500ms ease !important;
+}
+
+.load-span {
+  font-size: 12px;
+  padding-left: 10px;
+}
+
+/* NEW */
+.list-group-item {
+  border: none !important;
+}
+
+::ng-deep .list-group-item > .mat-icon > svg {
+  transform: scale(0.7) !important;
+}
+
+.ml-5px {
+  margin-left: 5px;
+}
+
+.text-time {
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--neutral-400);
+}
+
+.b-right {
+  border-right: 1px solid #e5e5e5;
+}
+
+.pr-10px {
+  padding-right: 10px;
+}
+
+.pl-10px {
+  padding-left: 10px;
+}
+
+.mr-10px {
+  margin-right: 10px;
+}
+
+.font-total-sale {
+  font-family: "Nunito Sans";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 55px;
+  /* identical to box height */
+  /* Primary / 200 */
+  color: var(--primary-200);
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+}
+
+.button-rounded {
+  width: auto;
+  align-items: center;
+  display: flex;
+  padding: 5px;
+  background: #e6efef;
+  border-radius: 200px;
+  transition: all 500ms ease !important;
+  -webkit-transition: all 500ms ease !important;
 }

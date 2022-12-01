@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const features = [
     MatButtonModule,
@@ -30,7 +31,8 @@ const features = [
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSlideToggleModule
 ];
 @NgModule({
     imports: [features],
