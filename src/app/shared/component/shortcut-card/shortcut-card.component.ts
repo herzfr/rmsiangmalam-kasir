@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as _ from 'lodash';
-import { Package, Price, ProductPackage } from 'src/app/main/pages/order/_model/menu.model';
+import { Package, Price, ProductPackage, Shortcut } from 'src/app/main/pages/order/_model/menu.model';
 import { DialogService } from '../../dialogs/dialog.service';
 
 @Component({
-    selector: 'package-card',
+    selector: 'shortcut-card',
     template: `
      <div [ngClass]="active? '' : 'disable-product'" class="card-product text-center py-2">
         <div (click)="chooseItem()">
@@ -33,23 +33,23 @@ import { DialogService } from '../../dialogs/dialog.service';
         </div>
     </div>
     `,
-    styleUrls: ['package-card.component.css']
+    styleUrls: ['shortcut-card.component.css']
 })
 
-export class PackageCardComponent implements OnInit {
+export class ShortcutCardComponent implements OnInit {
     @Input() priceCategory?: string;
-    @Input() id: string = '';
+    @Input() id?: string = '';
     @Input() active?: boolean;
     @Input() pictures?: string;
     @Input() name?: string;
     @Input() desc?: string;
     @Input() prices?: Price[];
     @Input() position: number = 0;
-    @Input() item?: Package;
+    @Input() item?: Shortcut;
     @Input() products: ProductPackage[] = []
 
     @Output() on_shortcut = new EventEmitter<string>();
-    @Output() on_item = new EventEmitter<Package>();
+    @Output() on_item = new EventEmitter<Shortcut>();
 
     constructor(private dialogService: DialogService) { }
 

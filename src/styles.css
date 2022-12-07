@@ -196,8 +196,28 @@ body {
   left: -40px;
 }
 
+.droprown-table {
+  min-width: 285px !important;
+  margin: 30px 0px;
+  position: absolute;
+  top: 0;
+  left: -40px;
+}
+
+.droprdown-position-orderby {
+  min-width: 100px !important;
+  margin: 30px 0px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
 .position-inbottom {
   padding-top: 0px;
+}
+
+.mat-icon-button {
+  color: #045b62;
 }
 
 .droprown-position-primary {
@@ -277,7 +297,31 @@ body {
   /* margin: 8px 0px 0px 0px; */
 }
 
+/* DANGER WARNING SUCCESS */
+
+.on-text-danger {
+  color: var(--error-color);
+  font-weight: 800;
+}
+
+.on-text-warning {
+  color: var(--warning-color);
+  font-weight: 800;
+}
+
+.on-text-success {
+  color: var(--success-color);
+  font-weight: 800;
+}
 /* ---------------- */
+
+.box-shadow-card {
+  background: #ffffff;
+  /* Neutral / 200 */
+  border-bottom: 1px solid #e5e5e5;
+  /* Shadow1 */
+  box-shadow: 0px 0px 18px rgba(166, 166, 166, 0.16);
+}
 
 /* MAT ICON */
 .mat-form-field-suffix .mat-icon {

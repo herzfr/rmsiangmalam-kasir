@@ -15,7 +15,7 @@ import { CartRepository } from './_model/_cart/cart.repository';
 @Component({
     selector: 'order-apps',
     templateUrl: 'order.component.html',
-    styleUrls: ['order.component.css']
+    styleUrls: ['order.component.css', 'order-style.component.css']
 })
 
 export class OrderComponent implements OnInit {
@@ -110,7 +110,7 @@ export class OrderComponent implements OnInit {
     }
 
     get disbaleNextProd() {
-        return (this.pagineProduct.pageNumber ?? 0) === (this.pagineProduct.totalPage ?? 0)
+        return (this.pagineProduct.pageNumber ?? 0) + 1 >= (this.pagineProduct.totalPage ?? 0)
     }
 
     get packages() {
@@ -130,19 +130,34 @@ export class OrderComponent implements OnInit {
     }
 
     get disbaleNextPack() {
-        return (this.paginePackage.totalPage ?? 0) > ((this.paginePackage.pageNumber ?? 0) - 1)
+        return (this.paginePackage.pageNumber ?? 0) + 1 >= (this.paginePackage.totalPage ?? 0)
     }
 
+    // get shortcuts() {
+    //     return this.order.shortcutList;
+    // }
+
     get shortcuts() {
-        return this.order.shortcutList;
+        let shct = this.order.shortcutList?.filter((x) => {
+            return x.name.toLowerCase().includes(this.search.toLowerCase())
+        });
+        return shct
     }
+
 
     getShortcut(pos: number): Shortcut | undefined {
         return this.shortcuts.find(x => x.position === pos)
     }
 
+
+
     getPrice(p: Price[]): number {
         return p.find(x => x.priceCategory == this.selected)?.price ?? 0
+    }
+
+    getPriceAvailable(p: Price[]): boolean {
+        let data = p.find(x => x.priceCategory == this.selected)
+        return data ? true : false
     }
 
     // MASIH BELUM BENAR
@@ -169,6 +184,11 @@ export class OrderComponent implements OnInit {
 
     async addProductToCart(prodpack: Product | Package, isPackage: boolean) {
         this.cartRepo.addLineProduct(prodpack, 1, this.selected, await this.categoryPrice(), isPackage);
+    }
+
+    async addShortcutToCart(shortcut: Shortcut) {
+        console.log(shortcut);
+
     }
 
     save() {

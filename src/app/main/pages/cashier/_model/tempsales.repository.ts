@@ -159,6 +159,7 @@ export class TempSalesRepository {
         this.merge.bills.push(id)
         this.merge.waiter = waiter
         this.isMergeBill = true
+
     }
 
     isExistMerge(id: number): boolean {

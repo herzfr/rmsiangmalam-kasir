@@ -1,0 +1,103 @@
+.box-temp {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  width: inherit;
+  height: auto;
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+}
+
+.header-temp {
+  width: 100%;
+  padding-bottom: 5px;
+  border: 0;
+  border-bottom: 2px;
+  border-color: #e1e1e1;
+  border-style: dashed;
+}
+
+.body-temp {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.icon-temp {
+  transform: scale(0.7);
+  margin-right: 5px;
+}
+
+.text-temp {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 26px;
+  color: #1e1e1e;
+  margin-right: 15px;
+}
+
+.code-id {
+  font-weight: 700;
+  color: var(--primary-200);
+}
+
+::ng-deep mat-checkbox.merge-check .mat-checkbox-checkmark-path {
+  background-color: #045b62 !important;
+}
+
+::ng-deep .mat-checkbox-layout {
+  margin-right: 10px !important;
+  margin-left: 4px !important;
+}
+
+.mat-checkbox.merge-check {
+  height: 10px;
+  display: contents;
+}
+
+.display-grid {
+  display: grid !important;
+  gap: 1px;
+}
+
+.pay-temp {
+  color: #989898;
+  font-size: 13px;
+}
+
+.total-temp {
+  color: #1e1e1e;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 25px;
+}
+
+.opt-temp {
+  padding: 10px 40px;
+}
+
+.btn-see {
+  background: #045b62;
+  border-radius: 6px;
+  min-width: 134px;
+  color: white;
+  height: auto;
+}
+
+.active {
+  border-color: #045b62 !important;
+}
+
+p.active {
+  color: #045b62 !important;
+}
+
+::ng-deep mat-icon.mat-icon.active > svg {
+  filter: invert(24%) sepia(58%) saturate(1206%) hue-rotate(146deg)
+    brightness(94%) contrast(97%);
+}

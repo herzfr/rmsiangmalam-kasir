@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ProductPackage } from 'src/app/main/pages/order/_model/menu.model';
 import { FormDialog, FormDialogComponent } from './form-dialogs/form-dynamic.component';
 import { InfoDialog, InfoDialogComponent } from './general-dialogs/info-dialog.component';
 import { InputDialog, InputDialogComponent } from './general-dialogs/input-dialog.component';
+import { StockListComponent } from './general-dialogs/stock-list.component';
 import { VerifyDialog, VerifyDialogComponent } from './general-dialogs/verification-dialog.component';
 import { WebCamComponent, WebcamDialog } from './general-dialogs/webcam.component';
 
@@ -80,6 +82,21 @@ export class DialogService {
 
         const dialogCustom = this.dialog.open(
             WebCamComponent,
+            dialogConfig
+        );
+        return dialogCustom.afterClosed();
+    }
+
+    showStockList(dataproduct: ProductPackage[]) {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.data = dataproduct
+        dialogConfig.backdropClass = 'backdropBackground';
+        dialogConfig.disableClose = true;
+        dialogConfig.minWidth = '400px';
+        dialogConfig.panelClass = 'panel-dialog-x';
+
+        const dialogCustom = this.dialog.open(
+            StockListComponent,
             dialogConfig
         );
         return dialogCustom.afterClosed();

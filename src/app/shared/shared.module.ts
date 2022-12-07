@@ -24,6 +24,11 @@ import { PackageCardComponent } from './component/package-card/package-card.comp
 import { InputDialogComponent } from './dialogs/general-dialogs/input-dialog.component';
 import { WebcamModule } from 'ngx-webcam';
 import { WebCamComponent } from '../shared/dialogs/general-dialogs/webcam.component';
+import { UiImageLoaderDirective } from './directives/image.directive';
+import { StockListComponent } from './dialogs/general-dialogs/stock-list.component';
+import { ShortcutCardComponent } from './component/shortcut-card/shortcut-card.component';
+import { OrderCardComponent } from './component/order-card/order-card.component';
+import { PipeModule } from '../_pipe/pipe.module';
 
 @NgModule({
     imports: [
@@ -32,7 +37,8 @@ import { WebCamComponent } from '../shared/dialogs/general-dialogs/webcam.compon
         FormsModule,
         ReactiveFormsModule,
         CurrencyMaskModule,
-        WebcamModule
+        WebcamModule,
+        PipeModule
     ],
     exports: [
         DynamicFormComponent,
@@ -43,6 +49,9 @@ import { WebCamComponent } from '../shared/dialogs/general-dialogs/webcam.compon
         ValidationHelper,
         ValidationErrorDirective,
 
+        // DIRECTIVE
+        UiImageLoaderDirective,
+
         // PIPE
         CurrencyRupiahPipe,
 
@@ -52,12 +61,15 @@ import { WebCamComponent } from '../shared/dialogs/general-dialogs/webcam.compon
         FormDialogComponent,
         InputDialogComponent,
         WebCamComponent,
+        StockListComponent,
 
         // COMPONENT
         UserCardComponent,
         ShiftCardComponent,
         ProductCardComponent,
         PackageCardComponent,
+        ShortcutCardComponent,
+        OrderCardComponent
 
     ],
     declarations: [
@@ -70,6 +82,9 @@ import { WebCamComponent } from '../shared/dialogs/general-dialogs/webcam.compon
         ValidationHelper,
         ValidationErrorDirective,
 
+        // DIRECTIVE
+        UiImageLoaderDirective,
+
         // PIPE
         CurrencyRupiahPipe,
 
@@ -79,12 +94,15 @@ import { WebCamComponent } from '../shared/dialogs/general-dialogs/webcam.compon
         FormDialogComponent,
         InputDialogComponent,
         WebCamComponent,
+        StockListComponent,
 
         // COMPONENT
         UserCardComponent,
         ShiftCardComponent,
         ProductCardComponent,
-        PackageCardComponent
+        PackageCardComponent,
+        ShortcutCardComponent,
+        OrderCardComponent
     ],
     providers: [DialogService],
 })

@@ -108,45 +108,13 @@ export class ListOrderComponent implements OnInit {
         return this.tableRepo.findTable(id)?.name
     }
 
-    // async updateBill(tmp_sales: TempSales) {
-    //     let item_cart: ItemCart[] = await this.validationUpdatePackageOrProduct(tmp_sales.items)
-    //     await this.tempRepo.updateBill(this.validationCartLine(tmp_sales, item_cart))
-    // }
+    merge(resp: any) {
+        this.tempRepo.setMergeBill(resp.id, resp.waiter)
+    }
 
-    // validationCartLine(tmp_sales: any, item: ItemCart[]) {
-    //     let cart: CartLine = (tmp_sales as CartLine)
-    //     cart.items = item
-    //     return cart
-    // }
-
-    // validationUpdatePackageOrProduct(tempItem: ItemTempSales[]) {
-    //     let items: ItemCart[] = []
-    //     tempItem.forEach((x) => {
-    //         console.log('hasil temp sales');
-    //         console.log(x);
-    //         console.log('hasil temp sales');
-
-    //         let ic: ItemCart = new ItemCart(
-    //             x.id,
-    //             x.menuId,
-    //             x.name,
-    //             x.amount,
-    //             x.unit,
-    //             x.unitPrice,
-    //             x.totalPrice,
-    //             x.isPackage,
-    //             x.isPackage ? null : (JSON.parse(x.stockId) as number[])[0], // STOCK ID
-    //             x.pic,
-    //             x.priceCatId,
-    //             x.priceCat,
-    //             x.isPackage ? (JSON.parse(x.stockId) as number[]) : [] // STOCKIDS
-    //         );
-    //         console.log(ic);
-
-    //         items.push(ic)
-    //     })
-    //     return items;
-    // }
+    inmerge(event: any) {
+        this.tempRepo.checkList = event
+    }
 
     seeOrder() {
 

@@ -30,6 +30,13 @@ export class IconMaterialModule {
         ["clock", `${PathRegistry.ASSETS_SVG}clock.svg`],
         ["refresh", `${PathRegistry.ASSETS_SVG}refresh.svg`],
         ["setting", `${PathRegistry.ASSETS_SVG}setting.svg`],
+        ["three-dot", `${PathRegistry.ASSETS_SVG}three-dot.svg`],
+        ["chevron-left", `${PathRegistry.ASSETS_SVG}icon/chevron-left.svg`],
+        ["chevron-right", `${PathRegistry.ASSETS_SVG}icon/chevron-right.svg`],
+        ["line", `${PathRegistry.ASSETS_SVG}line.svg`],
+        ["bell", `${PathRegistry.ASSETS_SVG}icon/reserve-bell.svg`],
+        ["calendar", `${PathRegistry.ASSETS_SVG}icon/calendar.svg`],
+        ["cart", `${PathRegistry.ASSETS_SVG}icon/cart.svg`],
 
         // MAIN MENU
         ["cashier-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/cashier-menu.svg`],

@@ -19,7 +19,7 @@ export interface Customer {
 
 
 export class FindMenu {
-    size: number = 50;
+    size: number = 40;
     page: number = 0;
     search: string = "";
     option: string = "";

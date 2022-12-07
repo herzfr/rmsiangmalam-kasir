@@ -4,10 +4,10 @@ export interface IOpt {
 }
 
 export const OptTempSales: IOpt[] = [
-    { key: 'Berdasarkan ID Pesanan', value: 'salesId' },
+    { key: 'by ID Pesanan', value: 'salesId' },
     { key: 'Lainnya', value: 'other' },
-    { key: 'Berdasarkan Nama', value: 'name' },
-    { key: 'Berdasarkan Meja', value: 'table' },
+    { key: 'by Nama', value: 'name' },
+    { key: 'by Meja', value: 'table' },
 ];
 
 
