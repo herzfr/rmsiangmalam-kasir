@@ -1,14 +1,63 @@
-.container-reservation {
+/* .container-reservation {
   height: 100vh;
   overflow: hidden;
+} */
+
+.container-reservation {
+  background: #ffffff;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.card-box-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0px 0px 18px rgb(166 166 166 / 16%);
+  height: auto;
+  /* margin-top: 10px; */
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+.text-title {
+  font-style: normal;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 40px;
+  text-align: center;
+  color: #1e1e1e;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+svg {
+  width: auto;
+  height: 300px;
+}
+
+.text-title-view {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 25px;
+  color: #1e1e1e;
+}
+
+.m-0-16 {
+  margin: 0 16px !important;
+}
+
+mat-icon.mat-icon {
+  vertical-align: text-bottom;
 }
 
 .cal-inline-calendar-card {
-  width: auto;
-  background: rgba(255, 255, 255, 0.5);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: #ffffff;
+  /* Neutral / 200 */
+  border: 1px solid #e5e5e5;
+  box-shadow: 0px 0px 24.8972px rgba(166, 166, 166, 0.16);
+  border-radius: 22.1308px;
 }
 
 .btn-back {
@@ -35,13 +84,28 @@
 .box-time {
   padding: 0px 10px;
   /* border: 1px solid #8a8a8a; */
-  border-radius: 5px;
-  background: #7ea59b42;
+  /* Neutral/100 */
+  background: #ffffff;
+  /* Neutral / 200 */
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
 }
 
 .box-input {
-  background: #7ea59b42;
-  border-radius: 3px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.icon-input {
+  margin: 0px 10px;
+  width: 18px;
+}
+
+.ml-5 {
+  margin-left: 5px;
 }
 
 input,
@@ -55,6 +119,7 @@ input,
   height: 40px;
   background: transparent;
   border: none;
+  font-size: 13px;
 }
 input:focus-visible {
   outline: none;
@@ -76,6 +141,30 @@ input:focus-visible {
   width: inherit;
   font-size: x-large;
   height: auto;
+  background: #ffffff !important;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  color: black !important;
+  font-weight: 800;
+}
+
+.text-change {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 27px;
+  text-align: center;
+  color: #1e1e1e;
+  margin: 10px;
+}
+
+.text-title-case {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.icon-info {
+  width: 15px;
+  line-height: 30px;
 }
 
 ::ng-deep .mat-tab-body-content {
@@ -90,10 +179,15 @@ input:focus-visible {
 
 .reservation {
   min-width: 200px;
-  border-radius: 100px;
+  border-radius: 8px;
   background: #045b62;
   color: #ffffff;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+}
+
+.on-text-danger {
+  color: var(--error-color) !important;
+  font-weight: 800;
 }
 
 .change {
@@ -113,16 +207,69 @@ input:focus-visible {
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  background: rgba(255, 255, 255, 0.5);
+  background: transparent;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: none;
+}
+
+.icon-prev-next {
+  line-height: 17px;
+  padding: 5px;
 }
 
 .list-group-item {
   border: 0px;
   padding-right: 7px;
   padding-left: 7px;
+}
+
+::ng-deep .mat-tab-label .mat-tab-label-content {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+}
+
+::ng-deep .mat-tab-label {
+  flex: 1 !important;
+  /* filter: invert(26%) sepia(71%) saturate(729%) hue-rotate(140deg)
+    brightness(89%) contrast(97%); */
+}
+
+.btn-plus {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  padding: 3px;
+  line-height: 3px;
+  cursor: pointer;
+  background: #045b62;
+  margin-right: 5px;
+}
+
+.icon-payment-tab {
+  width: 18px;
+}
+
+.icon-calendar-2 {
+  margin-right: 5px;
+  width: 18px;
+}
+
+.icon-margin-right {
+  margin-right: 8px;
+}
+
+.in-stretched-tabs {
+  max-width: 800px;
+}
+
+.text-primary {
+  color: #045b62 !important;
+  font-weight: 700;
 }
 
 /* .mat-bottom-sheet-container {
@@ -135,32 +282,77 @@ input:focus-visible {
   background-color: #045b62 !important;
 }
 
+.label {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  /* Neutral / 400 */
+  color: #1e1e1e;
+}
+
+.img-payment-logo {
+  width: 50px;
+}
+
+.grid {
+  display: grid;
+  justify-items: center;
+}
+
 /* ================================== */
 /*               DEBIT CSS            */
 /* ================================== */
 
+.title-e {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 25px;
+  /* identical to box height */
+  /* Primary / 200 */
+  color: #045b62;
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 1;
+}
+
+.grid-left {
+  display: grid;
+  justify-items: start;
+}
+
 .input-radio-group {
   display: flex;
   flex-direction: column;
-  /* margin: 15px 0; */
+  height: 35vh;
   align-items: flex-start;
+  overflow: auto;
+  flex-grow: 1;
+  /* overflow-x: scroll; */
+  /* overflow-y: hidden; */
+  white-space: nowrap;
 }
 
-.input-decorate {
-  border: 1px solid transparent;
-  padding: 10px;
-  -webkit-box-shadow: inset 0px 0px 9px -3px #dddddd;
-  -moz-box-shadow: inset 0px 0px 9px -3px #dddddd;
-  box-shadow: inset 0px 0px 9px -3px #dddddd;
+.form-payment {
+  display: flex;
+  flex-direction: column;
+  height: 35vh;
+  /* align-items: flex-start; */
+  overflow: auto;
+  flex-grow: 1;
+  /* overflow-x: scroll; */
+  /* overflow-y: hidden; */
+  white-space: nowrap;
 }
 
-/* .mat-radio-group {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-} */
-
-.input-radio-button {
-  margin: 5px;
+.input-decorate-payment {
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 0px 10px;
+  font-size: 12px;
 }
 
 /* ================================== */
@@ -169,8 +361,21 @@ input:focus-visible {
 .card-upload {
   height: 30vh;
   margin: 10px 0px;
+  background: transparent;
+  box-shadow: none;
+  border: 1px dashed #045b62;
 }
 
 .img-proof {
   width: 100%;
+}
+
+.icon-take {
+  width: 20px;
+  line-height: 10px;
+  margin: 0px 10px;
+}
+
+.w-inherith {
+  width: inherit;
 }

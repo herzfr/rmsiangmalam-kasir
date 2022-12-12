@@ -15,6 +15,8 @@ export class MilisToDatePipe implements PipeTransform {
                 return this.time.getJustDate(value)
             case 'time':
                 return this.time.getJustTime(value)
+            case 'mmss':
+                return this.time.getDateMMSS(value)
             default:
                 return;
         }

@@ -36,10 +36,15 @@ export class IconMaterialModule {
         ["line", `${PathRegistry.ASSETS_SVG}line.svg`],
         ["bell", `${PathRegistry.ASSETS_SVG}icon/reserve-bell.svg`],
         ["calendar", `${PathRegistry.ASSETS_SVG}icon/calendar.svg`],
+        ["calendar-2", `${PathRegistry.ASSETS_SVG}icon/calendar-2.svg`],
         ["cart", `${PathRegistry.ASSETS_SVG}icon/cart.svg`],
         ["drag", `${PathRegistry.ASSETS_SVG}icon/drag.svg`],
         ["x", `${PathRegistry.ASSETS_SVG}x.svg`],
         ["trash", `${PathRegistry.ASSETS_SVG}trash.svg`],
+        ["money-cash", `${PathRegistry.ASSETS_SVG}icon/money-cash.svg`],
+        ["note-2", `${PathRegistry.ASSETS_SVG}icon/note-2.svg`],
+        ["time", `${PathRegistry.ASSETS_SVG}icon/time.svg`],
+        ["date", `${PathRegistry.ASSETS_SVG}icon/date.svg`],
 
         // MAIN MENU
         ["cashier-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/cashier-menu.svg`],

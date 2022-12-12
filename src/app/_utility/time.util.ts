@@ -43,6 +43,11 @@ export class TimeUtil {
         return moment(dt).format('DD/MM/yyyy HH:mm:ss');
     }
 
+    public getDateMMSS(val: number) {
+        let dt = new Date(val);
+        return moment(dt).format('DD/MM/yyyy HH:mm');
+    }
+
     public getJustDate(val: number) {
         let dt = new Date(val);
         return moment(dt).format('DD/MM/yyyy');

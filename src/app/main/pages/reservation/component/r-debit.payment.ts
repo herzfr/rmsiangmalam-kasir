@@ -6,48 +6,53 @@ import { ReservationRepository } from 'src/app/main/_model/reservation/reservati
 @Component({
     selector: 'reservasi-debit',
     template: `
-          <div class="container-fluid">
-            <div class="row mb-2">
-                <!-- <div class="col-4 payment-type" *ngFor="let item of paymentRepo.getPaymentType('DEBIT')">
-                    {{ item.name }}
-                </div> -->
-                <label id="example-radio-group-label">Pilih tipe pembayaran?</label>
-                <mat-radio-group (ngModelChange)="resvRepo.calculate()"
+    <div class="d-flex">
+        <div class="col-4">
+            <p class="text-left mb-0 title-e">Pilih tipe pembayaran</p>
+            <mat-radio-group  (ngModelChange)="resvRepo.calculate()"
                 aria-labelledby="input-radio-group-label"
-                class="input-radio-group flex-row flex-nowrap"
+                class="input-radio-group"
                 [(ngModel)]="resvRepo.createReservation.paymentTypeId" >
-                <mat-radio-button class="input-radio-button" *ngFor="let item of paymentRepo.getPaymentType('DEBIT')" [value]="item.id"  (change)="radioChange(item)">
-                    {{item.name}}
+                <mat-radio-button class="input-radio-button" *ngFor="let item of paymentRepo.getPaymentType('DEBIT'); let i = index" [value]="item.id"  (change)="radioChange(item)">
+                    <div class="grid">
+                        <img class="img-payment-logo" src="{{item.name | paymentcode }}">
+                        <p class="mb-0">{{item.name}}</p>
+                    </div>
                 </mat-radio-button>
-                </mat-radio-group>
-            </div>
-            <div class="row mb-2">
-                <div class="col-6">
+            </mat-radio-group>
+        </div>
+        <div class="col">
+            <p class="text-left mb-0 title-e">Masukan keterangan pembayaran</p>
+            <div class="form-payment">
+                <div class="grid-left mb-2">
+                    <p class="mb-0 text-label">Nomor Kartu</p>
                     <input [(ngModel)]="resvRepo.createReservation.cardNo" cardmask  (ngModelChange)="changeInputCardNumber($event)"
-                    [maxLength]="19" matInput class="input-decorate w-100" type="tel" placeholder="Masukan No. Kartu">
+                    [maxLength]="19" matInput class="input-decorate-payment w-100" type="tel" placeholder="Masukan No. Kartu">
                 </div>
-                <div class="col-6">
-                    <input [(ngModel)]="resvRepo.createReservation.cardName" matInput class="input-decorate w-100" type="text" placeholder="Masukan Nama Pemagang Kartu">
+                <div class="grid-left mb-2">
+                    <p class="mb-0 text-label">Nama Pemegang Kartu</p>
+                    <input [(ngModel)]="resvRepo.createReservation.cardName" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan Nama Pemagang Kartu">
+                </div>
+                <div class="grid-left mb-2">
+                    <p class="mb-0 text-label">No. Transaksi</p>
+                    <input [(ngModel)]="resvRepo.createReservation.transactionNo" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan No Transaksi">
+                </div>
+                <div class="grid-left mb-2">
+                    <p class="mb-0 text-label">ID Merchant</p>
+                    <input [(ngModel)]="resvRepo.createReservation.merchantId" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan ID Merchant">
+                </div>
+                <div class="grid-left mb-2">
+                    <p class="mb-0 text-label">No. Bacth</p>
+                    <input [(ngModel)]="resvRepo.createReservation.batchNo" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan No.Bacth">
                 </div>
             </div>
-            <div class="row mb-2">
-                <div class="col-6">
-                    <input [(ngModel)]="resvRepo.createReservation.transactionNo" matInput class="input-decorate w-100" type="text" placeholder="Masukan No.Transaksi">
-                </div>
-                <div class="col-6">
-                    <input [(ngModel)]="resvRepo.createReservation.merchantId" matInput class="input-decorate w-100" type="text" placeholder="Masukan ID. Merchant">
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-6">
-                    <input [(ngModel)]="resvRepo.createReservation.batchNo" matInput class="input-decorate w-100" type="text" placeholder="Masukan No.Bacth">
-                </div>
-            </div>
-            <div class="d-flex justify-content-center box-input p-4">
+            <div class="d-flex justify-content-center p-2">
                 <button (click)="resvRepo.submitReservation('debit')" class="reservation" mat-raised-button>Reservasi</button>
             </div>
         </div>
-    `,
+    </div>
+    `
+    ,
     styleUrls: ['./../reservation.component.css'],
     styles: [
         '::ng-deep ::-webkit-scrollbar { display: none !important;}',

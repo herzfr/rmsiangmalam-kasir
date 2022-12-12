@@ -8,32 +8,40 @@ import { ReservationRepository } from 'src/app/main/_model/reservation/reservati
     selector: 'card-reservation',
     template: `
         <div class="bossWrapp">
-            <div class="cardTitle">RESERVASI</div>
+            <div class="cardTitle">Reservasi Aktif</div>
             <div class="container-fluid list-reservation">
                 <ng-container *ngFor="let item of data_reservation">
                 <div class="single">
                     <div class="icon"><img class="icon-img" src="assets/images/sm_logo.png" alt=""></div>
-                        <div class="text">
+                    <div class="text">
 
-                        <div class="header">
-                            <div class="d-flex justify-content-between align-items-between w-100">
-                                <h3 class="mb-0">{{ item?.note }}</h3>
-                                <button *ngIf="!fromCashier" mat-button (click)="delete(item.id)">Batal</button>
-                            </div>
-
-                            <div class="desc">
-                                <!-- Deposit : {{ (reservation?.dpAmount?? 0) | rupiah}}. -->
-                                <h5 class="mb-0">Deposit : {{ (item?.dpAmount?? 0) | rupiah}}</h5>
-                                <p class="mb-0">Tipe pembayaran: {{ checkpayment(item?.paymentMethod, item.paymentTypeId) }}</p>
-                            </div>
-
+                        <div class="d-flex align-items-center mb-2">
+                            <mat-icon class="icon-calendar-2" svgIcon="user"></mat-icon>
+                            <p class="mb-0 mr-1 key-name">Nama Pemesan : </p>
+                            <p class="mb-0 fw-bold value-in">-</p>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <mat-icon class="icon-calendar-2" svgIcon="date"></mat-icon>
+                            <p class="mb-0 mr-1 key-name">Tgl. Reservasi : </p>
+                            <p class="mb-0 fw-bold value-in">{{ (item?.bookingTime?? today) | milistodate: 'mmss'  }}</p>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
+                            <p class="mb-0 mr-1 key-name">Metode & Nominal Deposit : </p>
+                            <p class="mb-0 fw-bold value-in">{{  checkpayment(item?.paymentMethod, item?.paymentTypeId) }} - {{ (item?.dpAmount?? 0) | rupiah }}</p>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <mat-icon class="icon-calendar-2" svgIcon="note"></mat-icon>
+                            <p class="mb-0 mr-1 key-name">Catatan : </p>
+                            <p class="mb-0 fw-bold value-in">{{ item?.note?? '-' }}</p>
                         </div>
 
                         <div class="functions">
-                            <span class="soon">{{ (item?.bookingTime?? today) | milistodate: 'full'  }}</span>
                             <span *ngIf="fromCashier" (click)="claim(item)">Claim Reservasi<svg xmlns="http://www.w3.org/2000/svg" width="7" height="10" viewBox="0 0 7 10">
                                 <polyline fill="none" stroke="#3899EC" stroke-width="1.5" points="105.077 13.154 101 9.077 105.077 5" transform="rotate(-180 53.038 7.077)" />
                                 </svg>
+                            </span>
+                            <span  *ngIf="!fromCashier" class="text-center mb-0 on-text-danger mx-1 cursor-pointer" (click)="cancel(item.id)">Batal Reservasi
                             </span>
                         </div>
 
@@ -45,16 +53,26 @@ import { ReservationRepository } from 'src/app/main/_model/reservation/reservati
                 <div class="single noBd">
 
                 <div class="icon"><img class="icon-img" src="assets/images/sm_logo_bw.png" alt=""></div>
-                    <div class="text">
-                        <div class="header">
-                            <h3>{{ item.note }}</h3>
-                            <div class="desc">
-                                <h5 class="mb-0">Deposit : {{ (item?.dpAmount?? 0) | rupiah}}</h5>
-                                <p class="mb-0">Tipe pembayaran: {{ checkpayment(item?.paymentMethod, item.paymentTypeId) }}</p>
-                            </div>
+                    <div class="text" style="color: gray !important;">
+                    <div class="d-flex align-items-center mb-2">
+                            <mat-icon class="icon-calendar-2" svgIcon="user"></mat-icon>
+                            <p class="mb-0 mr-1 key-name">Nama Pemesan : </p>
+                            <p class="mb-0 fw-bold value-in">-</p>
                         </div>
-                        <div class="">
-                            <span>{{ (item?.bookingTime?? today) | milistodate: 'full' }}</span>
+                        <div class="d-flex align-items-center mb-2">
+                            <mat-icon class="icon-calendar-2" svgIcon="date"></mat-icon>
+                            <p class="mb-0 mr-1 key-name">Tgl. Reservasi : </p>
+                            <p class="mb-0 fw-bold value-in">{{ (item?.bookingTime?? today) | milistodate: 'mmss'  }}</p>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
+                            <p class="mb-0 mr-1 key-name">Metode & Nominal Deposit : </p>
+                            <p class="mb-0 fw-bold value-in">{{  checkpayment(item?.paymentMethod, item?.paymentTypeId) }} - {{ (item?.dpAmount?? 0) | rupiah }}</p>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <mat-icon class="icon-calendar-2" svgIcon="note"></mat-icon>
+                            <p class="mb-0 mr-1 key-name">Catatan : </p>
+                            <p class="mb-0 fw-bold value-in">{{ item?.note?? '-' }}</p>
                         </div>
                     </div>
                 </div>
@@ -77,9 +95,9 @@ export class CardReservation implements OnInit {
         private paymentRepo: PaymentRepository,
         private resvRepo: ReservationRepository,
         private _bottomSheetRef: MatBottomSheetRef<CardReservation>,
-        @Inject(MAT_BOTTOM_SHEET_DATA) public cashier: boolean,
+        @Inject(MAT_BOTTOM_SHEET_DATA) public cashier: any,
     ) {
-        this.fromCashier = cashier
+        this.fromCashier = Object.keys(cashier).length !== 0 ? cashier.from_cashier : false
     }
 
     ngOnInit() {
@@ -118,7 +136,7 @@ export class CardReservation implements OnInit {
         this._bottomSheetRef.dismiss({ resp: true, result: item })
     }
 
-    delete(id_booking: number) {
+    cancel(id_booking: number) {
         this.deleteItem.emit(id_booking);
     }
 }

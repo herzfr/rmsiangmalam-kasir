@@ -1,7 +1,14 @@
-<div class="container-fluid">
-    <div class="row container-reservation">
-        <div class="col-4">
-            <div class="d-flex">
+<div class="container-fluid container-reservation p-0">
+    <div class="d-flex card-box-header">
+        <button class="" (click)="location.back()" mat-icon-button>
+            <mat-icon svgIcon="back"></mat-icon>
+        </button>
+        <p class="mb-0 text-title">Reservasi</p>
+    </div>
+
+    <div class="d-flex container-reservation">
+        <div class="col-4 p-2">
+            <!-- <div class="d-flex">
                 <div (click)="location.back()"
                     class="col d-flex align-items-center px-3 py-2 my-2 mr-2 cursor-pointer btn-back">
                     <mat-icon svgIcon="back"></mat-icon>
@@ -13,19 +20,19 @@
                     <mat-icon class="plus" svgIcon="plus"></mat-icon>
                     <p class="mb-0 px-2"><strong>Tambah</strong></p>
                 </div>
-            </div>
+            </div> -->
             <mat-card class="cal-inline-calendar-card">
                 <mat-calendar (selectedChange)="changeDate($event)" [(selected)]="selected"></mat-calendar>
             </mat-card>
             <div class="footer-selector">
                 <button (click)="resvRepo.prevPage()" [disabled]="resvRepo.disablePrev" mat-button color="accent"
                     class="button-next-prev">
-                    <mat-icon>chevron_left</mat-icon>
+                    <mat-icon class="icon-prev-next" svgIcon="chevron-left"></mat-icon>
                 </button>
                 <strong class="mx-2"> Halaman {{ (resvRepo.reservationPagine?.pageNumber?? 0) + 1 }}</strong>
                 <button (click)="resvRepo.nextPage()" [disabled]="resvRepo.disbaleNext" mat-button color="accent"
                     class="button-next-prev">
-                    <mat-icon>chevron_right</mat-icon>
+                    <mat-icon class="icon-prev-next" svgIcon="chevron-right"></mat-icon>
                 </button>
             </div>
 
@@ -33,7 +40,11 @@
         <div class="col-8">
             <mat-tab-group #tabGroup mat-align-tabs="end" class="bg-white m-2" animationDuration="0ms">
                 <!-- DAFTAR RESERVASI -->
-                <mat-tab label="DAFTAR RESERVASI">
+                <mat-tab mat-stretch-tabs class="in-stretched-tabs mat-elevation-z4">
+                    <ng-template mat-tab-label>
+                        <mat-icon svgIcon="calendar-2" class="icon-calendar-2 mr-2"></mat-icon>
+                        Daftar Reservasi
+                    </ng-template>
                     <div class="container-reservation">
                         <div class="container-fluid p-2">
                             <card-reservation (deleteItem)="deleteItem($event)" [reservation]="resvRepo.reservation"
@@ -44,89 +55,102 @@
                 </mat-tab>
 
                 <!-- RESERVASI -->
-                <mat-tab label="RESERVASI">
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon svgIcon="plus" class="btn-plus mr-2"></mat-icon>
+                        Tambah Reservasi
+                    </ng-template>
                     <div class="container-reservation">
                         <ul class="list-group">
-                            <li class="list-group-item fw-bold">Tanggal Reservasi : {{
-                                resvRepo.createReservation.bookingTime |
-                                milistodate: "date"}}</li>
+                            <li class="list-group-item text-title-case">Tanggal Reservasi :
+                                <mat-icon class="icon-info" svgIcon="calendar"></mat-icon>
+                                <span class="fw-normal ml-5">{{ resvRepo.createReservation.bookingTime | milistodate:
+                                    "date"}}</span>
+                            </li>
                         </ul>
 
 
-                        <div class="col mx-2 mb-1">
-                            <div class="form-group">
-                                <label for="fname">Atas Nama</label>
-                                <div class="box-input">
-                                    <input [(ngModel)]="resvRepo.createReservation.name" id="fname" class="form-control"
-                                        type="text">
+                        <div class="d-flex">
+                            <div class="col mx-2 mb-1">
+                                <div class="form-group">
+                                    <label class="label" for="fname">Atas Nama</label>
+                                    <div class="box-input">
+                                        <mat-icon class="icon-input" svgIcon="user"></mat-icon>
+                                        <input [(ngModel)]="resvRepo.createReservation.name" id="fname"
+                                            class="form-control" type="text"
+                                            placeholder="Masukkan Nama Pemesan Reservasi">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col mx-2 mb-1">
+                                <div class="form-group">
+                                    <label class="label" for="ftime">Jam</label>
+                                    <div class="box-time">
+                                        <input id="ftime" class="form-control" type="time" id="appt" name="appt"
+                                            [value]="time_book" (change)="startTime($event.target)" required>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col mx-2 mb-1">
-                            <div class="form-group">
-                                <label for="fname">Catatan</label>
-                                <textarea [(ngModel)]="resvRepo.createReservation.note" id="fname"
-                                    class="form-control box-input" type="text"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="d-flex mx-2">
-                            <div class="col mr-10">
+                        <div class="d-flex">
+                            <div class="col mx-2 mb-1">
                                 <div class="form-group">
-                                    <label for="fname">Deposit</label>
+                                    <label class="label" for="fdeposit">Deposit</label>
                                     <div class="box-input">
-                                        <!-- <input id="fname" class="form-control" type="text"> -->
-                                        <input id="fname" class="form-control" currencyMask
-                                            (ngModelChange)="inputDepositChange($event)"
+                                        <mat-icon class="icon-input" svgIcon="money-cash"></mat-icon>
+                                        <input id="fdeposit" class="form-control" placeholder="Masukkan Nominal Deposit"
+                                            currencyMask (ngModelChange)="inputDepositChange($event)"
                                             [(ngModel)]="resvRepo.createReservation.dpAmount"
                                             [options]="{ prefix: 'Rp ', thousands: '.', decimal: ',',  precision: 0 }"
                                             class="col text-start p-2 mb-0" matInput required />
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4">
+
+                            <div class="col mx-2 mb-1">
                                 <div class="form-group">
-                                    <label for="lname">Jam</label>
-                                    <div class="box-time d-flex align-items-center">
-                                        <!-- <label for="appt">Waktu Awal :</label> -->
-                                        <input type="time" id="appt" name="appt" [value]="time_book"
-                                            (change)="startTime($event.target)" required />
+                                    <label class="label" for="fnote">Catatan</label>
+                                    <div class="box-input">
+                                        <mat-icon class="icon-input" svgIcon="note-2"></mat-icon>
+                                        <input placeholder="Masukkan Catatan"
+                                            [(ngModel)]="resvRepo.createReservation.note" id="fnote"
+                                            class="form-control" type="text">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <p class="mb-0 m-2">Pembayaran deposit</p>
-                        <hr class="m-2">
+                        <p class="text-title-view mb-0 m-2">Pilih Metode Pembayaran Deposit</p>
 
                         <mat-tab-group (selectedTabChange)="tabChanged($event)" mat-align-tabs="center"
                             class="bg-white m-2 h-auto" animationDuration="0ms">
                             <mat-tab style="min-height: 100%; min-height: calc(100% - 64px);" label="Tunai"
                                 cdk-scrollable="false">
+                                <ng-template mat-tab-label>
+                                    <mat-icon svgIcon="wallet-cash"
+                                        class="icon-payment-tab icon-margin-right"></mat-icon>
+                                    Tunai
+                                </ng-template>
                                 <div class="row">
-                                    <p class="text-center text-muted p-2 mb-0">Masukan Pembayaran</p>
+                                    <p class="text-center text-primary p-2 mt-2 mb-0">Masukan Pembayaran</p>
                                     <div class="container">
-                                        <div class="d-flex box-input p-4">
+                                        <div class="d-flex align-items-center">
                                             <button (click)="opeenKeybordSheet()" mat-icon-button class="m-1"
                                                 color="accent" aria-label="Example icon button with a menu icon">
-                                                <mat-icon>dialpad</mat-icon>
+                                                <mat-icon svgIcon="keypad"></mat-icon>
                                             </button>
                                             <input currencyMask [(ngModel)]="this.resvRepo.createReservation.cash"
                                                 [options]="{ prefix: 'Rp ', thousands: '.', decimal: ',',  precision: 0 }"
                                                 class="input-cash display-1 col bg-dark text-white text-end p-2 mb-0"
                                                 matInput />
+                                            <p (click)="this.resvRepo.createReservation.cash = 0"
+                                                class="text-center mb-0 on-text-danger mx-1 cursor-pointer">Hapus</p>
                                         </div>
-                                        <!-- <h4 class="text-right">Kembalian {{ resvRepo.createReservation.change | rupiah
-                                            }}</h4> -->
-                                        <ul class="list-group">
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center change">
-                                                Kembalian
-                                                <span class="badge text-dark">{{
-                                                    resvRepo.createReservation.change | rupiah }}</span>
-                                            </li>
-                                        </ul>
+                                        <p class="text-center text-change">Total Kembalian : {{
+                                            resvRepo.createReservation.change | rupiah }}</p>
+
                                         <div class="d-flex justify-content-center box-input p-4">
                                             <button (click)="resvRepo.submitReservation()" class="reservation"
                                                 mat-raised-button>Reservasi</button>
@@ -135,9 +159,17 @@
                                 </div>
                             </mat-tab>
                             <mat-tab label="Debit">
+                                <ng-template mat-tab-label>
+                                    <mat-icon svgIcon="debit" class="icon-payment-tab icon-margin-right"></mat-icon>
+                                    Debit
+                                </ng-template>
                                 <reservasi-debit></reservasi-debit>
                             </mat-tab>
                             <mat-tab label="E-Wallet">
+                                <ng-template mat-tab-label>
+                                    <mat-icon svgIcon="ewallet" class="icon-payment-tab icon-margin-right"></mat-icon>
+                                    E-Wallet
+                                </ng-template>
                                 <reservasi-ewallet></reservasi-ewallet>
                             </mat-tab>
                             <!-- <mat-tab label="Langsung">

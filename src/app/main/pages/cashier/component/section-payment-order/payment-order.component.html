@@ -138,7 +138,8 @@
 
             <div class="bg-white box-main">
                 <!-- type: 'CASH' | 'DEBIT' | 'EWALLET' | 'OTHER' | 'TRANSFER' -->
-                <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)" class="master-payment-page">
+                <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)" class="master-payment-page"
+                    animationDuration="0ms">
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon svgIcon="wallet-cash" class="example-tab-icon"></mat-icon>

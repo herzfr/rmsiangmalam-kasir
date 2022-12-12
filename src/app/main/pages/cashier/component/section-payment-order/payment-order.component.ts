@@ -86,8 +86,8 @@ export class PaymentComponent implements OnInit {
     }
 
     ngAfterViewInit() {
-        this.tabGroup!.selectedIndex = 3
-        // this.tabIndex = this.tabGroup?.selectedIndex
+        // this.tabGroup!.selectedIndex = 3
+        this.tabIndex = this.tabGroup?.selectedIndex
     }
 
     ngOnInit() { }
@@ -98,7 +98,7 @@ export class PaymentComponent implements OnInit {
 
     openReservationDeposit() {
         const configBottomDisc: MatBottomSheetConfig = new MatBottomSheetConfig()
-        configBottomDisc.data = true
+        configBottomDisc.data = { from_cashier: true }
         configBottomDisc.backdropClass = 'backdrop-reservation'
         configBottomDisc.panelClass = 'panel-reservation'
         this._bottomSheet.open(CardReservation, configBottomDisc).afterDismissed().subscribe(res => {

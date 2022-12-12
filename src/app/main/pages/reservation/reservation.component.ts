@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetConfig, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { TimeUtil } from 'src/app/_utility/time.util';
@@ -9,7 +9,8 @@ import { ReservationRepository } from '../../_model/reservation/reservation.repo
 @Component({
     selector: 'reservation',
     templateUrl: 'reservation.component.html',
-    styleUrls: ['reservation.component.css']
+    styleUrls: ['reservation.component.css'],
+    encapsulation: ViewEncapsulation.Emulated
 })
 export class ReservationComponent implements OnInit, AfterViewInit {
     selected: Date = new Date();

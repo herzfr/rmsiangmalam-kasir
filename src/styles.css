@@ -316,6 +316,14 @@ body {
 }
 /* ---------------- */
 
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: var(--primary-200) !important;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: var(--primary-200) !important;
+}
+
 .mat-tab-group.mat-primary .mat-ink-bar {
   background-color: var(--primary-200);
 }
