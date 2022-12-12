@@ -264,23 +264,24 @@ body {
   /* min-width: 250px !important; */
   width: 100% !important;
   height: 50px;
-  background: #045b62;
+  background: var(--primary-200);
   color: white;
   border-radius: 50px !important;
 }
 
 .btn-confirm {
-  background: #045b62;
+  background: var(--primary-200);
   color: white;
   min-width: 100px !important;
   margin-right: 10px !important;
 }
 
 .btn-cancel {
-  background: #e0b91a;
-  color: white;
+  background: #ffffff;
+  color: var(--primary-200);
   min-width: 100px !important;
   margin-right: 10px !important;
+  border: 1px solid var(--primary-200) !important;
 }
 
 /* MAT SELECT */
@@ -314,6 +315,10 @@ body {
   font-weight: 800;
 }
 /* ---------------- */
+
+.mat-tab-group.mat-primary .mat-ink-bar {
+  background-color: var(--primary-200);
+}
 
 .box-shadow-card {
   background: #ffffff;

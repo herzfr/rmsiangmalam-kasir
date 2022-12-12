@@ -108,7 +108,7 @@
     </div>
 </div>
 <div class="child text-end">
-    <button [disabled]="tempRepo.disablePrevList" (click)="tempRepo.prevList()" mat-button color="accent"
+    <!-- <button [disabled]="tempRepo.disablePrevList" (click)="tempRepo.prevList()" mat-button color="accent"
         class="button-next-prev">
         <mat-icon>chevron_left</mat-icon>
     </button>
@@ -116,5 +116,15 @@
     <button [disabled]="tempRepo.disbaleNextList" (click)="tempRepo.nextList()" mat-button color="accent"
         class="button-next-prev">
         <mat-icon>chevron_right</mat-icon>
-    </button>
+    </button> -->
+
+    <div class="footer-selector">
+        <button mat-button color="accent" class="button-next-prev">
+            <mat-icon class="icon-next-prev" svgIcon="chevron-left"></mat-icon>
+        </button>
+        <strong class="mx-2"> 1</strong>
+        <button mat-button color="accent" class="button-next-prev">
+            <mat-icon class="icon-next-prev" svgIcon="chevron-right"></mat-icon>
+        </button>
+    </div>
 </div>

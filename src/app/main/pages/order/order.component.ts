@@ -72,6 +72,19 @@ export class OrderComponent implements OnInit {
         return this.route.snapshot.queryParamMap.get('nav');
     }
 
+    get get_title() {
+        switch (this.activeRoute) {
+            default:
+                return 'Menu Utama';
+            case 'product':
+                return 'Menu Satuan';
+            case 'package':
+                return 'Menu Paketan';
+        }
+    }
+
+
+
     back() {
         // this.location.back()
         this.router.navigate(['/'])

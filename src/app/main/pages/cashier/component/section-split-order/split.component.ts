@@ -217,6 +217,15 @@ export class SplitComponent implements OnInit {
         return this.tempSales?.items.find(x => x.id === id)?.priceCat
     }
 
+    is_package(id: number | null) {
+        return this.tempSales?.items.find(x => x.id === id)?.isPackage
+    }
+
+    get is_available_split_list() {
+        let reduce = this.tempSales?.items.reduce((a, b) => +a + b.amount, 0)
+        return reduce === 0 ? false : true
+    }
+
     async doSplit() {
         if (this.checkValidateSplit()) {
             this.split_bill.tempSalesId = this.tempSales?.id
@@ -239,6 +248,11 @@ export class SplitComponent implements OnInit {
             let data = this.bills.find(x => x.items.length === 0)
             if (data) {
                 this.openSnackBar('setiap form tagihan harus diisi minimal 1 produk/paket')
+                return false
+            }
+            let date_1 = this.bills.map(x => x.name === '')
+            if (date_1.indexOf(true) !== -1) {
+                this.openSnackBar('Nama dalam tagihan baru harus diisi')
                 return false
             }
             return true

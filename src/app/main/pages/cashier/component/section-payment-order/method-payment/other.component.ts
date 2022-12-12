@@ -7,47 +7,46 @@ import { CheckoutRepository } from '../../../_model/checkout/chekcout.repository
 @Component({
     selector: 'other-payment',
     template: `
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <label id="input-radio-group-label">Pilih Penagihan pemabayaran?</label>
-            <mat-radio-group [(ngModel)]="selected" aria-label="Select an option" class="input-radio-group flex-row flex-nowrap">
-                <mat-radio-button class="input-radio-button" value="EMPL_DEBT">Karyawan</mat-radio-button>
-                <mat-radio-button class="input-radio-button" value="CUST_DEBT">Pelanggan</mat-radio-button>
-            </mat-radio-group>
-        </div>
-        <div class="row mb-2">
-            <ng-container [ngSwitch]="selected">
-                <div *ngSwitchCase="'EMPL_DEBT'">
-                    <ul class="mx-2 my-0 p-0">
-                        <li class="list-group-item d-flex justify-content-between align-items-center py-1">
-                            <p class="text-1-line mb-0 col mw-40px">{{ checkoutRepo.in_customer ?
-                                checkoutRepo.in_customer.name : 'Karyawan?' }}</p>
-                            <button
-                                (click)="checkoutRepo.in_customer? checkoutRepo.clear_customer() : openCustomer()"
-                                mat-raised-button class="badge col-4">{{
-                                checkoutRepo.in_customer? 'Hapus' : 'Karyawan' }}</button>
-                        </li>
-                        <p class="mb-0">Nama karyawan yang akan ditagih.</p>
-                    </ul>
+    <div class="container">
+        <p class="text-left mb-0 title-e">Pilih tipe pembayaran</p>
+        <mat-radio-group [(ngModel)]="selected" aria-label="Select an option" class="">
+            <mat-radio-button class="input-radio-button" value="EMPL_DEBT">Karyawan</mat-radio-button>
+            <mat-radio-button class="input-radio-button" value="CUST_DEBT">Pelanggan</mat-radio-button>
+        </mat-radio-group>
+
+        <div class="d-flex w-100">
+        <ng-container [ngSwitch]="selected">
+            <div *ngSwitchCase="'EMPL_DEBT'" class="w-inherith">
+                <p class="text-left mb-0 title-e">Pilih nama pelanggan yang akan ditagih</p>
+                <p class="mb-0 text-label">Pelanggan (Opsional)</p>
+                    <div [class.box-active]="checkoutRepo.in_customer"
+                        class="d-flex justify-content-between align-items-center mb-2 box-x-container">
+                        <p [ngClass]="checkoutRepo.in_customer? 'text-inline-a' : 'text-mute'"
+                            class="mb-0 text-1-line">{{ checkoutRepo.in_customer ?
+                            checkoutRepo.in_customer.name : 'Pilih pelanggan' }}</p>
+                        <button (click)="checkoutRepo.in_customer? checkoutRepo.clear_customer() :  openCustomer()"
+                            mat-button class="btn-opts" [class.on-text-danger]="checkoutRepo.in_customer">{{
+                            checkoutRepo.in_customer? 'Hapus' : 'Pilih' }}</button>
+                    </div>
                 </div>
-                <div *ngSwitchDefault>
-                    <ul class="mx-2 my-0 p-0">
-                        <li class="list-group-item d-flex justify-content-between align-items-center py-1">
-                            <p class="text-1-line mb-0 col mw-40px">{{ checkoutRepo.in_customer ?
-                                checkoutRepo.in_customer.name : 'Pelanggan?' }}</p>
-                            <button
-                                (click)="checkoutRepo.in_customer? checkoutRepo.clear_customer() : openCustomer()"
-                                mat-raised-button class="badge col-4">{{
-                                checkoutRepo.in_customer? 'Hapus' : 'Pelanggan' }}</button>
-                        </li>
-                        <p class="mb-0">Nama pelanggan yang akan ditagih.</p>
-                    </ul>
+                <div *ngSwitchDefault  class="w-inherith">
+                    <p class="text-left mb-0 title-e">Pilih nama karyawan yang akan ditagih</p>
+                    <p class="mb-0 text-label">Pelanggan (Opsional)</p>
+                    <div [class.box-active]="checkoutRepo.in_customer"
+                        class="d-flex justify-content-between align-items-center mb-2 box-x-container">
+                        <p [ngClass]="checkoutRepo.in_customer? 'text-inline-a' : 'text-mute'"
+                            class="mb-0 text-1-line">{{ checkoutRepo.in_customer ?
+                            checkoutRepo.in_customer.name : 'Pilih pelanggan' }}</p>
+                        <button (click)="checkoutRepo.in_customer? checkoutRepo.clear_customer() :  openCustomer()"
+                            mat-button class="btn-opts" [class.on-text-danger]="checkoutRepo.in_customer">{{
+                            checkoutRepo.in_customer? 'Hapus' : 'Pilih' }}</button>
+                    </div>
                 </div>
             </ng-container>
         </div>
     </div>
     `,
-    styleUrls: ['./../payment-order.component.css'],
+    styleUrls: ['./../payment-order.component.css', './../../section-split-order/split.component.css'],
 })
 
 export class OtherComponent implements OnInit {

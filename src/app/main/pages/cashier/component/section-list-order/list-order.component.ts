@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IOpt, OptTempSales } from 'src/app/main/_const/options';
@@ -14,6 +14,7 @@ import { TempSalesRepository } from '../../_model/tempsales.repository';
     selector: 'list-order-app',
     templateUrl: 'list-order.component.html',
     styleUrls: ['list-order.component.css'],
+    // encapsulation: ViewEncapsulation.None,
 })
 
 export class ListOrderComponent implements OnInit {

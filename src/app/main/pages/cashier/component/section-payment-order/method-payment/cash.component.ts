@@ -12,40 +12,62 @@ import { CheckoutRepository } from '../../../_model/checkout/chekcout.repository
     selector: 'cash-payment',
     template: `
         <div class="container-fluid">
-            <div class="row">
-               <p class="text-center text-muted p-2 mb-0">Masukan Pembayaran</p>
-               <div class="d-flex box-input p-4">
+            <div class="row bg-white">
+               <!-- <p class="text-center text-muted p-2 mb-0">Masukan Pembayaran</p> -->
+               <p class="text-center mb-0 title-e pt-3">Masukan Pembayaran</p>
+               <div class="d-flex align-items-center">
                     <button (click)="opeenKeybordSheet()" mat-icon-button class="m-1" color="accent" aria-label="Example icon button with a menu icon">
-                        <mat-icon>dialpad</mat-icon>
+                        <mat-icon svgIcon="keypad"></mat-icon>
                     </button>
-                    <!-- <h1 class="display-1 col bg-dark text-white text-center p-2 mb-0">{{ checkoutRepo.checkout.total | rupiah }}</h1> -->
-                    <!-- <input  type="number" class="input-cash display-1 col bg-dark text-white text-center p-2 mb-0" matInput [matKeyboard]="'de-CH'"  [formControl]="cash_control" /> -->
-                    <input currencyMask [options]="{ prefix: 'Rp ', thousands: '.', decimal: ',',  precision: 0 }" readonly class="input-cash display-1 col bg-dark text-white text-center p-2 mb-0" matInput [matKeyboard]="'de-CH'"  [formControl]="cash_control" />
+                    <input currencyMask [options]="{ prefix: 'Rp ', thousands: '.', decimal: ',',  precision: 0 }" readonly class="input-cash display-1 col text-center p-2 mb-0" matInput [matKeyboard]="'de-CH'"  [formControl]="cash_control" />
+                    <p (click)="clearCash()" class="text-center mb-0 on-text-danger mx-1 cursor-pointer">Hapus</p>
                </div>
-               <p class="text-center text-muted p-2 mb-0">Pembayaran Tunai Cepat</p>
+               <!-- <p class="text-center text-muted p-2 mb-0">Pembayaran Tunai Cepat</p> -->
+               <p class="text-center mb-0 title-e pt-3">Pilih Nominal</p>
                <div class="d-flex py-2 pb-0">
-                    <div (click)="setNumber(100000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">100.000</div>
-                    <div (click)="setNumber(75000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">75.000</div>
-                    <div (click)="setNumber(50000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">50.000</div>
-                    <div (click)="setNumber(20000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">20.000</div>
-                    <div (click)="setNumber(10000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">10.000</div>
+                    <div (click)="setNumber(100000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">
+                        <mat-icon class="icon-temp" svgIcon="coin"></mat-icon> <span>100.000</span>
+                    </div>
+                    <div (click)="setNumber(75000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">
+                        <mat-icon class="icon-temp" svgIcon="coin"></mat-icon> <span>75.000</span>
+                    </div>
+                    <div (click)="setNumber(50000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">
+                        <mat-icon class="icon-temp" svgIcon="coin"></mat-icon> <span>50.000</span>
+                    </div>
+                    <div (click)="setNumber(20000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">
+                        <mat-icon class="icon-temp" svgIcon="coin"></mat-icon> <span>20.000</span>
+                    </div>
+                    <div (click)="setNumber(10000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">
+                        <mat-icon class="icon-temp" svgIcon="coin"></mat-icon> <span>10.000</span>
+                    </div>
                </div>
                <div  class="d-flex py-2 pt-0">
-                    <div (click)="setNumber(5000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">5.000</div>
-                    <div (click)="setNumber(2000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">2.000</div>
-                    <div (click)="setNumber(1000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">1.000</div>
-                    <div (click)="setNumber(500)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">500</div>
-                    <div (click)="setNumber(100)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">100</div>
+                    <div (click)="setNumber(5000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">
+                        <mat-icon class="icon-temp" svgIcon="coin"></mat-icon> <span>5.000</span>
+                    </div>
+                    <div (click)="setNumber(2000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">
+                        <mat-icon class="icon-temp" svgIcon="coin"></mat-icon> <span>2.000</span>
+                    </div>
+                    <div (click)="setNumber(1000)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">
+                        <mat-icon class="icon-temp" svgIcon="coin"></mat-icon> <span>1.000</span>
+                    </div>
+                    <div (click)="setNumber(500)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">
+                        <mat-icon class="icon-temp" svgIcon="coin"></mat-icon> <span>500</span>
+                    </div>
+                    <div (click)="setNumber(100)" class="col p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">
+                        <mat-icon class="icon-temp" svgIcon="coin"></mat-icon> <span>100</span>
+                    </div>
                </div>
                <div  class="d-flex py-2 pt-0 section-btn-shortcut">
-                <div (click)="setNumber(checkoutRepo.checkout.total)" class="col-6 p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">{{ checkoutRepo.checkout.total | rupiah }}</div>
-                <div (click)="clearCash()" class="col-6 p-2 mb-1 text-center btn-s-cash-delete cursor-pointer">Hapus</div>
+                <div (click)="setNumber(checkoutRepo.checkout.total)" class="col-6 p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">
+                    <mat-icon class="icon-temp" svgIcon="coin"></mat-icon>{{ checkoutRepo.checkout.total | rupiah }}
+                </div>
                </div>
             </div>
         </div>
        
     `,
-    styleUrls: ['./../payment-order.component.css']
+    styleUrls: ['./../payment-order.component.css', './../../section-split-order/split.component.css']
 })
 
 export class CashComponent implements OnInit, AfterViewInit {

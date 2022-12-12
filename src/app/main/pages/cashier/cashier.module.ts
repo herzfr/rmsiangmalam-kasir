@@ -46,6 +46,7 @@ import { TransferComponent } from './component/section-payment-order/method-paym
 import { SplitComponent } from './component/section-split-order/split.component';
 import { DndDraggableDirective, DndModule } from 'ngx-drag-drop';
 import { PipeModule } from 'src/app/_pipe/pipe.module';
+import { DragScrollModule } from 'ngx-drag-scroll';
 
 const customLayouts: IKeyboardLayouts = {
     ...keyboardLayouts,
@@ -112,7 +113,7 @@ const material = [
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routes), SharedeModule,
         IconMaterialModule, material, FormsModule, ReactiveFormsModule,
-        CurrencyMaskModule, CarouselModule, DndModule, PipeModule],
+        CurrencyMaskModule, CarouselModule, DndModule, PipeModule, DragScrollModule],
     exports: [],
     declarations: [
         CashierComponent,

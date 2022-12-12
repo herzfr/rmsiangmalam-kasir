@@ -14,7 +14,7 @@ export interface WebcamDialog {
     selector: 'webcam-app',
     template: `
         <button class="close" mat-button (click)="onNoClick()">
-            <mat-icon>close</mat-icon>
+            <mat-icon svgIcon="remove"></mat-icon>
         </button>
         <div class="container">
             <h4 class="text-center mb-0">{{ data.title }}</h4>

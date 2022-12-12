@@ -223,18 +223,23 @@ export class TempSalesRepository {
 
     submitMerge() {
         if (this.merge.bills.length > 1) {
-            this.isLoadingMerge = true
-            this.tempSalesService.mergeTempSales(this.merge).subscribe(res => {
-                if (_.isEqual(res.statusCode, 0)) {
-                    this.openSnackBar('Penggabungan tagihan berhasil')
-                    this.clearMerge()
-                    this.getTempSales()
-                    this.isLoadingMerge = false
-                }
-            }, (err: HttpErrorResponse) => {
-                this.openSnackBar('Penggabungan tagihan gagal')
-                this.isLoadingMerge = false
-            })
+            this.dlg.showConfirmationDialog("Pisah tagihan", "", "apakah anda ingin memnggabungkan tagihan ini ?", "merge-bill", "Pisah")
+                .subscribe(res => {
+                    if (res) {
+                        this.isLoadingMerge = true
+                        this.tempSalesService.mergeTempSales(this.merge).subscribe(res => {
+                            if (_.isEqual(res.statusCode, 0)) {
+                                this.openSnackBar('Penggabungan tagihan berhasil')
+                                this.clearMerge()
+                                this.getTempSales()
+                                this.isLoadingMerge = false
+                            }
+                        }, (err: HttpErrorResponse) => {
+                            this.openSnackBar('Penggabungan tagihan gagal')
+                            this.isLoadingMerge = false
+                        })
+                    }
+                })
         } else {
             this.openSnackBar('Anda masih memilih 1 tagihan untuk digabungkan')
         }

@@ -13,7 +13,7 @@ export interface InputDialog {
     selector: 'verify-dialog',
     template: `
     <button class="close" mat-button (click)="onConfirm(false)">
-        <mat-icon>close</mat-icon>
+        <mat-icon svgIcon="remove"></mat-icon>
     </button>
     <h1 mat-dialog-title class="text-center">{{ data.title }}</h1>
     <div mat-dialog-content>

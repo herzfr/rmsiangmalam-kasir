@@ -23,7 +23,7 @@ import { CashComponent } from './method-payment/cash.component';
 @Component({
     selector: 'payment-app',
     templateUrl: 'payment-order.component.html',
-    styleUrls: ['payment-order.component.css']
+    styleUrls: ['payment-order.component.css', './../section-split-order/split.component.css']
 })
 
 export class PaymentComponent implements OnInit {
@@ -86,8 +86,8 @@ export class PaymentComponent implements OnInit {
     }
 
     ngAfterViewInit() {
-        // this.tabGroup!.selectedIndex = 3
-        this.tabIndex = this.tabGroup?.selectedIndex
+        this.tabGroup!.selectedIndex = 3
+        // this.tabIndex = this.tabGroup?.selectedIndex
     }
 
     ngOnInit() { }

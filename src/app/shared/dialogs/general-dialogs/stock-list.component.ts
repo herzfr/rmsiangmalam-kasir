@@ -6,7 +6,7 @@ import { ProductPackage } from 'src/app/main/pages/order/_model/menu.model';
     selector: 'stock-list',
     template: `
         <button class="close" mat-button (click)="onNoClick()">
-        <mat-icon svgIcon="remove"></mat-icon>
+            <mat-icon svgIcon="remove"></mat-icon>
         </button>
         <h1 mat-dialog-title class="text-center">Stok Tersisa</h1>
         <div mat-dialog-content>

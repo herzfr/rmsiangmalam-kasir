@@ -37,6 +37,9 @@ export class IconMaterialModule {
         ["bell", `${PathRegistry.ASSETS_SVG}icon/reserve-bell.svg`],
         ["calendar", `${PathRegistry.ASSETS_SVG}icon/calendar.svg`],
         ["cart", `${PathRegistry.ASSETS_SVG}icon/cart.svg`],
+        ["drag", `${PathRegistry.ASSETS_SVG}icon/drag.svg`],
+        ["x", `${PathRegistry.ASSETS_SVG}x.svg`],
+        ["trash", `${PathRegistry.ASSETS_SVG}trash.svg`],
 
         // MAIN MENU
         ["cashier-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/cashier-menu.svg`],
@@ -53,7 +56,22 @@ export class IconMaterialModule {
         ["empty", `${PathRegistry.ASSETS_SVG}pattern/empty.svg`],
         ["food", `${PathRegistry.ASSETS_SVG}food.svg`],
         ["hands", `${PathRegistry.ASSETS_SVG}3d-image/hands.svg`],
+        ["empty-review", `${PathRegistry.ASSETS_SVG}empty-review.svg`],
+        ["merge-bill", `${PathRegistry.ASSETS_SVG}merge-bill.svg`],
+        ["area-drop", `${PathRegistry.ASSETS_SVG}area-drop.svg`],
+        ["empty-success", `${PathRegistry.ASSETS_SVG}empty-success.svg`],
 
+        // PAYMENT
+        ["coin", `${PathRegistry.ASSETS_SVG}icon/payment/coin.svg`],
+        ["debit", `${PathRegistry.ASSETS_SVG}icon/payment/debit.svg`],
+        ["ewallet", `${PathRegistry.ASSETS_SVG}icon/payment/ewallet.svg`],
+        ["receipt", `${PathRegistry.ASSETS_SVG}icon/payment/receipt.svg`],
+        ["wallet-cash", `${PathRegistry.ASSETS_SVG}icon/payment/wallet-cash.svg`],
+        ["discount", `${PathRegistry.ASSETS_SVG}icon/discount.svg`],
+        ["service", `${PathRegistry.ASSETS_SVG}icon/service.svg`],
+        ["tax", `${PathRegistry.ASSETS_SVG}icon/tax.svg`],
+        ["keypad", `${PathRegistry.ASSETS_SVG}icon/keypad.svg`],
+        ["photo-camera", `${PathRegistry.ASSETS_SVG}photo-camera.svg`],
 
         // SIDENAV
         ["main", `${PathRegistry.ASSETS_SVG}icon/sidenav/icon-main.svg`],
