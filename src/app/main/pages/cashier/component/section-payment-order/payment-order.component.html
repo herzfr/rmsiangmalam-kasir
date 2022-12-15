@@ -5,7 +5,7 @@
         </button>
         <p class="mb-0 text-title">Pisah Tagihan</p>
     </div>
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar *ngIf="checkoutRepo.isLoading" mode="indeterminate"></mat-progress-bar>
     <div class="d-flex h-100">
         <!-- LEFT SIDE -->
         <div class="col-4 px-2 p-section-left grid-row">

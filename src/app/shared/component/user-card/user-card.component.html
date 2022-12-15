@@ -1,8 +1,8 @@
 <main class="card-primary">
     <p class="text-title-general">Profil</p>
     <div class="d-flex justify-content-center">
-        <img [src]="user?.picture !== null ? user?.picture : 'assets/images/avatar.png'" class="user-image"
-            [alt]="user?.id">
+        <img uiImageLoader class="user-image" onErrorSrc="assets/images/avatar.png" loader="assets/images/avatar.png"
+            [src]="user?.picture" [alt]="user?.id">
     </div>
     <p class="mb-0 text-center fw-bold">{{ user?.firstName }} {{ user?.lastName }}</p>
     <p class="text-subtitle-general text-center">{{ user?.id }}</p>

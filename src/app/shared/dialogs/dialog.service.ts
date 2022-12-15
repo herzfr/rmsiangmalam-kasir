@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ProductPackage } from 'src/app/main/pages/order/_model/menu.model';
 import { FormDialog, FormDialogComponent } from './form-dialogs/form-dynamic.component';
+import { CropImageComponent } from './general-dialogs/crop-image-dialog.component';
 import { InfoDialog, InfoDialogComponent } from './general-dialogs/info-dialog.component';
 import { InputDialog, InputDialogComponent } from './general-dialogs/input-dialog.component';
 import { StockListComponent } from './general-dialogs/stock-list.component';
@@ -97,6 +98,22 @@ export class DialogService {
 
         const dialogCustom = this.dialog.open(
             StockListComponent,
+            dialogConfig
+        );
+        return dialogCustom.afterClosed();
+    }
+
+
+    showCropImage(file: File) {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.backdropClass = 'backdropBackground';
+        dialogConfig.data = file;
+        dialogConfig.disableClose = true;
+        dialogConfig.minWidth = '400px';
+        dialogConfig.panelClass = 'panel-dialog-x';
+
+        const dialogCustom = this.dialog.open(
+            CropImageComponent,
             dialogConfig
         );
         return dialogCustom.afterClosed();

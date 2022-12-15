@@ -29,16 +29,22 @@ import { StockListComponent } from './dialogs/general-dialogs/stock-list.compone
 import { ShortcutCardComponent } from './component/shortcut-card/shortcut-card.component';
 import { OrderCardComponent } from './component/order-card/order-card.component';
 import { PipeModule } from '../_pipe/pipe.module';
+import { CropImageComponent } from './dialogs/general-dialogs/crop-image-dialog.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { NgxImageCompressService } from 'ngx-image-compress';
+import { IconMaterialModule } from '../_helpers/icon-registry';
 
 @NgModule({
     imports: [
         CommonModule,
         MaterialShared,
+        IconMaterialModule,
         FormsModule,
         ReactiveFormsModule,
         CurrencyMaskModule,
         WebcamModule,
-        PipeModule
+        PipeModule,
+        ImageCropperModule,
     ],
     exports: [
         DynamicFormComponent,
@@ -69,7 +75,8 @@ import { PipeModule } from '../_pipe/pipe.module';
         ProductCardComponent,
         PackageCardComponent,
         ShortcutCardComponent,
-        OrderCardComponent
+        OrderCardComponent,
+        CropImageComponent
 
     ],
     declarations: [
@@ -102,8 +109,9 @@ import { PipeModule } from '../_pipe/pipe.module';
         ProductCardComponent,
         PackageCardComponent,
         ShortcutCardComponent,
-        OrderCardComponent
+        OrderCardComponent,
+        CropImageComponent
     ],
-    providers: [DialogService],
+    providers: [DialogService, NgxImageCompressService],
 })
 export class SharedeModule { }

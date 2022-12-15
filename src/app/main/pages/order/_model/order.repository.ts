@@ -35,6 +35,8 @@ export class OrderRepository {
     verticalPosition: MatSnackBarVerticalPosition = 'top';
 
     subs: Subscription[] = [];
+
+    isLoading: boolean = false
     constructor(private orderService: OrderService, private shiftRepo: ShiftRepository,
         private tableService: TableService, private _snackBar: MatSnackBar,
         private tempSalesService: TemporarySalesService, private cartRepo: CartRepository,
@@ -64,6 +66,7 @@ export class OrderRepository {
 
 
     initProductAndPackage() {
+        this.isLoading = true
         forkJoin([
             this.orderService.getMenuProduct(this.searchProduct, this.shiftRepo.onSubBranch),
             this.orderService.getMenuPackage(this.searchPackage, this.shiftRepo.onSubBranch),
@@ -72,6 +75,7 @@ export class OrderRepository {
             this.productList = value[0].data
             this.packageList = value[1].data
             this.shortcutList = value[2].data
+            setTimeout(() => this.isLoading = false, 200)
             // console.log(this.shortcutList);
 
         })
@@ -90,24 +94,31 @@ export class OrderRepository {
     }
 
     reCheckProduct(find: FindMenu) {
+        this.isLoading = true
         this.orderService.getMenuProduct(find, this.shiftRepo.onSubBranch).subscribe(res => {
             this.productList = res.data
+            setTimeout(() => this.isLoading = false, 200)
         })
     }
 
     reCheckPackage(find: FindMenu) {
+        this.isLoading = true
         this.orderService.getMenuPackage(find, this.shiftRepo.onSubBranch).subscribe(res => {
             this.packageList = res.data
+            setTimeout(() => this.isLoading = false, 200)
         })
     }
 
     reCheckShortcut() {
+        this.isLoading = true
         this.orderService.getMenuShortcut(this.shiftRepo.onSubBranch).subscribe(res => {
             this.shortcutList = res.data
+            setTimeout(() => this.isLoading = false, 200)
         })
     }
 
     reCheckTable() {
+        this.isLoading = true
         this.tableService.getTables(this.findTable).subscribe(res => {
             this.tables = res.data.content
         })
@@ -123,9 +134,11 @@ export class OrderRepository {
     }
 
     updateProduct(idcat: number) {
+        this.isLoading = true
         this.searchProduct.option = idcat.toString()
         this.orderService.getMenuProduct(this.searchProduct, this.shiftRepo.onSubBranch).subscribe(res => {
             this.productList = res.data
+            setTimeout(() => this.isLoading = false, 200)
         })
     }
 
@@ -173,6 +186,7 @@ export class OrderRepository {
     }
 
     deleteShortcut(menuId: string) {
+        this.isLoading = true
         let sc: Shortcut | undefined = this.shortcutList.find(x => x.id === menuId)
         if (sc) {
             this.orderService.deleteMenuShortcut(sc.position).subscribe(res => {
@@ -180,8 +194,10 @@ export class OrderRepository {
                     this.openSnackBar('Berhasil menghapus menu, posisi ke ' + sc?.position)
                     this.reCheckShortcut()
                 }
+                setTimeout(() => this.isLoading = false, 200)
             }, (err: HttpErrorResponse) => {
                 this.openSnackBar('Gagal menghapus menu pada posisi ke ' + sc?.position)
+                setTimeout(() => this.isLoading = false, 200)
             })
         }
     }
@@ -194,6 +210,7 @@ export class OrderRepository {
     }
 
     saveOrder(cart: CartLine) {
+        this.isLoading = true
         this.tempSalesService.createTempSales(cart).subscribe(res => {
             if (_.isEqual(res.statusCode, 0)) {
                 // console.log(res.data);
@@ -212,17 +229,20 @@ export class OrderRepository {
                             this.reCheckTable()
                             this.tempRepo.tempSalesActive = undefined
                         }
+                        setTimeout(() => this.isLoading = false, 200)
                     })
                 } else {
                     this.openSnackBar('Pesanan berhasil perbaharui')
                     this.initProductAndPackage()
                     this.tempRepo.getTempSales()
                     this.tempRepo.tempSalesActive = undefined
+                    setTimeout(() => this.isLoading = false, 200)
                 }
             }
         }, (err: HttpErrorResponse) => {
             console.log(err.error);
             this.openSnackBar(err.error.message)
+            setTimeout(() => this.isLoading = false, 200)
             // switch (err.error.statusCode) {
             //     case 1804:
             //         this.openSnackBar('Menu sudah teregistrasi')
@@ -235,6 +255,7 @@ export class OrderRepository {
     }
 
     updateOrder(cart: CartLine) {
+        this.isLoading = true
         this.tempSalesService.updateTempSales(cart).subscribe(resp => {
             if (cart.tableIds.length > 0 && cart.tableIds[0] !== 0) {
                 let tblUpd: UpdateOccupation = new UpdateOccupation()
@@ -251,15 +272,18 @@ export class OrderRepository {
                         this.reCheckTable()
                         this.tempRepo.tempSalesActive = undefined
                     }
+                    setTimeout(() => this.isLoading = false, 200)
                 })
             } else {
                 this.openSnackBar('Pesanan berhasil perbaharui')
                 this.initProductAndPackage()
                 this.tempRepo.getTempSales()
                 this.tempRepo.tempSalesActive = undefined
+                setTimeout(() => this.isLoading = false, 200)
             }
         }, (err: HttpErrorResponse) => {
-            console.log(err.error);
+            // console.log(err.error);
+            setTimeout(() => this.isLoading = false, 200)
             this.openSnackBar(err.error.message)
             switch (err.error.statusCode) {
                 case 2215:

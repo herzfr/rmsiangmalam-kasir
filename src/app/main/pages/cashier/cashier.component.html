@@ -77,13 +77,9 @@
                                 </span>
                             </p>
                         </div>
+                        <button (click)="tempRepo.updateTempSales()" *ngIf="tempRepo.tempSalesActive?.id" mat-button
+                            class="col mx-2 btn-confirm">Ubah Pesanan</button>
                     </div>
-                    <!-- <ul class="list-group list-group-flush sticky">
-                        <li class="list-group-item d-flex align-items-center">ID Order #{{ tempRepo.tempSalesActive?.id
-                            }} <button (click)="tempRepo.updateTempSales()" *ngIf="tempRepo.tempSalesActive?.id"
-                                mat-button class="col mx-2 btn-confirm">Ubah</button>
-                        </li>
-                    </ul> -->
                     <ng-container *ngIf="tempRepo.tempSalesActive?.items !== null; else emptyCart">
                         <div class="item-temp p-1 bg-white" *ngFor="let ct of tempRepo.tempSalesActive?.items">
 

@@ -1,0 +1,222 @@
+<div class="container-fluid container-setting p-0">
+    <div class="d-flex card-box-header">
+        <button class="" (click)="location.back()" mat-icon-button>
+            <mat-icon svgIcon="back"></mat-icon>
+        </button>
+        <p class="mb-0 text-title">Setting</p>
+    </div>
+
+    <div class="d-flex container-setting">
+        <div class="col-3 p-2">
+            <div class="card-box">
+                <p class="text-head-primary p-3 mb-0">Daftar Setting</p>
+                <ng-container *ngIf="settingRepo.setting_length > 0 else empty">
+                    <ng-container *ngFor="let item of settingRepo.settings; let i = index">
+                        <div [class.active-bg]="i == settingRepo.settingIndex" class="card-item d-flex"
+                            (click)="settingRepo.setting_index = i">
+                            <div class="col">
+                                <p class="text-head-primary p-2 pb-0 mb-0">{{ item.description }}</p>
+                                <label class="label p-2 pt-0 mb-0" for="fadd1">Ukuran Kertas : {{ item.paperSize
+                                    }}</label>
+                            </div>
+                            <mat-icon class="col-2 icon-right" svgIcon="chevron-right"></mat-icon>
+                        </div>
+
+                    </ng-container>
+                    <ng-container *ngFor="let item of settingRepo.settings">
+
+                    </ng-container>
+                </ng-container>
+                <ng-template #empty>
+                    <div class="center-empty">
+                        <div>
+                            <mat-icon class="icon-empty" svgIcon="empty-setting"></mat-icon>
+                            <p class="text-center text-review mb-0">Daftar setting kosong</p>
+                            <p class="text-center text-empty">Silahkan buat settingan baru untuk shift ini</p>
+
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+        <div class="col p-2">
+            <div class="card-box">
+                <div class="d-flex">
+                    <div class="col-5">
+                        <p class="text-head-primary p-3 mb-0">Print Preview</p>
+
+                        <div class="view-print">
+                            <div class="printContainer">
+                                <div class="receipt" [style.width]="settingRepo.upsert_setting.widthSize + 'mm'"
+                                    [style.font-size]="settingRepo.upsert_setting.fontSize + 'mm'">
+                                    <print-view></print-view>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col container-form">
+                        <p class="text-head-primary p-3 mb-0 px-2">Keterangan Struk</p>
+                        <div class="d-flex">
+
+                            <div class="col mx-2 mb-1">
+                                <div class="form-group">
+                                    <label class="label" for="fheader">Judul</label>
+                                    <div class="box-input">
+                                        <mat-icon class="icon-input" svgIcon="title"></mat-icon>
+                                        <input [(ngModel)]="settingRepo.upsert_setting.headerTitle" id="fheader"
+                                            class="form-control" type="text" placeholder="Judul">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col mx-2 mb-1">
+                                <div class="form-group">
+                                    <label class="label" for="fphone">Nomor Telepon</label>
+                                    <div class="box-input">
+                                        <mat-icon class="icon-input" svgIcon="phone"></mat-icon>
+                                        <input [(ngModel)]="settingRepo.upsert_setting.phone" id="fphone"
+                                            class="form-control" type="text" placeholder="Nomor Telp/Hp">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="col mx-2 mb-1">
+                                <div class="form-group">
+                                    <label class="label" for="fadd1">Address 1</label>
+                                    <div class="box-input">
+                                        <mat-icon class="icon-input" svgIcon="address"></mat-icon>
+                                        <input [(ngModel)]="settingRepo.upsert_setting.headerAddress1" id="fadd1"
+                                            class="form-control" type="text" placeholder="Alamat 1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col mx-2 mb-1">
+                                <div class="form-group">
+                                    <label class="label" for="fadd2">Address 2</label>
+                                    <div class="box-input">
+                                        <mat-icon class="icon-input" svgIcon="address"></mat-icon>
+                                        <input [(ngModel)]="settingRepo.upsert_setting.headerAddress2" id="fadd2"
+                                            class="form-control" type="text" placeholder="Alamat 2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="col mx-2 mb-1">
+                                <div class="form-group">
+                                    <label class="label" for="fDesc">Deskripsi <span class="fst-italic">(*Judul
+                                            Setting)</span></label>
+                                    <div class="box-input">
+                                        <mat-icon class="icon-input" svgIcon="description"></mat-icon>
+                                        <input [(ngModel)]="settingRepo.upsert_setting.description" id="fDesc"
+                                            class="form-control" type="text" placeholder="Deskripsi">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col mx-2 mb-1">
+                                <div class="form-group">
+                                    <label class="label" for="fOther">Lainnya <span
+                                            class="fst-italic">(*Keterangan)</span></label>
+                                    <div class="box-input">
+                                        <mat-icon class="icon-input" svgIcon="description"></mat-icon>
+                                        <input [(ngModel)]="settingRepo.upsert_setting.other" id="fOther"
+                                            class="form-control" type="text" placeholder="Lainnya">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <p class="text-head-primary p-3 mb-0 px-2">Ukuran Kertas Cetak Struk</p>
+
+                        <div class="form-group mx-2 mb-1">
+                            <label class="label" for="fpapersize">Ukuran Kertas</label>
+                            <div class="box-input">
+                                <mat-icon class="icon-input" svgIcon="size-paper"></mat-icon>
+                                <input [(ngModel)]="settingRepo.upsert_setting!.paperSize" id="fpapersize"
+                                    class="form-control" type="number" placeholder="Sesuaikan ukuran kertas">
+                                <span class="size-format">Mm</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group mx-2 mb-1">
+                            <label class="label" for="fpaperwidth">Lebar Kertas</label>
+                            <div class="box-input">
+                                <mat-icon class="icon-input" svgIcon="width-paper"></mat-icon>
+                                <input [(ngModel)]="settingRepo.upsert_setting!.widthSize" id="fpaperwidth"
+                                    class="form-control" type="number" placeholder="Sesuaikan lebar kertas">
+                                <span class="size-format">Mm</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group mx-2 mb-1">
+                            <label class="label" for="fpaperfont">Ukuran Tulisan</label>
+                            <div class="box-input">
+                                <mat-icon class="icon-input" svgIcon="subtitle"></mat-icon>
+                                <input [(ngModel)]="settingRepo.upsert_setting!.fontSize" id="fpaperfont"
+                                    class="form-control" type="number" placeholder="Sesuaikan ukuran tulisan">
+                                <span class="size-format">Px</span>
+                            </div>
+                        </div>
+
+                        <div class="card-upload">
+                            <div class="d-flex w-100 py-2 relative">
+                                <ng-container *ngIf="settingRepo.upsert_setting.image == ''; else taked">
+                                    <div class="grid" style="width: inherit;">
+                                        <p (click)="openDialog()" class="text-center cursor-pointer col-12"><mat-icon
+                                                svgIcon="photo-camera"></mat-icon></p>
+                                        <input class="input-file" type="file" (change)="fileChangeEvent($event)" />
+                                        <p class="text-center col-12 text-small-title mb-0"> Upload </p>
+                                        <p class="text-center col-12 text-mute-small">Upload gambar untuk logo </p>
+                                    </div>
+                                </ng-container>
+                                <ng-template #taked>
+                                    <div class="col-6 p-2">
+                                        <img uiImageLoader class="img-product"
+                                            onErrorSrc="assets/images/no_pic_square.png"
+                                            loader="assets/images/no_pic_square.png" [alt]="'Bukti Pembayaran'"
+                                            class="img-proof"
+                                            [src]="'data:image/jpeg;base64,' + settingRepo.upsert_setting!.image"
+                                            alt="bukti-pembayaran">
+                                    </div>
+                                    <div class="col-6 d-flex align-items-center justify-content-center">
+                                        <div class="grid">
+                                            <button mat-button (click)="openDialog()"
+                                                class="text-center cursor-pointer col-12"><mat-icon class="icon-take"
+                                                    svgIcon="photo-camera"></mat-icon>
+                                                <input class="input-file" type="file"
+                                                    (change)="fileChangeEvent($event)" />
+                                                Upload Ulang</button>
+                                            <button mat-button (click)="removeImage()"
+                                                class="text-center cursor-pointer col-12"><mat-icon class="icon-take"
+                                                    svgIcon="trash"></mat-icon>Hapus Gambar</button>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <!-- <button (click)="settingRepo.new_setting()" class="col btn-new" mat-button>Buat
+                                Baru</button>
+                            <span style="width: 10px;"></span> -->
+                            <button
+                                (click)="settingRepo.upsert_setting.id == null ? settingRepo.save(true) : settingRepo.save(false)"
+                                class="col btn-save" mat-button>Simpan</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

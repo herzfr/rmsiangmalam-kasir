@@ -29,7 +29,7 @@ import { DialogService } from 'src/app/shared/dialogs/dialog.service';
                     <input [(ngModel)]="resvRepo.createReservation.transactionNo" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan No Transaksi">
                 </div>
 
-                <mat-card class="card-upload d-flex align-items-center">
+              <mat-card class="card-upload d-flex align-items-center">
                <div class="d-flex w-100">
                 <ng-container *ngIf="resvRepo.createReservation.image === null; else taked">
                    <div class="grid" style="width: inherit;">

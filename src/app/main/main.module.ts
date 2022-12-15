@@ -46,14 +46,21 @@ import { EmployeeListComponent } from './_dialog/employee.component';
 import { ReservationService } from './_service/reservation.service';
 import { ReservationRepository } from './_model/reservation/reservation.repository';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SettingComponent } from './pages/settings/setting.component';
+import { SettingService } from './_service/settings.service';
+import { SettingRepository } from './_model/setting/setting.repository';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PrintViewComponent } from './pages/settings/component/print-view.component';
 
 
 const routes: Routes = [
     { path: '', component: MainComponent },
+    { path: 'setting', component: SettingComponent },
     { path: 'order', loadChildren: () => import('./pages/order/order.module').then((m) => m.OrderModule) },
     { path: 'cashier', loadChildren: () => import('./pages/cashier/cashier.module').then((m) => m.CashierModule) },
     { path: 'tables', loadChildren: () => import('./pages/tables/tables.module').then((m) => m.TableModule) },
-    { path: 'reservation', loadChildren: () => import('./pages/reservation/reservation.module').then((m) => m.ReservationModule) }
+    { path: 'reservation', loadChildren: () => import('./pages/reservation/reservation.module').then((m) => m.ReservationModule) },
+    { path: 'other-income', loadChildren: () => import('./pages/other-income/other-income.module').then((m) => m.OtherIncomeModule) }
 ];
 
 const material = [
@@ -74,7 +81,7 @@ const material = [
 
 @NgModule({
     imports: [
-        CommonModule, RouterModule.forChild(routes), material, IconMaterialModule, SharedeModule
+        CommonModule, RouterModule.forChild(routes), material, IconMaterialModule, SharedeModule, FormsModule, ReactiveFormsModule
     ],
     exports: [],
     declarations: [
@@ -84,7 +91,9 @@ const material = [
         DiscountComponent,
         AdditionalComponent,
         CustomerListComponent,
-        EmployeeListComponent
+        EmployeeListComponent,
+        SettingComponent,
+        PrintViewComponent,
     ],
     providers: [
         MatIconRegistry,
@@ -105,7 +114,9 @@ const material = [
         PaymentService,
         UserRepository,
         ReservationService,
-        ReservationRepository
+        ReservationRepository,
+        SettingService,
+        SettingRepository
     ]
 })
 export class MainModule { }

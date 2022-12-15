@@ -11,6 +11,7 @@ import { DataProduct, Package, Price, Product, Shortcut } from './_model/menu.mo
 import { PriceCategory } from './_model/order.model';
 import { OrderRepository } from './_model/order.repository';
 import { CartRepository } from './_model/_cart/cart.repository';
+import { DialogService } from 'src/app/shared/dialogs/dialog.service';
 
 @Component({
     selector: 'order-apps',
@@ -43,7 +44,7 @@ export class OrderComponent implements OnInit {
 
 
     constructor(private location: Location, private route: ActivatedRoute, private shiftRepo: ShiftRepository,
-        private router: Router, public order: OrderRepository, public cartRepo: CartRepository) {
+        private router: Router, public order: OrderRepository, public cartRepo: CartRepository, private dlg: DialogService) {
         order.getPriceCat().subscribe(res => this.selected = res[0].name)
     }
 
@@ -200,20 +201,23 @@ export class OrderComponent implements OnInit {
     }
 
     async addShortcutToCart(shortcut: Shortcut) {
-        console.log(shortcut);
-
+        this.cartRepo.addLineShortcut(shortcut, 1, this.selected, await this.categoryPrice())
     }
 
     save() {
-        // console.log(this.cartRepo.cartComplete);
-
         if (_.isNull(this.cartRepo.cart.id)) {
             this.cartRepo.cart.id = 0;
             this.cartRepo.cart.branchId = this.shiftRepo.onBranch;
             this.cartRepo.cart.subBranchId = this.shiftRepo.onSubBranch;
             this.shiftRepo.getShiftObs().subscribe(res => this.cartRepo.cart.shiftId = res.id)
             if (this.cartRepo.cartComplete && this.cartRepo.lines.length > 0) {
-                this.order.saveOrder(this.cartRepo.cartComplete)
+                this.dlg.showConfirmationDialog("Simpan pesanan", "", "apakah anda ingin menyimpan pesanan ini ini ?", "merge-bill", "Ya")
+                    .subscribe(res => {
+                        if (res) {
+                            this.order.saveOrder(this.cartRepo.cartComplete!)
+                        }
+                    })
+
             } else {
                 this.order.openSnackBar("Keranjang masih (Kosong)")
             }
@@ -222,12 +226,16 @@ export class OrderComponent implements OnInit {
             this.cartRepo.cart.subBranchId = this.shiftRepo.onSubBranch;
             this.shiftRepo.getShiftObs().subscribe(res => this.cartRepo.cart.shiftId = res.id)
             if (this.cartRepo.cartComplete && this.cartRepo.lines.length > 0) {
-                this.order.updateOrder(this.cartRepo.cartComplete)
+                this.dlg.showConfirmationDialog("Simpan pesanan", "", "apakah anda ingin menyimpan pesanan ini ini ?", "merge-bill", "Ya")
+                    .subscribe(res => {
+                        if (res) {
+                            this.order.updateOrder(this.cartRepo.cartComplete!)
+                        }
+                    })
             } else {
                 this.order.openSnackBar("Keranjang masih (Kosong)")
             }
         }
-
     }
 
     newOrder() {

@@ -38,8 +38,8 @@ export class TablesComponent implements OnInit {
         setTimeout(() => {
             this.fieldsCreate = []
             this.fieldsCreate = [
-                this.formUtil.generateObjectForm('name', 'text', 'Nama Meja', 'Cth. Meja 1', 'note_alt', null, true, true, {}),
-                this.formUtil.generateObjectForm('description', 'text', 'Deskripsi Meja', 'Meja VVIP', 'description', null, true, true, {}),
+                this.formUtil.generateObjectForm('name', 'text', 'Nama Meja', 'Cth. Meja 1', 'note', null, true, true, {}),
+                this.formUtil.generateObjectForm('description', 'text', 'Deskripsi Meja', 'Meja VVIP', 'table', null, true, true, {}),
                 this.formUtil.generateObjectForm('branchId', 'text', '', '', '', this.shiftRepo.onBranch, false, false, {}),
                 this.formUtil.generateObjectForm('subBranchId', 'text', '', '', '', this.shiftRepo.onSubBranch, false, false, {}),
             ]

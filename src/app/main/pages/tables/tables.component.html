@@ -41,13 +41,14 @@
                             *ngFor="let tbl of tablesRepo.dataTables">
                             <h2>T.{{ tbl.name }} - K.{{ tbl.capacity === null? '0' : tbl.capacity }}</h2>
                             <p class="m-0">{{ tbl.description }}</p>
-                            <div (click)="generateFieldUpdate(tbl)"
+                            <div (click)="tbl.isOccupied? null : generateFieldUpdate(tbl)"
                                 [ngClass]="tbl.isOccupied? 'box-status-used' : 'box-status'">
                                 <p class="text-white m-0 text-center">{{ tbl.isOccupied? 'Terpakai' : 'Perbaharui' }}
                                     <span *ngIf="tbl.isOccupied">- {{ tbl.capacity }}</span>
                                 </p>
                             </div>
-                            <mat-icon (click)="tablesRepo.deleteT(tbl.id)" *ngIf="!tbl.isOccupied" class="close">close
+                            <mat-icon (click)="tablesRepo.deleteT(tbl.id)" *ngIf="!tbl.isOccupied" svgIcon="trash"
+                                class="close">
                             </mat-icon>
                         </div>
                     </ng-container>

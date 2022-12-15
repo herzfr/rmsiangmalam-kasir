@@ -217,3 +217,19 @@ a {
   color: var(--error-color) !important;
   font-weight: 800;
 }
+
+.text-small-title {
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  color: #045b62;
+  font-weight: 800;
+}
+
+.text-mute-small {
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  /* Neutral/300 */
+  color: #989898;
+}

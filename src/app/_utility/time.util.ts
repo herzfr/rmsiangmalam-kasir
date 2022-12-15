@@ -53,8 +53,18 @@ export class TimeUtil {
         return moment(dt).format('DD/MM/yyyy');
     }
 
+    public getJustDateLocale(val: Date) {
+        let dt = this.convertDateTimeLocale(val)
+        return moment(dt).format('DD/MM/yyyy');
+    }
+
     public getJustTime(val: number) {
         let dt = new Date(val);
+        return moment(dt).format('HH:mm');
+    }
+
+    public getJustTimeLocal(val: Date) {
+        let dt = this.convertDateTimeLocale(val)
         return moment(dt).format('HH:mm');
     }
 

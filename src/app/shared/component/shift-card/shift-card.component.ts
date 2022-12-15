@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserLoginSubBranch } from 'src/app/auth/auth.model';
 import { Shift, StartShift } from 'src/app/main/_model/shift/shift.model';
 import { ShiftRepository } from 'src/app/main/_model/shift/shift.repository';
@@ -25,7 +26,8 @@ export class ShiftCardComponent implements OnInit {
         private shiftRepo: ShiftRepository,
         private dialog: DialogService,
         private formUtil: FormUtil,
-        private randomUtil: RandomUtil
+        private randomUtil: RandomUtil,
+        private router: Router
     ) {
         this.onBranchID = shiftRepo.onBranch;
         this.onSubBranchID = shiftRepo.onSubBranch;
@@ -97,5 +99,9 @@ export class ShiftCardComponent implements OnInit {
             this.isRefresh = false
             this.shiftRepo.check()
         }, 1000)
+    }
+
+    goToSetting() {
+        this.router.navigate(['setting'])
     }
 }

@@ -191,6 +191,8 @@ export class PaymentComponent implements OnInit {
 
     checkout() {
         this.checkoutRepo.checkoutTest()
+        this.checkoutRepo.isLoading = true
+        setTimeout(() => this.checkoutRepo.isLoading = false, 500)
     }
 
 }

@@ -45,6 +45,7 @@ export class IconMaterialModule {
         ["note-2", `${PathRegistry.ASSETS_SVG}icon/note-2.svg`],
         ["time", `${PathRegistry.ASSETS_SVG}icon/time.svg`],
         ["date", `${PathRegistry.ASSETS_SVG}icon/date.svg`],
+        ["empty-setting", `${PathRegistry.ASSETS_SVG}empty-setting.svg`],
 
         // MAIN MENU
         ["cashier-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/cashier-menu.svg`],
@@ -77,6 +78,15 @@ export class IconMaterialModule {
         ["tax", `${PathRegistry.ASSETS_SVG}icon/tax.svg`],
         ["keypad", `${PathRegistry.ASSETS_SVG}icon/keypad.svg`],
         ["photo-camera", `${PathRegistry.ASSETS_SVG}photo-camera.svg`],
+
+        // SETTING
+        ["address", `${PathRegistry.ASSETS_SVG}icon/setting/address.svg`],
+        ["description", `${PathRegistry.ASSETS_SVG}icon/setting/description.svg`],
+        ["phone", `${PathRegistry.ASSETS_SVG}icon/setting/phone.svg`],
+        ["size-paper", `${PathRegistry.ASSETS_SVG}icon/setting/size-paper.svg`],
+        ["width-paper", `${PathRegistry.ASSETS_SVG}icon/setting/width-paper.svg`],
+        ["subtitle", `${PathRegistry.ASSETS_SVG}icon/setting/subtitle.svg`],
+        ["title", `${PathRegistry.ASSETS_SVG}icon/setting/title.svg`],
 
         // SIDENAV
         ["main", `${PathRegistry.ASSETS_SVG}icon/sidenav/icon-main.svg`],

@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
 import { CartLine, ItemCart } from "./cart.model";
-import { Package, Product } from ".././menu.model";
+import { Package, Product, Shortcut } from ".././menu.model";
 import { PriceCategory } from ".././order.model";
 import { BaseService } from "src/app/main/_service/base.service";
 import { ItemTempSales, TempSales } from "../../../cashier/_model/tempsales.model";
+import * as _ from "lodash";
 
 @Injectable()
 export class CartRepository {
@@ -49,6 +50,34 @@ export class CartRepository {
         }
         this.recalculate();
     }
+
+    addLineShortcut(shortcut: Shortcut, quantity: number = 1, typePrice: string, priceCat: PriceCategory | undefined) {
+        let line = this.lines.find(line => line.menuId == shortcut.id && line.priceCatId === (priceCat?.id ?? null));
+        if (line != undefined) {
+            line.amount += quantity;
+        } else {
+            let price = (shortcut.prices.find(x => x.priceCategory == typePrice)?.price ?? 0)
+            let totalPrice = price * quantity
+            let newItem = new ItemCart(
+                0,
+                shortcut.id,
+                shortcut.name,
+                quantity,
+                _.isUndefined(shortcut.packageId) ? 'package' : (shortcut.unit ?? ''),
+                price,
+                totalPrice,
+                _.isUndefined(shortcut.packageId),
+                _.isUndefined(shortcut.packageId) ? null : (shortcut.stockId ?? null),
+                shortcut!.pic ?? '',
+                priceCat!.id,
+                priceCat!.name,
+                [],
+            );
+            this.lines.push(newItem);
+        }
+    }
+
+
 
     updateQuantityPlus(item: ItemCart, quantity: number, priceCatId: number) {
         let line = this.lines.find(line => line.menuId == item.menuId && line.priceCatId === priceCatId);
@@ -141,13 +170,8 @@ export class CartRepository {
             );
 
             items.push(ic)
-            console.log(items);
         })
         return items;
-    }
-
-    saveTemporaryOrder(cart: CartLine) {
-
     }
 
 }

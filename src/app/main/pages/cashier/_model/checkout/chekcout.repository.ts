@@ -28,6 +28,8 @@ export class CheckoutRepository {
 
     in_customer: Customer | undefined;
 
+    isLoading: boolean = false
+
     constructor(
         private tempSalesService: TemporarySalesService,
         private shiftRepo: ShiftRepository,
@@ -194,16 +196,6 @@ export class CheckoutRepository {
         this.calculateTotal()
     }
 
-
-    // private recalculate() {
-    //     this.itemCount = 0;
-    //     this.cartPrice = 0;
-    //     this.lines.forEach((l, i) => {
-    //         this.itemCount += l.amount;
-    //         this.cartPrice += l.unitPrice;
-    //         this.lines[i].totalPrice = l.unitPrice * this.lines[i].amount
-    //     })
-    // }
 
     updatePaymentId(usePayment: PaymentMehod | null) {
         this.checkout.paymentTypeId = usePayment ? usePayment.id : null

@@ -1,0 +1,178 @@
+<div #areaprint class="print-area">
+    <div style="text-align: center; padding: 0px;">
+        <img uiImageLoader class="imageStyle" onErrorSrc="assets/images/no_pic_square.png"
+            loader="assets/images/no_pic_square.png" [alt]="'Bukti Pembayaran'" class="img-proof"
+            [src]="'data:image/jpeg;base64,' + settingRepo.upsert_setting.image" alt="bukti-pembayaran">
+    </div>
+
+    <div id="printDiv" class="title center" style="text-align: center;">
+        <span style="font-size: 14px; font-weight: 900;">{{ settingRepo.upsert_setting.headerTitle }}</span>
+        <br>
+        <span>{{ settingRepo.upsert_setting.headerAddress1 }}</span>
+        <br>
+        <span>{{ settingRepo.upsert_setting.headerAddress2 }}</span>
+        <br>
+        <span>{{ settingRepo.upsert_setting.phone }}</span>
+        <br>
+    </div>
+    <hr>
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <th class="description" style="text-align: left !important;">ID.</th>
+                <th class="price" style="text-align: right !important;">#12222231144</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr valign="top">
+                <td class="description">Nama</td>
+                <td class="price" style="text-align: right !important;"> Jon Doe
+                </td>
+            </tr>
+            <tr valign="top">
+                <td class="description">Tanggal</td>
+                <td class="price" style="text-align: right !important;"> {{
+                    _date }}
+                </td>
+            </tr>
+            <tr valign="top">
+                <td class="description">Jam</td>
+                <td class="price" style="text-align: right !important;"> {{
+                    _time }}
+                </td>
+            </tr>
+            <tr valign="top">
+                <td class="description">Angle White</td>
+                <td class="price" style="text-align: right !important;"> Dine-In</td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+    <ng-container>
+        <table style="width: 100%;">
+            <thead>
+                <tr valign="top" style="text-align: left !important;">
+                    <th class="quantity">Q</th>
+                    <th class="description">Description</th>
+                    <th class="price" style="text-align: right !important;">Rp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr valign="top" *ngFor="let it of get_count(5)">
+                    <td class="quantity">2</td>
+                    <td class="description">Catatan</td>
+                    <td class="price" style="text-align: right !important;">
+                        {{ 10000 | rupiah }}
+                        <span class="total-price" style="font-weight: bold;"> {{ 20000 | rupiah }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <th class="description" style="text-align: left !important;">Total</th>
+                    <th class="price" style="text-align: right !important;"> {{
+                        100000 | rupiah }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr valign="top" *ngIf="true">
+                    <td class="description">Diskount</td>
+                    <td class="price" style="text-align: right !important;">
+                        {{ 10000 | rupiah }}
+                    </td>
+                </tr>
+                <tr valign="top" *ngIf="true">
+                    <td class="description">Service</td>
+                    <td class="price" style="text-align: right !important;">
+                        {{ 8100 | rupiah }}
+                    </td>
+                </tr>
+                <tr valign="top" *ngIf="true">
+                    <td class="description">Pajak</td>
+                    <td class="price" style="text-align: right !important;">
+                        {{ 10791 | rupiah }}
+                    </td>
+                </tr>
+
+                <tr valign="top" style="font-weight: bold;">
+                    <td class="description">Grand Total</td>
+                    <td class="price" style="text-align: right !important;">
+                        {{ 108891 | rupiah }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <table style="width: 100%;">
+            <tbody>
+                <tr valign="top">
+                    <td class="description" style="font-weight: bold;">Pembayaran</td>
+                    <td class="price" style="text-align: right !important; font-weight: bold;">
+                        Tunai
+                    </td>
+                </tr>
+                <ng-container>
+                    <tr valign="top">
+                        <td class="description">Total</td>
+                        <td class="price" style="text-align: right !important;">
+                            {{ 110000 | rupiah }}
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <td class="description">Kembali</td>
+                        <td class="price" style="text-align: right !important;">
+                            {{ 1109 | rupiah }}
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container>
+                    <tr valign="top">
+                        <td class="description">Total</td>
+                        <td class="price" style="text-align: right !important;">
+                            {{ 108891 | rupiah }}
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <td class="description">Trans No.</td>
+                        <td class="price" style="text-align: right !important;">
+                            23454322222
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container>
+                    <tr valign="top">
+                        <td class="description">Total</td>
+                        <td class="price" style="text-align: right !important;">
+                            {{ 108891 | rupiah }}
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <td class="description">Pelanggan</td>
+                        <td class="price" style="text-align: right !important;">
+                            John Doe
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container>
+                    <tr valign="top">
+                        <td class="description">Total</td>
+                        <td class="price" style="text-align: right !important;">
+                            {{ 108891 | rupiah }}
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </ng-container>
+    <ng-template #templateName>
+        Data tidak ada
+    </ng-template>
+    <hr>
+    <div id="printDiv" class="title center" style="text-align: center;">
+        <span>{{ settingRepo.upsert_setting.other }}</span>
+    </div>
+    <hr>
+</div>

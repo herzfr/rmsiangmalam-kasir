@@ -21,14 +21,14 @@ import { FormGroup } from '@angular/forms';
             <mat-form-field appearance="outline">
                 <mat-label>{{ field.label }}  <strong class="text-danger" *ngIf="field.required">*</strong></mat-label>
                 <input [high]="100000000" [low]="100" currencyMask [options]="{ prefix: 'Rp ', thousands: '.', decimal: ',', precision: 0 }" matInput *ngIf="!field.multiline" placeholder="{{ field.placeholder }}" [attr.type]="field.type" [id]="field.name" [formControlName]="field.name">
-                <mat-icon *ngIf="field.icon !== undefined" matSuffix>{{ field.icon }}</mat-icon>
+                <mat-icon *ngIf="field.icon !== undefined" [svgIcon]="field.icon" matSuffix></mat-icon>
             </mat-form-field>
         </div>
         <div *ngSwitchDefault>
             <mat-form-field appearance="outline">
                 <mat-label>{{ field.label }}  <strong class="text-danger" *ngIf="field.required">*</strong></mat-label>
                 <input matInput *ngIf="!field.multiline" placeholder="{{ field.placeholder }}" [attr.type]="field.type" [id]="field.name" [formControlName]="field.name">
-                <mat-icon style="margin-left: 10px !important;" *ngIf="field.icon !== undefined" matSuffix>{{ field.icon }}</mat-icon>
+                <mat-icon style="margin-left: 10px !important;" *ngIf="field.icon !== undefined"  [svgIcon]="field.icon" matSuffix></mat-icon>
             </mat-form-field>
         </div>
     </div>

@@ -87,7 +87,7 @@
 
                         </mat-card-actions>
                         <mat-card-footer>
-                            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                            <mat-progress-bar *ngIf="order.isLoading" mode="indeterminate"></mat-progress-bar>
                         </mat-card-footer>
                     </mat-card>
 
@@ -357,11 +357,11 @@
 
                         <div class="footer-box-cart">
                             <div class="d-flex justify-content-between mb-2">
-                                <p class="id-order mb-0 fw-bold">Total (3)</p>
-                                <p class="text-primary mb-0">Rp 30.000</p>
+                                <p class="id-order mb-0 fw-bold">Total ({{cartRepo.lines.length}})</p>
+                                <p class="text-primary mb-0">{{ cartRepo.grandTotal | rupiah }}</p>
                             </div>
                             <div class="box-checkout">
-                                <button mat-button class="btn-checkout">Simpan</button>
+                                <button (click)="save()" mat-button class="btn-checkout">Simpan</button>
                             </div>
                         </div>
 
