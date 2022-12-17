@@ -1,0 +1,197 @@
+<div class="container-fluid container-main p-0">
+    <div class="d-flex card-box-header">
+        <button class="" (click)="location.back()" mat-icon-button>
+            <mat-icon svgIcon="back"></mat-icon>
+        </button>
+        <p class="mb-0 text-title">Pemasukan Lainnya</p>
+    </div>
+
+    <div class="d-flex container-main">
+        <div class="col-5 p-2">
+            <div class="card-box">
+                <p class="text-head-primary py-3 mb-0">Filter Pencarian</p>
+
+                <div class="d-flex">
+                    <div class="col-7">
+                        <div class="d-flex box-range">
+                            <mat-date-range-input [formGroup]="oIncomeRepo.rangeDate" [rangePicker]="picker">
+                                <input matStartDate formControlName="start" placeholder="Mulai" #dateStart />
+                                <input matEndDate formControlName="end" placeholder="Akhir" #dateEnd
+                                    (dateChange)="oIncomeRepo.findByDate()" />
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </div>
+                    </div>
+
+                    <div class="col d-flex align-items-center justify-content-around px-2">
+                        <div [class.disable-next-prev]="oIncomeRepo.is_disabled_prev"
+                            (click)="oIncomeRepo.is_disabled_prev ? null : oIncomeRepo.prev() " mat-button
+                            color="accent" class="button-next-prev">
+                            <mat-icon class="icon-next-prev" svgIcon="chevron-left"></mat-icon>
+                        </div>
+                        <strong class="mx-2"> {{ (oIncomeRepo.pagine?.pageNumber?? 0) + 1 }} / {{
+                            (oIncomeRepo.pagine?.totalPage?? 0)
+                            + 1}}</strong>
+                        <div [class.disable-next-prev]="oIncomeRepo.is_disabled_next"
+                            (click)="oIncomeRepo.is_disabled_next ? null : oIncomeRepo.next()" mat-button color="accent"
+                            class="button-next-prev">
+                            <mat-icon class="icon-next-prev" svgIcon="chevron-right"></mat-icon>
+                        </div>
+                    </div>
+                </div>
+
+
+                <p class="text-head-primary py-3 mb-0">Daftar Pemasukan Lainnya</p>
+
+                <ng-container *ngIf="oIncomeRepo.is_loading; else notloading">
+                    <div class="loading-container">
+                        <div class="spinner"></div>
+                        <p class="text-head-primary">Tunggu sebentar...</p>
+                    </div>
+                </ng-container>
+                <ng-template #notloading>
+                    <div class="list-container" *ngIf="oIncomeRepo._incomes.length > 0; else emptycart">
+                        <div class="card-item" *ngFor="let inc of oIncomeRepo._incomes">
+                            <div class="item-income header-temp">
+                                <div class="col d-flex">
+                                    <mat-icon class="icon-temp" svgIcon="note"></mat-icon>
+                                    <p class="text-temp mb-0">Pemasukan : <span class="t-primary">{{ inc?.note
+                                            }}</span><span class="status-paid" [ngClass]="class_status(inc.status)">{{
+                                            status_payment(inc.status)
+                                            }}</span></p>
+                                </div>
+                                <div class="col d-flex justify-content-end">
+                                    <mat-icon class="icon-temp" svgIcon="calendar"></mat-icon>
+                                    <p class="text-temp mb-0">{{ (inc?.createdAt?? day) | milistodate: "full" }}</p>
+                                </div>
+                            </div>
+                            <div class="list-a d-flex align-items-center">
+                                <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
+                                <p class="mb-0 mr-1 text-temp t-primary">Metode & Nominal Pemasukan : </p>
+                                <p class="mb-0 fw-bold text-temp" style="font-size: 10px;">{{
+                                    checkpayment(inc.incomeType,
+                                    inc.paymentTypeId) }} - {{
+                                    inc.amount | rupiah }}</p>
+                            </div>
+                            <div class="list-a d-flex align-items-center">
+                                <mat-icon class="icon-calendar-2" svgIcon="receipt"></mat-icon>
+                                <p class="mb-0 mr-1 text-temp t-primary">Tipe Pemasukan : </p>
+                                <p class="mb-0 fw-bold text-temp" style="font-size: 10px;">{{ inc.type | titlecase }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <ng-template #emptycart>
+                    <div class="center-empty">
+                        <mat-icon class="icon-empty" svgIcon="empty-cart"></mat-icon>
+                        <p class="text-center text-empty">Pemasukan belum terdaftar ditanggal tersebut</p>
+                    </div>
+                </ng-template>
+
+            </div>
+            <div class="col p-2">
+                <div class="card-box">
+                    <p class="text-head-primary p-3 mb-0">Buat Pemasukan</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col p-2">
+            <div class="card-box">
+                <p class="text-head-primary py-3 mb-0">Buat Pemasukan</p>
+
+                <div class="d-flex">
+
+                    <div class="col mx-2 mb-1">
+                        <div class="form-group">
+                            <label class="label" for="fNote">Keterangan</label>
+                            <div class="box-input">
+                                <mat-icon class="icon-input" svgIcon="note"></mat-icon>
+                                <input [(ngModel)]="oIncomeRepo.create_income.note" id="fNote" class="form-control"
+                                    type="text" placeholder="Catat keterangan pemasukan">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col mx-2 mb-1">
+                        <div class="form-group">
+                            <label class="label" for="fAmount">Jumlah</label>
+                            <div class="box-input">
+                                <mat-icon class="icon-input" svgIcon="money-cash"></mat-icon>
+                                <input id="fdeposit" class="form-control" placeholder="Masukkan Nominal Deposit"
+                                    currencyMask (ngModelChange)="inputDepositChange($event)"
+                                    [(ngModel)]="oIncomeRepo.create_income.amount"
+                                    [options]="{ prefix: 'Rp ', thousands: '.', decimal: ',',  precision: 0 }"
+                                    class="col text-start p-2 mb-0" matInput required />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <p class="text-head-primary py-3 mb-0">Pilih Metode Pembayaran Deposit</p>
+
+                <mat-tab-group (selectedTabChange)="tabChanged($event)" mat-align-tabs="center"
+                    class="bg-white m-2 h-auto" animationDuration="0ms">
+                    <mat-tab style="min-height: 100%; min-height: calc(100% - 64px);" label="Tunai"
+                        cdk-scrollable="false">
+                        <ng-template mat-tab-label>
+                            <mat-icon svgIcon="wallet-cash" class="icon-payment-tab icon-margin-right"></mat-icon>
+                            Tunai
+                        </ng-template>
+                        <div class="row">
+                            <p class="text-center text-primary p-2 mt-2 mb-0">Masukan Pembayaran</p>
+                            <div class="container">
+                                <div class="d-flex align-items-center">
+                                    <button (click)="opeenKeybordSheet()" mat-icon-button class="m-1" color="accent"
+                                        aria-label="Example icon button with a menu icon">
+                                        <mat-icon svgIcon="keypad"></mat-icon>
+                                    </button>
+                                    <input currencyMask [(ngModel)]="this.oIncomeRepo.create_by_cash.cash"
+                                        [options]="{ prefix: 'Rp ', thousands: '.', decimal: ',',  precision: 0 }"
+                                        class="input-cash display-1 col bg-dark text-white text-end p-2 mb-0"
+                                        matInput />
+                                    <p (click)="oIncomeRepo.create_by_cash.cash = 0"
+                                        class="text-center mb-0 on-text-danger mx-1 cursor-pointer">Hapus</p>
+                                </div>
+                                <p class="text-center text-change">Total Kembalian : {{
+                                    oIncomeRepo.create_by_cash.change | rupiah }}</p>
+
+                                <div class="d-flex justify-content-center box-input p-4">
+                                    <button (click)="oIncomeRepo.reset_income()" class="income-reset"
+                                        mat-raised-button>Reset
+                                        Pemasukan</button>
+                                    <button (click)="oIncomeRepo.submit_income()" class="income"
+                                        mat-raised-button>Simpan Pemasukan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Debit">
+                        <ng-template mat-tab-label>
+                            <mat-icon svgIcon="debit" class="icon-payment-tab icon-margin-right"></mat-icon>
+                            Debit
+                        </ng-template>
+                        <income-debit></income-debit>
+                    </mat-tab>
+                    <mat-tab label="E-Wallet">
+                        <ng-template mat-tab-label>
+                            <mat-icon svgIcon="ewallet" class="icon-payment-tab icon-margin-right"></mat-icon>
+                            E-Wallet
+                        </ng-template>
+                        <income-ewallet></income-ewallet>
+                    </mat-tab>
+                    <!-- <mat-tab label="Langsung">
+                    <div class="d-flex justify-content-center box-input p-4 my-2">
+                        <button (click)="resvRepo.submitReservation()" class="reservation"
+                            mat-raised-button>Reservasi</button>
+                    </div>
+                </mat-tab> -->
+                </mat-tab-group>
+            </div>
+        </div>
+
+    </div>

@@ -63,7 +63,7 @@ import { BaseService } from "../_service/base.service";
 })
 export class NumpadComponent {
     inputResult: number = 0
-    isFromCashier: boolean = false;
+    is_from: 'cashier' | 'reservation' | 'income';
     constructor(
         private _bottomSheetRef: MatBottomSheetRef<NumpadComponent>,
         @Inject(MAT_BOTTOM_SHEET_DATA) public data: any[],
@@ -72,7 +72,7 @@ export class NumpadComponent {
         console.log(data);
 
         this.inputResult = data[0]
-        this.isFromCashier = data[1]
+        this.is_from = data[1]
     }
 
     openLink(event: MouseEvent): void {
@@ -122,12 +122,22 @@ export class NumpadComponent {
     }
 
     updateChange() {
-        console.log(this.inputResult);
-        if (this.isFromCashier) {
-            this._baseservice.number_result = this.inputResult
-        } else {
-            this._baseservice.number_result_general = this.inputResult
+        switch (this.is_from) {
+            case 'cashier':
+                this._baseservice.number_result = this.inputResult
+                break;
+            case 'income':
+                this._baseservice.number_result_income = this.inputResult
+                break;
+            default:
+                this._baseservice.number_result_general = this.inputResult
+                break;
         }
+        // if (this.is_from) {
+        //     this._baseservice.number_result = this.inputResult
+        // } else {
+        //     this._baseservice.number_result_general = this.inputResult
+        // }
         // this.change = this.inputResult - this.total;
     }
 

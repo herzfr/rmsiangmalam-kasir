@@ -36,8 +36,8 @@ export interface OtherIncome {
 
 
 export class FilterIncome {
-    startDate: number = (new Date(moment(new Date()).locale('id').utc().toString())).getUTCMilliseconds();
-    endDate: number = (new Date(moment(new Date()).locale('id').utc().toString())).getUTCMilliseconds();
+    startDate: number = 1656608400000;
+    endDate: number = 1659200400000;
     branchId: number | null = null
     subBranchId: number | null = null
     search: string = ''
@@ -45,31 +45,29 @@ export class FilterIncome {
     page: number = 0
 }
 
-
-export class CreateIncomeCash {
+export class CreateIncome {
     note?: string
+    amount: number = 0
+    type?: string
     branchId?: number
     subBranchId?: number
-    amount?: number
-    type?: string
-    cash?: number
-    change?: number
+}
+
+
+export class CreateIncomeCash {
+    cash: number = 0
+    change: number = 0
 }
 
 export class CreateIncomeOther {
-    note?: string
-    branchId?: number
-    subBranchId?: number
-    amount?: number
-    type?: string
     transactionNo?: string
     merchantId?: string
-    cardNo?: string
+    cardNo: string | null = null
     cardName?: string
     batchNo?: string
-    adminFee?: number
+    adminFee: number = 0
     isTax?: boolean
     paymentTypeId?: number
-    image?: string
+    image: string | null = null
 }
 

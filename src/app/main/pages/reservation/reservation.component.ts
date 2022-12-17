@@ -78,7 +78,7 @@ export class ReservationComponent implements OnInit, AfterViewInit {
     opeenKeybordSheet() {
         this.isInput = true
         const configBottom: MatBottomSheetConfig = new MatBottomSheetConfig()
-        configBottom.data = [0, false]
+        configBottom.data = [0, 'reservation']
         configBottom.backdropClass = 'backdrop-numpad'
         configBottom.panelClass = 'panel-numpad'
         this._bottomSheet.open(NumpadComponent, configBottom);
