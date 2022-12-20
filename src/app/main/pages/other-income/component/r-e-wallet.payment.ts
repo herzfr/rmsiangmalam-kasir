@@ -9,10 +9,10 @@ import { OtherIncomeRepository } from '../_model/other-income.repository';
      <div class="d-flex">
         <div class="col-3">
         <p class="text-left mb-0 title-e">Pilih tipe pembayaran</p>
-            <mat-radio-group (ngModelChange)="oIncomeRepository.calculate()"
+            <mat-radio-group (ngModelChange)="oIncomeRepo.calculate()"
                 aria-labelledby="input-radio-group-label"
                 class="input-radio-group"
-                [(ngModel)]="oIncomeRepository.create_by_other.paymentTypeId" >
+                [(ngModel)]="oIncomeRepo.create_by_other.paymentTypeId" >
                 <mat-radio-button class="input-radio-button" *ngFor="let item of paymentRepo.getPaymentType('EWALLET'); let i = index" [value]="item.id"  (change)="radioChange(item)">
                     <div class="">
                         <img class="img-payment-logo" src="{{item.name | paymentcode }}">
@@ -26,12 +26,12 @@ import { OtherIncomeRepository } from '../_model/other-income.repository';
             <div class="form-payment">
                 <div class="grid-left mb-2">
                     <p class="mb-0 text-label">No. Transaksi</p>
-                    <input [(ngModel)]="oIncomeRepository.create_by_other.transactionNo" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan No Transaksi">
+                    <input [(ngModel)]="oIncomeRepo.create_by_other.transactionNo" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan No Transaksi">
                 </div>
 
               <mat-card class="card-upload d-flex align-items-center">
                <div class="d-flex w-100">
-                <ng-container *ngIf="oIncomeRepository.create_by_other.image === null; else taked">
+                <ng-container *ngIf="oIncomeRepo.create_by_other.image === null; else taked">
                    <div class="" style="width: inherit;">
                         <p (click)="openDialog()" class="text-center cursor-pointer col-12"><mat-icon svgIcon="photo-camera"></mat-icon></p>
                         <p class="text-center col-12 text-small-title mb-0 t-primary"> Ambil bukti pembayaran </p>
@@ -40,7 +40,7 @@ import { OtherIncomeRepository } from '../_model/other-income.repository';
                 </ng-container>
                 <ng-template #taked>
                     <div class="col-6 p-2">
-                        <img uiImageLoader class="img-product" onErrorSrc="assets/images/no_pic_square.png" loader="assets/images/no_pic_square.png" [alt]="'Bukti Pembayaran'" class="img-proof" [src]="'data:image/jpeg;base64,' + oIncomeRepository.create_by_other.image" alt="bukti-pembayaran">
+                        <img uiImageLoader class="img-product" onErrorSrc="assets/images/no_pic_square.png" loader="assets/images/no_pic_square.png" [alt]="'Bukti Pembayaran'" class="img-proof" [src]="'data:image/jpeg;base64,' + oIncomeRepo.create_by_other.image" alt="bukti-pembayaran">
                     </div>
                     <div class="col-6 d-flex align-items-center justify-content-center">
                         <div class="" style="display: grid;">
@@ -51,9 +51,11 @@ import { OtherIncomeRepository } from '../_model/other-income.repository';
                 </ng-template>
                </div>
             </mat-card>
+
+            <p class="my-2 text-label">Biaya admin : <strong>{{ oIncomeRepo.create_by_other.adminFee }}%</strong></p>
             <div class="d-flex justify-content-center">
-                <button (click)="oIncomeRepository.submit_income()" class="income-reset" mat-raised-button>Reset Pemasukan</button>
-                <button (click)="oIncomeRepository.submit_income()" class="income" mat-raised-button>Simpan Pemasukan</button>
+                <button (click)="oIncomeRepo.submit_income()" class="income-reset" mat-raised-button>Reset Pemasukan</button>
+                <button [disabled]="oIncomeRepo.create_by_other.transactionNo == '' && oIncomeRepo.create_by_other.paymentTypeId == null && (oIncomeRepo.create_income.note?? '') == ''" (click)="oIncomeRepo.submit_income()" class="income" mat-raised-button>Simpan Pemasukan</button>
             </div>
             </div>
         </div>
@@ -63,25 +65,25 @@ import { OtherIncomeRepository } from '../_model/other-income.repository';
 })
 
 export class IncomeEWalletComponent implements OnInit {
-    constructor(public paymentRepo: PaymentRepository, public oIncomeRepository: OtherIncomeRepository, private dialogService: DialogService) { }
+    constructor(public paymentRepo: PaymentRepository, public oIncomeRepo: OtherIncomeRepository, private dialogService: DialogService) { }
 
     ngOnInit() { }
 
     radioChange(payment: any) {
         // console.log('change', payment);
-        this.oIncomeRepository.create_by_other.adminFee = payment.adminFee
+        this.oIncomeRepo.create_by_other.adminFee = payment.adminFee
     }
 
     openDialog() {
         this.dialogService.showWebcam("Bukti pembayaran E-Wallet", "Ambil bukti pembayaran E-Wallet dari pelanggan", "photo_camera", "Ambil Gambar")
             .subscribe(res => {
                 if (res.response) {
-                    this.oIncomeRepository.create_by_other.image = res.image
+                    this.oIncomeRepo.create_by_other.image = res.image
                 }
             })
     }
 
     removeImage() {
-        this.oIncomeRepository.create_by_other.image = null
+        this.oIncomeRepo.create_by_other.image = null
     }
 }

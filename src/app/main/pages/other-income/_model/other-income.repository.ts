@@ -1,11 +1,15 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
+import * as _ from "lodash";
 import { ShiftRepository } from "src/app/main/_model/shift/shift.repository";
 import { BaseService } from "src/app/main/_service/base.service";
+import { DialogService } from "src/app/shared/dialogs/dialog.service";
 import { Pageable } from "src/app/_model/general.model";
 import { TimeUtil } from "src/app/_utility/time.util";
 import { OtherIncomeService } from "../_service/other-income.service";
-import { CreateIncome, CreateIncomeCash, CreateIncomeOther, DataOtherIncome, FilterIncome, OtherIncome } from "./other-income.model";
+import { CreateIncome, CreateIncomeCash, CreateIncomeOther, DataOtherIncome, FilterIncome, IncomeUp, OtherIncome } from "./other-income.model";
 
 @Injectable()
 export class OtherIncomeRepository {
@@ -17,15 +21,26 @@ export class OtherIncomeRepository {
     public data_income?: DataOtherIncome;
 
     public is_loading: boolean = false;
+    public is_loading_submit: boolean = false;
 
+    today = new Date();
     rangeDate = new FormGroup({
         start: new FormControl<Date | null>(null),
         end: new FormControl<Date | null>(null),
     });
 
 
+    // SNACKBAR
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
+    // ================
+
+
     constructor(public shiftRepo: ShiftRepository, public _income_service:
-        OtherIncomeService, public timeUtil: TimeUtil, private _baseService: BaseService) {
+        OtherIncomeService, public timeUtil: TimeUtil, private _baseService: BaseService,
+        private _dlg: DialogService, private _snackBar: MatSnackBar) {
+        this.filter.startDate = new Date().setDate(this.today.getDate() - 1)
+        this.filter.endDate = new Date().setHours(23, 59, 59, 999)
         this.init()
     }
 
@@ -35,8 +50,8 @@ export class OtherIncomeRepository {
         this.fetch_income()
         this.listenerNumberResult()
         this.rangeDate = new FormGroup({
-            start: new FormControl<Date | null>(new Date()),
-            end: new FormControl<Date | null>(new Date()),
+            start: new FormControl<Date | null>(new Date(this.filter.startDate)),
+            end: new FormControl<Date | null>(new Date(this.filter.endDate)),
         });
 
     }
@@ -78,7 +93,7 @@ export class OtherIncomeRepository {
     }
 
     get is_disabled_next() {
-        return (this.pagine?.pageNumber ?? 0 >= (this.pagine?.totalPage ?? 0))
+        return ((this.pagine?.pageNumber ?? 0) >= (this.pagine?.totalPage ?? 0))
     }
 
     get is_disabled_prev() {
@@ -121,10 +136,25 @@ export class OtherIncomeRepository {
     }
 
     calculate() {
+        // this.create_income.amount = this.create_income.amount + (this.create_income.amount * (this.create_by_other.adminFee / 100))
+    }
+
+    checked() {
+        setTimeout(() => {
+            this.calculate()
+        }, 1)
 
     }
 
 
+    //  DIALOG
+    //  ================================================================
+    openSnackBar(message: string) {
+        this._snackBar.open(message, 'Tutup', {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+        });
+    }
 
 
     //  SUBMTI
@@ -134,7 +164,93 @@ export class OtherIncomeRepository {
         this.create_by_cash = new CreateIncomeCash()
         this.create_by_other = new CreateIncomeOther()
     }
-    submit_income() {
 
+    reset_payment() {
+        this.create_by_cash = new CreateIncomeCash()
+        this.create_by_other = new CreateIncomeOther()
+    }
+
+    submit_income() {
+        this.create_income.branchId = this.shiftRepo.onBranch
+        this.create_income.subBranchId = this.shiftRepo.onSubBranch
+        let merge: any = { ...this.create_by_cash, ...this.create_by_other, ...this.create_income }
+        console.log(merge);
+
+        this.go_validation(merge);
+    }
+
+    go_validation(merge: any) {
+        if (merge.type == 'CASH') {
+            if (merge.cash > 0) {
+
+                if (!this.state_invalid_cash(merge).invalid) {
+                    this._dlg.showConfirmationDialog("Pemasukan Lainnya", "", "kamu akan memasukan tagihan " + merge.note, "merge-bill", "Pisah")
+                        .subscribe(res => {
+                            if (res) {
+                                this.goSubmitIncome(merge as IncomeUp)
+                            }
+                        })
+                } else {
+                    this.openSnackBar(this.state_invalid_cash(merge).message)
+                }
+
+            } else {
+                this.openSnackBar('Masukan uang tunai sesai jumlah yang dimasukan')
+            }
+        }
+
+
+        if (merge.type == 'CUSTOM') {
+            if (!this.state_invalid_other(merge).invalid) {
+                this._dlg.showConfirmationDialog("Pemasukan Lainnya", "", "kamu akan memasukan tagihan " + merge.note, "merge-bill", "Pisah")
+                    .subscribe(res => {
+                        if (res) {
+                            this.goSubmitIncome(merge as IncomeUp)
+                        }
+                    })
+            } else {
+                this.openSnackBar(this.state_invalid_other(merge).message)
+            }
+        }
+
+
+    }
+
+    state_invalid_cash(merge: any) {
+        if (merge.note.length < 5) {
+            return { invalid: true, message: 'Keterangan harus diisi lebih dari 5 huruf minimal 1 kata' }
+        }
+        return { invalid: false, message: '' }
+    }
+
+    state_invalid_other(merge: any) {
+        if (merge.note.length < 5) {
+            return { invalid: true, message: 'Keterangan harus diisi lebih dari 5 huruf minimal 1 kata' }
+        }
+
+        if (merge.transactionNo.length < 0) {
+            return { invalid: true, message: 'No transaksi harus diisi' }
+        }
+
+        if (merge.paymentTypeId === 0) {
+            return { invalid: true, message: 'Pilih terlebih dahulu tipe pembayaran' }
+        }
+
+        return { invalid: false, message: '' }
+    }
+
+    goSubmitIncome(data: IncomeUp) {
+        this.is_loading_submit = true
+        this._income_service.createIncome(data).subscribe(res => {
+            if (_.isEqual(res.statusCode, 0)) {
+                this.openSnackBar('Pemasukan telah ditambahkan')
+                this.reset_income()
+                this.fetch_income()
+            }
+            this.is_loading_submit = false
+        }, (err: HttpErrorResponse) => {
+            this.openSnackBar('Pemasukan gagal ditambahkan')
+            this.is_loading_submit = false
+        })
     }
 }

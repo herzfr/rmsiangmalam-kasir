@@ -62,7 +62,9 @@ export class OtherIncomeComponent implements OnInit {
         private _bottomSheet: MatBottomSheet
     ) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.checkTabPosition()
+    }
 
     ngAfterViewInit() {
         setTimeout(() => {
@@ -98,10 +100,25 @@ export class OtherIncomeComponent implements OnInit {
         console.log(e);
         this.oIncomeRepo.create_income.amount = e
         this.oIncomeRepo.update_cash()
+        this.oIncomeRepo.calculate()
+    }
+
+    checkTabPosition() {
+        switch (this.tabIndex) {
+            case 0:
+                this.oIncomeRepo.reset_payment()
+                this.oIncomeRepo.create_income.type = 'CASH'
+                break;
+            default:
+                this.oIncomeRepo.reset_payment()
+                this.oIncomeRepo.create_income.type = 'CUSTOM'
+                break;
+        }
     }
 
     tabChanged(tabChangeEvent: MatTabChangeEvent): void {
         this.tabIndex = tabChangeEvent.index
+        this.checkTabPosition()
     }
 
 

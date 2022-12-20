@@ -9,11 +9,11 @@ import { OtherIncomeRepository } from '../_model/other-income.repository';
     <div class="d-flex">
         <div class="col-4">
             <p class="text-left mb-0 title-e">Pilih tipe pembayaran</p>
-            <mat-radio-group  (ngModelChange)="oIncomeRepository.calculate()"
+            <mat-radio-group  (ngModelChange)="oIncomeRepo.calculate()"
                 aria-labelledby="input-radio-group-label"
                 class="input-radio-group"
-                [(ngModel)]="oIncomeRepository.create_by_other.paymentTypeId" >
-                <mat-radio-button class="input-radio-button" *ngFor="let item of paymentRepo.getPaymentType('DEBIT'); let i = index" [value]="item.id"  (change)="radioChange(item)">
+                [(ngModel)]="oIncomeRepo.create_by_other.paymentTypeId" >
+                <mat-radio-button (change)="oIncomeRepo.checked()" class="input-radio-button" *ngFor="let item of paymentRepo.getPaymentType('DEBIT'); let i = index" [value]="item.id"  (change)="radioChange(item)">
                     <div class="">
                         <img class="img-payment-logo" src="{{item.name | paymentcode }}">
                         <p class="mb-0">{{item.name}}</p>
@@ -26,29 +26,31 @@ import { OtherIncomeRepository } from '../_model/other-income.repository';
             <div class="form-payment">
                 <div class="grid-left mb-2">
                     <p class="mb-0 text-label">Nomor Kartu</p>
-                    <input [(ngModel)]="oIncomeRepository.create_by_other.cardNo" cardmask  (ngModelChange)="changeInputCardNumber($event)"
+                    <input [(ngModel)]="oIncomeRepo.create_by_other.cardNo" cardmask  (ngModelChange)="changeInputCardNumber($event)"
                     [maxLength]="19" matInput class="input-decorate-payment w-100" type="tel" placeholder="Masukan No. Kartu">
                 </div>
                 <div class="grid-left mb-2">
                     <p class="mb-0 text-label">Nama Pemegang Kartu</p>
-                    <input [(ngModel)]="oIncomeRepository.create_by_other.cardName" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan Nama Pemagang Kartu">
+                    <input [(ngModel)]="oIncomeRepo.create_by_other.cardName" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan Nama Pemagang Kartu">
                 </div>
                 <div class="grid-left mb-2">
                     <p class="mb-0 text-label">No. Transaksi</p>
-                    <input [(ngModel)]="oIncomeRepository.create_by_other.transactionNo" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan No Transaksi">
+                    <input [(ngModel)]="oIncomeRepo.create_by_other.transactionNo" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan No Transaksi">
                 </div>
                 <div class="grid-left mb-2">
                     <p class="mb-0 text-label">ID Merchant</p>
-                    <input [(ngModel)]="oIncomeRepository.create_by_other.merchantId" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan ID Merchant">
+                    <input [(ngModel)]="oIncomeRepo.create_by_other.merchantId" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan ID Merchant">
                 </div>
                 <div class="grid-left mb-2">
                     <p class="mb-0 text-label">No. Bacth</p>
-                    <input [(ngModel)]="oIncomeRepository.create_by_other.batchNo" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan No.Bacth">
+                    <input [(ngModel)]="oIncomeRepo.create_by_other.batchNo" matInput class="input-decorate-payment w-100" type="text" placeholder="Masukan No.Bacth">
                 </div>
+
+                <p class="my-2 text-label">Biaya admin : <strong>{{ oIncomeRepo.create_by_other.adminFee }}%</strong></p>
             </div>
             <div class="d-flex justify-content-center p-2">
-                <button (click)="oIncomeRepository.submit_income()" class="income-reset" mat-raised-button>Reset Pemasukan</button>
-                <button (click)="oIncomeRepository.submit_income()" class="income" mat-raised-button>Simpan Pemasukan</button>
+                <button (click)="oIncomeRepo.submit_income()" class="income-reset" mat-raised-button>Reset Pemasukan</button>
+                <button [disabled]="oIncomeRepo.create_by_other.transactionNo == '' && oIncomeRepo.create_by_other.paymentTypeId == null && (oIncomeRepo.create_income.note?? '') == ''" (click)="oIncomeRepo.submit_income()" class="income" mat-raised-button>Simpan Pemasukan</button>
             </div>
         </div>
     </div>
@@ -63,7 +65,7 @@ import { OtherIncomeRepository } from '../_model/other-income.repository';
 })
 
 export class IncomeDebitComponent implements OnInit {
-    constructor(public paymentRepo: PaymentRepository, public oIncomeRepository: OtherIncomeRepository) { }
+    constructor(public paymentRepo: PaymentRepository, public oIncomeRepo: OtherIncomeRepository) { }
 
     ngOnInit() { }
 
@@ -76,7 +78,7 @@ export class IncomeDebitComponent implements OnInit {
                 console.log(Number(_el));
                 if (_.isNaN(Number(_el))) {
                     console.log('ini nan');
-                    this.oIncomeRepository.create_by_other.cardNo = null
+                    this.oIncomeRepo.create_by_other.cardNo = null
                 }
             });
         }
@@ -85,6 +87,6 @@ export class IncomeDebitComponent implements OnInit {
 
     radioChange(payment: any) {
         // console.log('change', payment);
-        this.oIncomeRepository.create_by_other.adminFee = payment.adminFee
+        this.oIncomeRepo.create_by_other.adminFee = payment.adminFee
     }
 }

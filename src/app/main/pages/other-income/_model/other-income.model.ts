@@ -36,8 +36,8 @@ export interface OtherIncome {
 
 
 export class FilterIncome {
-    startDate: number = 1656608400000;
-    endDate: number = 1659200400000;
+    startDate: number = new Date().getMilliseconds();
+    endDate: number = new Date().getMilliseconds();
     branchId: number | null = null
     subBranchId: number | null = null
     search: string = ''
@@ -50,7 +50,7 @@ export class CreateIncome {
     amount: number = 0
     type?: string
     branchId?: number
-    subBranchId?: number
+    subBranchId?: number | null
 }
 
 
@@ -60,14 +60,34 @@ export class CreateIncomeCash {
 }
 
 export class CreateIncomeOther {
+    transactionNo?: string = ''
+    merchantId?: string = ''
+    cardNo: string | null = null
+    cardName?: string = ''
+    batchNo?: string = ''
+    adminFee: number = 0
+    isTax?: boolean = false
+    paymentTypeId?: number | null = null
+    image: string | null = null
+}
+
+
+export interface IncomeUp {
+    note?: string
+    amount: number
+    type?: string
+    branchId?: number
+    subBranchId?: number | null
+    cash?: number
+    change?: number
     transactionNo?: string
     merchantId?: string
-    cardNo: string | null = null
+    cardNo: string | null
     cardName?: string
     batchNo?: string
-    adminFee: number = 0
+    adminFee: number
     isTax?: boolean
     paymentTypeId?: number
-    image: string | null = null
+    image: string | null
 }
 

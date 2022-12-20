@@ -246,7 +246,7 @@ export class OrderComponent implements OnInit {
         this.order.addShortcut(id)
     }
 
-    deleteShortcut(id: string | undefined) {
+    deleteShortcut(id: number | undefined) {
         if (id) {
             this.order.deleteShortcut(id)
         }

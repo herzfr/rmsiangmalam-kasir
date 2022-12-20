@@ -26,7 +26,7 @@ import { DialogService } from '../../dialogs/dialog.service';
             <!-- <p class="text-start mb-0 f-11px">Stok : <span  [ngClass]="{'on-text-danger': quantity === 0, 'on-text-warning' : quantity > 0 && quantity < 10, 'on-text-success' : quantity > 10 }">{{ quantity }}</span></p> -->
             <mat-icon yPosition="below" xPosition="after" [matMenuTriggerFor]="optproduct" class="utama"color="dark" svgIcon="three-dot"></mat-icon>
             <mat-menu #optproduct="matMenu">
-                <button *ngIf="position > 0" mat-menu-item>Hapus dari menu utama</button>
+                <button *ngIf="position > 0" (click)="delete()" mat-menu-item>Hapus dari menu utama</button>
                 <button  (click)="shortcutThis()" *ngIf="position < 1" mat-menu-item>Daftarkan ke menu utama</button>
                 <button  (click)="seeStockList()" mat-menu-item>Lihat Stok</button>
             </mat-menu>
@@ -50,6 +50,7 @@ export class ShortcutCardComponent implements OnInit {
 
     @Output() on_shortcut = new EventEmitter<string>();
     @Output() on_item = new EventEmitter<Shortcut>();
+    @Output() on_delete = new EventEmitter<number>();
 
     constructor(private dialogService: DialogService) { }
 
@@ -83,6 +84,10 @@ export class ShortcutCardComponent implements OnInit {
 
     chooseItem() {
         this.on_item.emit(this.item)
+    }
+
+    delete() {
+        this.on_delete.emit(this.item?.shorcutId);
     }
 
 

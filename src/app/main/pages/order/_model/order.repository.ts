@@ -185,11 +185,11 @@ export class OrderRepository {
         return result;
     }
 
-    deleteShortcut(menuId: string) {
+    deleteShortcut(id: number) {
         this.isLoading = true
-        let sc: Shortcut | undefined = this.shortcutList.find(x => x.id === menuId)
+        let sc: Shortcut | undefined = this.shortcutList.find(x => x.shorcutId === id)
         if (sc) {
-            this.orderService.deleteMenuShortcut(sc.position).subscribe(res => {
+            this.orderService.deleteMenuShortcut(sc.shorcutId ?? 0).subscribe(res => {
                 if (_.isEqual(res.statusCode, 0)) {
                     this.openSnackBar('Berhasil menghapus menu, posisi ke ' + sc?.position)
                     this.reCheckShortcut()

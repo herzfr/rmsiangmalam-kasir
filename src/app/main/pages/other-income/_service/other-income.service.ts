@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { GeneralResponse } from 'src/app/_model/general.interface';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
-import { CreateIncomeCash, CreateIncomeOther, FilterIncome } from '../_model/other-income.model';
+import { CreateIncomeCash, CreateIncomeOther, FilterIncome, IncomeUp } from '../_model/other-income.model';
 
 const URL = environment.url
 const httpOptions = {
@@ -21,7 +21,7 @@ export class OtherIncomeService {
         return this.http.post<GeneralResponse>(URL + 'pos/income/get', filter, httpOptions)
     }
 
-    createIncome(create: CreateIncomeCash | CreateIncomeOther): Observable<GeneralResponse> {
+    createIncome(create: IncomeUp): Observable<GeneralResponse> {
         return this.http.post<GeneralResponse>(URL + 'pos/income/input', create, httpOptions)
     }
 

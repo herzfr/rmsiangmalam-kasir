@@ -77,4 +77,5 @@ export interface Shortcut {
     prices: Price[]
     position: number
     packageId?: number
+    shorcutId?: number
 }

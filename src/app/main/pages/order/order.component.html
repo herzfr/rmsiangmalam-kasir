@@ -204,7 +204,8 @@
                                                 <shortcut-card
                                                     *ngIf="getShortcut(pos)?.prices!.length > 0 && getPriceAvailable((getShortcut(pos)?.prices?? []))"
                                                     (on_item)="addShortcutToCart($event)" [position]="pos"
-                                                    (on_shortcut)="shortcutThis($event)" [item]="getShortcut(pos)"
+                                                    (on_shortcut)="shortcutThis($event)"
+                                                    (on_delete)="deleteShortcut($event)" [item]="getShortcut(pos)"
                                                     [id]="getShortcut(pos)?.id" [priceCategory]="selected"
                                                     [active]="getShortcut(pos)?.active"
                                                     [pictures]="getShortcut(pos)?.pic" [name]="getShortcut(pos)?.name"
