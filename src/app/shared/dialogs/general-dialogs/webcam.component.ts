@@ -13,7 +13,7 @@ export interface WebcamDialog {
 @Component({
     selector: 'webcam-app',
     template: `
-        <button class="close" mat-button (click)="onNoClick()">
+        <button class="x" mat-button (click)="onNoClick()">
             <mat-icon svgIcon="remove"></mat-icon>
         </button>
         <div class="container">
@@ -67,7 +67,7 @@ export class WebCamComponent implements OnInit {
     public handleImage(webcamImage: WebcamImage): void {
         this.webcamImage = webcamImage;
         this.captureImage = webcamImage!.imageAsDataUrl;
-        console.info('received webcam image', this.captureImage);
+        // console.info('received webcam image', this.captureImage);
         var strImage = this.captureImage.replace(/^data:image\/[a-z]+;base64,/, "");
         // console.info('received webcam image => ', strImage);
         this.dialogRef.close({ response: true, image: strImage })

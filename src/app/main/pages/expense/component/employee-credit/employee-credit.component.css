@@ -1,0 +1,23 @@
+.btn-submit-expense {
+  cursor: pointer;
+  background: #045b62;
+  color: #fff;
+}
+
+.card-info-empl {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0px 0px 24.8972px rgb(166 166 166 / 16%);
+  border-radius: 8px;
+  padding: 8px 8px;
+  margin: 8px 0px;
+}
+
+.empl-available {
+  background: #045b62 !important;
+}
+
+.mrx-8 {
+  margin-right: 8px;
+}

@@ -51,6 +51,7 @@ import { SettingService } from './_service/settings.service';
 import { SettingRepository } from './_model/setting/setting.repository';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrintViewComponent } from './pages/settings/component/print-view.component';
+import { EmployeeService } from './_service/employee.service';
 
 
 const routes: Routes = [
@@ -60,7 +61,8 @@ const routes: Routes = [
     { path: 'cashier', loadChildren: () => import('./pages/cashier/cashier.module').then((m) => m.CashierModule) },
     { path: 'tables', loadChildren: () => import('./pages/tables/tables.module').then((m) => m.TableModule) },
     { path: 'reservation', loadChildren: () => import('./pages/reservation/reservation.module').then((m) => m.ReservationModule) },
-    { path: 'other-income', loadChildren: () => import('./pages/other-income/other-income.module').then((m) => m.OtherIncomeModule) }
+    { path: 'other-income', loadChildren: () => import('./pages/other-income/other-income.module').then((m) => m.OtherIncomeModule) },
+    { path: 'expense', loadChildren: () => import('./pages/expense/expense.module').then((m) => m.ExpenseModule) }
 ];
 
 const material = [
@@ -116,7 +118,8 @@ const material = [
         ReservationService,
         ReservationRepository,
         SettingService,
-        SettingRepository
+        SettingRepository,
+        EmployeeService
     ]
 })
 export class MainModule { }

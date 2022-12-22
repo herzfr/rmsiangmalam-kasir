@@ -63,7 +63,7 @@ import { BaseService } from "../_service/base.service";
 })
 export class NumpadComponent {
     inputResult: number = 0
-    is_from: 'cashier' | 'reservation' | 'income';
+    is_from: 'cashier' | 'reservation' | 'income' | 'expense' | 'cash-employee';
     constructor(
         private _bottomSheetRef: MatBottomSheetRef<NumpadComponent>,
         @Inject(MAT_BOTTOM_SHEET_DATA) public data: any[],
@@ -128,6 +128,12 @@ export class NumpadComponent {
                 break;
             case 'income':
                 this._baseservice.number_result_income = this.inputResult
+                break;
+            case 'expense':
+                this._baseservice.number_result_expense = this.inputResult
+                break;
+            case 'cash-employee':
+                this._baseservice.number_result_cash_empl = this.inputResult
                 break;
             default:
                 this._baseservice.number_result_general = this.inputResult

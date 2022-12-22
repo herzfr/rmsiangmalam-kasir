@@ -97,6 +97,10 @@ export class IconMaterialModule {
         ["package-active", `${PathRegistry.ASSETS_SVG}icon/sidenav/icon-package-active.svg`],
         ["product-active", `${PathRegistry.ASSETS_SVG}icon/sidenav/icon-product-active.svg`],
         ["cashier-active", `${PathRegistry.ASSETS_SVG}icon/sidenav/icon-cashier-active.svg`],
+
+        // CONFIRMATION
+        ["confirm-expense", `${PathRegistry.ASSETS_SVG}confirmation/confirm-expense.svg`],
+        ["confirm-income", `${PathRegistry.ASSETS_SVG}confirmation/confirm-income.svg`],
     ];
 
 

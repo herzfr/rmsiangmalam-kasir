@@ -10,6 +10,9 @@ export class BaseService {
     send_number_result = new Subject<number>();
     send_number_result_general = new Subject<number>();
     send_number_result_income = new Subject<number>();
+    send_number_result_expense = new Subject<number>();
+    send_number_result_cash_employee = new Subject<number>();
+
     trigger_function = new Subject<any>();
 
     constructor() { }
@@ -34,6 +37,14 @@ export class BaseService {
         this.send_number_result_income.next(result)
     }
 
+    set number_result_expense(result: number) {
+        this.send_number_result_expense.next(result)
+    }
+
+    set number_result_cash_empl(result: number) {
+        this.send_number_result_cash_employee.next(result)
+    }
+
     get tempSale$() {
         return this.temp_sales.asObservable()
     }
@@ -48,6 +59,14 @@ export class BaseService {
 
     get numberResultIncome$() {
         return this.send_number_result_income.asObservable()
+    }
+
+    get numberResultExpense$() {
+        return this.send_number_result_expense.asObservable()
+    }
+
+    get numberResultEmplCash$() {
+        return this.send_number_result_cash_employee.asObservable()
     }
 
     get triggerFn$() {

@@ -13,9 +13,9 @@ export interface VerifyDialog {
     selector: 'verify-dialog',
     template: `
     <button class="close" mat-button (click)="onConfirm(false)">
-        <mat-icon svgIcon="remove"></mat-icon>
+        <mat-icon svgIcon="x"></mat-icon>
     </button>
-    <h1 mat-dialog-title class="text-center">{{ data.title }}</h1>
+    <h1 mat-dialog-title class="text-center mb-1">{{ data.title }}</h1>
     <div mat-dialog-content>
         <p class="text-center">{{ data.message }}</p>
         <div class="container">
@@ -25,7 +25,10 @@ export interface VerifyDialog {
     <div mat-dialog-actions align="center">
       <button mat-button class="btn-cancel" (click)="onConfirm(false)">Batal</button>
       <button mat-button class="btn-confirm" (click)="onConfirm(true)">{{ data.confirm }}</button>
-    </div>`
+    </div>`,
+    styles: [
+        '.container{ min-width: 500px; min-height: 300px; display: flex; justify-content: center; align-items: center; }'
+    ]
 })
 
 export class VerifyDialogComponent implements OnInit {

@@ -1,0 +1,62 @@
+<div class="operational-credit">
+    <div class="d-flex justify-content-between mb-2">
+        <p class="text-head-primary py-1 px-0 mb-0">Pengeluaran Operational</p>
+        <p (click)="exRepo.reset_expense()" class="text-head-primary py-1 px-0 mb-0 cursor-pointer">Reset</p>
+    </div>
+
+
+    <div class="d-flex mb-2">
+        <div class="col form-group">
+            <label class="label" for="fCost">Jumlah</label>
+            <div class="box-input">
+                <mat-icon class="icon-input" svgIcon="keypad" (click)="exRepo.openKeybordSheet('expense')"></mat-icon>
+                <input [(ngModel)]="exRepo.create.cost" id="fCost" class="form-control" type="text" currencyMask
+                    (ngModelChange)="inputDepositChange($event)"
+                    [options]="{ prefix: 'Rp ', thousands: '.', decimal: ',',  precision: 0 }"
+                    placeholder="Masukkan jumlah pengeluaran" matInput required>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex mb-2">
+        <div class="col form-group">
+            <label class="label" for="fnote">Keterangan</label>
+            <div class="box-input">
+                <mat-icon class="icon-input" svgIcon="note-2"></mat-icon>
+                <input [(ngModel)]="exRepo.create.note" id="fnote" class="form-control" type="text"
+                    placeholder="Masukkan keterangan pengeluaran">
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex mb-2">
+        <div class="col form-group">
+            <label class="label" for="fType">Keperluan</label>
+            <div class="box-input">
+                <mat-icon class="icon-input" svgIcon="note-2"></mat-icon>
+                <mat-select [(value)]="exRepo.create.type" panelClass="dropdown-position-type">
+                    <mat-option [value]="item.value" *ngFor="let item of optionType">{{
+                        item.key
+                        }}</mat-option>
+                </mat-select>
+            </div>
+        </div>
+        <span class="mx-1"></span>
+        <div class="col form-group">
+            <label class="label" for="fStatus">Status Pengeluaran</label>
+            <div class="box-input">
+                <mat-icon class="icon-input" svgIcon="note-2"></mat-icon>
+                <mat-select [(value)]="exRepo.create.status" panelClass="dropdown-position-status">
+                    <mat-option [value]="item.value" *ngFor="let item of optionPayment">{{
+                        item.key
+                        }}</mat-option>
+                </mat-select>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end my-3">
+        <button (click)="exRepo.submit_expense()" class="btn-submit-expense" mat-button>Keluarkan Kas</button>
+    </div>
+
+</div>

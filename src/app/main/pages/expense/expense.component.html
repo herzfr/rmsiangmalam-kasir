@@ -1,0 +1,37 @@
+<div class="container-fluid container-main p-0">
+    <div class="d-flex card-box-header">
+        <button (click)="location.back()" class="" mat-icon-button>
+            <mat-icon svgIcon="back"></mat-icon>
+        </button>
+        <p class="mb-0 text-title">Pengeluaran</p>
+    </div>
+    <mat-progress-bar *ngIf="exRepo.is_loading_submit" mode="indeterminate"></mat-progress-bar>
+
+    <div class="d-flex container-main">
+        <div class="col p-2">
+            <list-expense></list-expense>
+        </div>
+        <div class="col p-2">
+            <div class="card-box">
+                <div class="d-flex tab-box">
+                    <p (click)="tab = 0" [class.active-tab]="tab == 0" class="mb-0 col text-center list-box active-tab">
+                        Pengeluaran Operasional</p>
+                    <p (click)="tab = 1" [class.active-tab]="tab == 1" class="mb-0 col text-center list-box">Pengeluaran
+                        Karyawan</p>
+                </div>
+
+                <div class="content">
+                    <div [ngSwitch]="tab">
+                        <div *ngSwitchCase="0">
+                            <operational-credit></operational-credit>
+                        </div>
+                        <div *ngSwitchDefault>
+                            <employee-credit></employee-credit>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

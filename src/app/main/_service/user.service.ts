@@ -23,7 +23,7 @@ export class UsersService {
 
     // GET USER BY ID
     getUserById(id: string): Observable<GeneralResponse> {
-        return this.http.post<GeneralResponse>(URL + 'users/byid/' + id, httpOptions)
+        return this.http.get<GeneralResponse>(URL + 'users/byid/' + id, httpOptions)
     }
 
 

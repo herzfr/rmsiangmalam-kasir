@@ -1,0 +1,61 @@
+<div class="operational-credit">
+    <div class="d-flex justify-content-between mb-2">
+        <p class="text-head-primary py-1 px-0 mb-0">Pengeluaran Kas Karyawan</p>
+        <p (click)="exRepo.reset_empl_cash()" class="text-head-primary py-1 px-0 mb-0 cursor-pointer">Reset</p>
+    </div>
+
+    <div class="d-flex mb-2">
+        <div class="col form-group">
+            <label class="label" for="fnote">Cari ID Karyawan</label>
+            <div class="box-input">
+                <mat-icon class="icon-input" svgIcon="search"></mat-icon>
+                <input [(ngModel)]="exRepo.key_find_user" id="fnote" class="form-control" type="text"
+                    placeholder="Masukan ID Karyawan">
+                <mat-icon (click)="exRepo.key_find_user = ''" class="col-2 mx-3 cursor-pointer"
+                    svgIcon="remove"></mat-icon>
+            </div>
+            <div class="d-flex justify-content-end my-1">
+                <button (click)="exRepo.findUser()" class="btn-submit-expense" mat-button>Cari</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex mb-2">
+        <div [class.empl-available]="exRepo.data_user" class="card-info-empl">
+            <ul class="list-group">
+                <li class="list-group-item text-title-case"> <mat-icon class="icon-info mrx-8"
+                        svgIcon="user"></mat-icon>ID Karyawan & Username :
+                    <span class="fw-normal ml-5">{{ exRepo.data_user?.id?? '-' }} - {{ exRepo.data_user?.username?? '-'
+                        }}</span>
+                </li>
+            </ul>
+            <ul class="list-group">
+                <li class="list-group-item text-title-case"> <mat-icon class="icon-info mrx-8"
+                        svgIcon="receipt"></mat-icon>Cabang Induk :
+                    <span class="fw-normal ml-5">{{ exRepo.data_user?.branch?? '-' }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="d-flex mb-2">
+        <div class="col form-group">
+            <label class="label" for="fAmount">Jumlah Kas yang diajukan</label>
+            <div class="box-input">
+                <mat-icon (click)="exRepo.data_user? exRepo.openKeybordSheet('cash-employee') : null "
+                    class="icon-input" svgIcon="keypad"></mat-icon>
+                <input [disabled]="exRepo.data_user? false : true" [(ngModel)]="exRepo.employee_cash.amount"
+                    id="fAmount" class="form-control" type="text" placeholder="Masukan ID Karyawan" currencyMask
+                    [options]="{ prefix: 'Rp ', thousands: '.', decimal: ',',  precision: 0 }">
+                <mat-icon (click)="exRepo.employee_cash.amount = 0" class="col-2 mx-3 cursor-pointer"
+                    svgIcon="remove"></mat-icon>
+            </div>
+            <div class="d-flex justify-content-end my-3">
+                <button [disabled]="exRepo.data_user? false : true" (click)="exRepo.submit_empl_cash()"
+                    class="btn-submit-expense" mat-button>Keluarkan Kas</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>

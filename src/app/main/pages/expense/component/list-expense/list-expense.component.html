@@ -1,0 +1,125 @@
+<div class="card-box">
+    <p class="text-head-primary py-3 mb-0">Filter Pencarian</p>
+
+    <div class="d-flex mb-2">
+        <div class="d-flex align-items-center find-input">
+            <mat-icon (click)="exRepo.fetch_expense()" class="col-2 mx-3 cursor-pointer" svgIcon="search">
+            </mat-icon>
+            <input (keyup)="applyFilter($event)" placeholder="Cari Pengeluaran" class="col" type="text"
+                [value]="exRepo.filter.search" mat-input />
+            <mat-icon (click)="clear()" class="col-2 mx-3 cursor-pointer" svgIcon="remove"></mat-icon>
+        </div>
+    </div>
+
+    <div class="d-flex mb-2">
+        <div class="col-7">
+            <div class="d-flex box-range">
+                <mat-date-range-input [formGroup]="exRepo.rangeDate" [rangePicker]="picker">
+                    <input matStartDate formControlName="start" placeholder="Mulai" #dateStart />
+                    <input matEndDate formControlName="end" placeholder="Akhir" #dateEnd
+                        (dateChange)="exRepo.findByDate()" />
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </div>
+        </div>
+
+        <div class="col d-flex align-items-center justify-content-around px-2">
+            <div [class.disable-next-prev]="exRepo.is_disabled_prev"
+                (click)="exRepo.is_disabled_prev ? null : exRepo.prev() " mat-button color="accent"
+                class="button-next-prev">
+                <mat-icon class="icon-next-prev" svgIcon="chevron-left"></mat-icon>
+            </div>
+            <strong class="mx-2"> {{ (exRepo.pagine?.pageNumber?? 0) + 1 }} / {{
+                (exRepo.pagine?.totalPage?? 0)
+                + 1}}</strong>
+            <div [class.disable-next-prev]="exRepo.is_disabled_next"
+                (click)="exRepo.is_disabled_next ? null : exRepo.next()" mat-button color="accent"
+                class="button-next-prev">
+                <mat-icon class="icon-next-prev" svgIcon="chevron-right"></mat-icon>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex mb-2">
+        <div class="col-7 box-filter">
+            <mat-select (selectionChange)="exRepo.fetch_expense()" [(value)]="exRepo.filter.type"
+                panelClass="droprdown-position-orderby">
+                <mat-option [value]="item.value" *ngFor="let item of optionType">{{
+                    item.key
+                    }}</mat-option>
+            </mat-select>
+        </div>
+        <div class="col box-filter mx-2">
+            <mat-select (selectionChange)="exRepo.fetch_expense()" [(value)]="exRepo.filter.status"
+                panelClass="droprdown-position-orderby">
+                <mat-option [value]="item.value" *ngFor="let item of optionPayment">{{
+                    item.key
+                    }}</mat-option>
+            </mat-select>
+        </div>
+    </div>
+
+    <p class="text-head-primary py-3 mb-0">Daftar Pengeluaran</p>
+
+    <ng-container *ngIf="exRepo.is_loading; else notloading">
+        <div class="loading-container">
+            <div class="spinner"></div>
+            <p class="text-head-primary">Tunggu sebentar...</p>
+        </div>
+    </ng-container>
+    <ng-template #notloading>
+        <div class="list-container" *ngIf="exRepo._expense_list.length > 0; else emptycart">
+            <div class="card-item" *ngFor="let exp of exRepo._expense_list">
+                <div class="item-income header-temp">
+                    <div class="col d-flex">
+                        <mat-icon class="icon-calendar-2" svgIcon="note"></mat-icon>
+                        <p class="text-temp mb-0">Pemasukan : <span class="t-primary">{{ exp?.note
+                                }}</span><span class="status-paid" [ngClass]="class_status(exp.status)">{{
+                                status_payment(exp.status)
+                                }}</span></p>
+                    </div>
+                    <div class="col d-flex justify-content-end">
+                        <mat-icon class="icon-temp" svgIcon="calendar"></mat-icon>
+                        <p class="text-temp mb-0">{{ (exp?.createdAt?? day) | milistodate: "full" }}</p>
+                    </div>
+                </div>
+                <div class="list-a d-flex align-items-center">
+                    <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
+                    <p class="mb-0 mr-1 text-temp t-primary">Jumlah Pengeluaran : </p>
+                    <p class="mb-0 fw-bold text-temp" style="font-size: 10px;">{{ exp.cost | rupiah }}</p>
+                </div>
+                <div class="list-a d-flex align-items-center">
+                    <mat-icon class="icon-calendar-2" svgIcon="receipt"></mat-icon>
+                    <p class="mb-0 mr-1 text-temp t-primary">Tipe Pemasukan : </p>
+                    <p class="mb-0 fw-bold text-temp" style="font-size: 10px;">
+                        <mat-icon class="icon-calendar-2" svgIcon="wallet-cash"></mat-icon>{{checkType(exp.type) |
+                        titlecase }}
+                    </p>
+                </div>
+                <div class="list-a d-flex align-items-center">
+                    <div class="col-3 p-2">
+                        <img uiImageLoader class="img-receipt" onErrorSrc="assets/images/no_pic_square.png"
+                            loader="assets/images/no_pic_square.png" [src]="exp.pic" [alt]="exp.id">
+                    </div>
+                    <span class="col-4"></span>
+                    <div class="col grid-button">
+                        <button (click)="exRepo.openPhoto(exp.id)" mat-button class="btn-foto-upload">Foto
+                            Bukti</button>
+                        <button mat-button class="btn-foto-upload"><input class="input-file" type="file"
+                                (change)="exRepo.fileChangeEvent($event, exp.id)" />Upload Bukti</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #emptycart>
+        <div class="center-empty">
+            <mat-icon class="icon-empty" svgIcon="empty-cart"></mat-icon>
+            <p class="text-center text-empty">Tidak ada daftar pengeluaran</p>
+        </div>
+    </ng-template>
+
+
+</div>
