@@ -1,0 +1,519 @@
+<div class="container-fluid container-main p-0">
+    <div *ngIf="tab == 0 || tab == 1; else onreceive" class="d-flex card-box-header">
+        <button (click)="location.back()" class="" mat-icon-button>
+            <mat-icon svgIcon="back"></mat-icon>
+        </button>
+        <p class="mb-0 text-title">Stok Masuk & Keluar</p>
+    </div>
+    <ng-template #onreceive>
+        <div class="d-flex card-box-header">
+            <p class="mb-0 text-title">Penerimaan Stok</p>
+        </div>
+    </ng-template>
+    <!-- <mat-progress-bar *ngIf="trfsRepo.is_loading" mode="indeterminate"></mat-progress-bar> -->
+
+    <div class="d-flex container-transfer">
+        <div class="col-4 p-2">
+
+            <div [ngSwitch]="tab">
+                <div *ngSwitchCase="0">
+                    <mat-card class="cal-inline-calendar-card">
+                        <mat-calendar (selectedChange)="changeDate($event)" [(selected)]="selected"></mat-calendar>
+                    </mat-card>
+
+                    <div class="col d-flex align-items-center justify-content-around p-2">
+                        <div [class.disable-next-prev]="trfsRepo.is_disabled_prev"
+                            (click)="trfsRepo.is_disabled_prev ? null : trfsRepo.prev() " mat-button color="accent"
+                            class="button-next-prev">
+                            <mat-icon class="icon-next-prev" svgIcon="chevron-left"></mat-icon>
+                        </div>
+                        <strong class="mx-2">Halaman {{ (trfsRepo.pagine?.pageNumber?? 0) + 1 }} / {{
+                            (trfsRepo.pagine?.totalPage?? 0)
+                            + 1}}</strong>
+                        <div [class.disable-next-prev]="trfsRepo.is_disabled_next"
+                            (click)="trfsRepo.is_disabled_next ? null : trfsRepo.next()" mat-button color="accent"
+                            class="button-next-prev">
+                            <mat-icon class="icon-next-prev" svgIcon="chevron-right"></mat-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="h-90" *ngSwitchCase="1">
+                    <div class="card-box">
+                        <p class="mb-0 fw-bold primary p-2">Product</p>
+                        <div class="col d-flex align-items-center find-input">
+                            <mat-icon (click)="trfsRepo.fetch_transfer_stock()" class="col-2 mx-3 cursor-pointer"
+                                svgIcon="search">
+                            </mat-icon>
+                            <input #search (keyup)="searchFilter($event.target)" placeholder="Cari Produk" class="col"
+                                type="text" mat-input />
+                            <mat-icon (click)="search.value = ''" (click)="get_all_prod()"
+                                class="col-2 mx-3 cursor-pointer" svgIcon="remove"></mat-icon>
+                        </div>
+                        <div class="h-inherit-overflow h-in p-2">
+                            <div *ngIf="prodRepo.is_loading_product; else not_loading">
+                                <div class="loading-container">
+                                    <div class="spinner"></div>
+                                    <p class="text-head-primary">Tunggu sebentar...</p>
+                                </div>
+                            </div>
+                            <ng-template #not_loading>
+                                <ng-container *ngIf="prodRepo.product_list.length > 0; else empty">
+                                    <ng-container *ngFor="let prod of prodRepo.product_list">
+                                        <li *ngIf="prod.quantity > 0"
+                                            class="display-item-temp d-flex justify-content-between align-items-start mb-1">
+
+                                            <!--a draggable element-->
+                                            <div [ngClass]="trfsRepo.comparison_quantity(prod) == 0? 'draggable-disabled' : 'draggable'"
+                                                [dndDraggable]="prod" [dndEffectAllowed]="draggable.effectAllowed"
+                                                [dndDisableIf]="trfsRepo.comparison_quantity(prod) == 0"
+                                                (dndStart)="onDragStart($event)" (dndCopied)="onDraggableCopied($event)"
+                                                (dndLinked)="onDraggableLinked($event)"
+                                                (dndMoved)="onDraggableMoved($event)"
+                                                (dndCanceled)="onDragCanceled($event)" (dndEnd)="onDragEnd($event)">
+
+                                                <!--if [dndHandle] is used inside dndDraggable drag can only start from the handle-->
+                                                <div *ngIf="draggable.handle" dndHandle>HANDLE
+                                                </div>
+
+                                                <!-- draggable ({{draggable.effectAllowed}}) <span [hidden]="!draggable.disable">DISABLED</span> -->
+                                                <div dndDragImageRef class="d-flex w-100"
+                                                    (click)="trfsRepo.comparison_quantity(prod) == 0? null : trfsRepo.add_send(prod.product)">
+                                                    <!-- <div class="col-1 text-list">
+                                                    {{ prod.quantity }}
+                                                </div> -->
+                                                    <div class="me-auto">
+                                                        <div class="text-list">{{ prod.product.name }}
+                                                            <p class="fw-normal mb-0">{{
+                                                                prod.product.unit }}</p>
+                                                        </div>
+                                                        <!-- Content for list item -->
+                                                    </div>
+                                                    <span class="text-list primary">({{
+                                                        trfsRepo.comparison_quantity(prod) }})</span>
+                                                    <mat-icon class="drag-icon" svgIcon="drag"></mat-icon>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-template #empty>
+                                    Produk Kosong
+                                </ng-template>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+                <div *ngSwitchDefault>
+                    <div class="card-box p-3">
+                        <p class="primary fw-bold">Info Pengirim</p>
+                        <li class="list-group-item text-title-case display-left">
+                            <mat-icon class="icon-info" svgIcon="note-2"></mat-icon>
+                            <span class="fw-normal mr-5">Catatan: </span>
+                            <span class="fw-bold ml-5">{{ trfsRepo.on_receive?.note }}</span>
+                        </li>
+                        <li class="list-group-item text-title-case display-left">
+                            <mat-icon class="icon-info" svgIcon="car"></mat-icon>
+                            <span class="fw-normal mr-5">Dari: </span>
+                            <span class="fw-bold ml-5">{{
+                                get_warehouse(trfsRepo.on_receive?.frmWarehouseId?? 0) }}</span>
+                        </li>
+                        <li class="list-group-item text-title-case display-left">
+                            <mat-icon class="icon-info" svgIcon="user"></mat-icon>
+                            <span class="fw-normal mr-5">Pengirim: </span>
+                            <span class="fw-bold ml-5">@{{ trfsRepo.on_receive?.sendBy }}</span>
+                        </li>
+                        <li class="list-group-item text-title-case display-left">
+                            <mat-icon class="icon-info" svgIcon="calendar"></mat-icon>
+                            <span class="fw-normal ml-5">{{ trfsRepo.on_receive?.createdAt?? day |
+                                milistodate: "full"}}</span>
+                        </li>
+                        <li class="list-group-item text-title-case display-left">
+                            <mat-icon class="icon-info" svgIcon="box-transfer"></mat-icon>
+                            <span class="fw-normal mr-5">Total Produk: </span>
+                            <span class="fw-bold ml-5">{{ trfsRepo.on_receive?.products?.length }}</span>
+                        </li>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col p-2">
+            <!-- TAB -->
+            <div class="card-box">
+                <div *ngIf="tab == 0 || tab == 1" class="d-flex tab-box">
+                    <p (click)="tab = 0" [class.active-tab]="tab == 0" class="mb-0 col text-center list-box active-tab">
+                        <mat-icon svgIcon="note-2" class="icon-tab mr-2"></mat-icon>
+                        Riwayat Transfer
+                    </p>
+                    <p (click)="tab = 1" [class.active-tab]="tab == 1" class="mb-0 col text-center list-box">
+                        <mat-icon svgIcon="plus" class="icon-tab mr-2"></mat-icon>
+                        Pembuatan Transfer
+                    </p>
+                </div>
+
+                <div class="content-body">
+                    <div [ngSwitch]="tab" class="h-inherit">
+                        <div *ngSwitchCase="0" class="h-inherit-overflow h-in">
+
+                            <div class="d-flex mb-2 list-sticky">
+                                <!-- <div class="col form-group">
+                                    <div class="box-input">
+                                        <mat-icon class="icon-input" svgIcon="user"></mat-icon>
+                                        <mat-select (selectionChange)="changeDestination($event)"
+                                            [(value)]="trfsRepo.filter.subBranchId"
+                                            panelClass="dropdown-position-warehouse">
+                                            <ng-container *ngFor="let item of warehouses">
+                                                <mat-option *ngIf="item.subBranchId == null" [value]="null">
+                                                    {{ item.name }}
+                                                </mat-option>
+                                                <mat-option *ngIf="item.subBranchId != null"
+                                                    [value]="item.subBranchId">{{
+                                                    item.name
+                                                    }}</mat-option>
+                                            </ng-container>
+                                        </mat-select>
+                                    </div>
+                                </div> -->
+                                <div class="col-3 d-flex align-items-center justify-content-center">
+                                    <mat-slide-toggle #togle [checked]="trfsRepo.position === 'receive'"
+                                        (change)="toggle($event)"><span class="fw-bold primary">{{ trfsRepo.position
+                                            == 'send' ? 'Pengiriman' : 'Penerimaan'}}</span></mat-slide-toggle>
+                                </div>
+                                <span class="col-1"></span>
+                                <div class="col d-flex align-items-center find-input">
+                                    <mat-icon (click)="trfsRepo.fetch_transfer_stock()"
+                                        class="col-2 mx-3 cursor-pointer" svgIcon="search">
+                                    </mat-icon>
+                                    <input (keyup)="applyFilter($event)" placeholder="Cari" class="col" type="text"
+                                        [value]="trfsRepo.filter.search" mat-input />
+                                    <mat-icon (click)="clear()" (click)="get_all_transfer()"
+                                        class="col-2 mx-3 cursor-pointer" svgIcon="remove"></mat-icon>
+                                </div>
+                            </div>
+
+                            <div *ngIf="!trfsRepo.is_loading; else is_loading">
+                                <div class="list-container">
+                                    <ng-container *ngIf="trfsRepo._expense_list.length > 0 ; else empty">
+                                        <ng-container *ngFor="let itm of trfsRepo._expense_list;">
+                                            <div class="card-item-ts">
+                                                <div class="d-flex w-100 border-b-line">
+                                                    <div class="col d-flex align-items-center mb-2">
+                                                        <mat-icon svgIcon="box-transfer"></mat-icon>
+                                                        <p class="mb-0" style="margin-left: 8px;">{{ itm.note |
+                                                            titlecase }}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col d-flex align-items-center justify-content-end  mb-2">
+                                                        <p class="mb-0 text-status">Status:</p>
+                                                        <p [ngClass]="display_status(itm).style"
+                                                            class="mb-0 text-display">
+                                                            {{ display_status(itm).status }}</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex w-100 relative">
+                                                    <!-- SEND -->
+                                                    <div class="grid-line">
+                                                        <div class="d-flex icon-line bg-status-primary">
+                                                            <mat-icon class="icon-i" svgIcon="white-car"></mat-icon>
+                                                        </div>
+                                                        <p class="mb-0 text-center text-status primary">Dikirim</p>
+                                                        <li class="list-group-item text-title-case">
+                                                            <mat-icon class="icon-info" svgIcon="car"></mat-icon>
+                                                            <span class="fw-normal mr-5">Dari: </span>
+                                                            <span class="fw-bold ml-5">{{
+                                                                get_warehouse(itm.frmWarehouseId) }}</span>
+                                                        </li>
+                                                        <li class="list-group-item text-title-case">
+                                                            <mat-icon class="icon-info" svgIcon="user"></mat-icon>
+                                                            <span class="fw-normal mr-5">Pengirim: </span>
+                                                            <span class="fw-bold ml-5">@{{ itm.sendBy }}</span>
+                                                        </li>
+                                                        <li class="list-group-item text-title-case">
+                                                            <mat-icon class="icon-info" svgIcon="calendar"></mat-icon>
+                                                            <span class="fw-normal ml-5">{{ itm.createdAt |
+                                                                milistodate: "full"}}</span>
+                                                        </li>
+                                                    </div>
+
+                                                    <!-- WAITING -->
+                                                    <ng-container *ngIf="is_waiting_receive(itm); else unwaiting">
+                                                        <div class="grid-line">
+                                                            <div class="d-flex icon-line bg-status-primary">
+                                                                <mat-icon class="icon-i" svgIcon="question"></mat-icon>
+                                                            </div>
+                                                            <p class="mb-0 text-center text-status primary">Menunggu
+                                                                Persetujuan
+                                                            </p>
+                                                            <li class="list-group-item text-title-case">
+                                                                <mat-icon class="icon-info" svgIcon="car"></mat-icon>
+                                                                <span class="fw-normal mr-5">Tujuan: </span>
+                                                                <span class="fw-bold ml-5">{{
+                                                                    get_warehouse(itm.destWarehouseId) }}</span>
+                                                            </li>
+                                                            <li class="list-group-item text-title-case">
+                                                                <mat-icon class="icon-info" svgIcon="user"></mat-icon>
+                                                                <span class="fw-normal mr-5">Penerima: </span>
+                                                                <span class="fw-bold ml-5">@-</span>
+                                                            </li>
+                                                            <li class="list-group-item text-title-case">
+                                                                <mat-icon class="icon-info"
+                                                                    svgIcon="calendar"></mat-icon>
+                                                                <span class="fw-normal ml-5">-</span>
+                                                            </li>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-template #unwaiting>
+                                                        <!-- CANCLE -->
+                                                        <div *ngIf="core_status(itm) === 'rejected'" class="grid-line">
+                                                            <div class="d-flex icon-line bg-status-reject">
+                                                                <mat-icon class="icon-i" svgIcon="rejected"></mat-icon>
+                                                            </div>
+                                                            <p class="mb-0 text-center text-status reject">Ditolak</p>
+                                                            <li class="list-group-item text-title-case">
+                                                                <mat-icon class="icon-info" svgIcon="car"></mat-icon>
+                                                                <span class="fw-normal mr-5">Tujuan: </span>
+                                                                <span class="fw-bold ml-5">{{
+                                                                    get_warehouse(itm.destWarehouseId) }}</span>
+                                                            </li>
+                                                            <li class="list-group-item text-title-case">
+                                                                <mat-icon class="icon-info" svgIcon="user"></mat-icon>
+                                                                <span class="fw-normal mr-5">Penolak: </span>
+                                                                <span class="fw-bold ml-5">@{{ itm.updatedBy }}</span>
+                                                            </li>
+                                                            <li class="list-group-item text-title-case">
+                                                                <mat-icon class="icon-info"
+                                                                    svgIcon="calendar"></mat-icon>
+                                                                <span class="fw-normal ml-5">{{ itm.updatedAt |
+                                                                    milistodate: "full"}}</span>
+                                                            </li>
+                                                        </div>
+
+                                                        <!-- RECEIVE -->
+                                                        <div *ngIf="core_status(itm) === 'received'" class="grid-line">
+                                                            <div class="d-flex icon-line bg-status-success">
+                                                                <mat-icon class="icon-i" svgIcon="success"></mat-icon>
+                                                            </div>
+                                                            <p class="mb-0 text-center text-status success">Diterima</p>
+                                                            <li class="list-group-item text-title-case">
+                                                                <mat-icon class="icon-info" svgIcon="car"></mat-icon>
+                                                                <span class="fw-normal mr-5">Tujuan: </span>
+                                                                <span class="fw-bold ml-5">{{
+                                                                    get_warehouse(itm.destWarehouseId) }}</span>
+                                                            </li>
+                                                            <li class="list-group-item text-title-case">
+                                                                <mat-icon class="icon-info" svgIcon="user"></mat-icon>
+                                                                <span class="fw-normal mr-5">Penerima: </span>
+                                                                <span class="fw-bold ml-5">@{{ itm.receiveBy }}</span>
+                                                            </li>
+                                                            <li class="list-group-item text-title-case">
+                                                                <mat-icon class="icon-info"
+                                                                    svgIcon="calendar"></mat-icon>
+                                                                <span class="fw-normal ml-5">{{ itm.updatedAt |
+                                                                    milistodate: "full"}}</span>
+                                                            </li>
+                                                        </div>
+                                                    </ng-template>
+
+
+
+                                                    <!-- LINE -->
+                                                    <span class="line-border"></span>
+                                                </div>
+                                                <div [ngClass]="is_waiting_receive(itm) ? 'justify-content-between' : 'justify-content-center'"
+                                                    class="d-flex  w-100">
+                                                    <button (click)="detail_product(itm.products)" class="btn-primary"
+                                                        mat-button>Lihat Detail</button>
+                                                    <ng-container *ngIf="trfsRepo.position === 'receive'">
+                                                        <div *ngIf="is_waiting_receive(itm)" class="d-flex">
+                                                            <button (click)="trfsRepo.canceledTransfer(itm)"
+                                                                class="btn-secondary" mat-button>Tolak</button>
+                                                            <span class="mx-1"></span>
+                                                            <button (click)="on_receivement(itm)" class="btn-primary"
+                                                                mat-button>Terima</button>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-template #empty>
+                                        <div class="center justify-content-center">
+                                            <div>
+                                                <mat-icon svgIcon="empty-transfer"></mat-icon>
+                                                <p class="text-center text-review">Tidak Ada Riwayat Transfer</p>
+                                                <p class="text-center text-empty">Riwayat Transfermu nanti akan tampil
+                                                    disini</p>
+
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <ng-template #is_loading>
+                                <div class="loading-container">
+                                    <div class="spinner"></div>
+                                    <p class="text-head-primary">Tunggu sebentar...</p>
+                                </div>
+                            </ng-template>
+
+                        </div>
+                        <div *ngSwitchCase="1" class="h-inherit-overflow h-in">
+                            <div class="container-fluid list-drop-container">
+                                <p class="fw-bold primary mb-0 py-2">Detail Transfer</p>
+                                <div class="d-flex">
+                                    <div class="col">
+                                        <p class="mb-0 text-label">Tujuan</p>
+                                        <div class="d-flex box-input">
+                                            <mat-icon class="icon-input" svgIcon="user"></mat-icon>
+                                            <mat-select [(value)]="trfsRepo.send.destWarehouseId"
+                                                panelClass="dropdown-position-warehouse">
+                                                <mat-option [disabled]="disabled_onsite(item)" [value]="item.id"
+                                                    *ngFor="let item of warehouses">{{
+                                                    item.name
+                                                    }}</mat-option>
+                                            </mat-select>
+                                        </div>
+                                    </div>
+                                    <span class="mx-2"></span>
+                                    <div class="col pr-10px">
+                                        <p class="mb-0 text-label">Catatan</p>
+                                        <div class="d-flex align-items-center search-input px-2 mb-2">
+                                            <mat-icon class="icon-temp" svgIcon="note"></mat-icon>
+                                            <input placeholder="Masukkan Catatan" class="col input-small" type="text"
+                                                [(ngModel)]="trfsRepo.send.note" mat-input>
+                                            <mat-icon (click)="trfsRepo.send.note = ''"
+                                                class="col-2 mx-3 cursor-pointer" svgIcon="remove">
+                                            </mat-icon>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <p class="fw-bold primary mb-0 py-2">Item Produk</p>
+                                <div class="h-inherit-overflow max-30">
+                                    <ng-container *ngFor="let it of products_send; let idx = index">
+                                        <li
+                                            class="list-group-item list-item-o d-flex justify-content-between align-items-start mb-1">
+                                            <div class="d-flex w-100">
+                                                <div class="col d-flex align-items-center">
+                                                    <div class="fw-bold mr-10px">{{ it.name }}</div>
+                                                </div>
+                                                <div class="d-flex col-4">
+                                                    <div class="col d-flex justify-content-end">
+                                                        <div [ngClass]="trfsRepo.is_disabled_minus_send(it.productId)? 'btn-plus-minus-disabled' : null"
+                                                            (click)="trfsRepo.minus_send(it.productId)"
+                                                            class="btn-plus-minus d-flex align-items-center justify-content-center"
+                                                            mat-button>
+                                                            <mat-icon svgIcon="minus"></mat-icon>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col d-flex align-items-center">
+                                                        <strong class="w-100 text-center">{{ it.quantity }} /{{
+                                                            it.unit }}</strong>
+                                                    </div>
+                                                    <div class="col d-flex justify-content-start">
+                                                        <div [ngClass]="trfsRepo.is_disabled_plus_send(it.productId)? 'btn-plus-minus-disabled' : null"
+                                                            (click)="trfsRepo.is_disabled_plus_send(it.productId) ? null : trfsRepo.plus_send(it.productId)"
+                                                            class="btn-plus-minus d-flex align-items-center justify-content-center"
+                                                            mat-button>
+                                                            <mat-icon class="icon-plus" svgIcon="plus-2"></mat-icon>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div (click)="trfsRepo.remove_send(idx)"
+                                                    class="col-1 d-flex align-items-center justify-content-end cursor-pointer">
+                                                    <p class="mb-0 on-text-danger line-h">Batal</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ng-container>
+                                </div>
+                                <!--a dropzone-->
+                                <!--to allow dropping content that is not [dndDraggable] set dndAllowExternal to true-->
+                                <section id="droparea" class="dropzone" dndDropzone (dndDragover)="onDragover($event)"
+                                    (dndDrop)="onDrop($event)">
+                                    <div class="placeholder-here my-1" dndPlaceholderRef>
+                                        <span class="text-g">Drop disini</span>
+                                    </div>
+                                    <div class="standby-input my-1">
+                                        <mat-icon svgIcon="area-drop" class="icon-drop"></mat-icon>
+                                        <span class="text-g primary fw-bold">Area drop</span>
+                                        <span class="text-g">Silahkan pilih produk di samping kiri </span>
+                                    </div>
+                                </section>
+                                <div class="d-flex justify-content-center">
+                                    <button [disabled]="products_send!.length < 1" (click)="trfsRepo.sendTransfer()"
+                                        mat-button class="btn-primary min-w-290">Transfer</button>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div *ngSwitchDefault class="h-inherit-overflow h-in">
+                            <div class="title-sticky">
+                                <p class="text-title-view primary fw-bold p-3 px-0 pb-1 mb-0">
+                                    Koreksi daftar produk yang ingin diterima</p>
+
+                                <li class="listed box-shadow-head">
+                                    <p class="listed-prod">Nama Produk</p>
+                                    <div class="d-flex col-4">
+                                        <p class="mb-0 w-100 fw-bold text-center">Penyesuaian</p>
+                                    </div>
+                                </li>
+                            </div>
+
+                            <div class="container-receive">
+                                <ng-container *ngFor="let prod of trfsRepo.on_receive?.products let idx = index">
+                                    <li class="listed">
+                                        <p class="listed-prod">{{ prod.name }}</p>
+                                        <p *ngIf="trfsRepo.get_comparison_product(prod.id).status != ''"
+                                            class="listed-comparison">{{ trfsRepo.get_comparison_product(prod.id).status
+                                            }} {{ trfsRepo.get_comparison_product(prod.id).value }}</p>
+                                        <div class="d-flex col-4">
+                                            <div class="col d-flex justify-content-end">
+                                                <div [ngClass]="prod.quantity === 1? 'btn-plus-minus-disabled' : null"
+                                                    (click)="trfsRepo.minus(prod.id)"
+                                                    class="btn-plus-minus d-flex align-items-center justify-content-center"
+                                                    mat-button>
+                                                    <mat-icon svgIcon="minus"></mat-icon>
+                                                </div>
+                                            </div>
+                                            <div class="col d-flex align-items-center">
+                                                <strong class="w-100 text-center">{{ prod.quantity }}</strong>
+                                            </div>
+                                            <div class="col d-flex justify-content-start">
+                                                <div (click)="trfsRepo.plus(prod.id)"
+                                                    class="btn-plus-minus d-flex align-items-center justify-content-center"
+                                                    mat-button>
+                                                    <mat-icon class="plus-invert" svgIcon="plus-2"></mat-icon>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ng-container>
+                            </div>
+
+                            <div class="d-flex justify-content-end footer-sticky">
+                                <button (click)="back_to_list()" class="btn-secondary" mat-button>Kembali Ke Daftar
+                                    Transfer</button>
+                                <span class="mx-1"></span>
+                                <button (click)="trfsRepo.receivedTransfer()" class="btn-primary"
+                                    mat-button>Sesuaikan</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- TAB -->
+
+
+        </div>
+    </div>
+
+
+</div>

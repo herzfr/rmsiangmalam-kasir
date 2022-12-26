@@ -46,6 +46,8 @@ export class IconMaterialModule {
         ["time", `${PathRegistry.ASSETS_SVG}icon/time.svg`],
         ["date", `${PathRegistry.ASSETS_SVG}icon/date.svg`],
         ["empty-setting", `${PathRegistry.ASSETS_SVG}empty-setting.svg`],
+        ["car", `${PathRegistry.ASSETS_SVG}icon/car.svg`],
+        ["plus-2", `${PathRegistry.ASSETS_SVG}icon/plus-2.svg`],
 
         // MAIN MENU
         ["cashier-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/cashier-menu.svg`],
@@ -66,6 +68,7 @@ export class IconMaterialModule {
         ["merge-bill", `${PathRegistry.ASSETS_SVG}merge-bill.svg`],
         ["area-drop", `${PathRegistry.ASSETS_SVG}area-drop.svg`],
         ["empty-success", `${PathRegistry.ASSETS_SVG}empty-success.svg`],
+        ["empty-transfer", `${PathRegistry.ASSETS_SVG}empty-transfer.svg`],
 
         // PAYMENT
         ["coin", `${PathRegistry.ASSETS_SVG}icon/payment/coin.svg`],
@@ -98,9 +101,17 @@ export class IconMaterialModule {
         ["product-active", `${PathRegistry.ASSETS_SVG}icon/sidenav/icon-product-active.svg`],
         ["cashier-active", `${PathRegistry.ASSETS_SVG}icon/sidenav/icon-cashier-active.svg`],
 
+        // TRANSFER
+        ["box-transfer", `${PathRegistry.ASSETS_SVG}icon/transfer/box-transfer.svg`],
+        ["rejected", `${PathRegistry.ASSETS_SVG}icon/transfer/failed.svg`],
+        ["question", `${PathRegistry.ASSETS_SVG}icon/transfer/question.svg`],
+        ["success", `${PathRegistry.ASSETS_SVG}icon/transfer/success.svg`],
+        ["white-car", `${PathRegistry.ASSETS_SVG}icon/transfer/white-car.svg`],
+
         // CONFIRMATION
         ["confirm-expense", `${PathRegistry.ASSETS_SVG}confirmation/confirm-expense.svg`],
         ["confirm-income", `${PathRegistry.ASSETS_SVG}confirmation/confirm-income.svg`],
+        ["confirm-transfer", `${PathRegistry.ASSETS_SVG}confirmation/confirm-transfer.svg`],
     ];
 
 

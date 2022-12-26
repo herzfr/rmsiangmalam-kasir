@@ -13,7 +13,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
 import { CarouselModule } from 'ngx-owl-carousel-o';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TemporarySalesService } from '../cashier/_service/temporarysales.service';
@@ -27,6 +27,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { TransferStockComponent } from './transfer-stock.component';
 import { TransferStockService } from './_service/transfer-stock.service';
 import { TransferStockRepository } from './_model/transfer-stock.repository';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatRadioModule } from '@angular/material/radio';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { DetailTransferComponent } from './_dialog/detail-transfer.component';
+import { DndModule } from 'ngx-drag-drop';
 
 const routes: Routes = [
     { path: '', component: TransferStockComponent },
@@ -47,13 +55,19 @@ const material = [
     MatSnackBarModule,
     MatDividerModule,
     MatCardModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTabsModule,
+    MatRadioModule,
+    MatSlideToggleModule
 ]
 
 @NgModule({
-    imports: [CommonModule, RouterModule.forChild(routes), SharedeModule, IconMaterialModule, material],
+    imports: [CommonModule, RouterModule.forChild(routes), SharedeModule, IconMaterialModule, material,
+        FormsModule, ReactiveFormsModule, PipeModule, CurrencyMaskModule, DndModule],
     exports: [],
-    declarations: [TransferStockComponent],
+    declarations: [TransferStockComponent, DetailTransferComponent],
     providers: [TransferStockService, TransferStockRepository],
 })
 export class TransferStockModule { }

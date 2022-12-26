@@ -76,7 +76,6 @@ export class PaymentCode implements PipeTransform {
     ]
     transform(values: string): any {
         let value = values.toLowerCase()
-        console.log(value);
 
         if (this._bca.indexOf(value) === 0) {
             return 'assets/images/payment-image/bca.png'

@@ -52,6 +52,10 @@ import { SettingRepository } from './_model/setting/setting.repository';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrintViewComponent } from './pages/settings/component/print-view.component';
 import { EmployeeService } from './_service/employee.service';
+import { WarehouseService } from './_service/warehouse.service';
+import { WarehouseRepository } from './_model/warehouse/warehouse.repository';
+import { ProductService } from './_service/product.service';
+import { ProductRepository } from './_model/product/product.repository';
 
 
 const routes: Routes = [
@@ -62,7 +66,8 @@ const routes: Routes = [
     { path: 'tables', loadChildren: () => import('./pages/tables/tables.module').then((m) => m.TableModule) },
     { path: 'reservation', loadChildren: () => import('./pages/reservation/reservation.module').then((m) => m.ReservationModule) },
     { path: 'other-income', loadChildren: () => import('./pages/other-income/other-income.module').then((m) => m.OtherIncomeModule) },
-    { path: 'expense', loadChildren: () => import('./pages/expense/expense.module').then((m) => m.ExpenseModule) }
+    { path: 'expense', loadChildren: () => import('./pages/expense/expense.module').then((m) => m.ExpenseModule) },
+    { path: 'transfer-stock', loadChildren: () => import('./pages/transfer-stock/transfer-stock.module').then((m) => m.TransferStockModule) }
 ];
 
 const material = [
@@ -119,7 +124,11 @@ const material = [
         ReservationRepository,
         SettingService,
         SettingRepository,
-        EmployeeService
+        EmployeeService,
+        WarehouseService,
+        WarehouseRepository,
+        ProductService,
+        ProductRepository
     ]
 })
 export class MainModule { }

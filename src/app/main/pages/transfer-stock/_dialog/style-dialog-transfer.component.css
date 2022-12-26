@@ -1,0 +1,50 @@
+::-webkit-scrollbar {
+  display: none;
+}
+
+.title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  line-height: 20px;
+  min-width: auto;
+  transform: scale(1);
+  font-weight: 600;
+}
+
+.grid-rows-1 {
+  grid-template-rows: repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-flow-row-dense {
+  grid-auto-flow: row dense;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-title {
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 0.25rem;
+  font-size: 13px;
+  line-height: 22px;
+}
+
+.grid-description {
+  text-align: left;
+  font-size: 13px;
+  line-height: 22px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.line-separate {
+  margin: 35px 0 20px;
+}

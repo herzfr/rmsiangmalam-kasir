@@ -46,7 +46,7 @@ export class ButtonCardComponent implements OnInit {
         { icon: 'table-menu', title: 'Meja', route: 'v2/tables', params: null },
         { icon: 'other-expanse-menu', title: 'Pengeluaran Kas', route: 'v2/expense', params: null },
         { icon: 'other-income-menu', title: 'Pemasukan Lain', route: 'v2/other-income', params: null },
-        { icon: 'stock-menu', title: 'Stok In/Out Produk', route: 'v2/order', params: null },
+        { icon: 'stock-menu', title: 'Stok In/Out Produk', route: 'v2/transfer-stock', params: null },
     ]
 
     //  { queryParams: { param: 'shortcut' } }
