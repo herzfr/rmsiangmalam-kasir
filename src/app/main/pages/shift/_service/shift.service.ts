@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { GeneralResponse } from 'src/app/_model/general.interface';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
+import { FilterShift } from '../_model/shift.model';
 
 const URL = environment.url
 const httpOptions = {
@@ -13,15 +14,13 @@ const httpOptions = {
 
 
 @Injectable({ providedIn: 'root' })
-export class ShiftService {
+export class ShiftServiceL {
     constructor(private http: HttpClient) { }
 
-    getIncome(filter: any): Observable<GeneralResponse> {
-        return this.http.post<GeneralResponse>(URL + 'pos/income/get', filter, httpOptions)
+    getShiftList(filter: FilterShift): Observable<GeneralResponse> {
+        return this.http.post<GeneralResponse>(URL + 'pos/shift/get/detail', filter, httpOptions)
     }
 
-    createIncome(create: any): Observable<GeneralResponse> {
-        return this.http.post<GeneralResponse>(URL + 'pos/income/input', create, httpOptions)
-    }
+
 
 }

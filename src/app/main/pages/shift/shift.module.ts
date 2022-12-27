@@ -14,7 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
 import { CarouselModule } from 'ngx-owl-carousel-o';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TemporarySalesService } from '../cashier/_service/temporarysales.service';
@@ -25,8 +25,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { CommonModule } from '@angular/common';
 import { SharedeModule } from 'src/app/shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
-import { ShiftService } from './_service/shift.service';
-import { ShiftRepository } from './_model/shift.repository';
+import { ShiftServiceL } from './_service/shift.service';
+import { ShiftRepositoryA } from './_model/shift.repository';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 
 const routes: Routes = [
     { path: '', component: ShiftComponent },
@@ -47,13 +52,17 @@ const material = [
     MatSnackBarModule,
     MatDividerModule,
     MatCardModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
 ]
 
 @NgModule({
-    imports: [CommonModule, RouterModule.forChild(routes), SharedeModule, IconMaterialModule, material],
+    imports: [CommonModule, RouterModule.forChild(routes), SharedeModule, IconMaterialModule, material, FormsModule, ReactiveFormsModule],
     exports: [],
     declarations: [ShiftComponent],
-    providers: [ShiftService, ShiftRepository],
+    providers: [ShiftServiceL, ShiftRepositoryA],
 })
 export class ShiftModule { }

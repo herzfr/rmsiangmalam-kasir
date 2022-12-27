@@ -125,7 +125,9 @@ export class TempSalesRepository {
     }
 
     get disbaleNextList() {
-        return (this.tempSalesPagine?.pageNumber ?? 0) > ((this.tempSalesPagine?.totalPage ?? 0) - 1)
+        console.log(this.tempSalesPagine);
+
+        return ((this.tempSalesPagine?.pageNumber ?? 0) >= (this.tempSalesPagine?.totalPage ?? 0))
     }
 
     nextList() {

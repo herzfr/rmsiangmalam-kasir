@@ -46,6 +46,22 @@
   color: #fff;
 }
 
+.button-next-prev {
+  border-radius: 8px;
+  border: 1px solid #045b62;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.disable-next-prev {
+  cursor: not-allowed;
+  opacity: 0.2;
+}
+
 @keyframes animBtn {
   0%,
   50%,

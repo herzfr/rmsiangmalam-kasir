@@ -128,16 +128,24 @@
                                                 </product-card>
                                             </div>
                                             <div class="footer-selector">
-                                                <button (click)="prevProd()" [disabled]="disablePrevProd" mat-button
-                                                    color="accent" class="button-next-prev">
-                                                    <mat-icon class="icon-next-prev" svgIcon="chevron-left"></mat-icon>
-                                                </button>
-                                                <strong class="mx-2"> {{ (pagineProduct.pageNumber?? 0) + 1 }} / {{
-                                                    (pagineProduct.totalPage?? 0) }}</strong>
-                                                <button (click)="nextProd()" [disabled]="disbaleNextProd" mat-button
-                                                    color="accent" class="button-next-prev">
-                                                    <mat-icon class="icon-next-prev" svgIcon="chevron-right"></mat-icon>
-                                                </button>
+
+                                                <div class="col d-flex align-items-center justify-content-around p-2">
+                                                    <div [class.disable-next-prev]="disablePrevProd"
+                                                        (click)="disablePrevProd ? null : prevProd() " mat-button
+                                                        color="accent" class="button-next-prev">
+                                                        <mat-icon class="icon-next-prev"
+                                                            svgIcon="chevron-left"></mat-icon>
+                                                    </div>
+                                                    <strong class="mx-2"> {{ (pagineProduct.pageNumber?? 0) + 1 }} / {{
+                                                        (pagineProduct.totalPage?? 0) + 1}}</strong>
+                                                    <div [class.disable-next-prev]="disbaleNextProd"
+                                                        (click)="disbaleNextProd ? null : nextProd()" mat-button
+                                                        color="accent" class="button-next-prev">
+                                                        <mat-icon class="icon-next-prev"
+                                                            svgIcon="chevron-right"></mat-icon>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </ng-container>
                                         <ng-template #empty>
@@ -170,16 +178,23 @@
                                                     [products]="item.products" [prices]="item.prices"></package-card>
                                             </div>
                                             <div class="footer-selector">
-                                                <button (click)="prevPack()" [disabled]="disablePrevPack" mat-button
-                                                    color="accent" class="button-next-prev">
-                                                    <mat-icon class="icon-next-prev" svgIcon="chevron-left"></mat-icon>
-                                                </button>
-                                                <strong class="mx-2"> {{ (paginePackage.pageNumber?? 0) + 1 }} / {{
-                                                    (paginePackage.totalPage?? 0)}}</strong>
-                                                <button (click)="nextPack()" [disabled]="disbaleNextPack" mat-button
-                                                    color="accent" class="button-next-prev">
-                                                    <mat-icon class="icon-next-prev" svgIcon="chevron-right"></mat-icon>
-                                                </button>
+
+                                                <div class="col d-flex align-items-center justify-content-around p-2">
+                                                    <div [class.disable-next-prev]="disablePrevPack"
+                                                        (click)="disablePrevPack ? null : prevPack() " mat-button
+                                                        color="accent" class="button-next-prev">
+                                                        <mat-icon class="icon-next-prev"
+                                                            svgIcon="chevron-left"></mat-icon>
+                                                    </div>
+                                                    <strong class="mx-2"> {{ (paginePackage.pageNumber?? 0) + 1 }} / {{
+                                                        (paginePackage.totalPage?? 0) + 1}}</strong>
+                                                    <div [class.disable-next-prev]="disbaleNextPack"
+                                                        (click)="disbaleNextPack ? null : nextPack()" mat-button
+                                                        color="accent" class="button-next-prev">
+                                                        <mat-icon class="icon-next-prev"
+                                                            svgIcon="chevron-right"></mat-icon>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </ng-container>
                                         <ng-template #emptyPackage>

@@ -39,11 +39,12 @@ export class ShiftCardComponent implements OnInit {
         await this.shiftRepo.getShiftObs().subscribe(res => {
             this.isActive = res?.status === 'OPEN' ? true : false
         })
-
-
     }
 
-    changeIsAcive() {
+
+    changeIsAcive(e: any) {
+        console.log(e.value);
+
         console.log(this.isActive);
 
         if (this.isActive) {
@@ -68,8 +69,6 @@ export class ShiftCardComponent implements OnInit {
         }
     }
 
-
-
     checkSubBranch() {
         if (this.shift === undefined) {
             return this.shiftRepo.user.subBranchId
@@ -77,6 +76,15 @@ export class ShiftCardComponent implements OnInit {
         return this.shift.subBranchId
     }
 
+    addCashIsActive() {
+        this.dialog.showFormDialog("Tambah kas kasir?", "Masukan jumlah kas yang ingin ditambahkan", this.initAddCash()).subscribe(res => {
+            if (res !== undefined) {
+                let resData = res
+                let objAssign = Object.assign({ id: this.shift?.id, deviceId: this.shift?.deviceId }, resData);
+                this.shiftRepo.addCash(objAssign)
+            }
+        })
+    }
 
     initFields(): any {
         let fields = []
@@ -93,6 +101,15 @@ export class ShiftCardComponent implements OnInit {
         return fields;
     }
 
+    initAddCash(): any {
+        let fields = []
+        fields = [
+            // asName | asType | asLabel | asPlaceholder | asIcon | asValue | asVisible | asRequire | asOpt
+            this.formUtil.generateObjectForm('amount', 'currency', 'Masukan Jumlah Uang', 'Cth. Rp. 1000', 'money-cash', null, true, true, {}),
+        ]
+        return fields;
+    }
+
     refreshShift() {
         this.isRefresh = true;
         setTimeout(() => {
@@ -103,5 +120,10 @@ export class ShiftCardComponent implements OnInit {
 
     goToSetting() {
         this.router.navigate(['setting'])
+    }
+
+    onToggle(event: any) {
+        console.log(event);
+
     }
 }

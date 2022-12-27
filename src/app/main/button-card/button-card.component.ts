@@ -42,11 +42,12 @@ export class ButtonCardComponent implements OnInit {
     buttons: ButtonRoute[] = [
         { icon: 'cashier-menu', title: 'Sistem Kasir', route: 'v2/cashier', params: { nav: 'list' } },
         { icon: 'order-menu', title: 'Pesan Menu', route: 'v2/order', params: { nav: 'shortcut' } },
+        { icon: 'reservation-menu', title: 'Daftar Shift', route: 'v2/shift', params: null },
         { icon: 'reservation-menu', title: 'Reservasi', route: 'v2/reservation', params: null },
         { icon: 'table-menu', title: 'Meja', route: 'v2/tables', params: null },
         { icon: 'other-expanse-menu', title: 'Pengeluaran Kas', route: 'v2/expense', params: null },
         { icon: 'other-income-menu', title: 'Pemasukan Lain', route: 'v2/other-income', params: null },
-        { icon: 'stock-menu', title: 'Stok In/Out Produk', route: 'v2/transfer-stock', params: null },
+        { icon: 'stock-menu', title: 'Transfer Produk', route: 'v2/transfer-stock', params: null },
     ]
 
     //  { queryParams: { param: 'shortcut' } }

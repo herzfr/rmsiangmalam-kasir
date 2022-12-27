@@ -1,4 +1,6 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, ReplaySubject } from 'rxjs';
 import { UserLogin, UserLoginSubBranch } from 'src/app/auth/auth.model';
 import { UserRespository } from 'src/app/auth/auth.repository';
@@ -16,11 +18,13 @@ export class ShiftRepository {
     public name: string = '';
     public username: string = '';
     public shift?: Shift;
+    // shift?.type === 'SIANG'? 'Siang' : 'Malam' 
+    public on_shift: 'SIANG' | 'MALAM' = 'SIANG'
 
     private locator = (s: Shift, id?: number) => s.id == id;
     private replaySubjectShift = new ReplaySubject<Shift>();
 
-    constructor(private shiftService: ShiftService, private userRepo: UserRespository) {
+    constructor(private shiftService: ShiftService, private userRepo: UserRespository, private _snackBar: MatSnackBar) {
         this.user = typeof (userRepo.getUserLogin() !== 'boolean') ? userRepo.getUserLogin() as UserLogin : new UserLogin();
         this.onBranch = this.user.branchId ?? 0
         this.onSubBranch = null
@@ -68,10 +72,30 @@ export class ShiftRepository {
         return this.replaySubjectShift;
     }
 
-    addCash() { }
+    addCash(data: any) {
+        this.shiftService.addCash(data).subscribe(res => {
+            if (res.statusCode === 0) {
+                this.openSnackBar('Penambahan kas kasir berhasil')
+                this.check()
+            }
+        }, (err: HttpErrorResponse) => {
+            this.openSnackBar('Penambahan kas kasir gagal')
+        })
+    }
 
     shiftAll() { }
 
     detailShift() { }
+
+    //  DIALOG
+    //  ================================================================
+    openSnackBar(message: string) {
+        let horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+        let verticalPosition: MatSnackBarVerticalPosition = 'top';
+        this._snackBar.open(message, 'Tutup', {
+            horizontalPosition: horizontalPosition,
+            verticalPosition: verticalPosition,
+        });
+    }
 
 }

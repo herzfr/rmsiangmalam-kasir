@@ -326,3 +326,25 @@
   transition: all 500ms ease !important;
   -webkit-transition: all 500ms ease !important;
 }
+
+.r-btn {
+  padding: 8px;
+  margin-right: 8px;
+}
+
+.add-cash {
+  margin-right: 8px;
+
+  background: #ffffff;
+  color: var(--primary-200);
+  border: 1px solid var(--primary-200);
+  font-size: 12px;
+}
+
+::ng-deep .add-cash > .mat-button-wrapper {
+  display: flex !important;
+  align-items: center !important;
+}
+::ng-deep .add-cash > .mat-button-wrapper > .mat-icon {
+  line-height: 10px;
+}

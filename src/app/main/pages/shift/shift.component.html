@@ -1,0 +1,94 @@
+<div class="container-fluid container-main p-0">
+    <div class="d-flex card-box-header">
+        <button (click)="location.back()" class="" mat-icon-button>
+            <mat-icon svgIcon="back"></mat-icon>
+        </button>
+        <p class="mb-0 text-title">Shift</p>
+    </div>
+
+    <div class="d-flex container-content">
+        <div class="col p-2">
+            <div class="grid">
+                <div class="card-box">
+                </div>
+
+                <div class="card-box">
+                </div>
+            </div>
+        </div>
+        <div class="col-5 p-2">
+            <div class="card-box">
+                <p class="fw-bold primary p-2">Riwayat Pergantian Kasir</p>
+                <div class="d-flex box-range mb-2">
+                    <mat-date-range-input [formGroup]="_shiftRepoL.rangeDate" [rangePicker]="picker">
+                        <input matStartDate formControlName="start" placeholder="Tanggal Awal" #dateStart />
+                        <input matEndDate formControlName="end" placeholder="Tanggal Akhir" #dateEnd
+                            (dateChange)="_shiftRepoL.findByDate()" />
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </div>
+
+                <ng-container *ngIf="_shiftRepoL.shifts.length > 0; else empty">
+                    <div class="list-container">
+                        <div class="card-item" *ngFor="let item of _shiftRepoL.shifts">
+                            <div class="item-income header-temp">
+                                <div class="col d-flex">
+                                    <p class="text-temp mb-0">Kasir : <span class="t-primary">{{ item.name }} - @{{
+                                            item.username }}</span></p>
+                                </div>
+                                <div class="col-5 d-flex justify-content-end">
+                                    <!-- <mat-icon class="icon-temp" svgIcon="calendar"></mat-icon> -->
+                                    <p class="text-temp fw-bold mb-0">{{ item.startTime }}</p>
+                                    <p class="text-temp fw-bold mb-0">{{ item.endTime }}</p>
+                                </div>
+                            </div>
+                            <div class="list-a d-flex align-items-center">
+                                <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
+                                <p class="mb-0 mr-1 text-temp t-primary">Kas Awal : </p>
+                                <p class="mb-0 fw-bold text-temp" style="font-size: 10px;">{{ item.startCash | rupiah }}
+                                </p>
+                            </div>
+                            <div class="list-a d-flex align-items-center">
+                                <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
+                                <p class="mb-0 mr-1 text-temp t-primary">Kas Akhir : </p>
+                                <p class="mb-0 fw-bold text-temp" style="font-size: 10px;">{{ item.endCash | rupiah }}
+                                </p>
+                            </div>
+                            <div class="list-a d-flex align-items-center">
+                                <mat-icon class="icon-calendar-2" svgIcon="receipt"></mat-icon>
+                                <p class="mb-0 mr-1 text-temp t-primary">Total Penjualan : </p>
+                                <p class="mb-0 fw-bold text-temp" style="font-size: 10px;">
+                                    {{item.sales.length }}
+                                </p>
+                            </div>
+                            <div class="d-flex justify-content-end p-1">
+                                <button mat-button class="btn-print">Print</button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-template #empty>
+                    Kosong
+                </ng-template>
+
+                <div class="col d-flex align-items-center justify-content-around p-2">
+                    <div [class.disable-next-prev]="_shiftRepoL.is_disabled_prev"
+                        (click)="_shiftRepoL.is_disabled_prev ? null : _shiftRepoL.prev() " mat-button color="accent"
+                        class="button-next-prev">
+                        <mat-icon class="icon-next-prev" svgIcon="chevron-left"></mat-icon>
+                    </div>
+                    <strong class="mx-2"> {{ (_shiftRepoL.shift_pagine?.pageNumber?? 0) + 1 }} / {{
+                        (_shiftRepoL.shift_pagine?.totalPage?? 0)
+                        + 1}}</strong>
+                    <div [class.disable-next-prev]="_shiftRepoL.is_disabled_next"
+                        (click)="_shiftRepoL.is_disabled_next ? null : _shiftRepoL.next()" mat-button color="accent"
+                        class="button-next-prev">
+                        <mat-icon class="icon-next-prev" svgIcon="chevron-right"></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

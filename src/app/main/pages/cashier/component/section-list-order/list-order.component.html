@@ -108,23 +108,23 @@
     </div>
 </div>
 <div class="child text-end">
-    <!-- <button [disabled]="tempRepo.disablePrevList" (click)="tempRepo.prevList()" mat-button color="accent"
-        class="button-next-prev">
-        <mat-icon>chevron_left</mat-icon>
-    </button>
-    <strong class="mx-2"> 1 </strong>
-    <button [disabled]="tempRepo.disbaleNextList" (click)="tempRepo.nextList()" mat-button color="accent"
-        class="button-next-prev">
-        <mat-icon>chevron_right</mat-icon>
-    </button> -->
 
     <div class="footer-selector">
-        <button mat-button color="accent" class="button-next-prev">
-            <mat-icon class="icon-next-prev" svgIcon="chevron-left"></mat-icon>
-        </button>
-        <strong class="mx-2"> 1</strong>
-        <button mat-button color="accent" class="button-next-prev">
-            <mat-icon class="icon-next-prev" svgIcon="chevron-right"></mat-icon>
-        </button>
+        <div class="col d-flex align-items-center justify-content-around p-2">
+            <div [class.disable-next-prev]="tempRepo.disablePrevList"
+                (click)="tempRepo.disablePrevList ? null : tempRepo.prevList() " mat-button color="accent"
+                class="button-next-prev">
+                <mat-icon class="icon-next-prev" svgIcon="chevron-left"></mat-icon>
+            </div>
+            <strong class="mx-2"> {{ (tempRepo.tempSalesPagine?.pageNumber?? 0) + 1 }} / {{
+                (tempRepo.tempSalesPagine?.totalPage?? 0)
+                + 1}}</strong>
+            <div [class.disable-next-prev]="tempRepo.disbaleNextList"
+                (click)="tempRepo.disbaleNextList ? null : tempRepo.nextList()" mat-button color="accent"
+                class="button-next-prev">
+                <mat-icon class="icon-next-prev" svgIcon="chevron-right"></mat-icon>
+            </div>
+        </div>
+
     </div>
 </div>

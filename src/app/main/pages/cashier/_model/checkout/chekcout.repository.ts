@@ -26,6 +26,8 @@ export class CheckoutRepository {
     fee: any;
     tax: any;
 
+    public charge_admin: boolean = false
+
     in_customer: Customer | undefined;
 
     isLoading: boolean = false
@@ -168,9 +170,18 @@ export class CheckoutRepository {
     }
 
     public calculateTotal() {
-        let main_calculate = ((((this.checkout.subTotal - this.checkout.deposit) - this.checkout.discount) + this.checkout.service) + this.checkout.tax) - this.checkout.deposit
-        if (this.checkout.adminFee > 0) { this.checkout.total = main_calculate + (main_calculate * (this.checkout.adminFee / 100)) }
-        else { this.checkout.total = main_calculate }
+        console.log(this.charge_admin);
+
+        if (this.charge_admin) {
+            console.log('on charge');
+            let main_calculate = ((((this.checkout.subTotal - this.checkout.deposit) - this.checkout.discount) + this.checkout.service) + this.checkout.tax) - this.checkout.deposit
+            if (this.checkout.adminFee > 0) { this.checkout.total = main_calculate + (main_calculate * (this.checkout.adminFee / 100)) }
+            else { this.checkout.total = main_calculate }
+        } else {
+            console.log('nope charge');
+            let main_calculate = ((((this.checkout.subTotal - this.checkout.deposit) - this.checkout.discount) + this.checkout.service) + this.checkout.tax) - this.checkout.deposit
+            this.checkout.total = main_calculate
+        }
     }
 
     public calculateChange() {

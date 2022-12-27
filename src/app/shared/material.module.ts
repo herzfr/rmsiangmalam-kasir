@@ -17,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 
 const features = [
     MatButtonModule,
@@ -36,7 +37,8 @@ const features = [
     MatSelectModule,
     MatSlideToggleModule,
     MatMenuModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatRadioModule,
 ];
 @NgModule({
     imports: [features],

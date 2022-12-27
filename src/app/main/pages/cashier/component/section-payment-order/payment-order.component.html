@@ -209,9 +209,15 @@
                             </div>
                         </div>
                         <section class="slide-section">
+                            <mat-slide-toggle class="slide-margin" [color]="color" [checked]="checkoutRepo.charge_admin"
+                                [disabled]="disabled" (change)="toggleIsCharge($event)">
+                                Kenakan Biaya Cas
+                            </mat-slide-toggle>
+                        </section>
+                        <section class="slide-section">
                             <mat-slide-toggle class="slide-margin" [color]="color" [checked]="checkoutRepo.isTax"
                                 [disabled]="disabled" (change)="toggleIsTax($event)">
-                                Pajak {{ checkoutRepo.checkout.isTax ? 'Aktif' : 'Tidak Aktif'}}
+                                {{ checkoutRepo.checkout.isTax ? 'Pajak Pembukuan Aktif' : 'Aktifkan Pajak Pembukuan'}}
                             </mat-slide-toggle>
                         </section>
                     </div>

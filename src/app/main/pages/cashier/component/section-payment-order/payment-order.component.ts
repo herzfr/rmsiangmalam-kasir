@@ -174,6 +174,11 @@ export class PaymentComponent implements OnInit {
         this.checkoutRepo.checkout.isTax = event.checked;
     }
 
+    public toggleIsCharge(event: MatSlideToggleChange) {
+        this.checkoutRepo.charge_admin = event.checked;
+        this.checkoutRepo.calculateTotal()
+    }
+
     clear() {
         this.checkoutRepo.reBuildPayment()
         this.checkoutRepo.check_discount_tax_service()

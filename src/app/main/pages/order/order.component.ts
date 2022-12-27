@@ -186,13 +186,14 @@ export class OrderComponent implements OnInit {
     }
 
     nextPack() {
-        this.order.searchPackage.page = ((this.paginePackage.pageNumber ?? 0) + 1)
+        this.order.searchPackage.page += 1
         this.order.reCheckPackage(this.order.searchPackage)
     }
 
     prevPack() {
-        this.order.searchPackage.page = ((this.paginePackage.pageNumber ?? 0) - 1)
+        this.order.searchPackage.page -= 1
         this.order.reCheckPackage(this.order.searchPackage)
+
     }
     // ===================
 

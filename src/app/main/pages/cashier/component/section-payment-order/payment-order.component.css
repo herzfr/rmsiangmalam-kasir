@@ -445,3 +445,7 @@ owl-carousel-o {
 .w-inherith {
   width: inherit;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}

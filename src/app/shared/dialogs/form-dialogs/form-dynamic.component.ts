@@ -13,7 +13,7 @@ export interface FormDialog {
     selector: 'form-dialog',
     template: `
     <button class="close" mat-button (click)="onNoClick()">
-        <mat-icon>close</mat-icon>
+        <mat-icon svgIcon="x"></mat-icon>
     </button>
     <h1 mat-dialog-title class="text-center">{{ data.title }}</h1>
     <div mat-dialog-content>
@@ -23,7 +23,7 @@ export interface FormDialog {
         </div>
     </div>
     <div mat-dialog-actions align="center">
-      <button mat-button mat-dialog-close>Close</button>
+      <button mat-button mat-dialog-close>Tutup</button>
     </div>
     `
 })
