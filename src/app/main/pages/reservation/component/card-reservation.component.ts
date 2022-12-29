@@ -6,80 +6,7 @@ import { ReservationRepository } from 'src/app/main/_model/reservation/reservati
 
 @Component({
     selector: 'card-reservation',
-    template: `
-        <div class="bossWrapp">
-            <div class="cardTitle">Reservasi Aktif</div>
-            <div class="container-fluid list-reservation">
-                <ng-container *ngFor="let item of data_reservation">
-                <div class="single">
-                    <div class="icon"><img class="icon-img" src="assets/images/sm_logo.png" alt=""></div>
-                    <div class="text">
-
-                        <div class="d-flex align-items-center mb-2">
-                            <mat-icon class="icon-calendar-2" svgIcon="user"></mat-icon>
-                            <p class="mb-0 mr-1 key-name">Nama Pemesan : </p>
-                            <p class="mb-0 fw-bold value-in">-</p>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <mat-icon class="icon-calendar-2" svgIcon="date"></mat-icon>
-                            <p class="mb-0 mr-1 key-name">Tgl. Reservasi : </p>
-                            <p class="mb-0 fw-bold value-in">{{ (item?.bookingTime?? today) | milistodate: 'mmss'  }}</p>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
-                            <p class="mb-0 mr-1 key-name">Metode & Nominal Deposit : </p>
-                            <p class="mb-0 fw-bold value-in">{{  checkpayment(item?.paymentMethod, item?.paymentTypeId) }} - {{ (item?.dpAmount?? 0) | rupiah }}</p>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <mat-icon class="icon-calendar-2" svgIcon="note"></mat-icon>
-                            <p class="mb-0 mr-1 key-name">Catatan : </p>
-                            <p class="mb-0 fw-bold value-in">{{ item?.note?? '-' }}</p>
-                        </div>
-
-                        <div class="functions">
-                            <span *ngIf="fromCashier" (click)="claim(item)">Claim Reservasi<svg xmlns="http://www.w3.org/2000/svg" width="7" height="10" viewBox="0 0 7 10">
-                                <polyline fill="none" stroke="#3899EC" stroke-width="1.5" points="105.077 13.154 101 9.077 105.077 5" transform="rotate(-180 53.038 7.077)" />
-                                </svg>
-                            </span>
-                            <span  *ngIf="!fromCashier" class="text-center mb-0 on-text-danger mx-1 cursor-pointer" (click)="cancel(item.id)">Batal Reservasi
-                            </span>
-                        </div>
-
-                        </div>
-                    </div>
-                </ng-container>
-                <div *ngIf="reservation_is_done.length > 0" class="devider">Tidak Aktif / Terpakai</div>
-                <ng-container *ngFor="let item of reservationDone">
-                <div class="single noBd">
-
-                <div class="icon"><img class="icon-img" src="assets/images/sm_logo_bw.png" alt=""></div>
-                    <div class="text" style="color: gray !important;">
-                    <div class="d-flex align-items-center mb-2">
-                            <mat-icon class="icon-calendar-2" svgIcon="user"></mat-icon>
-                            <p class="mb-0 mr-1 key-name">Nama Pemesan : </p>
-                            <p class="mb-0 fw-bold value-in">-</p>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <mat-icon class="icon-calendar-2" svgIcon="date"></mat-icon>
-                            <p class="mb-0 mr-1 key-name">Tgl. Reservasi : </p>
-                            <p class="mb-0 fw-bold value-in">{{ (item?.bookingTime?? today) | milistodate: 'mmss'  }}</p>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
-                            <p class="mb-0 mr-1 key-name">Metode & Nominal Deposit : </p>
-                            <p class="mb-0 fw-bold value-in">{{  checkpayment(item?.paymentMethod, item?.paymentTypeId) }} - {{ (item?.dpAmount?? 0) | rupiah }}</p>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <mat-icon class="icon-calendar-2" svgIcon="note"></mat-icon>
-                            <p class="mb-0 mr-1 key-name">Catatan : </p>
-                            <p class="mb-0 fw-bold value-in">{{ item?.note?? '-' }}</p>
-                        </div>
-                    </div>
-                </div>
-                </ng-container>
-            </div>
-        </div>
-    `,
+    templateUrl: 'card-reservation.component.html',
     styleUrls: ['./../reservation-style/reservation.style.css']
 })
 
@@ -102,6 +29,10 @@ export class CardReservation implements OnInit {
 
     ngOnInit() {
 
+    }
+
+    get is_have_reservation() {
+        return this.reservation_is_done.length > 0 && this.data_reservation!.length > 0
     }
 
     get reservation_is_done(): Reservation[] {

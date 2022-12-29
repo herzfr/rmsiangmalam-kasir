@@ -606,6 +606,12 @@ a {
   min-width: 600px;
 }
 
+.panel-dialog-reservation {
+  width: 1024px;
+  max-width: 1024px !important;
+  height: 100vh;
+}
+
 .card-primary {
   height: auto;
   box-sizing: border-box;

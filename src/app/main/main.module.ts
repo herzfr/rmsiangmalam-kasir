@@ -58,6 +58,8 @@ import { ProductService } from './_service/product.service';
 import { ProductRepository } from './_model/product/product.repository';
 import { SavingService } from './_service/saving.service';
 import { SavingRepository } from './_model/saving/saving.repository';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 const routes: Routes = [
     { path: '', component: MainComponent },
@@ -91,7 +93,7 @@ const material = [
 @NgModule({
     imports: [
         CommonModule, RouterModule.forChild(routes), material, IconMaterialModule,
-        SharedeModule, FormsModule, ReactiveFormsModule
+        SharedeModule, FormsModule, ReactiveFormsModule, MatNativeDateModule, MatMomentDateModule
     ],
     exports: [],
     declarations: [

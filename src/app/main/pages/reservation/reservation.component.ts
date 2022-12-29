@@ -37,12 +37,30 @@ export class ReservationComponent implements OnInit, AfterViewInit {
 
     }
 
+    // SATU PAKET CHANGE DATE ==================================
     changeDate(e: any) {
         this.selected = this.time.convertDateTimeLocale(e);
-        this.resvRepo.find.startDate = this.time.startTodayTime(this.selected)
-        this.resvRepo.find.endDate = this.time.endTodayTime(this.selected)
+        console.log(this.selected);
+
+        let num_start = this.time.startTodayTime(this.selected)
+        let num_end = this.time.endTodayTime(this.selected)
+
+        let conv_num_start = this.get_date_1(num_start)
+        let conv_num_end = this.get_date_1(num_end)
+
+        this.resvRepo.find.startDate = conv_num_start.setUTCHours(0, 0, 0, 0)
+        this.resvRepo.find.endDate = conv_num_end.setUTCHours(23, 59, 59, 999)
+
         this.resvRepo.set_bookingTime(this.selected)
     }
+
+    get_date_1(d: number) {
+        let date = new Date(d);
+        date.setDate(date.getDate() + 1);
+        return date
+    }
+    // SATU PAKET CHANGE DATE ==================================
+
 
     get time_book() {
         return this.time.getJustTime(this.resvRepo.createReservation.bookingTime ?? new Date().getMilliseconds())

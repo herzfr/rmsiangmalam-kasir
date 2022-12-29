@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ReservationComponent } from './reservation.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedeModule } from 'src/app/shared/shared.module';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 
 // MATERIAL
 import { MatButtonModule } from '@angular/material/button';
@@ -27,6 +27,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { PipeModule } from 'src/app/_pipe/pipe.module';
 import { CardReservation } from './component/card-reservation.component';
 import { MatBottomSheetModule, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+
+import localeId from '@angular/common/locales/id';
+registerLocaleData(localeId);
 
 
 const routes: Routes = [
@@ -67,6 +70,7 @@ const material = [
     exports: [],
     declarations: [ReservationComponent, ReservasiEWalletComponent, ReservasiDebitComponent, CardReservation],
     providers: [
+        { provide: LOCALE_ID, useValue: 'id-ID' },
         { provide: MatBottomSheetRef, useValue: {} },
         { provide: MAT_BOTTOM_SHEET_DATA, useValue: {} }
     ],

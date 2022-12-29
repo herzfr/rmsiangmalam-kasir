@@ -8,19 +8,6 @@
 
     <div class="d-flex container-reservation">
         <div class="col-4 p-2">
-            <!-- <div class="d-flex">
-                <div (click)="location.back()"
-                    class="col d-flex align-items-center px-3 py-2 my-2 mr-2 cursor-pointer btn-back">
-                    <mat-icon svgIcon="back"></mat-icon>
-                    <p class="mb-0 px-2"><strong>Kembali</strong></p>
-                </div>
-                <span class="mx-1"></span>
-                <div (click)="location.back()"
-                    class="col d-flex align-items-center px-3 py-2 my-2 mr-2 cursor-pointer btn-back">
-                    <mat-icon class="plus" svgIcon="plus"></mat-icon>
-                    <p class="mb-0 px-2"><strong>Tambah</strong></p>
-                </div>
-            </div> -->
             <mat-card class="cal-inline-calendar-card">
                 <mat-calendar (selectedChange)="changeDate($event)" [(selected)]="selected"></mat-calendar>
             </mat-card>
@@ -29,7 +16,8 @@
                     class="button-next-prev">
                     <mat-icon class="icon-prev-next" svgIcon="chevron-left"></mat-icon>
                 </button>
-                <strong class="mx-2"> Halaman {{ (resvRepo.reservationPagine?.pageNumber?? 0) + 1 }}</strong>
+                <strong class="mx-2"> Halaman {{ (resvRepo.reservationPagine?.pageNumber?? 0) + 1 }} / {{
+                    (resvRepo.reservationPagine?.totalPage?? 0) + 1 }}</strong>
                 <button (click)="resvRepo.nextPage()" [disabled]="resvRepo.disbaleNext" mat-button color="accent"
                     class="button-next-prev">
                     <mat-icon class="icon-prev-next" svgIcon="chevron-right"></mat-icon>
@@ -57,7 +45,7 @@
                 <!-- RESERVASI -->
                 <mat-tab>
                     <ng-template mat-tab-label>
-                        <mat-icon svgIcon="plus" class="btn-plus mr-2"></mat-icon>
+                        <mat-icon svgIcon="plus-2" class="btn-plus mr-2 plus-2"></mat-icon>
                         Tambah Reservasi
                     </ng-template>
                     <div class="container-reservation">

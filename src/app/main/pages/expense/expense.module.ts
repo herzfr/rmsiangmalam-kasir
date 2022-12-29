@@ -31,11 +31,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatRadioModule } from '@angular/material/radio';
-import localeId from '@angular/common/locales/id';
+
 import { ListExpenseComponent } from './component/list-expense/list-expense.component';
 import { EmployeeCreditComponent } from './component/employee-credit/employee-credit.component';
 import { OperationalCreditComponent } from './component/operational-credit/operational-credit.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+
+import localeId from '@angular/common/locales/id';
 registerLocaleData(localeId);
 
 const routes: Routes = [

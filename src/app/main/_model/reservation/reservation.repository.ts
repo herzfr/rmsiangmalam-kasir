@@ -16,6 +16,7 @@ export class ReservationRepository {
     private dataReservation: DataReservation | undefined;
     private dataReservationDone: DataReservation | undefined;
     public createReservation: CreateReservation = new CreateReservation()
+    dat: Date = new Date()
 
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -32,6 +33,9 @@ export class ReservationRepository {
         this.find.subBranchId = shiftRepo.onSubBranch
         this.createReservation.branchId = shiftRepo.onBranch
         this.createReservation.subBranchId = shiftRepo.onSubBranch
+        this.find.startDate = this.timeUtil.convertDateTimeLocale(this.date_in).setHours(0, 0, 0, 0)
+        this.find.endDate = this.timeUtil.convertDateTimeLocale(this.date_in).setHours(23, 59, 59, 999)
+
         this.fetchReservation()
         this.listenChangeCash()
     }
@@ -48,6 +52,7 @@ export class ReservationRepository {
         finds.subBranchId = this.shiftRepo.onSubBranch
         finds.startDate = this.find.startDate
         finds.endDate = this.find.endDate
+
         finds.status = true
         this._reservService.getReservation(finds)
             .subscribe(res => {
@@ -62,6 +67,13 @@ export class ReservationRepository {
             this.calculate()
         })
     }
+
+    get date_in() {
+        let date = new Date();
+        date.setDate(this.dat.getDate()) - 1;
+        return date
+    }
+
 
     get reservation(): Reservation[] {
         return this.dataReservation?.content ?? []
@@ -90,8 +102,12 @@ export class ReservationRepository {
     }
 
     set find_date(date: number) {
-        this.find.startDate = new Date(date).setHours(0, 0, 0, 0)
-        this.find.endDate = new Date(date).setHours(23, 59, 59, 999)
+
+        let date_local = this.timeUtil.convertMillisTimeLocale(date)
+        this.find.startDate = this.timeUtil.convertDateTimeLocale(date_local).setHours(0, 0, 0, 0)
+        this.find.endDate = this.timeUtil.convertDateTimeLocale(date_local).setHours(23, 59, 59, 999)
+
+
         this.fetchReservation()
     }
 
@@ -101,7 +117,7 @@ export class ReservationRepository {
     }
 
     get disbaleNext() {
-        return (this.reservationPagine?.pageNumber ?? 0) === (this.reservationPagine?.totalPage ?? 0)
+        return (this.reservationPagine?.pageNumber ?? 0) >= (this.reservationPagine?.totalPage ?? 0) - 1
     }
 
 
@@ -152,7 +168,7 @@ export class ReservationRepository {
         switch (this.createReservation.paymentMethod) {
             case 'CASH':
                 if (this.validationCash()) {
-                    this.dlg.showConfirmationDialog('Reservasi', 'Konfirmasi kembali reservasi anda', `Yakin ingin reservasi tanggal  ${this.timeUtil.getDate(this.createReservation?.bookingTime)}`, 'split-image', 'Ya, Yakin')
+                    this.dlg.showConfirmationDialog('Reservasi', 'Konfirmasi kembali reservasi anda', `Yakin ingin reservasi tanggal  ${this.timeUtil.getDate(this.createReservation?.bookingTime)}`, 'confirm-reservation', 'Ya, Yakin')
                         .subscribe(res => {
                             if (res) {
                                 this.do_reservation()
@@ -163,7 +179,7 @@ export class ReservationRepository {
             case 'CUSTOM':
                 if (custom === 'debit') {
                     if (this.validationDebit()) {
-                        this.dlg.showConfirmationDialog('Reservasi', 'Konfirmasi kembali reservasi anda', `Yakin ingin reservasi tanggal  ${this.timeUtil.getDate(this.createReservation?.bookingTime)}`, 'split-image', 'Ya, Yakin')
+                        this.dlg.showConfirmationDialog('Reservasi', 'Konfirmasi kembali reservasi anda', `Yakin ingin reservasi tanggal  ${this.timeUtil.getDate(this.createReservation?.bookingTime)}`, 'confirm-reservation', 'Ya, Yakin')
                             .subscribe(res => {
                                 if (res) {
                                     this.do_reservation()
@@ -174,7 +190,7 @@ export class ReservationRepository {
 
                 if (custom === 'ewallet') {
                     if (this.validationEwallet()) {
-                        this.dlg.showConfirmationDialog('Reservasi', 'Konfirmasi kembali reservasi anda', `Yakin ingin reservasi tanggal  ${this.timeUtil.getDate(this.createReservation?.bookingTime)}`, 'split-image', 'Ya, Yakin')
+                        this.dlg.showConfirmationDialog('Reservasi', 'Konfirmasi kembali reservasi anda', `Yakin ingin reservasi tanggal  ${this.timeUtil.getDate(this.createReservation?.bookingTime)}`, 'confirm-reservation', 'Ya, Yakin')
                             .subscribe(res => {
                                 if (res) {
                                     this.do_reservation()
@@ -264,21 +280,21 @@ export class ReservationRepository {
     }
 
     deleteReservation(id: number) {
-        this.dlg.showConfirmationDialog('Reservasi', 'Konfirmasi kembali reservasi anda', `Yakin ingin membatalkan reservasi ini`, 'split-image', 'Ya, Yakin')
+        this.dlg.showConfirmationDialog('Reservasi', 'Konfirmasi kembali reservasi anda', `Yakin ingin membatalkan reservasi ini`, 'confirm-reservation', 'Ya, Yakin')
             .subscribe(res => {
                 if (res) {
                     this._reservService.updateReservation(id, true).subscribe(res => {
                         if (_.isEqual(res.statusCode, 0)) {
-                            this.openSnackBar('Reservasi berhasil dibatalkan')
+                            this.dlg.showSWEDialog('Berhasil!', `Reservasi berhasil dibatalkan`, 'success')
                             this.fetchReservation()
                         }
                     }, (err: HttpErrorResponse) => {
                         switch (err.error.statusCode) {
                             case 1804:
-                                this.openSnackBar('Reservasi tidak bisa dibatalkan')
+                                this.dlg.showSWEDialog('Oopss!', `Reservasi tidak bisa dibatalkan`, 'error')
                                 break;
                             default:
-                                this.openSnackBar(err.error.message)
+                                this.dlg.showSWEDialog('Oopss!', err.error.message, 'error')
                                 break;
                         }
                     })
@@ -298,16 +314,18 @@ export class ReservationRepository {
     do_reservation() {
         this._reservService.createReservation(this.createReservation).subscribe(res => {
             if (_.isEqual(res.statusCode, 0)) {
-                this.openSnackBar('Reservasi berhasil ditambahkan')
+                this.dlg.showSWEDialog('Berhasil!', `Reservasi berhasil ditambahkan`, 'success')
                 this.fetchReservation()
+                this.clean()
+                this.createReservation = new CreateReservation()
             }
         }, (err: HttpErrorResponse) => {
             switch (err.error.statusCode) {
                 case 1804:
-                    this.openSnackBar('Reservasi gagal dimuat')
+                    this.dlg.showSWEDialog('Oopss!', `Reservasi tidak bisa dibatalkan`, 'error')
                     break;
                 default:
-                    this.openSnackBar(err.error.message)
+                    this.dlg.showSWEDialog('Oopss!', err.error.message, 'error')
                     break;
             }
         })

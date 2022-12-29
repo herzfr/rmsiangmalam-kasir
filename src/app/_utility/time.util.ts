@@ -86,6 +86,10 @@ export class TimeUtil {
         return new Date(moment(date).locale('id').utc().toString());
     }
 
+    public convertMillisTimeLocale(date: number) {
+        return new Date(moment(date).locale('id').utc().toString());
+    }
+
     public convertTimeLocalUTC(date: Date) {
         let min = new Date(moment(date).startOf('day').locale('id').toString());
         let max = new Date(moment(date).endOf('day').locale('id').toString());

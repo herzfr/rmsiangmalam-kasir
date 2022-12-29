@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
 import { ThemePalette } from '@angular/material/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,6 +18,7 @@ import { UserRepository } from 'src/app/main/_model/users/user.repository';
 import { BaseService } from 'src/app/main/_service/base.service';
 import { CardReservation } from '../../../reservation/component/card-reservation.component';
 import { ReservationComponent } from '../../../reservation/reservation.component';
+import { DoialogReservationComponent } from '../../_dialog/reservation/dialog-reservation.component';
 import { CheckoutRepository } from '../../_model/checkout/chekcout.repository';
 import { CashComponent } from './method-payment/cash.component';
 
@@ -66,7 +68,8 @@ export class PaymentComponent implements OnInit {
         private baseService: BaseService,
         public router: Router,
         public location: Location,
-        private _bottomSheet: MatBottomSheet
+        private _bottomSheet: MatBottomSheet,
+        private _dialog: MatDialog,
     ) {
         // setTimeout(() => console.log(paymentRepo.dataPayment), 1000)
 
@@ -97,11 +100,11 @@ export class PaymentComponent implements OnInit {
     }
 
     openReservationDeposit() {
-        const configBottomDisc: MatBottomSheetConfig = new MatBottomSheetConfig()
+        const configBottomDisc: MatDialogConfig = new MatDialogConfig()
         configBottomDisc.data = { from_cashier: true }
         configBottomDisc.backdropClass = 'backdrop-reservation'
-        configBottomDisc.panelClass = 'panel-reservation'
-        this._bottomSheet.open(CardReservation, configBottomDisc).afterDismissed().subscribe(res => {
+        configBottomDisc.panelClass = 'panel-dialog-reservation'
+        this._dialog.open(DoialogReservationComponent, configBottomDisc).afterClosed().subscribe(res => {
             if (res) {
                 if (res.resp) {
                     this.checkoutRepo.update_deposit(res.result)
