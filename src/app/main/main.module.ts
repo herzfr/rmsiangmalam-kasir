@@ -56,7 +56,8 @@ import { WarehouseService } from './_service/warehouse.service';
 import { WarehouseRepository } from './_model/warehouse/warehouse.repository';
 import { ProductService } from './_service/product.service';
 import { ProductRepository } from './_model/product/product.repository';
-
+import { SavingService } from './_service/saving.service';
+import { SavingRepository } from './_model/saving/saving.repository';
 
 const routes: Routes = [
     { path: '', component: MainComponent },
@@ -89,7 +90,8 @@ const material = [
 
 @NgModule({
     imports: [
-        CommonModule, RouterModule.forChild(routes), material, IconMaterialModule, SharedeModule, FormsModule, ReactiveFormsModule
+        CommonModule, RouterModule.forChild(routes), material, IconMaterialModule,
+        SharedeModule, FormsModule, ReactiveFormsModule
     ],
     exports: [],
     declarations: [
@@ -129,7 +131,9 @@ const material = [
         WarehouseService,
         WarehouseRepository,
         ProductService,
-        ProductRepository
+        ProductRepository,
+        SavingService,
+        SavingRepository
     ]
 })
 export class MainModule { }

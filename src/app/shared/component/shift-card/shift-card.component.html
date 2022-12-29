@@ -16,9 +16,9 @@
 
         </div>
         <div class="col d-flex justify-content-end align-items-center">
-            <button (click)="addCashIsActive()" class="add-cash" mat-button><mat-icon
-                    svgIcon="plus-2"></mat-icon><span>Tambah Kas</span></button>
-            <mat-slide-toggle [disabled]="isActive" (click)="changeIsAcive($event)" [checked]="isActive">
+            <button *ngIf="shift && shift.status == 'OPEN'" (click)="addCashIsActive()" class="add-cash"
+                mat-button><mat-icon svgIcon="plus-2"></mat-icon><span>Tambah Kas</span></button>
+            <mat-slide-toggle [(ngModel)]="isActive" [disabled]="isActive" (click)="changeIsAcive($event)">
                 {{ isActive ? 'Aktif' : 'Tidak Aktif'}}
             </mat-slide-toggle>
         </div>
@@ -49,7 +49,7 @@
         </div>
         <div class="col pl-10px">
             <p class="mb-0 text-subtitle-general fw-bold">Total Terjual</p>
-            <p class="font-total-sale mb-0">0</p>
+            <p class="font-total-sale mb-0">{{ shift?.totalOrder }}</p>
             <div class="row justify-content-end">
                 <div [ngClass]="isRefresh? 'load' : 'button-rounded'" class="cursor-pointer  mr-10px"
                     (click)="refreshShift()">

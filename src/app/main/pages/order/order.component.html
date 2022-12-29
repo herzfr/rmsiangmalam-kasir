@@ -211,7 +211,7 @@
                                 </ng-container>
                             </ng-container>
                             <ng-container *ngSwitchCase="'shortcut'">
-                                <div class="row menu-content py-2 px-3">
+                                <div class="d-flex menu-content">
                                     <ng-container>
                                         <div class="text-center items-prod" *ngFor="let pos of order.position">
                                             <!-- CARD SHORTCUT -->
@@ -238,18 +238,6 @@
                                             </ng-template>
                                             <!-- CARD SHORTCUT -->
                                         </div>
-                                        <!-- <div class="footer-selector">
-                                            <button (click)="prevPack()" [disabled]="disablePrevPack" mat-button
-                                                color="accent" class="button-next-prev">
-                                                <mat-icon class="icon-next-prev" svgIcon="chevron-left"></mat-icon>
-                                            </button>
-                                            <strong class="mx-2"> {{ (paginePackage.pageNumber?? 0) + 1 }} / {{
-                                                (paginePackage.totalPage?? 0)}}</strong>
-                                            <button (click)="nextPack()" [disabled]="disbaleNextPack" mat-button
-                                                color="accent" class="button-next-prev">
-                                                <mat-icon class="icon-next-prev" svgIcon="chevron-right"></mat-icon>
-                                            </button>
-                                        </div> -->
                                     </ng-container>
                                 </div>
                             </ng-container>
@@ -257,11 +245,6 @@
                                 <p>Menu is Empty (Menu kosong)</p>
                             </some-element> -->
                         </container-element>
-
-                        <!--EMTY-->
-                        <!-- <ng-template #isEmpty>
-                            <p>Data Kosong</p>
-                        </ng-template> -->
 
                     </div>
 
@@ -283,9 +266,10 @@
                             <p class="text-label mb-0">Nomor Meja</p>
                             <div class="d-flex align-items-center  box-dropdown-table mb-2">
                                 <mat-icon class="mx-2 small-icon" svgIcon="table"></mat-icon>
-                                <mat-select [(ngModel)]="cartRepo.cart.tableIds[0]" disableOptionCentering
+                                <mat-select (selectionChange)="cartRepo.doSomething($event)"
+                                    [(ngModel)]="cartRepo.cart.tableIds[0]" disableOptionCentering
                                     panelClass="droprown-table">
-                                    <mat-option [value]="0">Tanpa Meja</mat-option>
+                                    <mat-option [value]="not_table">Tanpa Meja</mat-option>
                                     <mat-option [disabled]="tb.isOccupied" [value]="tb.id"
                                         *ngFor="let tb of order.tables">
                                         {{
@@ -352,7 +336,7 @@
                                                     <div (click)="cartRepo.updateQuantityPlus(ct, 1, ct.priceCatId)"
                                                         class="btn-plus-minus d-flex align-items-center justify-content-center"
                                                         mat-button>
-                                                        <mat-icon svgIcon="plus"></mat-icon>
+                                                        <mat-icon class="plus-2" svgIcon="plus-2"></mat-icon>
                                                     </div>
                                                 </div>
                                             </div>

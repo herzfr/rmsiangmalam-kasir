@@ -22,6 +22,7 @@ import { DialogService } from 'src/app/shared/dialogs/dialog.service';
 export class OrderComponent implements OnInit {
     search = '';
     selected = '';
+    not_table = []
     // tableSelected: number | null = null;
     // name = '';
     // note = '';

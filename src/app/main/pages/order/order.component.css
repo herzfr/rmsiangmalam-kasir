@@ -162,6 +162,7 @@ input:focus-visible {
   height: 70vh;
   overflow: auto;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .position-number {

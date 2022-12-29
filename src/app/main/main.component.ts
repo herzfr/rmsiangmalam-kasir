@@ -18,7 +18,7 @@ export class MainComponent implements OnInit {
     shift: Shift | undefined;
     subsShift?: Subscription;
     constructor(private userRepo: UserRespository, private dialog: DialogService, public shiftRepo: ShiftRepository) {
-        this.user = typeof (userRepo.getUserLogin() !== 'boolean') ? userRepo.getUserLogin() as UserLogin : new UserLogin();
+        this.user = (typeof userRepo.getUserLogin() !== 'boolean') ? userRepo.getUserLogin() as UserLogin : new UserLogin();
         // console.log(this.user);
     }
 

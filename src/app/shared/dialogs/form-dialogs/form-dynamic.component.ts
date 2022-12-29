@@ -7,6 +7,7 @@ export interface FormDialog {
     title: string;
     subtitle: string | undefined;
     fields: any[];
+    confirm: string;
 }
 
 @Component({
@@ -19,7 +20,7 @@ export interface FormDialog {
     <div mat-dialog-content>
         <p class="text-center font-weight-bold">{{ data.subtitle }}</p>
         <div class="container">
-            <form-apps (onSubmit)="onSubmitData($event)" [submitName]="'Masuk Shift'" [fields]="fields"></form-apps>
+            <form-apps (onSubmit)="onSubmitData($event)" [submitName]="'Masuk Shift'" [fields]="fields" [confirm]="data.confirm"></form-apps>
         </div>
     </div>
     <div mat-dialog-actions align="center">

@@ -16,7 +16,7 @@ import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors }
         <!-- <button type="submit" [disabled]="!form.valid" class="btn btn-primary">Save</button> -->
         <button [disabled]="!form.valid" class="btn-submit" mat-button>
             <div class="d-flex align-items-center justify-content-center">
-                {{ isLoading? 'Memuat...' : submitName}}
+                {{ isLoading? 'Memuat...' : confirm}}
                 <ng-container *ngIf="isLoading">
                     <mat-spinner [diameter]="20"></mat-spinner>
                 </ng-container>
@@ -44,6 +44,7 @@ export class DynamicFormComponent implements OnInit {
   @Input() fields: any[] = [];
   @Input() isLoading?: boolean;
   @Input() submitName?: string;
+  @Input() confirm?: string;
   form: FormGroup = new FormGroup({});
 
   constructor() {

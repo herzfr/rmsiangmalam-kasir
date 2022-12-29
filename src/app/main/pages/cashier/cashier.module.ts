@@ -47,6 +47,7 @@ import { SplitComponent } from './component/section-split-order/split.component'
 import { DndDraggableDirective, DndModule } from 'ngx-drag-drop';
 import { PipeModule } from 'src/app/_pipe/pipe.module';
 import { DragScrollModule } from 'ngx-drag-scroll';
+import { CheckoutService } from './_service/checkout.service';
 
 const customLayouts: IKeyboardLayouts = {
     ...keyboardLayouts,
@@ -134,7 +135,7 @@ const material = [
         // PIPE
 
     ],
-    providers: [TempSalesRepository, TablesRepository, CheckoutRepository, DndDraggableDirective,
+    providers: [TempSalesRepository, TablesRepository, CheckoutRepository, DndDraggableDirective, CheckoutService,
         { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
         { provide: MAT_KEYBOARD_LAYOUTS, useValue: customLayouts }
     ],

@@ -149,22 +149,40 @@ export class PaymentComponent implements OnInit {
             case 0:
                 this.checkoutRepo.checkout.paymentMethod = this._method_payment.at(0)?.paymentMethod
                 this.checkoutRepo.checkout.status = this._method_payment.at(0)?.status
+                this.checkoutRepo.checkout.cash = 0
+                this.checkoutRepo.checkout.change = 0
+                this.checkoutRepo.checkout.adminFee = 0
+                this.checkoutRepo.user = undefined
                 break;
             case 1:
                 this.checkoutRepo.checkout.paymentMethod = this._method_payment.at(1)?.paymentMethod
                 this.checkoutRepo.checkout.status = this._method_payment.at(1)?.status
+                this.checkoutRepo.checkout.cash = 0
+                this.checkoutRepo.checkout.change = 0
+                this.checkoutRepo.user = undefined
                 break;
             case 2:
                 this.checkoutRepo.checkout.paymentMethod = this._method_payment.at(1)?.paymentMethod
                 this.checkoutRepo.checkout.status = this._method_payment.at(1)?.status
+                this.checkoutRepo.checkout.cash = 0
+                this.checkoutRepo.checkout.change = 0
+                this.checkoutRepo.user = undefined
                 break;
             case 3:
                 this.checkoutRepo.checkout.paymentMethod = this._method_payment.at(3)?.paymentMethod
                 this.checkoutRepo.checkout.status = this._method_payment.at(3)?.status
+                this.checkoutRepo.checkout.cash = 0
+                this.checkoutRepo.checkout.change = 0
+                this.checkoutRepo.checkout.adminFee = 0
+                this.checkoutRepo.user = undefined
                 break;
             case 4:
                 this.checkoutRepo.checkout.paymentMethod = this._method_payment.at(2)?.paymentMethod
                 this.checkoutRepo.checkout.status = this._method_payment.at(2)?.status
+                this.checkoutRepo.checkout.cash = 0
+                this.checkoutRepo.checkout.change = 0
+                this.checkoutRepo.checkout.adminFee = 0
+                this.checkoutRepo.user = undefined
                 break;
 
         }

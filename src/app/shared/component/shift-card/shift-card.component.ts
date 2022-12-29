@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserLoginSubBranch } from 'src/app/auth/auth.model';
@@ -22,6 +22,8 @@ export class ShiftCardComponent implements OnInit {
     isActive: boolean = false;
     isRefresh: boolean = false;
 
+    activate_shift: EventEmitter<boolean> = new EventEmitter<boolean>()
+
     constructor(
         private shiftRepo: ShiftRepository,
         private dialog: DialogService,
@@ -42,6 +44,7 @@ export class ShiftCardComponent implements OnInit {
     }
 
 
+
     changeIsAcive(e: any) {
         console.log(e.value);
 
@@ -51,9 +54,9 @@ export class ShiftCardComponent implements OnInit {
             alert('anda berada dalam status open shift')
             this.isActive = this.shift?.status === 'OPEN' ? true : false
         } else {
-            this.dialog.showFormDialog("Mulai untuk Shift?", "Isi form awal terlebih dahulu", this.initFields()).subscribe(res => {
+            this.dialog.showFormDialog("Mulai untuk Shift?", "Isi form awal terlebih dahulu", this.initFields(), 'Masuk Shift').subscribe(res => {
                 console.log(res);
-                if (res !== undefined) {
+                if (res) {
                     // this.shiftRepo.start(res:)
                     let resData: StartShift = res as StartShift;
                     let objAssign = Object.assign({ startOperationalCash: 0, subBranchId: this.onSubBranchID, deviceId: this.randomUtil.generateUUID() }, resData);
@@ -63,6 +66,10 @@ export class ShiftCardComponent implements OnInit {
                             this.isActive = this.shift?.status === 'OPEN' ? true : false
                             this.shiftRepo.check()
                         }
+                    })
+                } else {
+                    this.shiftRepo.getShiftObs().subscribe(res => {
+                        this.isActive = res?.status === 'OPEN' ? true : false
                     })
                 }
             })
@@ -77,7 +84,7 @@ export class ShiftCardComponent implements OnInit {
     }
 
     addCashIsActive() {
-        this.dialog.showFormDialog("Tambah kas kasir?", "Masukan jumlah kas yang ingin ditambahkan", this.initAddCash()).subscribe(res => {
+        this.dialog.showFormDialog("Tambah kas kasir?", "Masukan jumlah kas yang ingin ditambahkan", this.initAddCash(), 'Tambah Kas').subscribe(res => {
             if (res !== undefined) {
                 let resData = res
                 let objAssign = Object.assign({ id: this.shift?.id, deviceId: this.shift?.deviceId }, resData);
@@ -89,7 +96,7 @@ export class ShiftCardComponent implements OnInit {
     initFields(): any {
         let fields = []
         fields = [
-            this.formUtil.generateObjectForm('startCash', 'currency', 'Masukan Jumlah Uang', 'Cth. Rp. 1000', 'money', null, true, true, {}),
+            this.formUtil.generateObjectForm('startCash', 'currency', 'Masukan Jumlah Uang', 'Cth. Rp. 1000', 'money-cash', null, true, true, {}),
             this.formUtil.generateObjectForm('type', 'dropdown', 'Pilih Sesi Pergantian Shift', '', 'change_circle', 'SIANG', true, true, [
                 { key: 'SIANG', label: 'Shift Siang' },
                 { key: 'MALAM', label: 'Shift Malam' }
@@ -122,8 +129,4 @@ export class ShiftCardComponent implements OnInit {
         this.router.navigate(['setting'])
     }
 
-    onToggle(event: any) {
-        console.log(event);
-
-    }
 }

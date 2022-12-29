@@ -57,6 +57,7 @@ export class IconMaterialModule {
         ["reservation-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/reservation-menu.svg`],
         ["stock-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/stock-menu.svg`],
         ["table-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/table-menu.svg`],
+        ["shift-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/shift-menu.svg`],
 
         // ILLUSTRATION
         ["empty-data", `${PathRegistry.ASSETS_SVG}empty-data.svg`],
@@ -112,6 +113,7 @@ export class IconMaterialModule {
         ["confirm-expense", `${PathRegistry.ASSETS_SVG}confirmation/confirm-expense.svg`],
         ["confirm-income", `${PathRegistry.ASSETS_SVG}confirmation/confirm-income.svg`],
         ["confirm-transfer", `${PathRegistry.ASSETS_SVG}confirmation/confirm-transfer.svg`],
+        ["confirm-checkout", `${PathRegistry.ASSETS_SVG}confirmation/confirm-checkout.svg`],
     ];
 
 

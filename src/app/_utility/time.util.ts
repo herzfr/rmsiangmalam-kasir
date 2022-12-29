@@ -93,5 +93,15 @@ export class TimeUtil {
         return { start: min.getTime(), end: max.getTime() }
     }
 
+    public getDatesInRange(startDate: Date, endDate: Date) {
+        const date = new Date(startDate.getTime());
+        const dates = [];
+        while (date <= endDate) {
+            dates.push(new Date(date));
+            date.setDate(date.getDate() + 1);
+        }
+        return dates.length - 1;
+    }
+
 
 }

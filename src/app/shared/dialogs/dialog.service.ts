@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ProductPackage } from 'src/app/main/pages/order/_model/menu.model';
 import { FormDialog, FormDialogComponent } from './form-dialogs/form-dynamic.component';
 import { CropImageComponent } from './general-dialogs/crop-image-dialog.component';
+import { InfoAnimatedDialog, InfoAnimatedDialogComponent } from './general-dialogs/info-animation-dialog.component';
 import { InfoDialog, InfoDialogComponent } from './general-dialogs/info-dialog.component';
 import { InputDialog, InputDialogComponent } from './general-dialogs/input-dialog.component';
 import { StockListComponent } from './general-dialogs/stock-list.component';
@@ -28,6 +29,21 @@ export class DialogService {
         return dialogCustom.afterClosed();
     }
 
+    showSWEDialog(title: string, message: string, type: 'success' | 'warning' | 'error') {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.data = { title: title, message: message, type: type } as InfoAnimatedDialog;
+        dialogConfig.backdropClass = 'backdropBackground';
+        dialogConfig.disableClose = true;
+        dialogConfig.minWidth = '400px';
+        dialogConfig.panelClass = 'panel-dialog-x';
+
+        const dialogCustom = this.dialog.open(
+            InfoAnimatedDialogComponent,
+            dialogConfig
+        );
+        return dialogCustom.afterClosed();
+    }
+
     showConfirmationDialog(title: string, subtitle: string, message: string, icon: string, confirm: string) {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.data = { title: title, message: message, icon: icon, confirm: confirm } as VerifyDialog;
@@ -43,9 +59,9 @@ export class DialogService {
         return dialogCustom.afterClosed();
     }
 
-    showFormDialog(title: string, subtitle: string, fields: any) {
+    showFormDialog(title: string, subtitle: string, fields: any, confirm: string) {
         const dialogConfig = new MatDialogConfig();
-        dialogConfig.data = { title: title, subtitle: subtitle, fields: fields } as FormDialog;
+        dialogConfig.data = { title: title, subtitle: subtitle, fields: fields, confirm: confirm } as FormDialog;
         dialogConfig.backdropClass = 'backdropBackground';
         dialogConfig.disableClose = true;
         dialogConfig.minWidth = '600px';

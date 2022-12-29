@@ -15,9 +15,9 @@ export interface VerifyDialog {
     <button class="close" mat-button (click)="onConfirm(false)">
         <mat-icon svgIcon="x"></mat-icon>
     </button>
-    <h1 mat-dialog-title class="text-center mb-1">{{ data.title }}</h1>
+    <h1 mat-dialog-title class="text-center text-title mb-0">{{ data.title }}</h1>
     <div mat-dialog-content>
-        <p class="text-center">{{ data.message }}</p>
+        <p class="text-center message">{{ data.message }}</p>
         <div class="container">
             <mat-icon class="illustration-dialog" svgIcon="{{ data.icon }}"></mat-icon>
         </div>
@@ -27,7 +27,9 @@ export interface VerifyDialog {
       <button mat-button class="btn-confirm" (click)="onConfirm(true)">{{ data.confirm }}</button>
     </div>`,
     styles: [
-        '.container{ min-width: 500px; min-height: 300px; display: flex; justify-content: center; align-items: center; }'
+        '.container{ min-width: 500px; min-height: 300px; display: flex; justify-content: center; align-items: center; }',
+        '.text-title { font-style: normal; font-weight: 800; font-size: 24px; line-height: 33px; color: #1E1E1E; margin-bottom: 0px }',
+        '.message { font-style: normal; font-weight: 400; font-size: 16px; line-height: 22px; }',
     ]
 })
 

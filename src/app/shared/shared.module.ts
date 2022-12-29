@@ -33,6 +33,12 @@ import { CropImageComponent } from './dialogs/general-dialogs/crop-image-dialog.
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { IconMaterialModule } from '../_helpers/icon-registry';
+import { LottieModule } from 'ngx-lottie';
+import { InfoAnimatedDialogComponent } from './dialogs/general-dialogs/info-animation-dialog.component';
+
+export function playerFactory() {
+    return import(/* webpackChunkName: 'lottie-web' */ 'lottie-web');
+}
 
 @NgModule({
     imports: [
@@ -45,6 +51,7 @@ import { IconMaterialModule } from '../_helpers/icon-registry';
         WebcamModule,
         PipeModule,
         ImageCropperModule,
+        LottieModule.forRoot({ player: playerFactory })
     ],
     exports: [
         DynamicFormComponent,
@@ -68,6 +75,7 @@ import { IconMaterialModule } from '../_helpers/icon-registry';
         InputDialogComponent,
         WebCamComponent,
         StockListComponent,
+        InfoAnimatedDialogComponent,
 
         // COMPONENT
         UserCardComponent,
@@ -102,6 +110,7 @@ import { IconMaterialModule } from '../_helpers/icon-registry';
         InputDialogComponent,
         WebCamComponent,
         StockListComponent,
+        InfoAnimatedDialogComponent,
 
         // COMPONENT
         UserCardComponent,

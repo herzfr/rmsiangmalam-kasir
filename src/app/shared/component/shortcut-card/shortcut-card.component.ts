@@ -20,15 +20,13 @@ import { DialogService } from '../../dialogs/dialog.service';
             <p class="product-name mx-10 text-start">{{ name }}</p>
             
         </div>
-        <!-- <p class="fst-italic">{{ size }}</p> -->
         <div class="d-flex justify-content-between mx-10">
             <p class="product-price mb-0 text-start"><strong class="mr-2px">{{ price | rupiah }}</strong></p>
-            <!-- <p class="text-start mb-0 f-11px">Stok : <span  [ngClass]="{'on-text-danger': quantity === 0, 'on-text-warning' : quantity > 0 && quantity < 10, 'on-text-success' : quantity > 10 }">{{ quantity }}</span></p> -->
             <mat-icon yPosition="below" xPosition="after" [matMenuTriggerFor]="optproduct" class="utama"color="dark" svgIcon="three-dot"></mat-icon>
             <mat-menu #optproduct="matMenu">
                 <button *ngIf="position > 0" (click)="delete()" mat-menu-item>Hapus dari menu utama</button>
                 <button  (click)="shortcutThis()" *ngIf="position < 1" mat-menu-item>Daftarkan ke menu utama</button>
-                <button  (click)="seeStockList()" mat-menu-item>Lihat Stok</button>
+                <!-- <button  (click)="seeStockList()" mat-menu-item>Lihat Stok</button> -->
             </mat-menu>
         </div>
     </div>

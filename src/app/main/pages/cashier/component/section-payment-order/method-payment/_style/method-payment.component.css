@@ -1,0 +1,118 @@
+.box-input {
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.icon-input {
+  margin: 0px 10px;
+  width: 18px;
+}
+
+.btn-submit-expense {
+  cursor: pointer;
+  background: #045b62;
+  color: #fff;
+}
+
+.card-info-empl {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0px 0px 24.8972px rgb(166 166 166 / 16%);
+  border-radius: 8px;
+  padding: 8px 8px;
+  margin: 8px 0px;
+}
+
+.empl-available {
+  background: #045b62 !important;
+}
+
+.mrx-8 {
+  margin-right: 8px;
+}
+
+.title-e {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 25px;
+  /* identical to box height */
+  /* Primary / 200 */
+  color: #045b62;
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 1;
+}
+
+.text-primary {
+  color: #045b62;
+  font-weight: 700;
+}
+
+.text-title-case {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.icon-info {
+  width: 15px;
+  line-height: 30px;
+}
+
+.list-group-item {
+  border: none;
+  border-radius: 0px;
+  padding: 0px 10px;
+}
+
+input,
+.mat-select {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* padding: 0px; */
+  /* gap: 136px; */
+  width: 100%;
+  height: 40px;
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  padding: 12px 5px;
+}
+input:focus-visible {
+  outline: none;
+}
+
+.form-control:focus {
+  color: #212529;
+  background-color: transparent;
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: none;
+}
+
+.text-empl {
+  text-align: end;
+  font-style: italic;
+  border-radius: 4px;
+  padding: 4px;
+  width: fit-content;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.info-empl {
+  color: #2574d1;
+  background: #d3e7ff;
+}
+
+.danger-empl {
+  color: #ee3f3f;
+  background: #ffd5d5;
+}

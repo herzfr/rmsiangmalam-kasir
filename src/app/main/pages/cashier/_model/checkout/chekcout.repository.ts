@@ -1,4 +1,7 @@
+import { Location } from "@angular/common";
+import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
 import * as _ from "lodash";
 import { Additional } from "src/app/main/_model/additional/additional.model";
 import { Customer } from "src/app/main/_model/customer/customer.model";
@@ -7,9 +10,14 @@ import { PaymentMehod } from "src/app/main/_model/payment/payment.model";
 import { PaymentRepository } from "src/app/main/_model/payment/payment.repository";
 import { Reservation } from "src/app/main/_model/reservation/reservation.model";
 import { ShiftRepository } from "src/app/main/_model/shift/shift.repository";
+import { UserFullData } from "src/app/main/_model/users/user.model";
 import { BaseService } from "src/app/main/_service/base.service";
+import { UsersService } from "src/app/main/_service/user.service";
+import { DialogService } from "src/app/shared/dialogs/dialog.service";
+import { CheckoutService } from "../../_service/checkout.service";
 import { TemporarySalesService } from "../../_service/temporarysales.service";
 import { ItemTempSales, TempSales } from "../tempsales.model";
+import { TempSalesRepository } from "../tempsales.repository";
 import { Checkout } from "./checkout.model";
 
 @Injectable()
@@ -21,22 +29,33 @@ export class CheckoutRepository {
     itemCount: number = 0;
     cartPrice: number = 0;
     reservation: Reservation | undefined;
+    user?: UserFullData;
 
     disc: any;
     fee: any;
     tax: any;
 
     public charge_admin: boolean = false
-
-    in_customer: Customer | undefined;
-
+    in_customer: Customer | undefined
     isLoading: boolean = false
+    find_user: string = ''
+
+    // SNACKBAR
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
+    // ================
 
     constructor(
         private tempSalesService: TemporarySalesService,
         private shiftRepo: ShiftRepository,
         private paymentRepo: PaymentRepository,
-        private baseService: BaseService
+        private tempRepo: TempSalesRepository,
+        private baseService: BaseService,
+        private _checkout_service: CheckoutService,
+        private _snackBar: MatSnackBar,
+        private location: Location,
+        private _dlg: DialogService,
+        private _user_service: UsersService
     ) {
         this.listenerNumberResult()
         this.listenTriggerFromDialog()
@@ -58,12 +77,23 @@ export class CheckoutRepository {
         })
     }
 
+    findUser() {
+        this._user_service.getUserById(this.find_user).subscribe(res => {
+            this.user = res.data
+            this.checkout.employeeUserName = this.user?.username ?? null
+        }, (err: HttpErrorResponse) => {
+            if (err.status == 404) {
+                this.openSnackBar('Karyawan tidak ditemukan')
+            }
+        })
+    }
+
     get tempSalesForCheckout() {
         this.tempSalesService.getTempSalesById(this.paymentId).subscribe(res => {
             // console.log(res);
             this.lines = (res.data as TempSales).items
             this.firstTempSalesToCheckout = res.data
-            // console.log(this.checkout);
+            console.log(this.checkout);
         })
         return
     }
@@ -186,7 +216,7 @@ export class CheckoutRepository {
 
     public calculateChange() {
         // this.checkout.change = ((this.checkout.total - this.checkout.cash) < 0) ? 0 : (this.checkout.total - this.checkout.cash)
-        this.checkout.change = (this.checkout.total - this.checkout.cash)
+        this.checkout.change = Math.abs(this.checkout.total - this.checkout.cash)
     }
 
     public clear_customer() {
@@ -215,19 +245,129 @@ export class CheckoutRepository {
 
     public checkoutTest() {
         console.log(this.checkout);
+        this.checkout_core()
     }
 
-    validation_checkout() {
-        let val: any[] = [
-            (this.checkout.total < 0),
-        ]
+    public checkout_core() {
+        switch (this.checkout.paymentMethod) {
+            case 'CASH':
+                if (!this.validation_checkout_cash()?.invalid) {
+                    this._dlg.showConfirmationDialog("Checkout?", "Checkout Tagihan", `Konfirmasi checkout pesanan ID# ${this.checkout.tempSalesId}`, "confirm-checkout", "Ya")
+                        .subscribe(res => {
+                            if (res) {
+                                this.doCheckout('PAID')
+                            }
+                        })
+                } else {
+                    this.openSnackBar(this.validation_checkout_cash()?.message ?? '')
+                }
+                break;
+            case 'CUSTOM':
+                if (!this.validation_checkout_custom()?.invalid) {
+                    this._dlg.showConfirmationDialog("Checkout?", "Checkout Tagihan", `Konfirmasi checkout pesanan ID# ${this.checkout.tempSalesId}`, "confirm-checkout", "Ya")
+                        .subscribe(res => {
+                            if (res) {
+                                this.doCheckout('PAID')
+                            }
+                        })
+                } else {
+                    this.openSnackBar(this.validation_checkout_custom()?.message ?? '')
+                }
+                break;
+            case 'EMPL_DEBT':
+                if (!this.validation_checkout_empl()?.invalid) {
+                    this._dlg.showConfirmationDialog("Checkout?", "Checkout Tagihan", `Konfirmasi checkout pesanan ID# ${this.checkout.tempSalesId}`, "confirm-checkout", "Ya")
+                        .subscribe(res => {
+                            if (res) {
+                                this.doCheckout('DEBT')
+                            }
+                        })
+                } else {
+                    this.openSnackBar(this.validation_checkout_empl()?.message ?? '')
+                }
+                break;
+            case 'CUST_DEBT':
+                if (!this.validation_checkout_cust()?.invalid) {
+                    this._dlg.showConfirmationDialog("Checkout?", "Checkout Tagihan", `Konfirmasi checkout pesanan ID# ${this.checkout.tempSalesId}`, "confirm-checkout", "Ya")
+                        .subscribe(res => {
+                            if (res) {
+                                this.doCheckout('DEBT')
+                            }
+                        })
+                } else {
+                    this.openSnackBar(this.validation_checkout_cust()?.message ?? '')
+                }
+                break;
+            default:
+                // this.validation_checkout_custom()
+                break;
+        }
+    }
 
-        let cash: any[] = [
-            (this.checkout.cash < 0),
+    validation_checkout_cash() {
+        let validation: ValidationIn[] = [
+            { invalid: (this.checkout.cash < 1), message: 'Anda belum memasuki jumlah pembayaran tunai' },
+            { invalid: (this.checkout.cash < this.checkout.total), message: 'Jumlah pembayaran tunai belum cukup' },
         ]
+        // console.log(validation);
+        let filter = validation.filter(x => x.invalid)
+        if (filter.length > 0) {
+            return filter[0]
+        }
+        return
+    }
 
-        var general = (val.indexOf(true) > -1);
-        var general = (val.indexOf(true) > -1);
+    validation_checkout_custom() {
+        let validation: ValidationIn[] = [
+            { invalid: (this.checkout.paymentTypeId == null), message: 'Anda belum memilih tipe pembayaran' },
+            { invalid: (this.checkout.transactionNo == null || this.checkout.transactionNo == ''), message: 'Nomor transaksi belum terisi' },
+        ]
+        // console.log(validation);
+        let filter = validation.filter(x => x.invalid)
+        if (filter.length > 0) {
+            return filter[0]
+        }
+        return
+    }
+
+    validation_checkout_empl() {
+        let validation: ValidationIn[] = [
+            { invalid: (this.checkout.employeeUserName == null || this.checkout.employeeUserName == ''), message: 'Anda belum memasukan nama karyawan' },
+        ]
+        // console.log(validation);
+        let filter = validation.filter(x => x.invalid)
+        if (filter.length > 0) {
+            return filter[0]
+        }
+        return
+    }
+
+    validation_checkout_cust() {
+        let validation: ValidationIn[] = [
+            { invalid: (this.checkout.customerId == null), message: 'Anda belum memilih pelanggan' },
+        ]
+        // console.log(validation);
+        let filter = validation.filter(x => x.invalid)
+        if (filter.length > 0) {
+            return filter[0]
+        }
+        return
+    }
+
+
+    doCheckout(status: 'PAID' | 'DEBT') {
+        this.checkout.status = status
+        this._checkout_service.checkout(this.checkout).subscribe(res => {
+            if (_.isEqual(res.statusCode, 0)) {
+                this._dlg.showSWEDialog('Berhasil!', `Checkout tagihan berhasil`, 'success')
+                this.reBuildPayment()
+                this.tempRepo.getTempSales()
+                this.shiftRepo.check()
+                this.location.back()
+            }
+        }, (err: HttpErrorResponse) => {
+            this._dlg.showSWEDialog('Oopps!', `Checkout tagihan gagal`, 'error')
+        })
     }
 
     reBuildPayment() {
@@ -248,4 +388,19 @@ export class CheckoutRepository {
 
 
 
+    //  DIALOG
+    //  ================================================================
+    openSnackBar(message: string) {
+        this._snackBar.open(message, 'Tutup', {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+        });
+    }
+
+
+}
+
+export interface ValidationIn {
+    invalid?: boolean
+    message?: string
 }

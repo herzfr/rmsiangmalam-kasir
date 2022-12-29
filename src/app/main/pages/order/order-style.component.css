@@ -113,10 +113,11 @@ input.input-info {
 
 .sticky-cart-info {
   position: sticky;
-  top: -10px;
+  top: -11px;
   background-color: #ffffff;
   width: 100%;
   z-index: 100;
+  padding: 10px;
 }
 
 .text-empty-cart {

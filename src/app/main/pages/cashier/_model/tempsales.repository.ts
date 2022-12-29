@@ -61,7 +61,7 @@ export class TempSalesRepository {
     allsubs: Subscription[] = []
     constructor(private tempSalesService: TemporarySalesService,
         private shiftRepo: ShiftRepository, public timeUtil: TimeUtil,
-        private _snackBar: MatSnackBar, private dlg: DialogService,
+        private _snackBar: MatSnackBar, private _dlg: DialogService,
         private tableRepo: TablesRepository,
         private _baseService: BaseService, private router: Router,
         private location: Location
@@ -125,7 +125,7 @@ export class TempSalesRepository {
     }
 
     get disbaleNextList() {
-        console.log(this.tempSalesPagine);
+        // console.log(this.tempSalesPagine);
 
         return ((this.tempSalesPagine?.pageNumber ?? 0) >= (this.tempSalesPagine?.totalPage ?? 0))
     }
@@ -225,19 +225,19 @@ export class TempSalesRepository {
 
     submitMerge() {
         if (this.merge.bills.length > 1) {
-            this.dlg.showConfirmationDialog("Pisah tagihan", "", "apakah anda ingin memnggabungkan tagihan ini ?", "merge-bill", "Pisah")
+            this._dlg.showConfirmationDialog("Gabung tagihan", "", "apakah anda ingin memnggabungkan tagihan ini ?", "merge-bill", "Ya")
                 .subscribe(res => {
                     if (res) {
                         this.isLoadingMerge = true
                         this.tempSalesService.mergeTempSales(this.merge).subscribe(res => {
                             if (_.isEqual(res.statusCode, 0)) {
-                                this.openSnackBar('Penggabungan tagihan berhasil')
+                                this._dlg.showSWEDialog('Berhasil!', `Penggabungan tagihan berhasil`, 'success')
                                 this.clearMerge()
                                 this.getTempSales()
                                 this.isLoadingMerge = false
                             }
                         }, (err: HttpErrorResponse) => {
-                            this.openSnackBar('Penggabungan tagihan gagal')
+                            this._dlg.showSWEDialog('Oopps!', `Penggabungan tagihan gagal`, 'error')
                             this.isLoadingMerge = false
                         })
                     }
@@ -258,13 +258,13 @@ export class TempSalesRepository {
             this.tempSalesService.splitTempSales(split).subscribe(async res => {
                 this.isLoadingSplit = false
                 if (_.isEqual(res.statusCode, 0)) {
-                    this.openSnackBar('Pemisahan tagihan berhasil')
+                    this._dlg.showSWEDialog('Berhasil!', `Pemisahan tagihan berhasil`, 'success')
                     this.getTempSales()
                     this.location.back()
                 }
             }, (err: HttpErrorResponse) => {
                 this.isLoadingSplit = false
-                this.openSnackBar('Pemisahan tagihan gagal')
+                this._dlg.showSWEDialog('Oopps!', `Pemisahan tagihan gagal`, 'error')
             })
         }, 1000)
     }
@@ -285,7 +285,7 @@ export class TempSalesRepository {
         return keyExist
     }
 
-    async updateTempSales() {
+    updateTempSales() {
         // UBAH TEMPSALES KE CARTLINE
         let cart: CartLine = (this.tempSalesActive as CartLine)
 
@@ -321,66 +321,6 @@ export class TempSalesRepository {
         setTimeout(() => this._baseService.setTempSales(cart), 100)
     }
 
-    // validationUpdatePackageOrProduct(tempItem: ItemTempSales[]) {
-    //     console.log(tempItem);
-
-    //     let items: ItemCart[] = []
-    //     for (const it of tempItem) {
-    //         let stock_package_id = it.isPackage ? JSON.parse(it.stockId) as number[] : []
-    //         let stock_product_id = it.isPackage ? null : (JSON.parse(it.stockId) as number[])
-    //         console.log(it);
-    //         console.log(stock_package_id);
-    //         console.log(stock_product_id);
-
-
-    //     }
-    // console.log(tempItem);
-    // tempItem.forEach((x, i) => {
-    //     // console.log('index ke ' + i);
-    //     // console.log(x);
-    //     // console.log(typeof x.stockId);
-    //     // if ((typeof x.stockId) === 'number') {
-    //     //     let numStock: number[] = []
-    //     //     numStock.push(Number(x.stockId))
-    //     //     console.log('"' + JSON.stringify(numStock) + '"');
-    //     //     x.stockId = JSON.stringify(numStock)
-    //     // }
-    //     console.log("ini paket apa nggk ", x.isPackage);
-
-    //     let stockId$: number | null = null;
-    //     let stockIds$: number[] = []
-    //     if (x.isPackage) {
-    //         if (typeof x.stockId == 'string') {
-    //             stockId$ = (JSON.parse(x.stockId) as number[])[0]
-    //             stockIds$ = (JSON.parse(x.stockId) as number[])
-    //         } else if (typeof x.stockId == 'object') {
-    //             stockId$ = 0
-    //         }
-    //     }
-
-    //     console.log((JSON.parse(x.stockId) as number[]));
-    //     console.log((JSON.parse(x.stockId) as number[])[0]);
-
-    //     let ic: ItemCart = new ItemCart(
-    //         x.id,
-    //         x.menuId,
-    //         x.name,
-    //         x.amount,
-    //         x.unit,
-    //         x.unitPrice,
-    //         x.totalPrice,
-    //         x.isPackage,
-    //         stockId$, // STOCK ID
-    //         x.pic,
-    //         x.priceCatId,
-    //         x.priceCat,
-    //         stockIds$// STOCKIDS
-    //     );
-    //     console.log(ic);
-    //     items.push(ic)
-    // })
-    //     return items;
-    // }
     // UBAH BILL
     // =======================================================
 
@@ -388,18 +328,19 @@ export class TempSalesRepository {
     // CANCEL BILL
     confirmationCancelDialog(id: number) {
         let idTemp = id;
-        this.dlg.showInputDialog("Batalkan Pesanan?", "Pembatalan pesanan", `apakah anda akan membatalkan pesanan ID# ${idTemp}`, "cancel", "Batalkan")
+        this._dlg.showInputDialog("Batalkan Pesanan?", "Pembatalan pesanan", `apakah anda akan membatalkan pesanan ID# ${idTemp}`, "cancel", "Batalkan")
             .subscribe(resp => {
                 if (resp.result) {
                     this.tempSalesService.cancelTempSales(idTemp, resp.data)
                         .subscribe(response => {
                             if (_.isEqual(response.statusCode, 0)) {
-                                this.openSnackBar('Pembatalan tagihan berhasil')
+                                this._dlg.showSWEDialog('Berhasil!', `Pembatalan tagihan berhasil`, 'success')
                                 this.clearMerge()
                                 this.getTempSales()
                             }
                         }, (err: HttpErrorResponse) => {
                             this.openSnackBar('Pembatalan tagihan gagal')
+                            this._dlg.showSWEDialog('Oopps!', `Pembatalan tagihan gagal`, 'error')
                         })
                 }
             })

@@ -13,23 +13,28 @@ export interface WebcamDialog {
 @Component({
     selector: 'webcam-app',
     template: `
-        <button class="x" mat-button (click)="onNoClick()">
-            <mat-icon svgIcon="remove"></mat-icon>
+        <button class="close" mat-button (click)="onNoClick()">
+            <mat-icon svgIcon="x"></mat-icon>
         </button>
         <div class="container">
-            <h4 class="text-center mb-0">{{ data.title }}</h4>
-            <p class="text-center mb-0">{{ data.message }}</p>
+            <h4 class="text-center mb-0 text-title">{{ data.title }}</h4>
+            <p class="text-center mb-0 message">{{ data.message }}</p>
 
             <div class="row">
             <webcam  [height]="400" [width]="400" 
                 [trigger]="triggerObservable" [allowCameraSwitch]="false"
                 (imageCapture)="handleImage($event)"></webcam>
-            <button class="btn btn-success" (click)="triggerSnapshot();">{{ data.confirm }}</button>
+            <div class="d-flex justify-content-center">
+                <button mat-button class="btn-confirm" (click)="triggerSnapshot();">{{ data.confirm }}</button>
+            </div>
             </div>
         </div>
     `,
     styles: [
-        'webcam { display: flex;   justify-content: center; padding: 10px;}'
+        'webcam { display: flex;   justify-content: center; padding: 10px;}',
+        '.close {line-height: 10px;}',
+        '.text-title { font-style: normal; font-weight: 800; font-size: 24px; line-height: 33px; color: #1E1E1E; margin-bottom: 0px }',
+        '.message { font-style: normal; font-weight: 400; font-size: 16px; line-height: 22px; }',
     ]
 })
 export class WebCamComponent implements OnInit {

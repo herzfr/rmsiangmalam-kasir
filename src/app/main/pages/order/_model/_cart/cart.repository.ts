@@ -14,12 +14,19 @@ export class CartRepository {
     public cartPrice: number = 0;
 
     constructor(private _baseService: BaseService) {
+        this.cart.tableIds.push(0)
         _baseService.tempSale$.subscribe(res => {
             console.log(res);
             this.clear()
             this.cart = res
             this.lines = this.cart.items ?? []
         })
+    }
+
+    doSomething(event: any) {
+        console.log(event);
+        console.log(this.cart.tableIds);
+
     }
 
 
@@ -104,6 +111,7 @@ export class CartRepository {
     clear() {
         this.lines = [];
         this.cart = new CartLine();
+        this.cart.tableIds.push()
         this.itemCount = 0;
         this.cartPrice = 0;
     }

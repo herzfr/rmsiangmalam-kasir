@@ -9,7 +9,7 @@
             <div class="user d-flex justify-content-center">
                 <shift-card-app class="w-100 h-fit-content" [shift]="shift"></shift-card-app>
             </div>
-            <div class="user d-flex justify-content-center">
+            <div *ngIf="shift && shift?.status == 'OPEN'" class="user d-flex justify-content-center">
                 <button-card class="w-100 h-auto"></button-card>
             </div>
         </div>

@@ -13,6 +13,7 @@ import { Customer, FillShortcut, FindMenu, PriceCategory } from './order.model';
 import { CartLine, ItemCart } from './_cart/cart.model';
 import { CartRepository } from './_cart/cart.repository';
 import { TempSalesRepository } from '../../cashier/_model/tempsales.repository';
+import { DialogService } from 'src/app/shared/dialogs/dialog.service';
 
 @Injectable({ providedIn: 'root' })
 export class OrderRepository {
@@ -40,7 +41,7 @@ export class OrderRepository {
     constructor(private orderService: OrderService, private shiftRepo: ShiftRepository,
         private tableService: TableService, private _snackBar: MatSnackBar,
         private tempSalesService: TemporarySalesService, private cartRepo: CartRepository,
-        private tempRepo: TempSalesRepository) {
+        private tempRepo: TempSalesRepository, private _dlg: DialogService) {
         this.initFindTable()
         forkJoin([
             this.orderService.getPriceCategory(),
@@ -150,13 +151,14 @@ export class OrderRepository {
         fillShorcut.menuId = menuId;
         this.orderService.addMenuShortcut(fillShorcut).subscribe(res => {
             if (_.isEqual(res.statusCode, 0)) {
-                this.openSnackBar('Terpasang di menu utama posisi ke ' + fillShorcut.position)
+                this._dlg.showSWEDialog('Berhasil!', `Terpasang di menu utama posisi ke ${fillShorcut.position}`, 'success')
                 this.reCheckShortcut()
             }
         }, (err: HttpErrorResponse) => {
             switch (err.error.statusCode) {
                 case 1804:
                     this.openSnackBar('Menu sudah teregistrasi')
+                    this._dlg.showSWEDialog('Oopps!', `Menu sudah teregistrasi`, 'error')
                     break;
                 default:
                     this.openSnackBar(err.error.message)
@@ -191,7 +193,7 @@ export class OrderRepository {
         if (sc) {
             this.orderService.deleteMenuShortcut(sc.shorcutId ?? 0).subscribe(res => {
                 if (_.isEqual(res.statusCode, 0)) {
-                    this.openSnackBar('Berhasil menghapus menu, posisi ke ' + sc?.position)
+                    this._dlg.showSWEDialog('Berhasil!', `Berhasil menghapus menu, posisi ke ${sc?.position}`, 'success')
                     this.reCheckShortcut()
                 }
                 setTimeout(() => this.isLoading = false, 200)
@@ -223,7 +225,7 @@ export class OrderRepository {
                     this.tableService.updateOccupation(tblUpd).subscribe(res => {
                         console.log(res.data);
                         if (_.isEqual(res.statusCode, 0)) {
-                            this.openSnackBar('Pesanan berhasil perbaharui')
+                            this._dlg.showSWEDialog('Berhasil!', 'Hai, Pesanan anda berhasil diperbaharui', 'success')
                             this.initProductAndPackage()
                             this.tempRepo.getTempSales()
                             this.reCheckTable()
@@ -232,7 +234,7 @@ export class OrderRepository {
                         setTimeout(() => this.isLoading = false, 200)
                     })
                 } else {
-                    this.openSnackBar('Pesanan berhasil perbaharui')
+                    this._dlg.showSWEDialog('Berhasil!', 'Hai, Pesanan anda berhasil diperbaharui', 'success')
                     this.initProductAndPackage()
                     this.tempRepo.getTempSales()
                     this.tempRepo.tempSalesActive = undefined
@@ -241,7 +243,7 @@ export class OrderRepository {
             }
         }, (err: HttpErrorResponse) => {
             console.log(err.error);
-            this.openSnackBar(err.error.message)
+            this._dlg.showSWEDialog('Oopps!', err.error.message, 'error')
             setTimeout(() => this.isLoading = false, 200)
             // switch (err.error.statusCode) {
             //     case 1804:
@@ -266,7 +268,7 @@ export class OrderRepository {
                 this.tableService.updateOccupation(tblUpd).subscribe(res => {
                     console.log(res.data);
                     if (_.isEqual(res.statusCode, 0)) {
-                        this.openSnackBar('Pesanan berhasil perbaharui')
+                        this._dlg.showSWEDialog('Berhasil!', 'Hai, Pesanan anda berhasil diperbaharui', 'success')
                         this.initProductAndPackage()
                         this.tempRepo.getTempSales()
                         this.reCheckTable()
@@ -275,7 +277,7 @@ export class OrderRepository {
                     setTimeout(() => this.isLoading = false, 200)
                 })
             } else {
-                this.openSnackBar('Pesanan berhasil perbaharui')
+                this._dlg.showSWEDialog('Berhasil!', 'Hai, Pesanan anda berhasil diperbaharui', 'success')
                 this.initProductAndPackage()
                 this.tempRepo.getTempSales()
                 this.tempRepo.tempSalesActive = undefined
@@ -284,13 +286,12 @@ export class OrderRepository {
         }, (err: HttpErrorResponse) => {
             // console.log(err.error);
             setTimeout(() => this.isLoading = false, 200)
-            this.openSnackBar(err.error.message)
             switch (err.error.statusCode) {
                 case 2215:
-                    this.openSnackBar('Orderan dengan ID tertera tidak ada, mohon memuat ulang orderan baru')
+                    this._dlg.showSWEDialog('Oopps!', `Orderan dengan ID tertera tidak ada, mohon memuat ulang orderan baru`, 'error')
                     break;
                 default:
-                    this.openSnackBar(err.error.message)
+                    this._dlg.showSWEDialog('Oopps!', err.error.message, 'error')
                     break;
             }
         })
