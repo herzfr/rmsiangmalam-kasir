@@ -21,6 +21,8 @@ export class ReservationRepository {
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
 
+    is_loading: boolean = false
+
     constructor(
         private _reservService: ReservationService,
         private shiftRepo: ShiftRepository,
@@ -41,23 +43,31 @@ export class ReservationRepository {
     }
 
     fetchReservation() {
+        this.is_loading = true
         this._reservService.getReservation(this.find)
             .subscribe(res => {
                 console.log(res);
                 this.dataReservation = res.data
-            })
 
-        let finds: FindReservation = new FindReservation()
-        finds.branchId = this.shiftRepo.onBranch
-        finds.subBranchId = this.shiftRepo.onSubBranch
-        finds.startDate = this.find.startDate
-        finds.endDate = this.find.endDate
+                let finds: FindReservation = new FindReservation()
+                finds.branchId = this.shiftRepo.onBranch
+                finds.subBranchId = this.shiftRepo.onSubBranch
+                finds.startDate = this.find.startDate
+                finds.endDate = this.find.endDate
 
-        finds.status = true
-        this._reservService.getReservation(finds)
-            .subscribe(res => {
-                this.dataReservationDone = res.data
+                finds.status = true
+                this._reservService.getReservation(finds)
+                    .subscribe(res => {
+                        this.dataReservationDone = res.data
+                        this.stopLoading()
+                    })
             })
+    }
+
+    stopLoading() {
+        setTimeout(() => {
+            this.is_loading = false
+        }, 1)
     }
 
     listenChangeCash() {
@@ -80,6 +90,7 @@ export class ReservationRepository {
     }
 
     get reservation_is_done(): Reservation[] {
+        this.stopLoading()
         return this.dataReservationDone?.content ?? []
     }
 
@@ -106,7 +117,6 @@ export class ReservationRepository {
         let date_local = this.timeUtil.convertMillisTimeLocale(date)
         this.find.startDate = this.timeUtil.convertDateTimeLocale(date_local).setHours(0, 0, 0, 0)
         this.find.endDate = this.timeUtil.convertDateTimeLocale(date_local).setHours(23, 59, 59, 999)
-
 
         this.fetchReservation()
     }

@@ -146,7 +146,7 @@ export class PaymentComponent implements OnInit {
         // console.log('tabChangeEvent => ', tabChangeEvent);
         // console.log('index => ', tabChangeEvent.index);
         this.tabIndex = tabChangeEvent.index
-        this.checkoutRepo.reBuildPayment()
+        // this.checkoutRepo.reBuildPayment()
         this.baseService.number_result = 0
         switch (this.tabIndex) {
             case 0:
@@ -213,6 +213,13 @@ export class PaymentComponent implements OnInit {
         //         break;
         // }
         // this.checkoutRepo.clear_cash()
+    }
+
+    get change() {
+        if (this.checkoutRepo.checkout.cash < 1) {
+            return 0
+        }
+        else return this.checkoutRepo.checkout.change
     }
 
     checkout() {

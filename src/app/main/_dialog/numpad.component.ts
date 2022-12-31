@@ -8,56 +8,56 @@ import { BaseService } from "../_service/base.service";
         <div class="container-fluid">
             <ul class="list-group list-group-horizontal">
                 <li (click)="input(1)" class="list-group-item m-1 col">
-                    <button class="w-100" mat-button>1</button>
+                    <button class="w-100 fw-bold" mat-button>1</button>
                 </li>
                <li (click)="input(2)" class="list-group-item m-1 col">
-                    <button class="w-100" mat-button>2</button>
+                    <button class="w-100 fw-bold" mat-button>2</button>
                 </li>
                <li (click)="input(3)" class="list-group-item m-1 col">
-                    <button class="w-100" mat-button>3</button>
+                    <button class="w-100 fw-bold" mat-button>3</button>
                 </li>
             </ul>
             <ul class="list-group list-group-horizontal-sm">
                <li (click)="input(4)" class="list-group-item m-1 col">
-                    <button class="w-100" mat-button>4</button>
+                    <button class="w-100 fw-bold" mat-button>4</button>
                 </li>
                <li (click)="input(5)" class="list-group-item m-1 col">
-                    <button class="w-100" mat-button>5</button>
+                    <button class="w-100 fw-bold" mat-button>5</button>
                 </li>
                <li (click)="input(6)" class="list-group-item m-1 col">
-                    <button class="w-100" mat-button>6</button>
+                    <button class="w-100 fw-bold" mat-button>6</button>
                 </li>
             </ul>
             <ul class="list-group list-group-horizontal-md">
                <li (click)="input(7)" class="list-group-item m-1 col">
-                    <button class="w-100" mat-button>7</button>
+                    <button class="w-100 fw-bold" mat-button>7</button>
                 </li>
                <li (click)="input(8)" class="list-group-item m-1 col">
-                    <button class="w-100" mat-button>8</button>
+                    <button class="w-100 fw-bold" mat-button>8</button>
                 </li>
                <li (click)="input(9)" class="list-group-item m-1 col">
-                    <button class="w-100" mat-button>9</button>
+                    <button class="w-100 fw-bold" mat-button>9</button>
                 </li>
             </ul>
             <ul class="list-group list-group-horizontal-lg">
                <li (click)="input(0)" class="list-group-item m-1 col">
-                    <button class="w-100" mat-button>0</button>
+                    <button class="w-100 fw-bold" mat-button>0</button>
                 </li>
                <li (click)="inputString('00')" class="list-group-item m-1 col">
-                    <button class="w-100" mat-button>00</button>
+                    <button class="w-100 fw-bold" mat-button>00</button>
                 </li>
                <li (click)="inputString('000')" class="list-group-item m-1 col">
-                    <button class="w-100" mat-button>000</button>
+                    <button class="w-100 fw-bold" mat-button>000</button>
                 </li>
             </ul>
             <li (click)="deleteNumber()" class="list-group-item m-1 col text-center">
-                    <button class="w-100" class="btn-backspace" mat-button>Menghapus<mat-icon class="icon-back">backspace</mat-icon></button>
+                    <button class="w-100 fw-bold" class="btn-backspace" mat-button>Menghapus<mat-icon svgIcon="back" class="icon-back"></mat-icon></button>
                 </li>
         </div>
     `,
     styles: [
         '.list-group-item { border: 1px solid #c6b5b5 !important; border-radius: 5px !important; }',
-        '.icon-back {margin-left: 10px}',
+        '.icon-back {margin-left: 10px; padding: 3px; line-height: 10px;}',
         '.btn-backspace { width: 100%; }'
     ]
 })

@@ -35,6 +35,12 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { DetailTransferComponent } from './_dialog/detail-transfer.component';
 import { DndModule } from 'ngx-drag-drop';
+import { LottieModule } from 'ngx-lottie';
+
+export function playerFactory() {
+    return import(/* webpackChunkName: 'lottie-web' */ 'lottie-web');
+}
+
 
 const routes: Routes = [
     { path: '', component: TransferStockComponent },
@@ -65,7 +71,7 @@ const material = [
 
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routes), SharedeModule, IconMaterialModule, material,
-        FormsModule, ReactiveFormsModule, PipeModule, CurrencyMaskModule, DndModule],
+        FormsModule, ReactiveFormsModule, PipeModule, CurrencyMaskModule, DndModule, LottieModule.forRoot({ player: playerFactory })],
     exports: [],
     declarations: [TransferStockComponent, DetailTransferComponent],
     providers: [TransferStockService, TransferStockRepository],

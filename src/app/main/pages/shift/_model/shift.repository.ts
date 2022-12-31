@@ -51,6 +51,10 @@ export class ShiftRepositoryA {
         return this.shift_data?.pageable
     }
 
+    get shift_close() {
+        return this.shifts.filter(x => x.status == 'CLOSE')
+    }
+
     next() {
         this.filter.page += 1
         this.fetch_shift()

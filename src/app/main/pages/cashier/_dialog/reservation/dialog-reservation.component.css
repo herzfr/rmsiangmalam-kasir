@@ -106,7 +106,7 @@
 }
 
 .container-reservation-list {
-  display: grid;
+  /* display: grid; */
   align-self: start;
   justify-self: start;
   align-items: start;
@@ -118,6 +118,7 @@
 
 .single {
   height: fit-content;
+  margin-bottom: 8px;
   padding: 20px;
   display: flex;
   flex-direction: row;

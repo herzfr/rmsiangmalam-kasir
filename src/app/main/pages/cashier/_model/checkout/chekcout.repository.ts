@@ -3,15 +3,18 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
 import * as _ from "lodash";
+import { delay, forkJoin, interval, of, Subscription, take } from "rxjs";
 import { Additional } from "src/app/main/_model/additional/additional.model";
 import { Customer } from "src/app/main/_model/customer/customer.model";
 import { Discount } from "src/app/main/_model/discount/discount.model";
 import { PaymentMehod } from "src/app/main/_model/payment/payment.model";
 import { PaymentRepository } from "src/app/main/_model/payment/payment.repository";
 import { Reservation } from "src/app/main/_model/reservation/reservation.model";
+import { ReservationRepository } from "src/app/main/_model/reservation/reservation.repository";
 import { ShiftRepository } from "src/app/main/_model/shift/shift.repository";
 import { UserFullData } from "src/app/main/_model/users/user.model";
 import { BaseService } from "src/app/main/_service/base.service";
+import { ReservationService } from "src/app/main/_service/reservation.service";
 import { UsersService } from "src/app/main/_service/user.service";
 import { DialogService } from "src/app/shared/dialogs/dialog.service";
 import { CheckoutService } from "../../_service/checkout.service";
@@ -30,6 +33,7 @@ export class CheckoutRepository {
     cartPrice: number = 0;
     reservation: Reservation | undefined;
     user?: UserFullData;
+    _grandtotal_actual: number = 0
 
     disc: any;
     fee: any;
@@ -45,6 +49,7 @@ export class CheckoutRepository {
     verticalPosition: MatSnackBarVerticalPosition = 'top';
     // ================
 
+    subs: Subscription[] = []
     constructor(
         private tempSalesService: TemporarySalesService,
         private shiftRepo: ShiftRepository,
@@ -55,7 +60,9 @@ export class CheckoutRepository {
         private _snackBar: MatSnackBar,
         private location: Location,
         private _dlg: DialogService,
-        private _user_service: UsersService
+        private _user_service: UsersService,
+        private _reservService: ReservationService,
+        private _rsvpRepo: ReservationRepository
     ) {
         this.listenerNumberResult()
         this.listenTriggerFromDialog()
@@ -63,22 +70,24 @@ export class CheckoutRepository {
     }
 
     listenerNumberResult() {
-        this.baseService.numberResult$.subscribe(res => {
+        const nums = this.baseService.numberResult$.subscribe(res => {
             this.checkout.cash = res
             // console.log(this.checkout);
         })
+        this.subs.push(nums)
     }
 
     listenTriggerFromDialog() {
-        this.baseService.triggerFn$.subscribe(res => {
+        const nums = this.baseService.triggerFn$.subscribe(res => {
             if (_.isEqual(res, 'trigger')) {
                 this.check_discount_tax_service()
             }
         })
+        this.subs.push(nums)
     }
 
     findUser() {
-        this._user_service.getUserById(this.find_user).subscribe(res => {
+        const usr = this._user_service.getUserById(this.find_user).subscribe(res => {
             this.user = res.data
             this.checkout.employeeUserName = this.user?.username ?? null
         }, (err: HttpErrorResponse) => {
@@ -86,6 +95,7 @@ export class CheckoutRepository {
                 this.openSnackBar('Karyawan tidak ditemukan')
             }
         })
+        this.subs.push(usr)
     }
 
     get tempSalesForCheckout() {
@@ -132,6 +142,7 @@ export class CheckoutRepository {
 
     set_clear_cash() {
         this.checkout.cash = 0
+        this.checkout.change = 0
     }
 
     check_discount_tax_service() {
@@ -200,16 +211,16 @@ export class CheckoutRepository {
     }
 
     public calculateTotal() {
-        console.log(this.charge_admin);
-
         if (this.charge_admin) {
             console.log('on charge');
-            let main_calculate = ((((this.checkout.subTotal - this.checkout.deposit) - this.checkout.discount) + this.checkout.service) + this.checkout.tax) - this.checkout.deposit
-            if (this.checkout.adminFee > 0) { this.checkout.total = main_calculate + (main_calculate * (this.checkout.adminFee / 100)) }
+            let main_calculate = ((((this.checkout.subTotal - this.checkout.deposit) - this.checkout.discount) + this.checkout.service) + this.checkout.tax)
+            if (this.checkout.adminFee > 0) {
+                this.checkout.total = main_calculate + (main_calculate * (this.checkout.adminFee / 100))
+            }
             else { this.checkout.total = main_calculate }
         } else {
             console.log('nope charge');
-            let main_calculate = ((((this.checkout.subTotal - this.checkout.deposit) - this.checkout.discount) + this.checkout.service) + this.checkout.tax) - this.checkout.deposit
+            let main_calculate = ((((this.checkout.subTotal - this.checkout.deposit) - this.checkout.discount) + this.checkout.service) + this.checkout.tax)
             this.checkout.total = main_calculate
         }
     }
@@ -228,6 +239,7 @@ export class CheckoutRepository {
     update_deposit(item: Reservation) {
         this.reservation = item
         this.checkout.deposit = this.reservation.dpAmount
+        this.check_discount_tax_service()
         this.calculateTotal()
     }
 
@@ -359,11 +371,32 @@ export class CheckoutRepository {
         this.checkout.status = status
         this._checkout_service.checkout(this.checkout).subscribe(res => {
             if (_.isEqual(res.statusCode, 0)) {
-                this._dlg.showSWEDialog('Berhasil!', `Checkout tagihan berhasil`, 'success')
-                this.reBuildPayment()
-                this.tempRepo.getTempSales()
-                this.shiftRepo.check()
-                this.location.back()
+
+                // JIKA PAKAI DEPOSIT
+                if (this.reservation !== undefined && this.checkout.deposit > 0) {
+                    this._reservService.updateReservation(this.reservation?.id, true).subscribe(res => {
+                        if (_.isEqual(res.statusCode, 0)) {
+                            this._dlg.showSWEDialog('Berhasil!', `Checkout tagihan berhasil`, 'success')
+                            this.reBuildPayment()
+                            this.tempRepo.getTempSales()
+                            this.shiftRepo.check()
+                            this.location.back()
+                            this.reservation = undefined
+                            this._rsvpRepo.fetchReservation()
+                        }
+                    })
+                }
+                // JIKA TIDAK PAKAI DEPOSIT
+                else {
+                    this._dlg.showSWEDialog('Berhasil!', `Checkout tagihan berhasil`, 'success')
+                    this.reBuildPayment()
+                    this.tempRepo.getTempSales()
+                    this.shiftRepo.check()
+                    this.location.back()
+                    this.reservation = undefined
+                }
+
+
             }
         }, (err: HttpErrorResponse) => {
             this._dlg.showSWEDialog('Oopps!', `Checkout tagihan gagal`, 'error')
@@ -395,6 +428,13 @@ export class CheckoutRepository {
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
         });
+    }
+
+    ngOnDestroy() {
+        console.log('destroy');
+        this.subs.forEach(x => {
+            x.unsubscribe()
+        })
     }
 
 

@@ -126,9 +126,9 @@
   height: auto !important;
 }
 
-.p-round-10 {
+/* .p-round-10 {
   padding: 10px 10px !important;
-}
+} */
 
 .f-super-bold {
   font-weight: 900 !important;
@@ -444,6 +444,13 @@ owl-carousel-o {
 
 .w-inherith {
   width: inherit;
+}
+
+.deposit-active {
+  background: #fdeec8;
+  border-radius: 4px;
+  border: 1px solid #efac00;
+  padding: 8px;
 }
 
 ::-webkit-scrollbar {

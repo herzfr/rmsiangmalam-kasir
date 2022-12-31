@@ -66,7 +66,7 @@
                 </div>
 
                 <!-- DISCOUNT -->
-                <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                <li class="list-group-item d-flex justify-content-between align-items-center mb-2 mt-1">
                     <button [class.active]="checkoutRepo.discount" (click)="openDiscount()" mat-button
                         class="btn-input-additional">
                         <mat-icon class="icon-temp" svgIcon="discount"></mat-icon><span
@@ -122,6 +122,17 @@
                         </mat-icon>
                     </div>
                 </li>
+
+                <!-- DEPOSIT -->
+                <div class="d-flex w-100 text-box-list">
+                    <div [class.deposit-active]="checkoutRepo.reservation"
+                        class="d-flex text-list justify-content-between w-100 p-round-10 f-super-bold title-e">
+                        {{ checkoutRepo.reservation?.note?? 'Deposit' }} <span
+                            class="col text-end f-super-bold title-e">{{
+                            checkoutRepo.checkout.deposit | rupiah
+                            }}</span>
+                    </div>
+                </div>
 
                 <!-- TOTAL -->
                 <div class="d-flex w-100 text-box-list">
@@ -196,7 +207,7 @@
                         <div class="d-flex w-100 box-panel">
                             <div class="d-flex justify-content-between w-100">
                                 Uang Kembali (Tunai) <span class="col text-end f-super-bold span-size-16">{{
-                                    checkoutRepo.checkout.change | rupiah
+                                    change | rupiah
                                     }}</span>
                             </div>
                         </div>

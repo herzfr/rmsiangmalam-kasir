@@ -60,7 +60,8 @@ const material = [
 ]
 
 @NgModule({
-    imports: [CommonModule, RouterModule.forChild(routes), SharedeModule, IconMaterialModule, material, FormsModule, ReactiveFormsModule],
+    imports: [CommonModule, RouterModule.forChild(routes), SharedeModule, IconMaterialModule, material,
+        FormsModule, ReactiveFormsModule, PipeModule],
     exports: [],
     declarations: [ShiftComponent],
     providers: [ShiftServiceL, ShiftRepositoryA],

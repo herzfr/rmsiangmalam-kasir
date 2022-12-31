@@ -116,6 +116,10 @@ export class IconMaterialModule {
         ["confirm-transfer", `${PathRegistry.ASSETS_SVG}confirmation/confirm-transfer.svg`],
         ["confirm-checkout", `${PathRegistry.ASSETS_SVG}confirmation/confirm-checkout.svg`],
         ["confirm-reservation", `${PathRegistry.ASSETS_SVG}confirmation/confirm-reservation.svg`],
+        ["confirm-add-table", `${PathRegistry.ASSETS_SVG}confirmation/confirm-add-table.svg`],
+        ["confirm-delete-table", `${PathRegistry.ASSETS_SVG}confirmation/confirm-delete-table.svg`],
+        ["confirm-cancel-stock", `${PathRegistry.ASSETS_SVG}confirmation/confirm-cancel-stock.svg`],
+        ["confirm-receive-stock", `${PathRegistry.ASSETS_SVG}confirmation/confirm-receive-stock.svg`],
     ];
 
 

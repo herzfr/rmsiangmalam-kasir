@@ -20,5 +20,9 @@ export class PaymentRepository {
         return this.dataPayment.filter(x => x.type == type)
     }
 
+    getPaymentTypeById(id?: number): string | undefined {
+        return this.dataPayment.find(x => x.id == id)?.name
+    }
+
 
 }

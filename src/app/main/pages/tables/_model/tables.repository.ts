@@ -4,6 +4,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import * as _ from "lodash";
 import { Subscription } from "rxjs";
 import { ShiftRepository } from "src/app/main/_model/shift/shift.repository";
+import { DialogService } from "src/app/shared/dialogs/dialog.service";
 import { Pageable } from "src/app/_model/general.model";
 import { TableService } from "../_services/table.service";
 import { CreateTable, DataTable, FindTable, Table, UpdateTable } from "./table.model";
@@ -20,7 +21,8 @@ export class TablesRepository {
     verticalPosition: MatSnackBarVerticalPosition = 'top';
     private sub?: Subscription;
 
-    constructor(private tablesService: TableService, private shiftRepo: ShiftRepository, private _snackBar: MatSnackBar) {
+    constructor(private tablesService: TableService, private shiftRepo: ShiftRepository,
+        private _snackBar: MatSnackBar, private _dlg: DialogService) {
         this.getDataTable()
     }
 
@@ -50,42 +52,52 @@ export class TablesRepository {
     }
 
     createT() {
-        this.tablesService.createTables(this.createTable).subscribe(res => {
-            if (_.isEqual(res.statusCode, 0)) {
-                console.log(res);
-                this.openSnackBar('Meja telah ditambahkan')
-                this.getDataTable()
-            }
-        }, (err: HttpErrorResponse) => {
-            console.log(err);
-            this.openSnackBar('Meja gagal ditambahkan')
-        })
+        this._dlg.showConfirmationDialog("Konfirmasi Tambah Meja", "Konfirmasi Tambah Meja", `Apakah Kamu Yakin Ingin Tambah Meja?`, "confirm-add-table", "Ya, yakin")
+            .subscribe(res => {
+                if (res) {
+                    this.tablesService.createTables(this.createTable).subscribe(res => {
+                        if (_.isEqual(res.statusCode, 0)) {
+                            console.log(res);
+                            this._dlg.showSWEDialog('Berhasil!', `Meja telah ditambahkan`, 'success')
+                            this.getDataTable()
+                        }
+                    }, (err: HttpErrorResponse) => {
+                        console.log(err);
+                        this._dlg.showSWEDialog('Opps!', `Meja gagal ditambahkan`, 'error')
+                    })
+                }
+            })
     }
 
     updateT() {
         this.tablesService.updateTables(this.updateTable).subscribe(res => {
             if (_.isEqual(res.statusCode, 0)) {
                 console.log(res);
-                this.openSnackBar('Meja telah diperbaharui')
+                this._dlg.showSWEDialog('Berhasil!', `Meja telah diperbaharui`, 'success')
                 this.getDataTable()
             }
         }, (err: HttpErrorResponse) => {
             console.log(err);
-            this.openSnackBar('Meja gagal diperbaharui')
+            this._dlg.showSWEDialog('Opps!', `Meja gagl diperaharui`, 'error')
         })
     }
 
     deleteT(id: number) {
-        this.tablesService.deleteTable(id).subscribe(res => {
-            if (_.isEqual(res.statusCode, 0)) {
-                console.log(res);
-                this.openSnackBar('Meja telah dihapus')
-                this.getDataTable()
-            }
-        }, (err: HttpErrorResponse) => {
-            console.log(err);
-            this.openSnackBar('Meja gagal dihapus')
-        })
+        this._dlg.showConfirmationDialog("Konfirmasi Hapus Meja", "Konfirmasi Hapus Meja", `Apakah Kamu Yakin Ingin Hapus Meja?`, "confirm-delete-table", "Ya, yakin")
+            .subscribe(res => {
+                if (res) {
+                    this.tablesService.deleteTable(id).subscribe(res => {
+                        if (_.isEqual(res.statusCode, 0)) {
+                            console.log(res);
+                            this._dlg.showSWEDialog('Berhasil!', `Meja telah dihapus`, 'success')
+                            this.getDataTable()
+                        }
+                    }, (err: HttpErrorResponse) => {
+                        console.log(err);
+                        this._dlg.showSWEDialog('Opps!', `Meja gagal dihapus`, 'error')
+                    })
+                }
+            })
     }
 
 

@@ -6,6 +6,8 @@ import * as _moment from 'moment';
 import { Moment } from 'moment';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { Sale } from './_model/shift.model';
+import { PaymentRepository } from '../../_model/payment/payment.repository';
 const moment = _moment;
 
 // See the Moment.js docs for the meaning of these formats:
@@ -41,7 +43,17 @@ export const MY_FORMATS = {
 })
 
 export class ShiftComponent implements OnInit {
-    constructor(public _shiftRepoL: ShiftRepositoryA, public location: Location) { }
+    id_active: number | null = null;
+    sales: Sale[] = []
+    constructor(public _shiftRepoL: ShiftRepositoryA, public location: Location, public paymRepo: PaymentRepository) { }
 
     ngOnInit() { }
+
+    set_detail(id: number, sale: Sale[]) {
+        console.log(sale);
+
+        this.id_active = id
+        this.sales = sale
+    }
+
 }

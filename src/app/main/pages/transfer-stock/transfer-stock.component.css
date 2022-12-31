@@ -703,3 +703,16 @@ input.mat-select {
 .min-w-290 {
   min-width: 290px;
 }
+
+.w-55 {
+  width: 55px;
+}
+
+.filter-invert {
+  filter: invert(1);
+}
+
+.r-btn {
+  padding: 8px;
+  margin-right: 8px;
+}

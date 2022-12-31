@@ -21,9 +21,20 @@ export class DoialogReservationComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public cashier: any, public resvRepo: ReservationRepository,
         private paymentRepo: PaymentRepository, private time: TimeUtil
     ) {
+        this.resvRepo.find.startDate = this.time.convertDateTimeLocale(this.date_in).setHours(0, 0, 0, 0)
+        this.resvRepo.find.endDate = this.time.convertDateTimeLocale(this.date_in).setHours(23, 59, 59, 999)
+        this.resvRepo.fetchReservation()
         this.reservation = this.resvRepo.reservation
         // this.selected = this.time.convertDateTimeLocale(new Date())
     }
+
+
+    get date_in() {
+        let date = new Date();
+        date.setDate(this.selected.getDate()) - 1;
+        return date
+    }
+
 
     ngOnInit() { }
 

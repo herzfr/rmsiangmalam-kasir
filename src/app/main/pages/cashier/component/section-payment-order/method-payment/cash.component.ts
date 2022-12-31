@@ -59,7 +59,7 @@ import { CheckoutRepository } from '../../../_model/checkout/chekcout.repository
                     </div>
                </div>
                <div  class="d-flex py-2 pt-0 section-btn-shortcut">
-                <div (click)="setNumber(checkoutRepo.checkout.total)" class="col-6 p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">
+                <div *ngIf="checkoutRepo.checkout.total > 1" (click)="setNumber(checkoutRepo.checkout.total)" class="col-6 p-2 mb-1 text-center btn-shortcut-cash cursor-pointer">
                     <mat-icon class="icon-temp" svgIcon="coin"></mat-icon>{{ checkoutRepo.checkout.total | rupiah }}
                 </div>
                </div>

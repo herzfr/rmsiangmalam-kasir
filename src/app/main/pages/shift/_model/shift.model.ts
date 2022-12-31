@@ -5,7 +5,7 @@ export class FilterShift {
     page: number = 0
     branchId: number | null = null
     subBranchId: number | null = null
-    status: 'OPEN' | 'CLOSE' | 'ALL' = 'CLOSE'
+    status: 'OPEN' | 'CLOSE' | 'ALL' = 'ALL'
     startDate: string = ''
     endDate: string = ''
 }

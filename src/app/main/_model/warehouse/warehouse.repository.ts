@@ -23,6 +23,10 @@ export class WarehouseRepository {
         return this._data_warehouse
     }
 
+    getwarehouseByIdBranch(branchId: number | null, subBranchId: number | null) {
+        return this.warehouse.find(x => x.branchId == branchId && x.subBranchId == subBranchId)
+    }
+
     ngOnDestroy() {
         this._warehouseSubs?.unsubscribe()
     }

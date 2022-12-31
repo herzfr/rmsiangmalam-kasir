@@ -54,18 +54,22 @@ export class TransferStockRepository {
     async init() {
         this.filter.branchId = await this.shiftRepo.onBranch
         this.filter.subBranchId = await this.shiftRepo.onSubBranch
-        this.filter.startDate = await this.timeUtil.startTodayTime(this.today)
-        this.filter.endDate = await this.timeUtil.endTodayTime(this.today)
-        // this.filter.startDate = 1670864400000
-        // this.filter.endDate = 1670950799000
+        // this.filter.startDate = await this.timeUtil.startTodayTime(this.today)
+        // this.filter.endDate = await this.timeUtil.endTodayTime(this.today)
+
+        this.filter.startDate = this.timeUtil.convertDateTimeLocale(this.date_in).setHours(0, 0, 0, 0)
+        this.filter.endDate = this.timeUtil.convertDateTimeLocale(this.date_in).setHours(23, 59, 59, 999)
+
         this.warehouses = await this.whRepo.warehouse
         this.fetch_transfer_stock()
 
-
     }
 
-
-
+    get date_in() {
+        let date = new Date();
+        date.setDate(this.today.getDate()) - 1;
+        return date
+    }
 
     fetch_transfer_stock() {
         this.is_loading = true
@@ -233,9 +237,9 @@ export class TransferStockRepository {
     receivedTransfer() {
         this._dlg.showConfirmationDialog(
             'Konfirmasi Penerimaan Produk', // TITLE
-            'Apakah kamu yakin ingin menerima product ' + this.on_receive?.note, // SUBTITLE
-            'Apakah kamu yakin ingin menerima product ' + this.on_receive?.note, // MESSAGE
-            'confirm-transfer', // ICON
+            'Apakah kamu yakin ingin menerima produk ' + this.on_receive?.note, // SUBTITLE
+            'Apakah kamu yakin ingin menerima produk ' + this.on_receive?.note, // MESSAGE
+            'confirm-receive-stock', // ICON
             'Ya, Yakin', // CONFIRM
         ).subscribe(async (res) => {
             if (res) {
@@ -245,8 +249,6 @@ export class TransferStockRepository {
                     this.on_receive.receiveApprover = this.shiftRepo.shift?.username ?? ''
                     this.receive = this.on_receive
                     this.doReceived()
-
-
                 }
 
             }
@@ -258,13 +260,13 @@ export class TransferStockRepository {
             this.is_loading_submit = true
             this._transferstockService.upateTransferStock(this.receive).subscribe(res => {
                 if (_.isEqual(res.statusCode, 0)) {
-                    this.openSnackBar('Penerimaan transfer produk berhasil')
+                    this._dlg.showSWEDialog('Berhasil!', `Penerimaan transfer produk berhasil`, 'success')
                     this.fetch_transfer_stock()
                     this.refresh.next('refresh')
                 }
                 this.is_loading_submit = false
             }, (err: HttpErrorResponse) => {
-                this.openSnackBar('Penerimaan transfer produk gagal')
+                this._dlg.showSWEDialog('Opps!', `Penerimaan transfer produk gagal`, 'error')
                 this.is_loading_submit = false
             })
         }
@@ -284,7 +286,7 @@ export class TransferStockRepository {
             'Konfirmasi Penolakan', // TITLE
             'Apakah kamu yakin ingin menolak transfer ' + item.note, // SUBTITLE
             'Apakah kamu yakin ingin menolak transfer ' + item.note, // MESSAGE
-            'confirm-transfer', // ICON
+            'confirm-cancel-stock', // ICON
             'Ya, Yakin', // CONFIRM
         ).subscribe(async (res) => {
             if (res) {
@@ -294,14 +296,14 @@ export class TransferStockRepository {
                 cancel.isCanceled = true
                 this._transferstockService.cancelTransferStock(cancel).subscribe(res => {
                     if (_.isEqual(res.statusCode, 0)) {
-                        this.openSnackBar('Penolakan transfer produk berhasil')
+                        this._dlg.showSWEDialog('Berhasil!', `Penolakan transfer produk berhasil`, 'success')
                         this.fetch_transfer_stock()
                         this.destroyReceive()
                         this.refresh.next('refresh')
                     }
                     this.is_loading_submit = false
                 }, (err: HttpErrorResponse) => {
-                    this.openSnackBar('Penolakan transfer produk gagal')
+                    this._dlg.showSWEDialog('Opps!', `Penolakan transfer produk gagal`, 'error')
                     this.is_loading_submit = false
                 })
             }
@@ -314,8 +316,8 @@ export class TransferStockRepository {
         if (this.send.note != '') {
             this._dlg.showConfirmationDialog(
                 'Konfirmasi Pengiriman Produk', // TITLE
-                'Apakah kamu yakin ingin mengirim transferan ini', // SUBTITLE
-                'Apakah kamu yakin ingin mengirim transferan ini', // MESSAGE
+                'Apakah kamu yakin ingin mengirim produk ini', // SUBTITLE
+                'Apakah kamu yakin ingin mengirim produk ini', // MESSAGE
                 'confirm-transfer', // ICON
                 'Ya, Yakin', // CONFIRM
             ).subscribe(async (res) => {
@@ -331,10 +333,12 @@ export class TransferStockRepository {
     }
 
     prepare_transfer() {
+
         let wh = this.whRepo.warehouse.find(x => x.id == this.send.destWarehouseId)
         if (wh) {
             this.send.isBack = wh.subBranchId == null ? true : false
         }
+        this.send.frmWarehouseId = this.whRepo.getwarehouseByIdBranch(this.shiftRepo.onBranch, this.shiftRepo.onSubBranch)?.id
         this.send.isSenderApproved = true
         this.send.sendBy = this.shiftRepo.shift?.username
         this.send.sendApprover = this.shiftRepo.shift?.username
@@ -346,14 +350,14 @@ export class TransferStockRepository {
         this._transferstockService.createTransferStock(this.send)
             .subscribe(res => {
                 if (_.isEqual(res.statusCode, 0)) {
-                    this.openSnackBar('Produk sedang dikirim')
+                    this._dlg.showSWEDialog('Berhasil!', `Produk sedang dikirim`, 'success')
                     this.fetch_transfer_stock()
                     this.clear_send()
                     this.refresh.next('refresh')
                 }
                 this.is_loading_submit = false
             }, (err: HttpErrorResponse) => {
-                this.openSnackBar('Produk gagal dikirim')
+                this._dlg.showSWEDialog('Opps!', `Produk gagal dikirim`, 'error')
                 this.is_loading_submit = false
             })
     }

@@ -1,8 +1,10 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatRadioButton, MatRadioChange } from '@angular/material/radio';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { DndDropEvent } from 'ngx-drag-drop';
+import { AnimationOptions } from 'ngx-lottie';
 import { debounceTime, Observable, Subject } from 'rxjs';
 import { TimeUtil } from 'src/app/_utility/time.util';
 import { ProductRepository } from '../../_model/product/product.repository';
@@ -34,6 +36,9 @@ export class TransferStockComponent implements OnInit {
     };
     search_find_list = new Subject<string>();
     search_product = new Subject<string>();
+
+    delivery: AnimationOptions = { path: 'assets/lottie/delivery-primary.json' };
+
     constructor(public location: Location, public trfsRepo: TransferStockRepository, public wareRepo: WarehouseRepository,
         public time: TimeUtil, private shiftRepo: ShiftRepository, private _mat_dialog: MatDialog, public prodRepo: ProductRepository) { }
 
@@ -86,9 +91,10 @@ export class TransferStockComponent implements OnInit {
     }
 
     changeDate(e: any) {
-        this.selected = this.time.convertDateTimeLocale(e);
-        this.trfsRepo.filter.startDate = this.time.startTodayTime(this.selected)
-        this.trfsRepo.filter.endDate = this.time.endTodayTime(this.selected)
+        let date_local = this.time.convertMillisTimeLocale(e)
+        this.trfsRepo.filter.startDate = this.time.convertDateTimeLocale(date_local).setHours(0, 0, 0, 0)
+        this.trfsRepo.filter.endDate = this.time.convertDateTimeLocale(date_local).setHours(23, 59, 59, 999)
+
         this.trfsRepo.fetch_transfer_stock()
     }
 
@@ -122,9 +128,8 @@ export class TransferStockComponent implements OnInit {
         return (this.shiftRepo.onBranch == item.branchId) && (this.shiftRepo.onSubBranch == item.subBranchId)
     }
 
-    toggle(event: MatSlideToggleChange) {
-        // console.log('Toggle fired', event);
-        this.trfsRepo.position = event.checked ? 'receive' : 'send'
+    toggle(event: MatRadioChange) {
+        this.trfsRepo.position = event.value
         if (this.trfsRepo.position == 'send') {
             this.trfsRepo.filter.branchId = this.shiftRepo.onBranch
             this.trfsRepo.filter.subBranchId = this.shiftRepo.onSubBranch

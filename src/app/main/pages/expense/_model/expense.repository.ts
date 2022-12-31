@@ -287,13 +287,13 @@ export class ExpenseRepository {
         this._expanseservice.createExpense(this.create)
             .subscribe(res => {
                 if (_.isEqual(res.statusCode, 0)) {
-                    this.openSnackBar('Kas Operasional telah dicatat')
+                    this._dlg.showSWEDialog('Berhasil!', `Kas Operasional telah dicatat`, 'success')
                     this.fetch_expense()
                     this.reset_expense()
                 }
                 this.is_loading_submit = false
             }, (err: HttpErrorResponse) => {
-                this.openSnackBar('Operasional gagal dicatat')
+                this._dlg.showSWEDialog('Opps!', `Operasional gagal dicatat`, 'error')
                 this.is_loading_submit = false
             })
     }
@@ -303,13 +303,13 @@ export class ExpenseRepository {
         this._empl_service.createCashEmployee(this.employee_cash)
             .subscribe(res => {
                 if (_.isEqual(res.statusCode, 0)) {
-                    this.openSnackBar('Kas Karyawan telah dicatat')
+                    this._dlg.showSWEDialog('Berhasil!', `Kas Karyawan telah dicatat`, 'success')
                     this.fetch_expense()
                     this.reset_empl_cash()
                 }
                 this.is_loading_submit = false
             }, (err: HttpErrorResponse) => {
-                this.openSnackBar('Operasional gagal dicatat')
+                this._dlg.showSWEDialog('Opps!', `Operasional gagal dicatat`, 'error')
                 this.is_loading_submit = false
             })
     }
@@ -319,12 +319,12 @@ export class ExpenseRepository {
         this._expanseservice.uploadReceipt(this.upload_receipt)
             .subscribe(res => {
                 if (_.isEqual(res.statusCode, 0)) {
-                    this.openSnackBar('Upload bukti berhasil')
+                    this._dlg.showSWEDialog('Berhasil!', `Upload bukti berhasil`, 'success')
                     this.fetch_expense()
                 }
                 this.is_loading_submit = false
             }, (err: HttpErrorResponse) => {
-                this.openSnackBar('Upload bukti gagal')
+                this._dlg.showSWEDialog('Opps!', `Upload bukti gagal`, 'error')
                 this.is_loading_submit = false
             })
     }

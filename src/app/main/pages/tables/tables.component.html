@@ -14,13 +14,13 @@
             </div>
             <div class="row my-2 py-3 justify-content-center">
                 <ng-container *ngIf="!isOptUpdate; else isUpdate">
-                    <form-apps (onSubmit)="onSubmitDataCreate($event)" [submitName]="'Save'" [isLoading]="isLoading"
+                    <form-apps (onSubmit)="onSubmitDataCreate($event)" [confirm]="'Save'" [isLoading]="isLoading"
                         [fields]="formFieldCreate">
                     </form-apps>
                 </ng-container>
                 <ng-template #isUpdate>
-                    <form-apps (onSubmit)="onSubmitDataUpdate($event)" [submitName]="'Perbaharui'"
-                        [isLoading]="isLoading" [fields]="formFieldUpdate">
+                    <form-apps (onSubmit)="onSubmitDataUpdate($event)" [confirm]="'Perbaharui'" [isLoading]="isLoading"
+                        [fields]="formFieldUpdate">
                     </form-apps>
                 </ng-template>
             </div>
@@ -37,19 +37,21 @@
             <div class="container-fluid container-general">
                 <div class="row justify-content-between px-2 r-container">
                     <ng-container *ngIf="tablesRepo.dataTables.length > 0; else isEmpty">
-                        <div [ngClass]="tbl.isOccupied? 'red' : 'cyan'" class="box box-down"
+                        <div [ngClass]="tbl.isOccupied || isOnForm(tbl.id) ? 'red' : 'cyan'" class="box box-down"
                             *ngFor="let tbl of tablesRepo.dataTables">
                             <h2>T.{{ tbl.name }} - K.{{ tbl.capacity === null? '0' : tbl.capacity }}</h2>
                             <p class="m-0">{{ tbl.description }}</p>
-                            <div (click)="tbl.isOccupied? null : generateFieldUpdate(tbl)"
-                                [ngClass]="tbl.isOccupied? 'box-status-used' : 'box-status'">
+                            <div (click)="tbl.isOccupied || isOnForm(tbl.id)? null : generateFieldUpdate(tbl)"
+                                [ngClass]="tbl.isOccupied || isOnForm(tbl.id)? 'box-status-used' : 'box-status'">
                                 <p class="text-white m-0 text-center">{{ tbl.isOccupied? 'Terpakai' : 'Perbaharui' }}
                                     <span *ngIf="tbl.isOccupied">- {{ tbl.capacity }}</span>
                                 </p>
                             </div>
-                            <mat-icon (click)="tablesRepo.deleteT(tbl.id)" *ngIf="!tbl.isOccupied" svgIcon="trash"
-                                class="close">
-                            </mat-icon>
+                            <ng-container *ngIf="!(isOnForm(tbl.id))">
+                                <mat-icon (click)="tablesRepo.deleteT(tbl.id)" *ngIf="!tbl.isOccupied" svgIcon="trash"
+                                    class="close">
+                                </mat-icon>
+                            </ng-container>
                         </div>
                     </ng-container>
                     <ng-template #isEmpty>

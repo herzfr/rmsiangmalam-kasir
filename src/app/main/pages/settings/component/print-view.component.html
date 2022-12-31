@@ -1,8 +1,8 @@
 <div #areaprint class="print-area">
     <div style="text-align: center; padding: 0px;">
-        <img uiImageLoader class="imageStyle" onErrorSrc="assets/images/no_pic_square.png"
-            loader="assets/images/no_pic_square.png" [alt]="'Bukti Pembayaran'" class="img-proof"
-            [src]="'data:image/jpeg;base64,' + settingRepo.upsert_setting.image" alt="bukti-pembayaran">
+        <img class="imageStyle" [alt]="'Bukti Pembayaran'" class="img-proof"
+            [src]="settingRepo.upsert_setting.image != ''? 'data:image/jpeg;base64,' + settingRepo.upsert_setting.image : 'assets/images/no_pic_square.png'"
+            alt="bukti-pembayaran">
     </div>
 
     <div id="printDiv" class="title center" style="text-align: center;">

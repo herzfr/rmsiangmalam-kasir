@@ -18,7 +18,10 @@
 }
 
 .r-container {
-  height: 100vh;
+  height: auto;
+  /* align-items: start; */
+  display: flex;
+  justify-content: start !important;
 }
 
 .side {
@@ -41,7 +44,7 @@
 
 .box-status {
   padding: 5px;
-  background-color: #4e685f;
+  background-color: var(--primary-200);
   border-radius: 3px;
   cursor: pointer;
 }
@@ -115,4 +118,8 @@ h2 {
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

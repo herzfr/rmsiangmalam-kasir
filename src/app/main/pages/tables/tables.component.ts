@@ -61,7 +61,7 @@ export class TablesComponent implements OnInit {
             this.fieldsUpdate = []
             this.fieldsUpdate = [
                 this.formUtil.generateObjectForm('id', 'text', '', '', '', table.id, false, false, {}),
-                this.formUtil.generateObjectForm('name', 'text', 'Nama Meja', 'Cth. Meja 1', 'note_alt', table.name, true, true, {}),
+                this.formUtil.generateObjectForm('name', 'text', 'Nama Meja', 'Cth. Meja 1', 'title', table.name, true, true, {}),
                 this.formUtil.generateObjectForm('description', 'text', 'Deskripsi Meja', 'Meja VVIP', 'description', table.description, true, true, {}),
                 this.formUtil.generateObjectForm('branchId', 'text', '', '', '', this.shiftRepo.onBranch, false, false, {}),
                 this.formUtil.generateObjectForm('subBranchId', 'text', '', '', '', this.shiftRepo.onSubBranch, false, false, {}),
@@ -75,8 +75,6 @@ export class TablesComponent implements OnInit {
                 this.updateForm = JSON.parse(update.fields);
             });
         }, 1)
-
-
     }
 
     get formFieldCreate() {
@@ -85,6 +83,13 @@ export class TablesComponent implements OnInit {
 
     get formFieldUpdate() {
         return this.fieldsUpdate;
+    }
+
+    isOnForm(id: number) {
+        if (this.formFieldUpdate.length > 0) {
+            return this.formFieldUpdate.at(0).value == id
+        }
+        return false
     }
 
     async onSubmitDataCreate(data: any) {
@@ -96,8 +101,6 @@ export class TablesComponent implements OnInit {
     }
 
     async onSubmitDataUpdate(data: any) {
-        console.log(data);
-
         this.isLoading = true
         this.tablesRepo.updateTable = data as UpdateTable
         await this.tablesRepo.updateT()
@@ -106,6 +109,7 @@ export class TablesComponent implements OnInit {
     }
 
     changeForm() {
+        this.fieldsUpdate = []
         if (this.isOptUpdate) {
             this.isOptUpdate = !this.isOptUpdate
         }

@@ -184,7 +184,7 @@ export class OtherIncomeRepository {
             if (merge.cash > 0) {
 
                 if (!this.state_invalid_cash(merge).invalid) {
-                    this._dlg.showConfirmationDialog("Pemasukan Lainnya", "", "kamu akan memasukan tagihan " + merge.note, "merge-bill", "Pisah")
+                    this._dlg.showConfirmationDialog("Pemasukan Lainnya", "", "kamu akan memasukan tagihan " + merge.note, "confirm-income", "Ya, Yakin")
                         .subscribe(res => {
                             if (res) {
                                 this.goSubmitIncome(merge as IncomeUp)
@@ -202,7 +202,7 @@ export class OtherIncomeRepository {
 
         if (merge.type == 'CUSTOM') {
             if (!this.state_invalid_other(merge).invalid) {
-                this._dlg.showConfirmationDialog("Pemasukan Lainnya", "", "kamu akan memasukan tagihan " + merge.note, "merge-bill", "Pisah")
+                this._dlg.showConfirmationDialog("Pemasukan Lainnya", "", "kamu akan memasukan tagihan " + merge.note, "confirm-income", "Ya, Yakin")
                     .subscribe(res => {
                         if (res) {
                             this.goSubmitIncome(merge as IncomeUp)
@@ -243,13 +243,14 @@ export class OtherIncomeRepository {
         this.is_loading_submit = true
         this._income_service.createIncome(data).subscribe(res => {
             if (_.isEqual(res.statusCode, 0)) {
-                this.openSnackBar('Pemasukan telah ditambahkan')
+                this._dlg.showSWEDialog('Berhasil!', `Pemasukan telah ditambahkan`, 'success')
+                this.is_loading_submit = false
                 this.reset_income()
                 this.fetch_income()
             }
             this.is_loading_submit = false
         }, (err: HttpErrorResponse) => {
-            this.openSnackBar('Pemasukan gagal ditambahkan')
+            this._dlg.showSWEDialog('Opps!', `Pemasukan gagal ditambahkan`, 'error')
             this.is_loading_submit = false
         })
     }

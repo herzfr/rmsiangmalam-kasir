@@ -99,14 +99,14 @@ export class SettingRepository {
             .subscribe(res => {
                 console.log(res);
                 if (_.isEqual(res.statusCode, 0)) {
-                    this.dlg.showInfoDialog('Setting', '', 'Penyimpanan setting berhasil', 'empty-setting')
+                    this.dlg.showSWEDialog('Berhasil!', `Penyimpanan setting berhasil`, 'success')
                     this.findSettingAll()
                 }
             }, (err: HttpErrorResponse) => {
                 if (err.error.statusCode == 413) {
-                    this.openSnackBar('Ukuran gambar terlalu besar')
+                    this.dlg.showSWEDialog('Opps!', `Ukuran gambar terlalu besar`, 'error')
                 } else {
-                    this.openSnackBar('Penyimpanan setting gagal')
+                    this.dlg.showSWEDialog('Opps!', `Penyimpanan setting gagal`, 'error')
                 }
 
             })
@@ -117,14 +117,14 @@ export class SettingRepository {
             .subscribe(res => {
                 console.log(res);
                 if (_.isEqual(res.statusCode, 0)) {
-                    this.dlg.showInfoDialog('Setting', '', 'Pembaharuan setting berhasil', 'empty-setting')
+                    this.dlg.showSWEDialog('Berhasil!', `Pembaharuan setting berhasil`, 'success')
                     this.findSettingAll()
                 }
             }, (err: HttpErrorResponse) => {
                 if (err.error.statusCode == 413) {
-                    this.openSnackBar('Ukuran gambar terlalu besar')
+                    this.dlg.showSWEDialog('Opps!', `Ukuran gambar terlalu besar`, 'error')
                 } else {
-                    this.openSnackBar('Pembaharuan setting gagal')
+                    this.dlg.showSWEDialog('Opps!', `Penyimpanan setting gagal`, 'error')
                 }
             })
     }

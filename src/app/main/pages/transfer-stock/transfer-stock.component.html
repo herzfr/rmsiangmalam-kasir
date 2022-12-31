@@ -175,11 +175,19 @@
                                         </mat-select>
                                     </div>
                                 </div> -->
-                                <div class="col-3 d-flex align-items-center justify-content-center">
+
+                                <!-- <div class="col-3 d-flex align-items-center justify-content-center">
                                     <mat-slide-toggle #togle [checked]="trfsRepo.position === 'receive'"
                                         (change)="toggle($event)"><span class="fw-bold primary">{{ trfsRepo.position
                                             == 'send' ? 'Pengiriman' : 'Penerimaan'}}</span></mat-slide-toggle>
-                                </div>
+                                </div> -->
+
+                                <mat-radio-group class="d-flex align-items-center" #togle (change)="toggle($event)"
+                                    [(ngModel)]="trfsRepo.position" aria-label="Select an option">
+                                    <mat-radio-button class="r-btn" value="send">Pengiriman</mat-radio-button>
+                                    <mat-radio-button class="r-btn" value="receive">Penerimaan</mat-radio-button>
+                                </mat-radio-group>
+
                                 <span class="col-1"></span>
                                 <div class="col d-flex align-items-center find-input">
                                     <mat-icon (click)="trfsRepo.fetch_transfer_stock()"
@@ -217,7 +225,11 @@
                                                     <!-- SEND -->
                                                     <div class="grid-line">
                                                         <div class="d-flex icon-line bg-status-primary">
-                                                            <mat-icon class="icon-i" svgIcon="white-car"></mat-icon>
+                                                            <mat-icon *ngIf="!(is_waiting_receive(itm))" class="icon-i"
+                                                                svgIcon="white-car"></mat-icon>
+                                                            <main *ngIf="is_waiting_receive(itm)"
+                                                                class="w-55 filter-invert" lottie [options]="delivery">
+                                                            </main>
                                                         </div>
                                                         <p class="mb-0 text-center text-status primary">Dikirim</p>
                                                         <li class="list-group-item text-title-case">
