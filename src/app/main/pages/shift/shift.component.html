@@ -21,52 +21,86 @@
                     <mat-date-range-picker #picker></mat-date-range-picker>
                 </div>
 
-                <ng-container *ngIf="_shiftRepoL.shifts.length > 0; else empty">
-                    <div class="list-container">
-                        <div class="card-item" *ngFor="let item of _shiftRepoL.shift_close">
-                            <div class="item-income header-temp">
-                                <div class="col d-flex">
-                                    <p class="text-temp mb-0">Kasir : <span class="t-primary">{{ item.name }} - @{{
-                                            item.username }}</span></p>
-                                </div>
-                                <div class="col-5 d-flex justify-content-end">
-                                    <!-- <mat-icon class="icon-temp" svgIcon="calendar"></mat-icon> -->
-                                    <p class="text-date fw-bold mb-0">{{ item.startTime }}</p>
-                                    <span class="span-range">-</span>
-                                    <p class="text-date fw-bold mb-0">{{ item.status == 'CLOSE' ?
-                                        item.endTime : 'Belum Tutup Shift' }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="list-a d-flex align-items-center">
-                                <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
-                                <p class="mb-0 mr-1 text-temp t-primary">Kas Awal : </p>
-                                <p class="mb-0 fw-bold text-temp" style="font-size: 10px;">{{ item.startCash | rupiah }}
-                                </p>
-                            </div>
-                            <div class="list-a d-flex align-items-center">
-                                <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
-                                <p class="mb-0 mr-1 text-temp t-primary">Kas Akhir : </p>
-                                <p class="mb-0 fw-bold text-temp" style="font-size: 10px;">{{ item.endCash | rupiah }}
-                                </p>
-                            </div>
-                            <div class="list-a d-flex align-items-center">
-                                <mat-icon class="icon-calendar-2" svgIcon="receipt"></mat-icon>
-                                <p class="mb-0 mr-1 text-temp t-primary">Total Penjualan : </p>
-                                <p class="mb-0 fw-bold text-temp" style="font-size: 10px;">
-                                    {{item.sales.length }}
-                                </p>
-                            </div>
-                            <div class="d-flex justify-content-end p-1">
-                                <button [class.detail-active]="id_active == item.id"
-                                    (click)="set_detail(item.id, item.sales)" mat-button
-                                    class="btn-detail">Detail</button>
-                            </div>
-                        </div>
+                <ng-container *ngIf="_shiftRepoL.is_loading; else notloading">
+                    <div class="loading-container">
+                        <div class="spinner"></div>
+                        <p class="text-head-primary">Tunggu sebentar...</p>
                     </div>
                 </ng-container>
-                <ng-template #empty>
-                    Kosong
+                <ng-template #notloading>
+                    <ng-container *ngIf="_shiftRepoL.shifts.length > 0; else empty">
+                        <div class="list-container">
+                            <div class="card-item" *ngFor="let item of _shiftRepoL.shift_close; let i = index">
+                                <div class="item-income header-temp">
+                                    <div class="col d-flex">
+                                        <p class="text-temp mb-0">Kasir : <span class="t-primary">{{ item.name }} - @{{
+                                                item.username }}</span></p>
+                                    </div>
+                                    <div class="col-5 d-flex justify-content-end">
+                                        <!-- <mat-icon class="icon-temp" svgIcon="calendar"></mat-icon> -->
+                                        <p class="text-date fw-bold mb-0">{{ item.startTime }}</p>
+                                        <span class="span-range">-</span>
+                                        <p class="text-date fw-bold mb-0">{{ item.status == 'CLOSE' ?
+                                            item.endTime : 'Belum Tutup Shift' }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="list-a d-flex align-items-center">
+                                    <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
+                                    <p class="mb-0 mr-1 text-temp t-primary">Kas Awal : </p>
+                                    <p class="mb-0 fw-bold text-temp" style="font-size: 10px;">{{ item.startCash |
+                                        rupiah }}
+                                    </p>
+                                </div>
+                                <div class="list-a d-flex align-items-center">
+                                    <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
+                                    <p class="mb-0 mr-1 text-temp t-primary">Kas Akhir : </p>
+                                    <p class="mb-0 fw-bold text-temp" style="font-size: 10px;">{{ item.endCash | rupiah
+                                        }}
+                                    </p>
+                                </div>
+                                <div class="list-a d-flex align-items-center">
+                                    <mat-icon class="icon-calendar-2" svgIcon="receipt"></mat-icon>
+                                    <p class="mb-0 mr-1 text-temp t-primary">Total Penjualan : </p>
+                                    <p class="mb-0 fw-bold text-temp" style="font-size: 10px;">
+                                        {{item.sales.length }}
+                                    </p>
+                                </div>
+                                <div class="d-flex justify-content-end p-1">
+                                    <button *ngIf="!loading_shft && index_loading != i" (click)="print(item.id, i)"
+                                        class="btn-detail icon-btn" mat-button><mat-icon class="icon-calendar-2"
+                                            svgIcon="print"></mat-icon> Print
+                                        Riwayat</button>
+                                    <button *ngIf="loading_shft && index_loading != i" (click)="print(item.id, i)"
+                                        class="btn-detail icon-btn" mat-button><mat-icon class="icon-calendar-2"
+                                            svgIcon="print"></mat-icon> Print
+                                        Riwayat</button>
+                                    <div *ngIf="loading_shft && index_loading == i" class="cursor-pointer load mr-10px">
+                                        <div class="d-flex">
+                                            <span class="load-span">Tunggu...</span>
+                                            <mat-spinner [diameter]="20"></mat-spinner>
+                                        </div>
+                                    </div>
+                                    <span class="mx-1"></span>
+                                    <button [class.detail-active]="id_active == item.id"
+                                        (click)="set_detail(item.id, item.sales)" mat-button
+                                        class="btn-detail">Detail</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </ng-container>
+
+                    <ng-template #empty>
+                        <div class="center justify-content-center">
+                            <div>
+                                <mat-icon svgIcon="empty-shift"></mat-icon>
+                                <p class="text-center text-review">Tidak Ada Daftar Shift</p>
+                                <p class="text-center text-empty">Daftar shiftmu nanti akan tampil disini</p>
+
+                            </div>
+                        </div>
+                    </ng-template>
                 </ng-template>
 
                 <div class="col d-flex align-items-center justify-content-around p-2">
@@ -92,66 +126,82 @@
                 <div class="card-box">
 
                     <div class="container-detail-shift">
-                        <ng-container *ngFor="let sale of sales">
-                            <div class="box-temp">
-                                <!-- HEADER -->
-                                <div class="d-flex header-temp">
-                                    <div class="col d-flex">
-                                        <mat-icon class="icon-temp" svgIcon="bell"></mat-icon>
-                                        <p class="text-temp mb-0">ID Order : <span class="code-id">#{{ sale.id }}</span>
-                                        </p>
-                                    </div>
-                                    <div class="col d-flex justify-content-end">
-                                        <mat-icon class="icon-temp" svgIcon="calendar"></mat-icon>
-                                        <p class="text-temp mb-0">{{ sale.createdAt | milistodate: "full" }}</p>
-                                        <mat-icon class="utama" color="dark" svgIcon="three-dot"></mat-icon>
-                                    </div>
-                                </div>
-                                <!-- HEADER -->
-                                <!-- BODY -->
-                                <div class="d-flex body-temp">
-                                    <div class="col display-grid">
+                        <ng-container *ngIf="sales.length > 0; else emptylist">
+                            <ng-container *ngFor="let sale of sales">
+                                <div class="box-temp">
+                                    <!-- HEADER -->
+                                    <div class="d-flex header-temp">
                                         <div class="col d-flex">
-                                            <mat-icon class="icon-temp" svgIcon="table"></mat-icon>
-                                            <p class="text-temp mb-0"> {{ sale.name == "" ? "" : sale.name }}</p>
-                                        </div>
-                                        <div class="col d-flex">
-                                            <mat-icon class="icon-temp" svgIcon="note"></mat-icon>
-                                            <p class="text-temp mb-0">Tipe Pembayaran : <strong>{{
-                                                    paymRepo.getPaymentTypeById(sale.paymentTypeId)?? 'Tunai'
-                                                    }}</strong>
+                                            <mat-icon class="icon-temp" svgIcon="bell"></mat-icon>
+                                            <p class="text-temp mb-0">ID Order : <span class="code-id">#{{ sale.id
+                                                    }}</span>
                                             </p>
                                         </div>
-                                        <ng-container *ngIf="sale.paymentMethod == 'CASH'">
-                                            <div class="col d-flex">
-                                                <mat-icon class="icon-temp" svgIcon="money-cash"></mat-icon>
-                                                <p class="text-temp mb-0">Tunai : <strong>{{ (sale.cash?? 0) | rupiah
-                                                        }}</strong>
-                                                </p>
-                                            </div>
-                                            <div class="col d-flex">
-                                                <mat-icon class="icon-temp" svgIcon="wallet-cash"></mat-icon>
-                                                <p class="text-temp mb-0">Kembalian : <strong>{{ (sale.change?? 0) |
-                                                        rupiah
-                                                        }}</strong>
-                                                </p>
-                                            </div>
-                                        </ng-container>
-
-                                    </div>
-                                    <div class="col-5 display-grid opt-temp">
-                                        <div class="col display-grid">
-                                            <p class="pay-temp mb-0 text-end">Total</p>
-                                            <p class="total-temp mb-0 text-end">{{ sale.total | rupiah }}</p>
+                                        <div class="col d-flex justify-content-end">
+                                            <mat-icon class="icon-temp" svgIcon="calendar"></mat-icon>
+                                            <p class="text-temp mb-0">{{ sale.createdAt | milistodate: "full" }}</p>
+                                            <!-- <mat-icon class="utama" color="dark" svgIcon="three-dot"></mat-icon> -->
                                         </div>
-                                        <!-- <div class="col d-flex justify-content-end">
+                                    </div>
+                                    <!-- HEADER -->
+                                    <!-- BODY -->
+                                    <div class="d-flex body-temp">
+                                        <div class="col display-grid">
+                                            <div class="col d-flex">
+                                                <mat-icon class="icon-temp" svgIcon="table"></mat-icon>
+                                                <p class="text-temp mb-0"> {{ sale.name == "" ? "" : sale.name }}</p>
+                                            </div>
+                                            <div class="col d-flex">
+                                                <mat-icon class="icon-temp" svgIcon="note"></mat-icon>
+                                                <p class="text-temp mb-0">Tipe Pembayaran : <strong>{{
+                                                        getPayment(sale.paymentTypeId, sale.paymentMethod,
+                                                        sale.customerId)
+                                                        }}</strong>
+                                                </p>
+                                            </div>
+                                            <ng-container *ngIf="sale.paymentMethod == 'CASH'">
+                                                <div class="col d-flex">
+                                                    <mat-icon class="icon-temp" svgIcon="money-cash"></mat-icon>
+                                                    <p class="text-temp mb-0">Tunai : <strong>{{ (sale.cash?? 0) |
+                                                            rupiah
+                                                            }}</strong>
+                                                    </p>
+                                                </div>
+                                                <div class="col d-flex">
+                                                    <mat-icon class="icon-temp" svgIcon="wallet-cash"></mat-icon>
+                                                    <p class="text-temp mb-0">Kembalian : <strong>{{ (sale.change?? 0) |
+                                                            rupiah
+                                                            }}</strong>
+                                                    </p>
+                                                </div>
+                                            </ng-container>
+
+                                        </div>
+                                        <div class="col-5 display-grid opt-temp">
+                                            <div class="col display-grid">
+                                                <p class="pay-temp mb-0 text-end">Total</p>
+                                                <p class="total-temp mb-0 text-end">{{ sale.total | rupiah }}</p>
+                                            </div>
+                                            <!-- <div class="col d-flex justify-content-end">
                                         <button *ngIf="!onselect" (click)="onActive(sale.id)" mat-button class="btn-see">Lihat</button>
                                     </div> -->
+                                        </div>
                                     </div>
+                                    <!-- BODY -->
                                 </div>
-                                <!-- BODY -->
-                            </div>
+                            </ng-container>
                         </ng-container>
+                        <ng-template #emptylist>
+                            <div class="center justify-content-center">
+                                <div>
+                                    <mat-icon svgIcon="empty-shift"></mat-icon>
+                                    <p class="text-center text-review">Tidak Ada Daftar Rincian</p>
+                                    <p class="text-center text-empty">Silahkan pilih terlebih dahulu shift yang ingin
+                                        dilihat</p>
+
+                                </div>
+                            </div>
+                        </ng-template>
                     </div>
 
                 </div>

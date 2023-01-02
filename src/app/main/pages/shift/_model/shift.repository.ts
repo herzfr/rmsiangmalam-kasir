@@ -12,6 +12,8 @@ export class ShiftRepositoryA {
     shift_data?: DataShift;
     today: Date = this.timeUtil.convertDateTimeLocale(new Date())
 
+    is_loading: boolean = false
+
     rangeDate = new FormGroup({
         start: new FormControl<Date | null>(new Date()),
         end: new FormControl<Date | null>(this.date_30),
@@ -37,8 +39,12 @@ export class ShiftRepositoryA {
     }
 
     fetch_shift() {
+        this.is_loading = true
         this._shift_service.getShiftList(this.filter).subscribe(res => {
             this.shift_data = res.data
+            setTimeout(() => {
+                this.is_loading = false
+            }, 200)
         })
     }
 
@@ -99,6 +105,8 @@ export class ShiftRepositoryA {
         this.filter.endDate = get_date
 
     }
+
+
 
 
 }

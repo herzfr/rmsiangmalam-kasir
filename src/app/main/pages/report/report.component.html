@@ -1,0 +1,255 @@
+<div class="container-fluid container-main p-0">
+    <div class="d-flex card-box-header">
+        <button (click)="location.back()" class="" mat-icon-button>
+            <mat-icon svgIcon="back"></mat-icon>
+        </button>
+        <p class="mb-0 text-title">Laporan Terjual</p>
+    </div>
+
+    <div class="d-flex container-main">
+        <div class="col-8 p-2">
+            <div class="card-box">
+                <p class="text-head-primary py-3 mb-0">Filter Pencarian</p>
+
+                <div class="d-flex mb-2">
+                    <div class="d-flex align-items-center find-input">
+                        <mat-icon (click)="reportRepo.fetch_report()" class="col-2 mx-3 cursor-pointer"
+                            svgIcon="search">
+                        </mat-icon>
+                        <input (keyup)="applyFilter($event)" placeholder="Cari Pengeluaran" class="col" type="text"
+                            [value]="reportRepo.filter.search" mat-input />
+                        <mat-icon (click)="clear()" class="col-2 mx-3 cursor-pointer" svgIcon="remove"></mat-icon>
+                    </div>
+                </div>
+
+                <div class="d-flex mb-2">
+                    <div class="col-7">
+                        <div class="d-flex box-range mb-2">
+                            <mat-date-range-input [formGroup]="reportRepo.rangeDate" [rangePicker]="picker">
+                                <input matStartDate formControlName="start" placeholder="Tanggal Awal" #dateStart />
+                                <input matEndDate formControlName="end" placeholder="Tanggal Akhir" #dateEnd
+                                    (dateChange)="reportRepo.findByDate()" />
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </div>
+                    </div>
+
+                    <div class="col d-flex align-items-center justify-content-around px-2">
+                        <div [class.disable-next-prev]="reportRepo.is_disabled_prev"
+                            (click)="reportRepo.is_disabled_prev ? null : reportRepo.prev() " mat-button color="accent"
+                            class="button-next-prev">
+                            <mat-icon class="icon-next-prev" svgIcon="chevron-left"></mat-icon>
+                        </div>
+                        <strong class="mx-2"> {{ (reportRepo.pagine?.pageNumber?? 0) + 1 }} / {{
+                            (reportRepo.pagine?.totalPage?? 0)
+                            + 1}}</strong>
+                        <div [class.disable-next-prev]="reportRepo.is_disabled_next"
+                            (click)="reportRepo.is_disabled_next ? null : reportRepo.next()" mat-button color="accent"
+                            class="button-next-prev">
+                            <mat-icon class="icon-next-prev" svgIcon="chevron-right"></mat-icon>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex mb-2">
+                    <mat-radio-group class="col-6 d-flex align-items-center" #togle (change)="toggle($event)"
+                        [(ngModel)]="reportRepo.filter.status" aria-label="Select an option">
+                        <mat-radio-button class="r-btn" value="PAID">Lunas</mat-radio-button>
+                        <mat-radio-button class="r-btn" value="DEBT">Hutang</mat-radio-button>
+                    </mat-radio-group>
+
+                    <div class="col box-filter">
+                        <mat-select (selectionChange)="reportRepo.fetch_report()" [(value)]="reportRepo.filter.option"
+                            panelClass="droprdown-position-orderby">
+                            <mat-option [value]="item.value" *ngFor="let item of optionType">{{
+                                item.key
+                                }}</mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+
+                <p class="text-head-primary py-3 mb-0">Daftar Laporan Terjual</p>
+
+                <ng-container *ngIf="reportRepo.is_loading; else notloading">
+                    <div class="loading-container">
+                        <div class="spinner"></div>
+                        <p class="text-head-primary">Tunggu sebentar...</p>
+                    </div>
+                </ng-container>
+                <ng-template #notloading>
+                    <div class="list-container" *ngIf="reportRepo.reports.length > 0; else emptylist">
+                        <div class="card-item" *ngFor="let lst of reportRepo.reports">
+                            <div class="item-income header-temp">
+                                <div class="col d-flex">
+                                    <mat-icon class="icon-calendar-2" svgIcon="note"></mat-icon>
+                                    <p class="text-temp mb-0">Penjualan : <span class="t-primary">{{ lst?.id
+                                            }}</span><span [ngClass]="lst.status == 'PAID'? 'paid' : 'pending'"
+                                            class="status-paid">{{ lst.status == 'PAID'? 'Lunas' : 'Hutang' }}</span>
+                                    </p>
+                                </div>
+                                <div class="col d-flex justify-content-end">
+                                    <mat-icon class="icon-temp" svgIcon="calendar"></mat-icon>
+                                    <p class="text-temp mb-0">{{ (lst?.createdAt?? day) | milistodate: "full" }}</p>
+                                </div>
+                            </div>
+                            <div class="list-a d-flex align-items-center">
+                                <mat-icon class="icon-calendar-2" svgIcon="user"></mat-icon>
+                                <p class="mb-0 mr-1 text-temp t-primary">Nama & Catatan : </p>
+                                <p class="mb-0 fw-bold text-temp" style="font-size: 11px;">{{ lst.name == ''?
+                                    ('Pesanan ' + lst.id) : lst.name }} -
+                                    {{ lst.note == ''? 'Tidak ada catatan' : lst.note}}</p>
+                            </div>
+                            <div class="list-a d-flex align-items-center">
+                                <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
+                                <p class="mb-0 mr-1 text-temp t-primary">Total : </p>
+                                <p class="mb-0 fw-bold text-temp" style="font-size: 11px;">{{ lst.total | rupiah }}</p>
+                            </div>
+                            <div class="list-a d-flex align-items-center">
+                                <mat-icon class="icon-calendar-2" svgIcon="receipt"></mat-icon>
+                                <p class="mb-0 mr-1 text-temp t-primary">Tipe Pemasukan : </p>
+                                <p class="mb-0 fw-bold text-temp" style="font-size: 11px;">
+                                    {{ getPayment(lst.paymentTypeId, lst.paymentMethod, lst.customerId) }}
+                                </p>
+                            </div>
+                            <div class="list-a d-flex align-items-center">
+                                <!-- <div class="col-3 p-2">
+                                    <button mat-button class="btn-foto-upload">
+                                        <mat-icon class="icon-calendar-2" svgIcon="print"></mat-icon> Print
+                                    </button>
+                                </div> -->
+                                <span class="col"></span>
+                                <div class="col-3 grid-button">
+                                    <button [class.btn-active]="lst == report_detail" (click)="seeDetail(lst)"
+                                        mat-button class="btn-foto-upload">
+                                        <mat-icon [class.icon-active]="lst == report_detail" class="icon-calendar-2"
+                                            svgIcon="view"></mat-icon>Detail
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #emptylist>
+                        <div class="center justify-content-center">
+                            <div>
+                                <mat-icon svgIcon="empty-data"></mat-icon>
+                                <p class="text-center text-review">Tidak ada daftar laporan penjualan</p>
+                                <p class="text-center text-empty">Cari kata kunci lain</p>
+
+                            </div>
+                        </div>
+                    </ng-template>
+                </ng-template>
+
+
+            </div>
+
+        </div>
+        <div class="col p-2">
+            <div class="card-box relative">
+                <p class="text-head-primary py-3 mb-0">Detail #<strong>{{ report_detail?.id }}</strong></p>
+
+                <div class="list-a d-flex align-items-center">
+                    <mat-icon class="icon-calendar-2" svgIcon="user"></mat-icon>
+                    <p class="mb-0 mr-1 text-temp t-primary">Kasir : </p>
+                    <p class="mb-0 fw-bold text-temp" style="font-size: 11px;">
+                        @{{ report_detail?.cashierUserName?? '-' }}
+                    </p>
+                </div>
+
+                <div class="list-a d-flex align-items-center">
+                    <mat-icon class="icon-calendar-2" svgIcon="user"></mat-icon>
+                    <p class="mb-0 mr-1 text-temp t-primary">Pelayan : </p>
+                    <p class="mb-0 fw-bold text-temp" style="font-size: 11px;">
+                        @{{ report_detail?.waiterUserName?? '-' }}
+                    </p>
+                </div>
+
+                <div class="list-a d-flex align-items-center">
+                    <mat-icon class="icon-calendar-2" svgIcon="cart"></mat-icon>
+                    <p class="mb-0 mr-1 text-temp t-primary">Total Pembelian : </p>
+                    <p class="mb-0 fw-bold text-temp" style="font-size: 11px;">
+                        {{ report_detail?.items?.length?? 0 }} Item
+                    </p>
+                </div>
+
+                <div class="list-a d-flex align-items-center">
+                    <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
+                    <p class="mb-0 mr-1 text-temp t-primary">Subtotal : </p>
+                    <p class="mb-0 fw-bold text-temp" style="font-size: 11px;">
+                        {{ report_detail?.subTotal?? 0 | rupiah }}
+                    </p>
+                </div>
+
+                <div class="list-a d-flex align-items-center">
+                    <mat-icon class="icon-calendar-2" svgIcon="discount"></mat-icon>
+                    <p class="mb-0 mr-1 text-temp t-primary">Diskon : </p>
+                    <p class="mb-0 fw-bold text-temp" style="font-size: 11px;">
+                        {{ report_detail?.discount?? 0 | rupiah }}
+                    </p>
+                </div>
+
+                <div class="list-a d-flex align-items-center">
+                    <mat-icon class="icon-calendar-2" svgIcon="service"></mat-icon>
+                    <p class="mb-0 mr-1 text-temp t-primary">Service : </p>
+                    <p class="mb-0 fw-bold text-temp" style="font-size: 11px;">
+                        {{ report_detail?.service?? 0 | rupiah }}
+                    </p>
+                </div>
+
+                <div class="list-a d-flex align-items-center">
+                    <mat-icon class="icon-calendar-2" svgIcon="tax"></mat-icon>
+                    <p class="mb-0 mr-1 text-temp t-primary">Pajak : </p>
+                    <p class="mb-0 fw-bold text-temp" style="font-size: 11px;">
+                        {{ report_detail?.tax?? 0 | rupiah }}
+                    </p>
+                </div>
+
+                <div class="list-a d-flex align-items-center">
+                    <mat-icon class="icon-calendar-2" svgIcon="money-cash"></mat-icon>
+                    <p class="mb-0 mr-1 text-temp t-primary">Total : </p>
+                    <p class="mb-0 fw-bold text-temp" style="font-size: 11px;">
+                        {{ report_detail?.total?? 0 | rupiah }}
+                    </p>
+                </div>
+
+
+                <div class="list-a d-flex align-items-center">
+                    <mat-icon class="icon-calendar-2" svgIcon="receipt"></mat-icon>
+                    <p class="mb-0 mr-1 text-temp t-primary">Status : </p>
+                    <p class="mb-0 fw-bold text-temp" style="font-size: 11px;">
+                        <span *ngIf="report_detail?.status != 'PAID' && report_detail?.status != 'DEBT'">-</span>
+                        <span *ngIf="report_detail?.status == 'PAID'"
+                            [ngClass]="report_detail?.status == 'PAID'? 'paid' : '-'" class="status-paid">
+                            {{ report_detail?.status == 'PAID'? 'Lunas' : '-' }}
+                        </span>
+
+                        <span *ngIf="report_detail?.status == 'DEBT'"
+                            [ngClass]="report_detail?.status == 'DEBT'? 'pending' : '-'" class="status-paid">
+                            {{ report_detail?.status == 'DEBT'? 'Hutang' : '-' }}
+                        </span>
+                    </p>
+                </div>
+
+                <div class="list-a d-flex align-items-center">
+                    <mat-icon class="icon-calendar-2" [svgIcon]="getPaymentIcon(report_detail?.paymentTypeId, report_detail?.paymentMethod,
+                    report_detail?.customerId)"></mat-icon>
+                    <p class="mb-0 mr-1 text-temp t-primary">Pembayaran : </p>
+                    <p class="mb-0 fw-bold text-temp" style="font-size: 11px;">
+                        {{ getPayment(report_detail?.paymentTypeId, report_detail?.paymentMethod,
+                        report_detail?.customerId) }}
+                    </p>
+                </div>
+
+
+                <div class="d-flex px-4 justify-content-end sticky-end w-100">
+                    <button mat-button class="btn-foto-upload">
+                        <mat-icon class="icon-calendar-2" svgIcon="print"></mat-icon> Print Struk
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

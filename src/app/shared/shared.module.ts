@@ -35,6 +35,8 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { IconMaterialModule } from '../_helpers/icon-registry';
 import { LottieModule } from 'ngx-lottie';
 import { InfoAnimatedDialogComponent } from './dialogs/general-dialogs/info-animation-dialog.component';
+import { StopShiftComponent } from './dialogs/general-dialogs/stop-shift-form.component';
+import { ViewPrintReportComponent } from './dialogs/general-dialogs/view-print-report.component';
 
 export function playerFactory() {
     return import(/* webpackChunkName: 'lottie-web' */ 'lottie-web');
@@ -76,6 +78,8 @@ export function playerFactory() {
         WebCamComponent,
         StockListComponent,
         InfoAnimatedDialogComponent,
+        StopShiftComponent,
+        ViewPrintReportComponent,
 
         // COMPONENT
         UserCardComponent,
@@ -111,6 +115,8 @@ export function playerFactory() {
         WebCamComponent,
         StockListComponent,
         InfoAnimatedDialogComponent,
+        StopShiftComponent,
+        ViewPrintReportComponent,
 
         // COMPONENT
         UserCardComponent,

@@ -48,6 +48,8 @@ export class IconMaterialModule {
         ["empty-setting", `${PathRegistry.ASSETS_SVG}empty-setting.svg`],
         ["car", `${PathRegistry.ASSETS_SVG}icon/car.svg`],
         ["plus-2", `${PathRegistry.ASSETS_SVG}icon/plus-2.svg`],
+        ["print", `${PathRegistry.ASSETS_SVG}icon/print.svg`],
+        ["view", `${PathRegistry.ASSETS_SVG}icon/view.svg`],
 
         // MAIN MENU
         ["cashier-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/cashier-menu.svg`],
@@ -58,6 +60,7 @@ export class IconMaterialModule {
         ["stock-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/stock-menu.svg`],
         ["table-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/table-menu.svg`],
         ["shift-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/shift-menu.svg`],
+        ["report-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/report-menu.svg`],
 
         // ILLUSTRATION
         ["empty-data", `${PathRegistry.ASSETS_SVG}empty-data.svg`],
@@ -71,6 +74,10 @@ export class IconMaterialModule {
         ["empty-success", `${PathRegistry.ASSETS_SVG}empty-success.svg`],
         ["empty-transfer", `${PathRegistry.ASSETS_SVG}empty-transfer.svg`],
         ["empty-reservation", `${PathRegistry.ASSETS_SVG}empty-reservation.svg`],
+        ["close-shift", `${PathRegistry.ASSETS_SVG}close-shift.svg`],
+        ["open-shift", `${PathRegistry.ASSETS_SVG}open-shift.svg`],
+        ["empty-shift", `${PathRegistry.ASSETS_SVG}empty-shift.svg`],
+        ["empty-income", `${PathRegistry.ASSETS_SVG}empty-income.svg`],
 
         // PAYMENT
         ["coin", `${PathRegistry.ASSETS_SVG}icon/payment/coin.svg`],

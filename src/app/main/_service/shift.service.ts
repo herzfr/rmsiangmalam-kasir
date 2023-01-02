@@ -27,8 +27,8 @@ export class ShiftService {
         return this.http.post<GeneralResponse>(URL + 'pos/shift/start', obj, httpOptions)
     }
 
-    stopShift(id: number): Observable<GeneralResponse> {
-        const obj = JSON.stringify({ id: id })
+    stopShift(id: number, endOperationalCash: number): Observable<GeneralResponse> {
+        const obj = JSON.stringify({ id: id, endOperationalCash: endOperationalCash })
         return this.http.post<GeneralResponse>(URL + 'pos/shift/stop', obj, httpOptions)
     }
 

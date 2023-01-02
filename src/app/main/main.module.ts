@@ -60,6 +60,7 @@ import { SavingService } from './_service/saving.service';
 import { SavingRepository } from './_model/saving/saving.repository';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { ReportService } from './pages/report/_service/report.service';
 
 const routes: Routes = [
     { path: '', component: MainComponent },
@@ -71,7 +72,9 @@ const routes: Routes = [
     { path: 'shift', loadChildren: () => import('./pages/shift/shift.module').then((m) => m.ShiftModule) },
     { path: 'other-income', loadChildren: () => import('./pages/other-income/other-income.module').then((m) => m.OtherIncomeModule) },
     { path: 'expense', loadChildren: () => import('./pages/expense/expense.module').then((m) => m.ExpenseModule) },
-    { path: 'transfer-stock', loadChildren: () => import('./pages/transfer-stock/transfer-stock.module').then((m) => m.TransferStockModule) }
+    { path: 'transfer-stock', loadChildren: () => import('./pages/transfer-stock/transfer-stock.module').then((m) => m.TransferStockModule) },
+    { path: 'report', loadChildren: () => import('./pages/report/report.module').then((m) => m.ReportModule) },
+
 ];
 
 const material = [
@@ -135,7 +138,9 @@ const material = [
         ProductService,
         ProductRepository,
         SavingService,
-        SavingRepository
+        SavingRepository,
+        ReportService,
+
     ]
 })
 export class MainModule { }

@@ -35,7 +35,7 @@ export class ShiftRepository {
 
     constructor(private shiftService: ShiftService, private userRepo: UserRespository, private _snackBar: MatSnackBar,
         private _savingService: SavingService, private time: TimeUtil) {
-        this.user = typeof (userRepo.getUserLogin() !== 'boolean') ? userRepo.getUserLogin() as UserLogin : new UserLogin();
+        this.user = typeof userRepo.getUserLogin() !== 'boolean' ? userRepo.getUserLogin() as UserLogin : new UserLogin();
         this.onBranch = this.user.branchId ?? 0
         this.onSubBranch = null
         let subBranchList: UserLoginSubBranch[] = (this.user.subBranch?.length ?? 0) ? (this.user.subBranch ?? []) : []
@@ -60,9 +60,11 @@ export class ShiftRepository {
         return isSuccess;
     }
 
-    async stop(stop: number): Promise<any> {
+    async stop(stop: number, endCash: number): Promise<any> {
         let isSuccess: boolean = false;
-        let res: GeneralResponse | undefined = await this.shiftService.stopShift(stop).toPromise()
+        let res: GeneralResponse | undefined = await this.shiftService.stopShift(stop, endCash).toPromise()
+        console.log(res);
+
         if (res?.statusCode === 0) {
             return isSuccess = true;
         }

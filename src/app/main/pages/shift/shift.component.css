@@ -256,6 +256,7 @@ input:focus-visible {
   color: #045b62;
   border: 1px solid #045b62;
   font-size: 12px;
+  transition: all 500ms ease !important;
 }
 
 .detail-active {
@@ -400,4 +401,66 @@ p.active {
 ::ng-deep mat-icon.mat-icon.active > svg {
   filter: invert(24%) sepia(58%) saturate(1206%) hue-rotate(146deg)
     brightness(94%) contrast(97%);
+}
+
+.center {
+  margin: auto;
+  width: 100%;
+  height: 86%;
+  padding: 44px;
+  overflow: hidden;
+  align-items: center;
+  display: flex;
+}
+
+.center .mat-icon {
+  width: 100%;
+  height: fit-content;
+}
+
+/* ::ng-deep .center .mat-icon > svg {
+  transform: scale(1);
+} */
+
+.text-review {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 25px;
+  /* identical to box height */
+  text-align: center;
+  /* Neutral / 400 */
+  color: #1e1e1e;
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+  margin-bottom: 0;
+}
+
+.text-empty {
+  font-size: 12px;
+}
+
+.icon-btn {
+  /* padding: 1px; */
+  line-height: 1px;
+}
+
+.load {
+  width: auto;
+  align-items: center;
+  display: flex;
+  padding: 5px;
+  background: #c8cdcd;
+  color: #fff;
+  border-radius: 200px;
+  transition: all 500ms ease !important;
+  -webkit-transition: all 500ms ease !important;
+}
+
+.load-span {
+  font-size: 12px;
+  padding-left: 10px;
 }

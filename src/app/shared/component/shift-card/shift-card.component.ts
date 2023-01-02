@@ -51,28 +51,49 @@ export class ShiftCardComponent implements OnInit {
         console.log(this.isActive);
 
         if (this.isActive) {
-            alert('anda berada dalam status open shift')
-            this.isActive = this.shift?.status === 'OPEN' ? true : false
+            this.dialog.showConfirmationDialog("Akhiri Shift", "", "apakah anda ingin mengakhiri SHIFT ini?", "close-shift", "Ya")
+                .subscribe(res => {
+                    if (res) {
+                        this.dialog.showEndShiftDialog('Akhiri Shift?', 'Masukan sisa kas anda sebelum tutup shift', 'Masukan sisa kas anda sebelum tutup shift', 'close-shift', 'Tutup SHIFT')
+                            .subscribe(async (res) => {
+                                console.log(res);
+                                if (res.response) {
+                                    let stop = await this.shiftRepo.stop(this.shift?.id ?? 0, res.result)
+                                    if (stop) {
+                                        this.dialog.showSWEDialog('Berhasil!', `Tutup SHIFT berhasil`, 'success')
+                                    } else {
+                                        this.dialog.showSWEDialog('Oopss!', `Tutup SHIFT gagal`, 'error')
+                                    }
+                                }
+                            })
+                    }
+                })
+
         } else {
-            this.dialog.showFormDialog("Mulai untuk Shift?", "Isi form awal terlebih dahulu", this.initFields(), 'Masuk Shift').subscribe(res => {
-                console.log(res);
-                if (res) {
-                    // this.shiftRepo.start(res:)
-                    let resData: StartShift = res as StartShift;
-                    let objAssign = Object.assign({ startOperationalCash: 0, subBranchId: this.onSubBranchID, deviceId: this.randomUtil.generateUUID() }, resData);
-                    console.log(objAssign);
-                    this.shiftRepo.start(objAssign as StartShift).then(res => {
-                        if (res) {
-                            this.isActive = this.shift?.status === 'OPEN' ? true : false
-                            this.shiftRepo.check()
-                        }
-                    })
-                } else {
-                    this.shiftRepo.getShiftObs().subscribe(res => {
-                        this.isActive = res?.status === 'OPEN' ? true : false
-                    })
-                }
-            })
+            this.dialog.showConfirmationDialog("Mulai Shift", "", "apakah anda ingin memulai SHIFT sekarang?", "open-shift", "Ya")
+                .subscribe(res => {
+                    if (res) {
+                        this.dialog.showFormDialog("Mulai untuk Shift?", "Isi form awal terlebih dahulu", this.initFields(), 'Masuk Shift').subscribe(res => {
+                            console.log(res);
+                            if (res) {
+                                // this.shiftRepo.start(res:)
+                                let resData: StartShift = res as StartShift;
+                                let objAssign = Object.assign({ startOperationalCash: 0, subBranchId: this.onSubBranchID, deviceId: this.randomUtil.generateUUID() }, resData);
+                                console.log(objAssign);
+                                this.shiftRepo.start(objAssign as StartShift).then(res => {
+                                    if (res) {
+                                        this.isActive = this.shift?.status === 'OPEN' ? true : false
+                                        this.shiftRepo.check()
+                                    }
+                                })
+                            } else {
+                                this.shiftRepo.getShiftObs().subscribe(res => {
+                                    this.isActive = res?.status === 'OPEN' ? true : false
+                                })
+                            }
+                        })
+                    }
+                })
         }
     }
 

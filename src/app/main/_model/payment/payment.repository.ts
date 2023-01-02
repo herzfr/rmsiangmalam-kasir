@@ -24,5 +24,9 @@ export class PaymentRepository {
         return this.dataPayment.find(x => x.id == id)?.name
     }
 
+    getPaymentTypeByIdObj(id?: number): PaymentMehod | undefined {
+        return this.dataPayment.find(x => x.id == id)
+    }
+
 
 }

@@ -59,4 +59,11 @@ export const OptStatusPaymentForm: IOpt[] = [
     { key: 'Hutang', value: 'UNPAID' },
 ]
 
+export const OptReport: IOpt[] = [
+    { key: 'Nama', value: 'name' },
+    { key: 'Pelanggan', value: 'customer' },
+    { key: 'Kasir', value: 'cashier' },
+]
+
+
 

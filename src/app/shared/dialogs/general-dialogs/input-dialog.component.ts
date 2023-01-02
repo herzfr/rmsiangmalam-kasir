@@ -15,7 +15,7 @@ export interface InputDialog {
     <button class="close" mat-button (click)="onConfirm(false)">
         <mat-icon svgIcon="remove"></mat-icon>
     </button>
-    <h1 mat-dialog-title class="text-center">{{ data.title }}</h1>
+    <h1 mat-dialog-title class="text-center text-title">{{ data.title }}</h1>
     <div mat-dialog-content>
         <p class="text-center">{{ data.message }}</p>
         <div class="container">
@@ -32,7 +32,8 @@ export interface InputDialog {
     </div>`,
     styles: [
         'input {display: flex; flex-direction: row; align-items: center; width: 100%; height: 40px; background: transparent; border: none;}',
-        'input:focus-visible { outline: none;}'
+        'input:focus-visible { outline: none;}',
+        '.text-title {font-style: normal;font-weight: 800;font-size: 24px;line-height: 33px;color: #1E1E1E; margin-bottom: 0px;}'
     ]
 })
 

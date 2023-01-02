@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ProductPackage } from 'src/app/main/pages/order/_model/menu.model';
+import { ReportShiftSales } from 'src/app/main/pages/report/_model/report.model';
 import { FormDialog, FormDialogComponent } from './form-dialogs/form-dynamic.component';
 import { CropImageComponent } from './general-dialogs/crop-image-dialog.component';
 import { InfoAnimatedDialog, InfoAnimatedDialogComponent } from './general-dialogs/info-animation-dialog.component';
 import { InfoDialog, InfoDialogComponent } from './general-dialogs/info-dialog.component';
 import { InputDialog, InputDialogComponent } from './general-dialogs/input-dialog.component';
 import { StockListComponent } from './general-dialogs/stock-list.component';
+import { StopShiftComponent } from './general-dialogs/stop-shift-form.component';
 import { VerifyDialog, VerifyDialogComponent } from './general-dialogs/verification-dialog.component';
+import { ViewPrintReportComponent } from './general-dialogs/view-print-report.component';
 import { WebCamComponent, WebcamDialog } from './general-dialogs/webcam.component';
 
 @Injectable()
@@ -133,6 +136,31 @@ export class DialogService {
             dialogConfig
         );
         return dialogCustom.afterClosed();
+    }
+
+    showEndShiftDialog(title: string, subtitle: string, message: string, icon: string, confirm: string) {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.data = { title: title, message: message, icon: icon, confirm: confirm } as InputDialog;
+        dialogConfig.backdropClass = 'backdropBackground';
+        dialogConfig.disableClose = true;
+        dialogConfig.minWidth = '400px';
+        dialogConfig.panelClass = 'panel-dialog-x';
+
+        const dialogCustom = this.dialog.open(
+            StopShiftComponent,
+            dialogConfig
+        );
+        return dialogCustom.afterClosed();
+    }
+
+    showViewPrint(dataReport: ReportShiftSales) {
+        const dialogRef = this.dialog.open(ViewPrintReportComponent, {
+            width: 'auto',
+            disableClose: true,
+            data: dataReport,
+        });
+
+        return dialogRef.afterClosed()
     }
 
 
