@@ -127,6 +127,7 @@ export class IconMaterialModule {
         ["confirm-delete-table", `${PathRegistry.ASSETS_SVG}confirmation/confirm-delete-table.svg`],
         ["confirm-cancel-stock", `${PathRegistry.ASSETS_SVG}confirmation/confirm-cancel-stock.svg`],
         ["confirm-receive-stock", `${PathRegistry.ASSETS_SVG}confirmation/confirm-receive-stock.svg`],
+        ["confirm-setting", `${PathRegistry.ASSETS_SVG}confirmation/confirm-setting.svg`],
     ];
 
 

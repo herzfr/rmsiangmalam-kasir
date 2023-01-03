@@ -10,11 +10,40 @@ import { TablesRepository } from '../../../tables/_model/tables.repository';
 import { ItemTempSales, TempSales } from '../../_model/tempsales.model';
 import { TempSalesRepository } from '../../_model/tempsales.repository';
 
+import * as _moment from 'moment';
+import { Moment } from 'moment';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+const moment = _moment;
+
+export const MY_FORMATS = {
+    parse: {
+        dateInput: 'DD/MM/YYYY',
+    },
+    display: {
+        dateInput: 'D/M/YYYY',
+        monthYearLabel: 'MMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MMMM YYYY',
+    },
+};
+
 @Component({
     selector: 'list-order-app',
     templateUrl: 'list-order.component.html',
     styleUrls: ['list-order.component.css'],
-    // encapsulation: ViewEncapsulation.None,
+    providers: [
+        // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+        // application's root module. We provide it at the component level here, due to limitations of
+        // our example generation script.
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+        },
+
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    ],
 })
 
 export class ListOrderComponent implements OnInit {
@@ -26,6 +55,7 @@ export class ListOrderComponent implements OnInit {
         start: new FormControl<Date | null>(null),
         end: new FormControl<Date | null>(null),
     });
+    today: Date = new Date()
 
     // EMIT
     // @Output() filterSearch = new EventEmitter<Event>();
@@ -37,6 +67,10 @@ export class ListOrderComponent implements OnInit {
         public router: Router,
         public cdr: ChangeDetectorRef
     ) {
+
+        tempRepo.findTempSales.startDate = this.timeUtil.convertDateTimeLocale(this.date_in).setHours(0, 0, 0, 0)
+        tempRepo.findTempSales.endDate = this.timeUtil.convertDateTimeLocale(this.date_in).setHours(23, 59, 59, 999)
+
         this.rangeDate = new FormGroup({
             start: new FormControl<Date | null>(new Date(tempRepo.findTempSales.startDate)),
             end: new FormControl<Date | null>(new Date(tempRepo.findTempSales.endDate)),
@@ -49,6 +83,13 @@ export class ListOrderComponent implements OnInit {
         return (this.tempRepo.tempSalesActive?.id === id)
     }
 
+    get date_in() {
+        let date = new Date();
+        date.setDate(this.today.getDate()) - 1;
+        return date
+    }
+
+
     get startFormDate(): Date {
         return this.rangeDate.get('start')?.value ?? new Date()
     }
@@ -58,17 +99,17 @@ export class ListOrderComponent implements OnInit {
     }
 
     get firstTime() {
-        return this.timeUtil.getJustTime(this.startFormDate.getTime())
+        return this.timeUtil.getJustTimeLocal(this.startFormDate)
     }
 
     get lastTime() {
-        return this.timeUtil.getJustTime(new Date().getMilliseconds())
+        return this.timeUtil.getJustTimeLocal(this.endFormDate)
     }
 
 
     findByDate() {
-        this.tempRepo.setStartDate = this.startFormDate
-        this.tempRepo.setEndDate = this.endFormDate
+        this.tempRepo.setStartDate = this.timeUtil.convertDateTimeLocale(this.startFormDate)
+        this.tempRepo.setEndDate = this.timeUtil.convertDateTimeLocale(this.endFormDate)
         this.tempRepo.getTempSales()
     }
 
@@ -79,14 +120,14 @@ export class ListOrderComponent implements OnInit {
 
 
     startTime(e: any) {
-        this.tempRepo.findTempSales.startDate = this.timeUtil.setTimeInDate((e.value as string), this.startFormDate)
+        this.tempRepo.findTempSales.startDate = this.timeUtil.setTimeInDateLocal((e.value as string), this.startFormDate)
         this.tempRepo.findTempSales.option = this.type
         this.tempRepo.getTempSales()
     }
 
     endTime(e: any) {
         console.log(e.value);
-        this.tempRepo.findTempSales.endDate = this.timeUtil.setTimeInDate((e.value as string), this.endFormDate)
+        this.tempRepo.findTempSales.endDate = this.timeUtil.setTimeInDateLocal((e.value as string), this.endFormDate)
         this.tempRepo.findTempSales.option = this.type
         this.tempRepo.getTempSales()
     }

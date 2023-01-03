@@ -65,7 +65,7 @@ export class UserRespository {
     }
 
     clean() {
-        sessionStorage.clear()
+        localStorage.clear()
     }
 
     authorizationTimer() {
@@ -76,7 +76,7 @@ export class UserRespository {
 
     runInterval() {
         //ambil data dari session
-        let sessionTime = sessionStorage.getItem(environment.sessionName);
+        let sessionTime = localStorage.getItem(environment.sessionName);
 
         //jika session data empty
         if (_.isNil(sessionTime)) {
@@ -98,7 +98,7 @@ export class UserRespository {
                     if (res['statusCode'] == 0) {
                         //set dahulu session timenya
                         let sessionTime = this.timeUtil.addMinutes(new Date(), environment.minuteSum);
-                        sessionStorage.setItem('TIME', sessionTime.toISOString());
+                        localStorage.setItem('TIME', sessionTime.toISOString());
                         //end set time session
                     }
                 });
@@ -112,18 +112,18 @@ export class UserRespository {
 
     async setTimeSession() {
         let sessionTime = this.timeUtil.addMinutes(new Date(), environment.minuteSum);
-        sessionStorage.setItem(environment.sessionName, sessionTime.toISOString());
+        localStorage.setItem(environment.sessionName, sessionTime.toISOString());
     }
 
     async setUserLogin(user: UserLogin) {
         await this.clean();
-        await sessionStorage.setItem('M', CryptoJS.AES.encrypt(JSON.stringify(user), this.secretKey).toString());
-        await sessionStorage.setItem('isLogin', (true).toString())
+        await localStorage.setItem('M', CryptoJS.AES.encrypt(JSON.stringify(user), this.secretKey).toString());
+        await localStorage.setItem('isLogin', (true).toString())
     }
 
     public getUserLogin(): UserLogin | boolean {
-        let usr: any = sessionStorage.getItem('M')
-            ? sessionStorage.getItem('M')
+        let usr: any = localStorage.getItem('M')
+            ? localStorage.getItem('M')
             : null;
         if (usr != null) {
             return JSON.parse(
@@ -137,7 +137,7 @@ export class UserRespository {
     }
 
     get isLogin(): boolean {
-        return Boolean(sessionStorage.getItem('isLogin') ? sessionStorage.getItem('isLogin') : false)
+        return Boolean(localStorage.getItem('isLogin') ? localStorage.getItem('isLogin') : false)
     }
 
     isCashier(): any {

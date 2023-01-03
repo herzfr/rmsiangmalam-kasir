@@ -10,6 +10,7 @@ export const environment = {
   thresholdTime: 300,
   checkinterval: 10000,
   timeout: 3000,
+  socketHost: 'https://ws.rmsiangmalam.com/'
 };
 
 /*

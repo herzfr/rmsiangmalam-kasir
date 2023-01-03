@@ -37,6 +37,7 @@ import { LottieModule } from 'ngx-lottie';
 import { InfoAnimatedDialogComponent } from './dialogs/general-dialogs/info-animation-dialog.component';
 import { StopShiftComponent } from './dialogs/general-dialogs/stop-shift-form.component';
 import { ViewPrintReportComponent } from './dialogs/general-dialogs/view-print-report.component';
+import { ViewPrintReceiptComponent } from './dialogs/general-dialogs/view-print-receipt.component';
 
 export function playerFactory() {
     return import(/* webpackChunkName: 'lottie-web' */ 'lottie-web');
@@ -80,6 +81,7 @@ export function playerFactory() {
         InfoAnimatedDialogComponent,
         StopShiftComponent,
         ViewPrintReportComponent,
+        ViewPrintReceiptComponent,
 
         // COMPONENT
         UserCardComponent,
@@ -117,6 +119,7 @@ export function playerFactory() {
         InfoAnimatedDialogComponent,
         StopShiftComponent,
         ViewPrintReportComponent,
+        ViewPrintReceiptComponent,
 
         // COMPONENT
         UserCardComponent,

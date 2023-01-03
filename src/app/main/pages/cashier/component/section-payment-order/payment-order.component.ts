@@ -186,6 +186,7 @@ export class PaymentComponent implements OnInit {
                 this.checkoutRepo.checkout.change = 0
                 this.checkoutRepo.checkout.adminFee = 0
                 this.checkoutRepo.user = undefined
+
                 break;
 
         }
@@ -204,6 +205,8 @@ export class PaymentComponent implements OnInit {
         this.checkoutRepo.reBuildPayment()
         this.checkoutRepo.check_discount_tax_service()
         this.baseService.number_result = 0
+        this.checkoutRepo.reservation = undefined
+
         // switch (this.tabIndex) {
         //     case 0:
         //         this.checkoutRepo.reBuildPayment()
@@ -213,6 +216,12 @@ export class PaymentComponent implements OnInit {
         //         break;
         // }
         // this.checkoutRepo.clear_cash()
+    }
+
+    clearDeposit() {
+        this.checkoutRepo.reservation = undefined
+        this.checkoutRepo.checkout.deposit = 0
+        this.checkoutRepo.calculateTotal()
     }
 
     get change() {
@@ -226,6 +235,10 @@ export class PaymentComponent implements OnInit {
         this.checkoutRepo.checkoutTest()
         this.checkoutRepo.isLoading = true
         setTimeout(() => this.checkoutRepo.isLoading = false, 500)
+    }
+
+    ngOnDestroy() {
+        this.checkoutRepo.reservation = undefined
     }
 
 }

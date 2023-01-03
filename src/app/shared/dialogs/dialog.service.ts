@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ProductPackage } from 'src/app/main/pages/order/_model/menu.model';
-import { ReportShiftSales } from 'src/app/main/pages/report/_model/report.model';
+import { ReportSales, ReportShiftSales } from 'src/app/main/pages/report/_model/report.model';
 import { FormDialog, FormDialogComponent } from './form-dialogs/form-dynamic.component';
 import { CropImageComponent } from './general-dialogs/crop-image-dialog.component';
 import { InfoAnimatedDialog, InfoAnimatedDialogComponent } from './general-dialogs/info-animation-dialog.component';
@@ -10,6 +10,7 @@ import { InputDialog, InputDialogComponent } from './general-dialogs/input-dialo
 import { StockListComponent } from './general-dialogs/stock-list.component';
 import { StopShiftComponent } from './general-dialogs/stop-shift-form.component';
 import { VerifyDialog, VerifyDialogComponent } from './general-dialogs/verification-dialog.component';
+import { ViewPrintReceiptComponent } from './general-dialogs/view-print-receipt.component';
 import { ViewPrintReportComponent } from './general-dialogs/view-print-report.component';
 import { WebCamComponent, WebcamDialog } from './general-dialogs/webcam.component';
 
@@ -155,6 +156,16 @@ export class DialogService {
 
     showViewPrint(dataReport: ReportShiftSales) {
         const dialogRef = this.dialog.open(ViewPrintReportComponent, {
+            width: 'auto',
+            disableClose: true,
+            data: dataReport,
+        });
+
+        return dialogRef.afterClosed()
+    }
+
+    showViewReceipt(dataReport: ReportSales) {
+        const dialogRef = this.dialog.open(ViewPrintReceiptComponent, {
             width: 'auto',
             disableClose: true,
             data: dataReport,

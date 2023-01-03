@@ -12,6 +12,7 @@ import * as _moment from 'moment';
 import { PaymentRepository } from '../../_model/payment/payment.repository';
 import { CustomerRepository } from '../../_model/customer/customer.repository';
 import { ReportSales } from './_model/report.model';
+import { DialogService } from 'src/app/shared/dialogs/dialog.service';
 // tslint:disable-next-line:no-duplicate-imports
 const moment = _moment;
 
@@ -53,7 +54,7 @@ export class ReportComponent implements OnInit {
 
     report_detail?: ReportSales;
     constructor(public location: Location, public reportRepo: ReportRepository, private shiftRepo: ShiftRepository,
-        private paymRepo: PaymentRepository, private custRepo: CustomerRepository) { }
+        private paymRepo: PaymentRepository, private custRepo: CustomerRepository, private _dlg: DialogService) { }
 
     ngOnInit() { }
 
@@ -127,6 +128,11 @@ export class ReportComponent implements OnInit {
 
     seeDetail(report_detail?: ReportSales) {
         this.report_detail = report_detail
+    }
+
+    printView() {
+        if (this.report_detail)
+            this._dlg.showViewReceipt(this.report_detail)
     }
 
 

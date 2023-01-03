@@ -243,7 +243,7 @@
 
 
                 <div class="d-flex px-4 justify-content-end sticky-end w-100">
-                    <button mat-button class="btn-foto-upload">
+                    <button [disabled]="!report_detail" (click)="printView()" mat-button class="btn-foto-upload">
                         <mat-icon class="icon-calendar-2" svgIcon="print"></mat-icon> Print Struk
                     </button>
                 </div>

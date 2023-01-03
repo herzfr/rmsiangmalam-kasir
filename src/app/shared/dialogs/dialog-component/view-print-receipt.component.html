@@ -1,0 +1,206 @@
+<h1 mat-dialog-title class="text-center">
+    <mat-icon svgIcon="print"></mat-icon>
+</h1>
+<div mat-dialog-content>
+
+    <div class="printContainer" [style.width]="settingPrint?.paperSize?? '77mm'">
+        <div class="receipt" [style.width]="settingPrint?.widthSize?? '70mm'"
+            [style.font-size]="settingPrint?.fontSize?? '5mm'">
+
+            <div #areaprint class="print-area">
+                <div style="text-align: center">
+                    <img class="logo" [src]="getImage" class="imageStyle">
+                </div>
+
+                <div id="printDiv" class="title center" style="text-align: center;">
+                    <span>{{ settingPrint?.headerTitle }}</span>
+                    <br>
+                    <span>{{ settingPrint?.headerAddress1 }}</span>
+                    <br>
+                    <span>{{ settingPrint?.headerAddress2 }}</span>
+                    <br>
+                    <span>{{ settingPrint?.phone }}</span>
+                    <br>
+                </div>
+                <hr>
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th class="description" style="text-align: left !important;">ID.</th>
+                            <th class="price" style="text-align: right !important;">{{ selectListSales.id }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr valign="top">
+                            <td class="description">Nama</td>
+                            <td class="price" style="text-align: right !important;"> {{ selectListSales.name }}
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td class="description">Tanggal</td>
+                            <td class="price" style="text-align: right !important;"> {{
+                                getDate(selectListSales.createdAt) }}
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td class="description">Jam</td>
+                            <td class="price" style="text-align: right !important;"> {{
+                                getTime(selectListSales.createdAt) }}
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td class="description">{{ selectListSales.cashierName }}</td>
+                            <td class="price" style="text-align: right !important;"> {{ selectListSales.isDineIn?
+                                'Dine-In' :
+                                'Take Away' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <ng-container *ngIf="selectListSales !== undefined && selectListSales !== null;else templateName">
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr valign="top" style="text-align: left !important;">
+                                <th class="quantity">Q</th>
+                                <th class="description">Description</th>
+                                <th class="price" style="text-align: right !important;">Rp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr valign="top" *ngFor="let item of selectListSales.items">
+                                <td class="quantity">{{ item.amount }}</td>
+                                <td class="description">{{ item.name }}</td>
+                                <td class="price" style="text-align: right !important;">
+                                    {{ convertCurrency(item.unitPrice) }}
+                                    <span class="total-price" style="font-weight: bold;"> {{
+                                        convertCurrency(item.totalPrice)
+                                        }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th class="description" style="text-align: left !important;">Total</th>
+                                <th class="price" style="text-align: right !important;"> {{
+                                    convertCurrency(selectListSales.subTotal) }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr valign="top" *ngIf="selectListSales.discount > 0">
+                                <td class="description">Diskount</td>
+                                <td class="price" style="text-align: right !important;">
+                                    {{ convertCurrency(selectListSales.discount) }}
+                                </td>
+                            </tr>
+                            <tr valign="top" *ngIf="selectListSales.service > 0">
+                                <td class="description">Service</td>
+                                <td class="price" style="text-align: right !important;">
+                                    {{ convertCurrency(selectListSales.service) }}
+                                </td>
+                            </tr>
+                            <tr valign="top" *ngIf="selectListSales.tax > 0">
+                                <td class="description">Pajak</td>
+                                <td class="price" style="text-align: right !important;">
+                                    {{ convertCurrency(selectListSales.tax) }}
+                                </td>
+                            </tr>
+
+                            <tr valign="top" style="font-weight: bold;">
+                                <td class="description">Grand Total</td>
+                                <td class="price" style="text-align: right !important;">
+                                    {{ convertCurrency(selectListSales.total) }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <table style="width: 100%;">
+                        <tbody>
+                            <tr valign="top">
+                                <td class="description" style="font-weight: bold;">Pembayaran</td>
+                                <td class="price" style="text-align: right !important; font-weight: bold;">
+                                    {{ paymentType }}
+                                </td>
+                            </tr>
+                            <ng-container *ngIf="selectListSales.paymentMethod === 'CASH'">
+                                <tr valign="top">
+                                    <td class="description">Total</td>
+                                    <td class="price" style="text-align: right !important;">
+                                        {{ convertCurrency(selectListSales.cash) }}
+                                    </td>
+                                </tr>
+                                <tr valign="top">
+                                    <td class="description">Kembali</td>
+                                    <td class="price" style="text-align: right !important;">
+                                        {{ convertCurrency(selectListSales.change) }}
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngIf="selectListSales.paymentMethod === 'CUSTOM'">
+                                <tr valign="top">
+                                    <td class="description">Total</td>
+                                    <td class="price" style="text-align: right !important;">
+                                        {{ convertCurrency(selectListSales.total) }}
+                                    </td>
+                                </tr>
+                                <tr valign="top">
+                                    <td class="description">Trans No.</td>
+                                    <td class="price" style="text-align: right !important;">
+                                        {{ selectListSales.transactionNo }}
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngIf="selectListSales.paymentMethod === 'CUST_DEBT'">
+                                <tr valign="top">
+                                    <td class="description">Total</td>
+                                    <td class="price" style="text-align: right !important;">
+                                        {{ convertCurrency(selectListSales.total) }}
+                                    </td>
+                                </tr>
+                                <tr valign="top">
+                                    <td class="description">Pelanggan</td>
+                                    <td class="price" style="text-align: right !important;">
+                                        {{ selectListSales.customerName }}
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngIf="selectListSales.paymentMethod === 'EMPL_DEBT'">
+                                <tr valign="top">
+                                    <td class="description">Total</td>
+                                    <td class="price" style="text-align: right !important;">
+                                        {{ convertCurrency(selectListSales.total) }}
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </ng-container>
+                <ng-template #templateName>
+                    Data tidak ada
+                </ng-template>
+                <hr>
+                <div id="printDiv" class="title center" style="text-align: center;">
+                    <span>Terima Kasih</span>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- <div class="input-group d-flex align-items-center mb-0 col">
+    <select class="form-control" (change)="sizeChange($event.target)">
+        <option [ngValue]="0" disabled selected>Pilih ukuran</option>
+        <option value="1">58mm</option>
+        <option value="2">75mm</option>
+    </select>
+</div> -->
+
+<div mat-dialog-actions class="justify-content-center">
+    <button mat-button (click)="onNoClick()">Tutup</button>
+    <button mat-button (click)="printNow()">Print</button>
+</div>

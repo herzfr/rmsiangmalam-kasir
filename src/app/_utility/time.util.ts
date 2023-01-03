@@ -68,12 +68,27 @@ export class TimeUtil {
         return moment(dt).format('HH:mm');
     }
 
+    public getJustTimeLocalMillis(val: number) {
+        let dt = this.convertDateTimeLocale(new Date(val))
+        return moment(dt).format('HH:mm');
+    }
+
+
     public setTimeInDate(time: string, date: Date): number {
         let t = time.split(':')
         let hour = Number(t[0])
         let minute = Number(t[1])
         return new Date(date).setHours(hour, minute, 0, 0)
     }
+
+    public setTimeInDateLocal(time: string, date: Date): number {
+        let t = time.split(':')
+        let hour = Number(t[0])
+        let minute = Number(t[1])
+        let dt = this.convertDateTimeLocale(date)
+        return dt.setHours(hour, minute, 0, 0)
+    }
+
 
     public setTimeInDate2(time: string, date: Date): number {
         let t = time.split(':')

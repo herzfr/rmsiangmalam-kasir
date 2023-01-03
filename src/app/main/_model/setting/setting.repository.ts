@@ -95,38 +95,51 @@ export class SettingRepository {
     }
 
     save_setting() {
-        this._setting_service.createSetting(this.set_prepare_value())
+        this.dlg.showConfirmationDialog("Konfirmasi Setting", "Konfirmasi Setting", `Apakah Kamu Yakin Ingin Menyimpan Setting?`, "confirm-setting", "Ya, yakin")
             .subscribe(res => {
-                console.log(res);
-                if (_.isEqual(res.statusCode, 0)) {
-                    this.dlg.showSWEDialog('Berhasil!', `Penyimpanan setting berhasil`, 'success')
-                    this.findSettingAll()
-                }
-            }, (err: HttpErrorResponse) => {
-                if (err.error.statusCode == 413) {
-                    this.dlg.showSWEDialog('Opps!', `Ukuran gambar terlalu besar`, 'error')
-                } else {
-                    this.dlg.showSWEDialog('Opps!', `Penyimpanan setting gagal`, 'error')
-                }
+                if (res) {
+                    this._setting_service.createSetting(this.set_prepare_value())
+                        .subscribe(res => {
+                            console.log(res);
+                            if (_.isEqual(res.statusCode, 0)) {
+                                this.dlg.showSWEDialog('Berhasil!', `Penyimpanan setting berhasil`, 'success')
+                                this.findSettingAll()
+                            }
+                        }, (err: HttpErrorResponse) => {
+                            if (err.error.statusCode == 413) {
+                                this.dlg.showSWEDialog('Opps!', `Ukuran gambar terlalu besar`, 'error')
+                            } else {
+                                this.dlg.showSWEDialog('Opps!', `Penyimpanan setting gagal`, 'error')
+                            }
 
+                        })
+                }
             })
+
+
     }
 
     update_setting() {
-        this._setting_service.updateSetting(this.set_prepare_value())
+        this.dlg.showConfirmationDialog("Konfirmasi Setting", "Konfirmasi Setting", `Apakah Kamu Yakin Ingin Menyimpan Setting?`, "confirm-setting", "Ya, yakin")
             .subscribe(res => {
-                console.log(res);
-                if (_.isEqual(res.statusCode, 0)) {
-                    this.dlg.showSWEDialog('Berhasil!', `Pembaharuan setting berhasil`, 'success')
-                    this.findSettingAll()
-                }
-            }, (err: HttpErrorResponse) => {
-                if (err.error.statusCode == 413) {
-                    this.dlg.showSWEDialog('Opps!', `Ukuran gambar terlalu besar`, 'error')
-                } else {
-                    this.dlg.showSWEDialog('Opps!', `Penyimpanan setting gagal`, 'error')
+                if (res) {
+                    this._setting_service.updateSetting(this.set_prepare_value())
+                        .subscribe(res => {
+                            console.log(res);
+                            if (_.isEqual(res.statusCode, 0)) {
+                                this.dlg.showSWEDialog('Berhasil!', `Pembaharuan setting berhasil`, 'success')
+                                this.findSettingAll()
+                            }
+                        }, (err: HttpErrorResponse) => {
+                            if (err.error.statusCode == 413) {
+                                this.dlg.showSWEDialog('Opps!', `Ukuran gambar terlalu besar`, 'error')
+                            } else {
+                                this.dlg.showSWEDialog('Opps!', `Penyimpanan setting gagal`, 'error')
+                            }
+                        })
                 }
             })
+
     }
 
     openSnackBar(message: string) {

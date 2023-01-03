@@ -4,12 +4,14 @@ import { Injectable } from "@angular/core";
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import * as _ from "lodash";
+import { isNil } from "lodash";
 import { Subscription } from "rxjs";
 import { Additional } from "src/app/main/_model/additional/additional.model";
 import { Discount } from "src/app/main/_model/discount/discount.model";
 import { Reservation } from "src/app/main/_model/reservation/reservation.model";
 import { ShiftRepository } from "src/app/main/_model/shift/shift.repository";
 import { BaseService } from "src/app/main/_service/base.service";
+import { SocketService } from "src/app/main/_service/socket.service";
 import { DialogService } from "src/app/shared/dialogs/dialog.service";
 import { TimeUtil } from "src/app/_utility/time.util";
 import { CartLine, ItemCart } from "../../order/_model/_cart/cart.model";
@@ -56,6 +58,13 @@ export class TempSalesRepository {
     verticalPosition: MatSnackBarVerticalPosition = 'top';
     // ================
 
+    // SOCKET
+    /* Subscription Properties */
+    socketSub = new Subscription();
+    errorSub = new Subscription();
+    socketStatusSub = new Subscription();
+    /* Subscription Properties */
+    //   =====================
 
 
     allsubs: Subscription[] = []
@@ -64,12 +73,31 @@ export class TempSalesRepository {
         private _snackBar: MatSnackBar, private _dlg: DialogService,
         private tableRepo: TablesRepository,
         private _baseService: BaseService, private router: Router,
-        private location: Location
+        private location: Location,
+        private _socket: SocketService
     ) {
         this.findTempSales.branchId = shiftRepo.onBranch;
         this.findTempSales.subBranchId = shiftRepo.onSubBranch;
         this.getTempSales()
+        this.initSocket()
     }
+
+    initSocket() {
+        this.connectSocketServer();
+        this.listenError();
+        this.checkConnectionStatus();
+        this.getSocketStatusValue();
+    }
+
+    // =======================================================
+    // AUDIO4
+    playAudio() {
+        let audio = new Audio();
+        audio.src = 'assets/sounds/message-order.mp3';
+        audio.load();
+        audio.play();
+    }
+
 
     // =======================================================
     // TEMPORARY SALES
@@ -109,13 +137,13 @@ export class TempSalesRepository {
     }
 
     set setStartDate(date: Date) {
-        let get_time = this.timeUtil.getJustTime(this.findTempSales.startDate)
+        let get_time = this.timeUtil.getJustTimeLocalMillis(this.findTempSales.startDate)
         let get_milis_time = this.timeUtil.setTimeInDate(get_time, date)
         this.findTempSales.startDate = get_milis_time
     }
 
     set setEndDate(date: Date) {
-        let get_time = this.timeUtil.getJustTime(this.findTempSales.endDate)
+        let get_time = this.timeUtil.getJustTimeLocalMillis(this.findTempSales.endDate)
         let get_milis_time = this.timeUtil.setTimeInDate(get_time, date)
         this.findTempSales.endDate = get_milis_time
     }
@@ -358,17 +386,74 @@ export class TempSalesRepository {
         });
     }
 
-
-
-    // DIALOG INFO
+    // DESTROY
     // =======================================================
-
-
     ngOnDestroy() {
         this.allsubs.forEach(subs => {
             subs.unsubscribe()
         })
         this.allsubs = []
+    }
+
+    // SOCKET
+    // ========================================================
+    /* Connect to Socket Server Function */
+    /* Panggil Koneksi ke socket melalui fungsi socketService */
+    connectSocketServer() {
+        this._socket.connect();
+    }
+
+    /* Listen to Error From Server Function */
+    /* Fungsi standby jika ada error pada koneksi socket */
+    listenError() {
+        this.errorSub = this._socket.listenError().subscribe((response: any) => {
+            alert('Socket Connection Error');
+        });
+    }
+
+    /* Send Trigger Data Emit Function */
+    /* Kirim Data Trigger Ke Socket Server */
+    sendTriggerEmit() {
+        const triggerData: any = {
+            branchId: this.shiftRepo.onBranch,
+            subBranchId: this.shiftRepo.onSubBranch,
+        };
+        this._socket.sendTrigger(triggerData);
+    }
+
+    /* Check Connection Status Function */
+    checkConnectionStatus() {
+        this._socket.checkConnectionStatus();
+    }
+
+    /* Get SocketStatus Value Function */
+    /* Fungsi untuk mendapatkan status koneksi socket */
+    getSocketStatusValue() {
+        this.socketStatusSub = this._socket.getSocketStatus().subscribe((response: boolean) => {
+            // console.log('Socket Status:', response);
+            if (response) this.listenIncomingTrigger();
+        });
+    }
+
+    /* Listen Incoming Data Function */
+    /* Fungsi standby mendapatkan data yang masuk dari socket */
+    listenIncomingTrigger() {
+        this.socketSub = this._socket.listenTriggerData().subscribe((response: any) => {
+            // console.log('Trigger Response:', response);
+            // Jika statusCode dari response tidak null/undefined
+            if (!isNil(response.statusCode)) {
+                // this.responseData.push(response.data);
+                if (
+                    _.isEqual(response.data.branchId, this.shiftRepo.onBranch) &&
+                    _.isEqual(response.data.subBranchId, this.shiftRepo.onSubBranch)
+                ) {
+                    // console.log('trigger');
+                    this.playAudio();
+                    this.openSnackBar('Ada Pesanan baru!!!');
+                    this.getTempSales();
+                }
+            }
+        });
     }
 }
 

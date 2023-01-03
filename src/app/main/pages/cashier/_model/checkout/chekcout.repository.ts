@@ -234,6 +234,7 @@ export class CheckoutRepository {
         this.in_customer = undefined
         this.checkout.customerId = null
         this.checkout.customerName = null
+        this.reservation = undefined
     }
 
     update_deposit(item: Reservation) {
@@ -376,18 +377,19 @@ export class CheckoutRepository {
                 if (this.reservation !== undefined && this.checkout.deposit > 0) {
                     this._reservService.updateReservation(this.reservation?.id, true).subscribe(res => {
                         if (_.isEqual(res.statusCode, 0)) {
+                            this.reservation = undefined
                             this._dlg.showSWEDialog('Berhasil!', `Checkout tagihan berhasil`, 'success')
                             this.reBuildPayment()
                             this.tempRepo.getTempSales()
                             this.shiftRepo.check()
                             this.location.back()
-                            this.reservation = undefined
                             this._rsvpRepo.fetchReservation()
                         }
                     })
                 }
                 // JIKA TIDAK PAKAI DEPOSIT
                 else {
+                    this.reservation = undefined
                     this._dlg.showSWEDialog('Berhasil!', `Checkout tagihan berhasil`, 'success')
                     this.reBuildPayment()
                     this.tempRepo.getTempSales()
@@ -431,6 +433,7 @@ export class CheckoutRepository {
     }
 
     ngOnDestroy() {
+        this.reservation = undefined
         console.log('destroy');
         this.subs.forEach(x => {
             x.unsubscribe()
