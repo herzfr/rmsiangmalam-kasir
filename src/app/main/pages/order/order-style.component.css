@@ -184,3 +184,7 @@ input.input-info {
   color: var(--error-color);
   font-weight: 700;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}

@@ -16,7 +16,7 @@ import { CheckoutRepository } from '../../../_model/checkout/chekcout.repository
                 <mat-radio-button class="input-radio-button" *ngFor="let item of paymentRepo.getPaymentType('DEBIT'); let i = index" [value]="item.id"  (change)="radioChange(item)">
                     <div class="grid">
                         <img class="img-payment-logo" src="{{item.name | paymentcode }}">
-                        <p class="mb-0">{{item.name}}</p>
+                        <p class="fw-bold mb-0 text-bank">Bank : {{item.name}}</p>
                     </div>
                 </mat-radio-button>
             </mat-radio-group>
@@ -83,5 +83,6 @@ export class DebitComponent implements OnInit {
     radioChange(payment: any) {
         // console.log('change', payment);
         this.checkoutRepo.checkout.adminFee = payment.adminFee
+        this.checkoutRepo.calculateTotal()
     }
 }

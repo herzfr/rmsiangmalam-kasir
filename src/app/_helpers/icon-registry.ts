@@ -50,6 +50,7 @@ export class IconMaterialModule {
         ["plus-2", `${PathRegistry.ASSETS_SVG}icon/plus-2.svg`],
         ["print", `${PathRegistry.ASSETS_SVG}icon/print.svg`],
         ["view", `${PathRegistry.ASSETS_SVG}icon/view.svg`],
+        ["lock", `${PathRegistry.ASSETS_SVG}lock.svg`],
 
         // MAIN MENU
         ["cashier-menu", `${PathRegistry.ASSETS_SVG}icon/main-menu/cashier-menu.svg`],

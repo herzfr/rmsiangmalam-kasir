@@ -526,6 +526,7 @@ input:focus-visible {
   /* overflow-x: scroll; */
   /* overflow-y: hidden; */
   white-space: nowrap;
+  gap: 5px;
 }
 
 .form-payment {
@@ -571,6 +572,11 @@ input:focus-visible {
 
 .w-inherith {
   width: inherit;
+}
+
+.text-bank {
+  font-size: 11px;
+  width: 100%;
 }
 
 /* ============= */

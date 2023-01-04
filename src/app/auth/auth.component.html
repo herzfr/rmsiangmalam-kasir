@@ -1,16 +1,17 @@
-<div class="container text-center">
-    <div class="row align-items-center">
-        <div class="col">
-            <div class="container">
+<div class="container-fluid text-center" style="overflow: hidden;">
+    <div class="row align-items-center bg-greys">
+        <div class="col-5 left d-flex align-items-center">
+            <div class="container-fluid">
 
-                <mat-card class="my-5">
-                    <mat-card-subtitle>
+                <div class="my-5 card-box">
+                    <div>
                         <img class="img-title" src="assets/images/sm_logo.png" alt="logo-siangmalam">
-                    </mat-card-subtitle>
-                    <mat-card-title> {{ isLoading? 'Tunggu sebentar ya...' : 'Kasir Login'}} </mat-card-title>
+                    </div>
+                    <mat-card-title class="text-title"> {{ isLoading? 'Tunggu sebentar ya...' : 'Kasir Login'}}
+                    </mat-card-title>
                     <mat-card-content>
                         <form-apps (onSubmit)="onSubmitData($event)" [submitName]="'Masuk'" [isLoading]="isLoading"
-                            [fields]="getFields()">
+                            [fields]="getFields()" [confirm]="'Masuk'">
                         </form-apps>
                     </mat-card-content>
                     <mat-card-footer>
@@ -18,7 +19,7 @@
                         </mat-progress-bar>
                     </mat-card-footer>
 
-                    <div class="copyright">
+                    <div style="margin-top: 30px;" class="copyright">
                         <div class="container">
                             <div class="row align-items-center">
                                 <div class="copy-text">
@@ -29,13 +30,19 @@
                         </div>
                     </div>
 
-                </mat-card>
+                </div>
 
             </div>
         </div>
         <div class="col">
             <div class="image-container">
-                <mat-icon class="illustration" svgIcon="login"></mat-icon>
+                <!-- <mat-icon class="illustration" svgIcon="login"></mat-icon> -->
+                <div>
+                    <h1 class="text-title-login">Pekerjaan Kasir Akan Lebih Mudah Apabila di Kerjakan Menggunakan
+                        Aplikasi
+                        RM. Siang Malam</h1>
+                    <img class="img-login illustration" src="assets/images/login-reference.png" alt="">
+                </div>
             </div>
         </div>
     </div>

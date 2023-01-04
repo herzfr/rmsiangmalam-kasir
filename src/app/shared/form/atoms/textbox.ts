@@ -13,7 +13,7 @@ import { FormGroup } from '@angular/forms';
                 <input matInput *ngIf="!field.multiline" [type]="hide ? 'password' : 'text'" placeholder="{{ field.placeholder }}" [attr.type]="field.type" [id]="field.name" [formControlName]="field.name">
                 <button type="button" mat-icon-button matSuffix (click)="hide = !hide" 
                     [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" >
-                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <mat-icon svgIcon="{{hide ? 'lock' : 'view'}}"></mat-icon>
                 </button>
             </mat-form-field>
         </div>

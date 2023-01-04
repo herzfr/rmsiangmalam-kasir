@@ -1,1 +1,36 @@
+.text-title {
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 33px;
+  color: #1e1e1e;
+}
 
+.card-box {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+  border-radius: 22.1308px;
+  height: 100%;
+  padding: 0px 10px;
+}
+
+.bg-greys {
+  background: #e8e8e8;
+  /* background: url("../../assets/images/login-reference.png"); */
+}
+
+.img-login {
+  width: 100%;
+  transform: scale(1.6);
+}
+
+.text-title-login {
+  text-align: start;
+  font-weight: 700;
+}
+
+.left {
+  background: #fff;
+  height: 100vh;
+}

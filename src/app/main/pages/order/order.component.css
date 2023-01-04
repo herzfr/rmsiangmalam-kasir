@@ -446,3 +446,7 @@ svg {
 .hr-cart {
   border: 6px solid #e5e5e5;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}

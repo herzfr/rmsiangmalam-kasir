@@ -25,7 +25,7 @@ export class SplitComponent implements OnInit {
         disable: false,
         handle: false
     };
-
+    index_focus?: number;
     split_bill: Split = new Split()
     bills: Bill[] = []
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
@@ -72,44 +72,80 @@ export class SplitComponent implements OnInit {
         }
     }
 
+    setPosition(idx: number) {
+        if (this.index_focus) {
+            if (this.index_focus === idx) {
+                this.index_focus = undefined
+            }
+        }
+
+        this.index_focus = idx
+        // console.log(this.index_focus);
+    }
+
+    onPush(data: ItemTempSales) {
+        // console.log(data);
+        let inData: ItemTempSales = data
+        // console.log(this.index_focus);
+
+        if (!_.isUndefined(this.index_focus)) {
+            // console.log('on focus ', this.index_focus);
+
+            let line = this.bills.at(this.index_focus ?? 0)?.items.find(x => (x.menuId == inData.menuId && x.id == inData.id))
+            if (line != undefined) {
+                line.amount += 1;
+                this.updateDropMainStock(inData.menuId, inData.id)
+            } else {
+                let item_split: ItemSplit = new ItemSplit()
+                item_split.id = inData.id
+                item_split.name = inData.name
+                item_split.menuId = inData.menuId
+                item_split.amount = 1
+                this.bills.at(this.index_focus ?? 0)?.items.push(item_split)
+                this.updateDropMainStock(inData.menuId, inData.id)
+            }
+        } else {
+            this.openSnackBar('Pilih terlebih dahulu posisi tagihan')
+        }
+    }
 
 
     onDragStart(event: DragEvent) {
-        console.log("drag started", JSON.stringify(event, null, 2));
+        // console.log("drag started", JSON.stringify(event, null, 2));
     }
 
     onDragEnd(event: DragEvent) {
 
-        console.log("drag ended", JSON.stringify(event, null, 2));
+        // console.log("drag ended", JSON.stringify(event, null, 2));
     }
 
     onDraggableCopied(event: DragEvent) {
 
-        console.log("draggable copied", JSON.stringify(event, null, 2));
+        // console.log("draggable copied", JSON.stringify(event, null, 2));
     }
 
     onDraggableLinked(event: DragEvent) {
 
-        console.log("draggable linked", JSON.stringify(event, null, 2));
+        // console.log("draggable linked", JSON.stringify(event, null, 2));
     }
 
     onDraggableMoved(event: DragEvent) {
 
-        console.log("draggable moved", JSON.stringify(event, null, 2));
+        // console.log("draggable moved", JSON.stringify(event, null, 2));
     }
 
     onDragCanceled(event: DragEvent) {
 
-        console.log("drag cancelled", JSON.stringify(event, null, 2));
+        // console.log("drag cancelled", JSON.stringify(event, null, 2));
     }
 
     onDragover(event: DragEvent, idx: number) {
-        console.log("dragover", JSON.stringify(event, null, 2));
+        // console.log("dragover", JSON.stringify(event, null, 2));
     }
 
     onDrop(event: DndDropEvent, idx: number) {
         // console.log("dropped", JSON.stringify(event, null, 2));
-        console.log(event.data, idx);
+        // console.log(event.data, idx);
         let inData: ItemTempSales = event.data
         let line = this.bills.at(idx)?.items.find(x => (x.menuId == inData.menuId && x.id == inData.id))
         if (line != undefined) {
@@ -125,7 +161,7 @@ export class SplitComponent implements OnInit {
             this.updateDropMainStock(inData.menuId, inData.id)
         }
 
-        console.log(this.bills);
+        // console.log(this.bills);
     }
 
     updateDropMainStock(menuId: string, id: number) {
@@ -198,12 +234,12 @@ export class SplitComponent implements OnInit {
         this.bills.at(idx)?.items.filter(x => {
             const obj = this.tempSales?.items.find(y => (y.menuId == x.menuId && y.id == x.id))
             if (obj) {
-                console.log(obj);
+                // console.log(obj);
                 let index = this.bills.at(idx)?.items.findIndex(o => o.menuId == obj.menuId && o.id == obj.id)
                 let bill = this.bills.at(idx)?.items.find(o => o.menuId == obj.menuId && o.id == obj.id)
-                console.log(bill, index);
+                // console.log(bill, index);
                 if (typeof index === 'number' && bill) {
-                    console.log('asd');
+                    // console.log('asd');
 
                     obj.amount += bill.amount
                     this.bills.at(idx)?.items.splice(index, 1);

@@ -1,9 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { PathRegistry } from '../_constant/path';
 import { FormUtil } from '../_utility/form.util';
 import { UserRespository } from './auth.repository';
 
@@ -16,7 +13,6 @@ import { UserRespository } from './auth.repository';
 
 export class AuthComponent implements OnInit {
     isLoading = false;
-
     // ============================
     // FORM
     // 
@@ -26,7 +22,7 @@ export class AuthComponent implements OnInit {
     public fields: any[] = [];
     constructor(public formUtil: FormUtil, public userRepository: UserRespository, private router: Router) {
         this.fields = [
-            formUtil.generateObjectForm('username', 'text', 'Masukan username kamu', 'Cth. budisetiawan', 'person', null, true, true, {}),
+            formUtil.generateObjectForm('username', 'text', 'Masukan username kamu', 'Cth. budisetiawan', 'user', null, true, true, {}),
             formUtil.generateObjectForm('password', 'password', 'Masukan password kamu', '', undefined, null, true, false, {}),
         ]
 

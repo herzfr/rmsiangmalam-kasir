@@ -1,25 +1,5 @@
 <div class="container-fluid on-split-container p-0">
     <div class="d-flex card-box-header">
-        <!-- <mat-card class="info-split-card d-flex">
-            <button class="" (click)="location.back()" mat-icon-button>
-                <mat-icon svgIcon="back"></mat-icon>
-            </button>
-            <p class="mb-0 text-title">Pisah Tagihan</p>
-            <mat-card-header>
-                <mat-card-title>{{ tempSales?.name?? 'BAWA PULANG' }}</mat-card-title>
-                <mat-card-subtitle>{{ tempSales?.note?? 'CATATAN' }}</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-actions class="d-flex justify-content-between">
-                <button class="m-0-16" (click)="location.back()" mat-button>
-                    <mat-icon svgIcon="back"></mat-icon>
-                </button>
-                <div class="d-flex col-6 justify-content-end">
-                    <button (click)="addBill()" mat-button>TAMBAH TAGIHAN</button>
-                    <button class="btn-confirm" (click)="doSplit()" mat-button>{{ tempRepo.isLoadingSplit ? 'Loading...'
-                        : 'PISAH BILL'}}</button>
-                </div>
-            </mat-card-actions>
-        </mat-card> -->
         <button class="" (click)="location.back()" mat-icon-button>
             <mat-icon svgIcon="back"></mat-icon>
         </button>
@@ -27,9 +7,6 @@
     </div>
     <div class="d-flex">
         <div class="col-4">
-            <!--optionally select a child element as drag image-->
-            <!-- <ng-container *ngFor="let item of draggable.data">
-                    <div dndDragImageRef>{{ item.name }}</div> -->
             <!-- CARD LIST ITEM -->
             <div class="display-grid">
                 <div class="box-main">
@@ -47,8 +24,7 @@
                         <p class="text-temp mb-0">Nama :
                             <span class="fw-bold">
                                 {{ tempSales?.name == "" ? "" : tempSales?.name }}
-                                <span *ngIf="tempSales?.tableIds!.length > 0" style="padding-left: 10px">T.</span>
-                                {{tempSales?.tableIds!.length > 0? tempSales : "Pelanggan" }}
+                                <span *ngIf="tempSales?.tableIds!.length > 0" style="padding-left: 10px"></span>
                             </span>
                         </p>
                     </div>
@@ -72,7 +48,7 @@
                                     </div>
 
                                     <!-- draggable ({{draggable.effectAllowed}}) <span [hidden]="!draggable.disable">DISABLED</span> -->
-                                    <div dndDragImageRef class="d-flex w-100">
+                                    <div dndDragImageRef (click)="onPush(item)" class="d-flex w-100">
                                         <div class="col-1 text-list">
                                             {{ item.amount }}
                                         </div>
@@ -112,7 +88,7 @@
                 <!--a dropzone-->
                 <!--to allow dropping content that is not [dndDraggable] set dndAllowExternal to true-->
                 <ng-container *ngFor="let item of bills; let i = index">
-                    <div class="box-main">
+                    <div class="box-main" (click)="setPosition(i)">
                         <div class="d-flex justify-content-between">
                             <p class="mb-0 title-e">Tagihan {{ i + 1 }}</p>
                             <div class="d-flex align-items-center">
@@ -201,8 +177,8 @@
                         </div>
                     </ng-template> -->
 
-                        <section id="{{i}}" class="dropzone" dndDropzone (dndDragover)="onDragover($event, i)"
-                            (dndDrop)="onDrop($event, i)">
+                        <section id="{{i}}" [class.on-focus]="index_focus == i" class="dropzone" dndDropzone
+                            (dndDragover)="onDragover($event, i)" (dndDrop)="onDrop($event, i)">
                             <div class="placeholder-here my-1" dndPlaceholderRef>
                                 <span class="text-g">Drop disini</span>
                             </div>

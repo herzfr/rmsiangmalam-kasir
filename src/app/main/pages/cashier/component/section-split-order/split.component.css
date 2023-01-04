@@ -23,6 +23,10 @@
   width: 100%;
 }
 
+.on-focus {
+  border: 1px solid #045b62;
+}
+
 .draggable.dndDraggingSource {
   /* display:none; */
   opacity: 0.5;
@@ -396,4 +400,8 @@ input {
   align-self: stretch;
   flex-grow: 0;
   margin-bottom: 0;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

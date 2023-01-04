@@ -200,7 +200,7 @@
                     <div class="col panel-left">
                         <p class="mb-0 title-e">Rincian Tagihan Pembayaran</p>
                         <div class="d-flex w-100 box-panel">
-                            <div class="d-flex justify-content-between w-100">
+                            <div class="d-flex justify-content-between w-100 fw-bold">
                                 Total tagihan <span class="col text-end f-super-bold span-size-16">{{
                                     checkoutRepo.checkout.total | rupiah }}</span>
                             </div>
@@ -221,12 +221,12 @@
                             </div>
                         </div>
                         <!-- AKAN DIGUNAKAN JIKA DIPERLUKAN -->
-                        <!-- <section class="slide-section">
+                        <section class="slide-section">
                             <mat-slide-toggle class="slide-margin" [color]="color" [checked]="checkoutRepo.charge_admin"
                                 [disabled]="disabled" (change)="toggleIsCharge($event)">
-                                Kenakan Biaya Cas
+                                Kenakan biaya cas
                             </mat-slide-toggle>
-                        </section> -->
+                        </section>
                         <section class="slide-section">
                             <mat-slide-toggle class="slide-margin" [color]="color" [checked]="checkoutRepo.isTax"
                                 [disabled]="disabled" (change)="toggleIsTax($event)">

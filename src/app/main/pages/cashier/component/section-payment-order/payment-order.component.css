@@ -275,7 +275,8 @@
 /* ================================== */
 
 .img-payment-logo {
-  width: 50px;
+  width: 70px;
+  justify-self: flex-start;
 }
 
 .grid {
@@ -298,6 +299,7 @@
   /* overflow-x: scroll; */
   /* overflow-y: hidden; */
   white-space: nowrap;
+  gap: 5px;
 }
 
 .form-payment {
@@ -343,6 +345,16 @@
 
 .input-radio-button {
   margin: 5px;
+  width: 100%;
+}
+
+.text-bank {
+  font-size: 11px;
+  width: 100%;
+}
+
+.mat-radio-label {
+  width: inherit !important;
 }
 
 /* .payment-type {

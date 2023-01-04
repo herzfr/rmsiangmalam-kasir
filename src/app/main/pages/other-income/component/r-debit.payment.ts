@@ -16,7 +16,7 @@ import { OtherIncomeRepository } from '../_model/other-income.repository';
                 <mat-radio-button (change)="oIncomeRepo.checked()" class="input-radio-button" *ngFor="let item of paymentRepo.getPaymentType('DEBIT'); let i = index" [value]="item.id"  (change)="radioChange(item)">
                     <div class="">
                         <img class="img-payment-logo" src="{{item.name | paymentcode }}">
-                        <p class="mb-0">{{item.name}}</p>
+                        <p class="mb-0 fw-bold text-bank">{{item.name}}</p>
                     </div>
                 </mat-radio-button>
             </mat-radio-group>
