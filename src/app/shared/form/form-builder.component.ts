@@ -7,7 +7,7 @@ import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors }
     <form
       (ngSubmit)="onSubmit.emit(this.form.value)"
       [formGroup]="form"
-      class="form-horizontal px-5"
+      class="form-horizontal px-5 py-2"
     >
       <div *ngFor="let field of fields">
         <field-builder [field]="field" [form]="form"></field-builder>
