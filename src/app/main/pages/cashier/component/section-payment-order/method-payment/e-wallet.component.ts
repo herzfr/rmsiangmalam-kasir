@@ -65,7 +65,7 @@ export class EWalletComponent implements OnInit {
     ngOnInit() { }
 
     radioChange(payment: any) {
-        // console.log('change', payment);
+        // // console.log('change', payment);
         this.checkoutRepo.checkout.adminFee = payment.adminFee
         this.checkoutRepo.calculateTotal()
     }

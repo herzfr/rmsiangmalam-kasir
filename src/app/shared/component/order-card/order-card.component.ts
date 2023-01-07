@@ -81,7 +81,7 @@ export class OrderCardComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        // console.log(this.temp);
+        // // console.log(this.temp);
 
     }
 

@@ -31,7 +31,9 @@ export class UserRespository {
 
     async signIn(username: string, password: string): Promise<boolean> {
         let login: boolean = false;
-        await this.authService.login(username, password).subscribe((res: GeneralResponse) => {
+        this.authService.login(username, password).subscribe((res: GeneralResponse) => {
+            // console.log(res);
+
             if (res.statusCode == 0) {
                 let usr = res.data as UserLogin
                 if (_.isEqual(usr.role, Role.KASIR)) {
@@ -40,17 +42,19 @@ export class UserRespository {
                     this.authorizationTimer()
                     login = true
                 } else {
-                    this.dialog.showInfoDialog("Oops!!!", "Terjadi kesalahan", "Anda bukan user Kasir", "access-danied")
+                    this.dialog.showSWEDialog("Oops!!!", "Anda bukan user Kasir", "error")
                 }
-
             }
+
         }, (err: HttpErrorResponse) => {
+            // console.log(err);
+
             if (err.status == 401) {
-                this.dialog.showInfoDialog("Oops!!!", "Terjadi kesalahan", "Username tidak terdaftar atau Password Salah", "access-danied")
+                this.dialog.showSWEDialog("Oops!!!", "Username tidak terdaftar atau Password Salah", "error")
             }
 
         })
-        return login;
+        return await login;
     }
 
     signOut() {
@@ -72,6 +76,18 @@ export class UserRespository {
         this.timerSubcriber = this.authTimer.subscribe(() => {
             this.runInterval();
         });
+    }
+
+    refreshToken() {
+        this.authService.refresh().subscribe((res) => {
+            // console.log(res);
+            if (res['statusCode'] == 0) {
+                //set dahulu session timenya
+                let sessionTime = this.timeUtil.addMinutes(new Date(), environment.minuteSum);
+                localStorage.setItem('TIME', sessionTime.toISOString());
+                //end set time session
+            }
+        })
     }
 
     runInterval() {

@@ -59,7 +59,7 @@ export class OtherIncomeRepository {
     fetch_income() {
         this.is_loading = true
         this._income_service.getIncome(this.filter).subscribe(res => {
-            console.log(res);
+            // console.log(res);
             this.data_income = res.data
             setTimeout(() => this.is_loading = false, 200)
         })
@@ -67,7 +67,7 @@ export class OtherIncomeRepository {
 
     listenerNumberResult() {
         this._baseService.numberResultIncome$.subscribe((res) => {
-            console.log(res);
+            // console.log(res);
             this.create_by_cash.cash = res
             this.update_cash()
         })
@@ -174,7 +174,7 @@ export class OtherIncomeRepository {
         this.create_income.branchId = this.shiftRepo.onBranch
         this.create_income.subBranchId = this.shiftRepo.onSubBranch
         let merge: any = { ...this.create_by_cash, ...this.create_by_other, ...this.create_income }
-        console.log(merge);
+        // console.log(merge);
 
         this.go_validation(merge);
     }

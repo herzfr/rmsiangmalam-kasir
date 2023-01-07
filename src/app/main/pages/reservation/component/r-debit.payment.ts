@@ -67,14 +67,14 @@ export class ReservasiDebitComponent implements OnInit {
     ngOnInit() { }
 
     changeInputCardNumber(e: any) {
-        console.log(e);
+        // console.log(e);
         if (e.length > 0) {
             let str_split = e.split('-')
-            console.log(str_split);
+            // console.log(str_split);
             str_split.forEach((_el: any) => {
-                console.log(Number(_el));
+                // console.log(Number(_el));
                 if (_.isNaN(Number(_el))) {
-                    console.log('ini nan');
+                    // console.log('ini nan');
                     this.resvRepo.createReservation.cardNo = null
                 }
             });
@@ -83,7 +83,7 @@ export class ReservasiDebitComponent implements OnInit {
 
 
     radioChange(payment: any) {
-        // console.log('change', payment);
+        // // console.log('change', payment);
         this.resvRepo.createReservation.adminFee = payment.adminFee
     }
 }

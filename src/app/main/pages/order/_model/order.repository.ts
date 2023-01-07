@@ -77,13 +77,13 @@ export class OrderRepository {
             this.packageList = value[1].data
             this.shortcutList = value[2].data
             setTimeout(() => this.isLoading = false, 200)
-            // console.log(this.shortcutList);
+            // // console.log(this.shortcutList);
 
         })
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log("single change = > ", changes);
+        // console.log("single change = > ", changes);
     }
 
     generatePosition(total: number): number[] {
@@ -166,7 +166,7 @@ export class OrderRepository {
             }
 
         })
-        // console.log(fillShorcut);
+        // // console.log(fillShorcut);
     }
 
     findEmptyPosition() {
@@ -175,15 +175,15 @@ export class OrderRepository {
         this.position.some((x: number) => {
             if (!stop) {
                 let d = this.shortcutList.some(y => y.position === x)
-                // console.log(d);
+                // // console.log(d);
                 if (!d) {
                     stop = true;
                     result = x
                 }
             }
-            // console.log(this.shortcutList.find(y => y.position === x));
+            // // console.log(this.shortcutList.find(y => y.position === x));
         });
-        // console.log(result);
+        // // console.log(result);
         return result;
     }
 
@@ -215,7 +215,7 @@ export class OrderRepository {
         this.isLoading = true
         this.tempSalesService.createTempSales(cart).subscribe(res => {
             if (_.isEqual(res.statusCode, 0)) {
-                // console.log(res.data);
+                // // console.log(res.data);
                 if (cart.tableIds.length > 0 && cart.tableIds[0] !== 0) {
                     let tblUpd: UpdateOccupation = new UpdateOccupation()
                     tblUpd.id = cart.tableIds[0]
@@ -223,7 +223,7 @@ export class OrderRepository {
                     tblUpd.capacity = this.capacityTemporary
 
                     this.tableService.updateOccupation(tblUpd).subscribe(res => {
-                        console.log(res.data);
+                        // console.log(res.data);
                         if (_.isEqual(res.statusCode, 0)) {
                             this._dlg.showSWEDialog('Berhasil!', 'Hai, Pesanan anda berhasil diperbaharui', 'success')
                             this.initProductAndPackage()
@@ -242,7 +242,7 @@ export class OrderRepository {
                 }
             }
         }, (err: HttpErrorResponse) => {
-            console.log(err.error);
+            // console.log(err.error);
             this._dlg.showSWEDialog('Oopps!', err.error.message, 'error')
             setTimeout(() => this.isLoading = false, 200)
             // switch (err.error.statusCode) {
@@ -266,7 +266,7 @@ export class OrderRepository {
                 tblUpd.capacity = this.capacityTemporary
 
                 this.tableService.updateOccupation(tblUpd).subscribe(res => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     if (_.isEqual(res.statusCode, 0)) {
                         this._dlg.showSWEDialog('Berhasil!', 'Hai, Pesanan anda berhasil diperbaharui', 'success')
                         this.initProductAndPackage()
@@ -284,7 +284,7 @@ export class OrderRepository {
                 setTimeout(() => this.isLoading = false, 200)
             }
         }, (err: HttpErrorResponse) => {
-            // console.log(err.error);
+            // // console.log(err.error);
             setTimeout(() => this.isLoading = false, 200)
             switch (err.error.statusCode) {
                 case 2215:

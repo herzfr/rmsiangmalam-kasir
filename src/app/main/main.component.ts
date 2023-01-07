@@ -33,6 +33,10 @@ export class MainComponent implements OnInit {
         this.subsShift?.unsubscribe()
     }
 
+    testRefresh() {
+        this.userRepo.refreshToken()
+    }
+
     logout() {
         this.dialog.showConfirmationDialog("Keluar?", "", "Apakah anda ingin keluar dari Halaman ini?", "logout", "Ya")
             .subscribe(confirm => {

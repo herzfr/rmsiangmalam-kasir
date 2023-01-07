@@ -80,7 +80,7 @@ export class CashComponent implements OnInit, AfterViewInit {
         this.listenerNumberResult()
     }
     ngAfterViewInit(): void {
-        console.log(this.keyboard);
+        // console.log(this.keyboard);
 
     }
 
@@ -94,7 +94,7 @@ export class CashComponent implements OnInit, AfterViewInit {
     }
 
     openKeyboard() {
-        console.log('work');
+        // console.log('work');
         this.keyboard?.showKeyboard()
     }
 

@@ -6,7 +6,8 @@ import { GeneralResponse } from '../_model/general.interface';
 
 const URL = environment.url
 const httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    withCredentials: true,
 };
 
 
@@ -27,7 +28,7 @@ export class AuthService {
             headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
             withCredentials: true,
         };
-        return this.http.post<GeneralResponse>(URL + 'auth/refresh', {}, httpOptionsRefresh);
+        return this.http.post<GeneralResponse>(URL + 'auth/refresh', {}, httpOptions);
     }
 
     logout(): Observable<any> {

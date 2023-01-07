@@ -64,7 +64,7 @@ export class CustomerListComponent implements OnInit {
     }
 
     get data() {
-        console.log(this.dataSource.data);
+        // console.log(this.dataSource.data);
         return this.dataSource.data
     }
 

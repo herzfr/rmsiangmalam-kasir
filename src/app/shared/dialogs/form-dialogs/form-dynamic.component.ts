@@ -44,7 +44,7 @@ export class FormDialogComponent implements OnInit {
     }
 
     onSubmitData(data: any) {
-        console.log(data);
+        // console.log(data);
         this.dialogRef.close(data)
     }
 }

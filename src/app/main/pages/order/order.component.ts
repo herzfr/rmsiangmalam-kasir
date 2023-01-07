@@ -70,7 +70,7 @@ export class OrderComponent implements OnInit {
 
 
     get activeRoute(): string | null {
-        // console.log(this.route.snapshot.queryParamMap.get('nav'));
+        // // console.log(this.route.snapshot.queryParamMap.get('nav'));
         return this.route.snapshot.queryParamMap.get('nav');
     }
 

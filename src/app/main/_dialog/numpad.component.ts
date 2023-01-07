@@ -69,7 +69,7 @@ export class NumpadComponent {
         @Inject(MAT_BOTTOM_SHEET_DATA) public data: any[],
         private _baseservice: BaseService
     ) {
-        console.log(data);
+        // console.log(data);
 
         this.inputResult = data[0]
         this.is_from = data[1]

@@ -107,7 +107,7 @@ export class ReportComponent implements OnInit {
     getPaymentIcon(id?: number, method?: string, customerId?: number) {
         let payment = this.paymRepo.getPaymentTypeByIdObj(id)
         let cstmr = this.custRepo.customer.find(x => x.id == (customerId ?? 0))?.name
-        console.log(payment);
+        // console.log(payment);
 
         switch (method) {
             case 'CASH':

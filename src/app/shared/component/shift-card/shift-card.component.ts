@@ -46,9 +46,9 @@ export class ShiftCardComponent implements OnInit {
 
 
     changeIsAcive(e: any) {
-        console.log(e.value);
+        // console.log(e.value);
 
-        console.log(this.isActive);
+        // console.log(this.isActive);
 
         if (this.isActive) {
             this.dialog.showConfirmationDialog("Akhiri Shift", "", "apakah anda ingin mengakhiri SHIFT ini?", "close-shift", "Ya")
@@ -56,7 +56,7 @@ export class ShiftCardComponent implements OnInit {
                     if (res) {
                         this.dialog.showEndShiftDialog('Akhiri Shift?', 'Masukan sisa kas anda sebelum tutup shift', 'Masukan sisa kas anda sebelum tutup shift', 'close-shift', 'Tutup SHIFT')
                             .subscribe(async (res) => {
-                                console.log(res);
+                                // console.log(res);
                                 if (res.response) {
                                     let stop = await this.shiftRepo.stop(this.shift?.id ?? 0, res.result)
                                     if (stop) {
@@ -74,12 +74,12 @@ export class ShiftCardComponent implements OnInit {
                 .subscribe(res => {
                     if (res) {
                         this.dialog.showFormDialog("Mulai untuk Shift?", "Isi form awal terlebih dahulu", this.initFields(), 'Masuk Shift').subscribe(res => {
-                            console.log(res);
+                            // console.log(res);
                             if (res) {
                                 // this.shiftRepo.start(res:)
                                 let resData: StartShift = res as StartShift;
                                 let objAssign = Object.assign({ startOperationalCash: 0, subBranchId: this.onSubBranchID, deviceId: this.randomUtil.generateUUID() }, resData);
-                                console.log(objAssign);
+                                // console.log(objAssign);
                                 this.shiftRepo.start(objAssign as StartShift).then(res => {
                                     if (res) {
                                         this.isActive = this.shift?.status === 'OPEN' ? true : false

@@ -29,7 +29,7 @@ export class SettingRepository {
     findSettingAll() {
         this._setting_service.getAllSetting(this.shiftRepo.onBranch, this.shiftRepo.onSubBranch, this.size, this.page)
             .subscribe(res => {
-                console.log(res);
+                // console.log(res);
                 this.setting_list = res.data
                 this.setting_index = 0
             })
@@ -100,7 +100,7 @@ export class SettingRepository {
                 if (res) {
                     this._setting_service.createSetting(this.set_prepare_value())
                         .subscribe(res => {
-                            console.log(res);
+                            // console.log(res);
                             if (_.isEqual(res.statusCode, 0)) {
                                 this.dlg.showSWEDialog('Berhasil!', `Penyimpanan setting berhasil`, 'success')
                                 this.findSettingAll()
@@ -125,7 +125,7 @@ export class SettingRepository {
                 if (res) {
                     this._setting_service.updateSetting(this.set_prepare_value())
                         .subscribe(res => {
-                            console.log(res);
+                            // console.log(res);
                             if (_.isEqual(res.statusCode, 0)) {
                                 this.dlg.showSWEDialog('Berhasil!', `Pembaharuan setting berhasil`, 'success')
                                 this.findSettingAll()

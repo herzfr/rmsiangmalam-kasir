@@ -138,7 +138,7 @@ export class TransferStockComponent implements OnInit {
     }
 
     changeDestination(e: any) {
-        console.log(e.value);
+        // console.log(e.value);
         this.trfsRepo.fetch_transfer_stock()
     }
 
@@ -188,41 +188,41 @@ export class TransferStockComponent implements OnInit {
     back_to_list() {
         this.tab = 0
         this.trfsRepo.on_receive = undefined
-        console.log(this.trfsRepo.on_receive);
+        // console.log(this.trfsRepo.on_receive);
     }
 
     // DRAG AND DROP
     // ======================================
     onDragStart(event: DragEvent) {
-        // console.log("drag started", JSON.stringify(event, null, 2));
+        // // console.log("drag started", JSON.stringify(event, null, 2));
     }
 
     onDragEnd(event: DragEvent) {
-        // console.log("drag ended", JSON.stringify(event, null, 2));
+        // // console.log("drag ended", JSON.stringify(event, null, 2));
     }
 
     onDraggableCopied(event: DragEvent) {
-        // console.log("draggable copied", JSON.stringify(event, null, 2));
+        // // console.log("draggable copied", JSON.stringify(event, null, 2));
     }
 
     onDraggableLinked(event: DragEvent) {
-        // console.log("draggable linked", JSON.stringify(event, null, 2));
+        // // console.log("draggable linked", JSON.stringify(event, null, 2));
     }
 
     onDraggableMoved(event: DragEvent) {
-        // console.log("draggable moved", JSON.stringify(event, null, 2));
+        // // console.log("draggable moved", JSON.stringify(event, null, 2));
     }
 
     onDragCanceled(event: DragEvent) {
-        // console.log("drag cancelled", JSON.stringify(event, null, 2));
+        // // console.log("drag cancelled", JSON.stringify(event, null, 2));
     }
 
     onDragover(event: DragEvent) {
-        // console.log("dragover", JSON.stringify(event, null, 2));
+        // // console.log("dragover", JSON.stringify(event, null, 2));
     }
 
     onDrop(event: DndDropEvent) {
-        // console.log("dropped", JSON.stringify(event, null, 2)););
+        // // console.log("dropped", JSON.stringify(event, null, 2)););
         this.trfsRepo.add_send(event.data.product);
     }
 

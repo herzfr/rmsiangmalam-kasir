@@ -57,12 +57,12 @@ export class TablesRepository {
                 if (res) {
                     this.tablesService.createTables(this.createTable).subscribe(res => {
                         if (_.isEqual(res.statusCode, 0)) {
-                            console.log(res);
+                            // console.log(res);
                             this._dlg.showSWEDialog('Berhasil!', `Meja telah ditambahkan`, 'success')
                             this.getDataTable()
                         }
                     }, (err: HttpErrorResponse) => {
-                        console.log(err);
+                        // console.log(err);
                         this._dlg.showSWEDialog('Opps!', `Meja gagal ditambahkan`, 'error')
                     })
                 }
@@ -72,12 +72,12 @@ export class TablesRepository {
     updateT() {
         this.tablesService.updateTables(this.updateTable).subscribe(res => {
             if (_.isEqual(res.statusCode, 0)) {
-                console.log(res);
+                // console.log(res);
                 this._dlg.showSWEDialog('Berhasil!', `Meja telah diperbaharui`, 'success')
                 this.getDataTable()
             }
         }, (err: HttpErrorResponse) => {
-            console.log(err);
+            // console.log(err);
             this._dlg.showSWEDialog('Opps!', `Meja gagl diperaharui`, 'error')
         })
     }
@@ -88,12 +88,12 @@ export class TablesRepository {
                 if (res) {
                     this.tablesService.deleteTable(id).subscribe(res => {
                         if (_.isEqual(res.statusCode, 0)) {
-                            console.log(res);
+                            // console.log(res);
                             this._dlg.showSWEDialog('Berhasil!', `Meja telah dihapus`, 'success')
                             this.getDataTable()
                         }
                     }, (err: HttpErrorResponse) => {
-                        console.log(err);
+                        // console.log(err);
                         this._dlg.showSWEDialog('Opps!', `Meja gagal dihapus`, 'error')
                     })
                 }

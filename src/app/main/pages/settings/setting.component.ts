@@ -20,11 +20,11 @@ export class SettingComponent implements OnInit {
 
     fileChangeEvent(event: any): void {
         this.dlg.showCropImage(event).subscribe(res => {
-            console.log(res);
+            // console.log(res);
             if (res.response) {
                 let strImage = res.result.replace(/^data:image\/[a-z]+;base64,/, "");
                 this.settingRepo.upsert_setting.image = strImage
-                console.log(this.settingRepo.upsert_setting);
+                // console.log(this.settingRepo.upsert_setting);
 
             }
 

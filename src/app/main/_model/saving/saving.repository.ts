@@ -18,8 +18,8 @@ export class SavingRepository {
     get is_saving() {
         let d = this.time.getJustDateLocale(this.today)
         let a = this.time.getDate(this.saving?.updatedAt ?? this.today.getMilliseconds())
-        console.log('local today', d);
-        console.log('local updatedAt', a);
+        // console.log('local today', d);
+        // console.log('local updatedAt', a);
         return false
     }
 }

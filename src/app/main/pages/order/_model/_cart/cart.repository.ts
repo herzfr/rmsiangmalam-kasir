@@ -16,7 +16,7 @@ export class CartRepository {
     constructor(private _baseService: BaseService) {
         this.cart.tableIds.push(0)
         _baseService.tempSale$.subscribe(res => {
-            console.log(res);
+            // console.log(res);
             this.clear()
             this.cart = res
             this.lines = this.cart.items ?? []
@@ -24,8 +24,8 @@ export class CartRepository {
     }
 
     doSomething(event: any) {
-        console.log(event);
-        console.log(this.cart.tableIds);
+        // console.log(event);
+        // console.log(this.cart.tableIds);
 
     }
 
@@ -135,7 +135,7 @@ export class CartRepository {
             this.cart.items = undefined
             let data: any[] = this.lines
             data.forEach(el => {
-                console.log(el);
+                // console.log(el);
 
                 if (el.isPackage) {
                     delete el.stockId
@@ -154,8 +154,8 @@ export class CartRepository {
         this.cart = tmp_sales as CartLine
         this.cart.items = []
         this.lines = this.validationUpdatePackageOrProduct(temp.items) ?? []
-        // console.log(this.cart);
-        // console.log(this.lines);
+        // // console.log(this.cart);
+        // // console.log(this.lines);
     }
 
     validationUpdatePackageOrProduct(tempItem: ItemTempSales[]) {

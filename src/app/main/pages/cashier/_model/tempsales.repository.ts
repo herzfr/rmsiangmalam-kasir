@@ -153,7 +153,7 @@ export class TempSalesRepository {
     }
 
     get disbaleNextList() {
-        // console.log(this.tempSalesPagine);
+        // // console.log(this.tempSalesPagine);
 
         return ((this.tempSalesPagine?.pageNumber ?? 0) >= (this.tempSalesPagine?.totalPage ?? 0))
     }
@@ -430,7 +430,7 @@ export class TempSalesRepository {
     /* Fungsi untuk mendapatkan status koneksi socket */
     getSocketStatusValue() {
         this.socketStatusSub = this._socket.getSocketStatus().subscribe((response: boolean) => {
-            // console.log('Socket Status:', response);
+            // // console.log('Socket Status:', response);
             if (response) this.listenIncomingTrigger();
         });
     }
@@ -439,7 +439,7 @@ export class TempSalesRepository {
     /* Fungsi standby mendapatkan data yang masuk dari socket */
     listenIncomingTrigger() {
         this.socketSub = this._socket.listenTriggerData().subscribe((response: any) => {
-            // console.log('Trigger Response:', response);
+            // // console.log('Trigger Response:', response);
             // Jika statusCode dari response tidak null/undefined
             if (!isNil(response.statusCode)) {
                 // this.responseData.push(response.data);
@@ -447,7 +447,7 @@ export class TempSalesRepository {
                     _.isEqual(response.data.branchId, this.shiftRepo.onBranch) &&
                     _.isEqual(response.data.subBranchId, this.shiftRepo.onSubBranch)
                 ) {
-                    // console.log('trigger');
+                    // // console.log('trigger');
                     this.playAudio();
                     this.openSnackBar('Ada Pesanan baru!!!');
                     this.getTempSales();

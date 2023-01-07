@@ -57,12 +57,12 @@ export class ViewPrintReceiptComponent implements OnInit {
             const reader = new FileReader();
             reader.onloadend = () => {
                 let base64data = reader.result;
-                // console.log(base64data);
+                // // console.log(base64data);
                 this.getImage = base64data;
             };
 
             reader.readAsDataURL(res);
-            // console.log(res);
+            // // console.log(res);
         });
     }
 

@@ -29,8 +29,8 @@ export class SocketService {
 
     checkConnectionStatus() {
         this.socket.on("connect", () => {
-            console.log("Socket Server connected!");
-            console.log("Socket ID: ", this.socket.id)
+            // console.log("Socket Server connected!");
+            // console.log("Socket ID: ", this.socket.id)
             this.setSocketStatus(true);
             this.socketId = this.socket.id;
         });
@@ -64,7 +64,7 @@ export class SocketService {
             observer.next(
                 //Get Emit Data From "salesTrigger"
                 this.socket.on('salesTrigger', (data: string) => {
-                    console.log("listen trigger:", data);
+                    // console.log("listen trigger:", data);
                     observer.next(data);
                 })
             );

@@ -70,7 +70,7 @@ export class IncomeEWalletComponent implements OnInit {
     ngOnInit() { }
 
     radioChange(payment: any) {
-        // console.log('change', payment);
+        // // console.log('change', payment);
         this.oIncomeRepo.create_by_other.adminFee = payment.adminFee
     }
 

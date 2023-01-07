@@ -63,7 +63,7 @@ export class ShiftRepository {
     async stop(stop: number, endCash: number): Promise<any> {
         let isSuccess: boolean = false;
         let res: GeneralResponse | undefined = await this.shiftService.stopShift(stop, endCash).toPromise()
-        console.log(res);
+        // console.log(res);
 
         if (res?.statusCode === 0) {
             return isSuccess = true;

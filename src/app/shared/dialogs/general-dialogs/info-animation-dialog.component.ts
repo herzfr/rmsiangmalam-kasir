@@ -50,7 +50,7 @@ export class InfoAnimatedDialogComponent implements OnInit {
 
     constructor(public dialogRef: MatDialogRef<InfoAnimatedDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: InfoAnimatedDialog) {
-        console.log(data.type);
+        // console.log(data.type);
 
     }
 

@@ -126,7 +126,7 @@ export class ListOrderComponent implements OnInit {
     }
 
     endTime(e: any) {
-        console.log(e.value);
+        // console.log(e.value);
         this.tempRepo.findTempSales.endDate = this.timeUtil.setTimeInDateLocal((e.value as string), this.endFormDate)
         this.tempRepo.findTempSales.option = this.type
         this.tempRepo.getTempSales()

@@ -40,7 +40,7 @@ export class ReservationComponent implements OnInit, AfterViewInit {
     // SATU PAKET CHANGE DATE ==================================
     changeDate(e: any) {
         this.selected = this.time.convertDateTimeLocale(e);
-        console.log(this.selected);
+        // console.log(this.selected);
 
         let num_start = this.time.startTodayTime(this.selected)
         let num_end = this.time.endTodayTime(this.selected)
@@ -68,12 +68,12 @@ export class ReservationComponent implements OnInit, AfterViewInit {
 
     startTime(e: any) {
         this.resvRepo.createReservation.bookingTime = this.time.setTimeInDate((e.value as string), this.selected)
-        console.log(this.resvRepo.createReservation);
+        // console.log(this.resvRepo.createReservation);
     }
 
     tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-        // console.log('tabChangeEvent => ', tabChangeEvent);
-        // console.log('index => ', tabChangeEvent.index);
+        // // console.log('tabChangeEvent => ', tabChangeEvent);
+        // // console.log('index => ', tabChangeEvent.index);
         this.tabIndex = tabChangeEvent.index
         switch (this.tabIndex) {
             case 0:
@@ -103,14 +103,14 @@ export class ReservationComponent implements OnInit, AfterViewInit {
     }
 
     inputDepositChange(e: any) {
-        console.log(e);
+        // console.log(e);
         this.resvRepo.createReservation.dpAmount = e
         this.resvRepo.calculate()
     }
 
 
     deleteItem(id_booking: number) {
-        console.log(id_booking);
+        // console.log(id_booking);
         this.resvRepo.deleteReservation(id_booking)
     }
 

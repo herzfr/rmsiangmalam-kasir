@@ -71,14 +71,14 @@ export class PaymentComponent implements OnInit {
         private _bottomSheet: MatBottomSheet,
         private _dialog: MatDialog,
     ) {
-        // setTimeout(() => console.log(paymentRepo.dataPayment), 1000)
+        // setTimeout(() => // console.log(paymentRepo.dataPayment), 1000)
 
         activeRoute.queryParamMap.subscribe(res => {
-            // console.log(res.get('id'));
+            // // console.log(res.get('id'));
             if (!_.isNull(res.get('id'))) {
                 this.checkoutRepo.paymentId = Number(res.get('id'))
                 this.checkoutRepo.tempSalesForCheckout
-                // console.log(this.checkoutRepo.paymentId);
+                // // console.log(this.checkoutRepo.paymentId);
             } else {
                 this.location.back()
                 // this.router.navigate(['/cashier'])
@@ -143,8 +143,8 @@ export class PaymentComponent implements OnInit {
 
 
     tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-        // console.log('tabChangeEvent => ', tabChangeEvent);
-        // console.log('index => ', tabChangeEvent.index);
+        // // console.log('tabChangeEvent => ', tabChangeEvent);
+        // // console.log('index => ', tabChangeEvent.index);
         this.tabIndex = tabChangeEvent.index
         // this.checkoutRepo.reBuildPayment()
         this.baseService.number_result = 0

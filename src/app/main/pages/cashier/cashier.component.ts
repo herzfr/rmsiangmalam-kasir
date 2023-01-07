@@ -29,7 +29,7 @@ export class CashierComponent implements OnInit {
 
 
     get activeRoute(): string | null {
-        // console.log(this.route.snapshot.queryParamMap.get('nav'));
+        // // console.log(this.route.snapshot.queryParamMap.get('nav'));
         let onDuty = this.route.snapshot.queryParamMap.get('nav')
         switch (onDuty) {
             case 'list':
@@ -51,7 +51,7 @@ export class CashierComponent implements OnInit {
 
 
     applyFilter(event: any) {
-        console.log(event);
+        // console.log(event);
 
     }
 

@@ -22,14 +22,14 @@ export class AuthComponent implements OnInit {
     public fields: any[] = [];
     constructor(public formUtil: FormUtil, public userRepository: UserRespository, private router: Router) {
         this.fields = [
-            formUtil.generateObjectForm('username', 'text', 'Masukan username kamu', 'Cth. budisetiawan', 'user', null, true, true, {}),
-            formUtil.generateObjectForm('password', 'password', 'Masukan password kamu', '', undefined, null, true, false, {}),
+            formUtil.generateObjectForm('username', 'text', 'Masukan username', 'Cth. budisetiawan', 'user', null, true, true, {}),
+            formUtil.generateObjectForm('password', 'password', 'Masukan password', '', undefined, null, true, false, {}),
         ]
 
         this.form = new FormGroup({
             fields: new FormControl(JSON.stringify(this.fields)),
         });
-        console.log(this.form);
+        // console.log(this.form);
         this.unsubcribe = this.form.valueChanges.subscribe((update) => {
             this.fields = JSON.parse(update.fields);
         });
@@ -45,7 +45,7 @@ export class AuthComponent implements OnInit {
     }
 
     getFields() {
-        // console.log(this.fields);
+        // // console.log(this.fields);
         return this.fields;
     }
 
@@ -56,7 +56,6 @@ export class AuthComponent implements OnInit {
     ngDistroy() {
         this.unsubcribe();
     }
-
 
 
 

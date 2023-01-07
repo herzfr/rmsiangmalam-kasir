@@ -14,7 +14,7 @@ export class PrintViewComponent implements OnInit {
     public today: Date = new Date()
     constructor(public settingRepo: SettingRepository, public timeUtil: TimeUtil) {
         this.today = timeUtil.convertDateTimeLocale(new Date())
-        console.log(this.today);
+        // console.log(this.today);
 
     }
 

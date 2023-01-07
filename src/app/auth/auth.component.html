@@ -4,11 +4,11 @@
             <div class="container-fluid">
 
                 <div class="my-5 card-box">
-                    <div>
+                    <div class="">
                         <img class="img-title" src="assets/images/sm_logo.png" alt="logo-siangmalam">
                     </div>
-                    <mat-card-title class="text-title text-title-login"> {{ isLoading? 'Tunggu sebentar ya...' : 'Kasir
-                        Login'}}
+                    <mat-card-title class="text-title text-title-login">
+                        {{ isLoading? 'Tunggu sebentar ya...' : 'Kasir Login'}}
                     </mat-card-title>
                     <mat-card-content>
                         <form-apps (onSubmit)="onSubmitData($event)" [submitName]="'Masuk'" [isLoading]="isLoading"
@@ -39,9 +39,9 @@
             <div class="image-container">
                 <!-- <mat-icon class="illustration" svgIcon="login"></mat-icon> -->
                 <div>
-                    <h1 class="text-title-login text-white">RM. Siang Malam</h1>
-                    <p class="text-start text-sub-login">Kasir Management Shift V.2</p>
-                    <img class="img-login illustration" src="assets/images/login-reference.png" alt="">
+                    <h1 class="text-title-login text-white slide-left">RM. Siang Malam</h1>
+                    <p class="text-start text-sub-login sub-slide-left">Kasir Management Shift V.2</p>
+                    <img class="img-login illustration scale-up-center" src="assets/images/login-reference.png" alt="">
                 </div>
             </div>
         </div>

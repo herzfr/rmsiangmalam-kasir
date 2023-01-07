@@ -46,7 +46,7 @@ export class ReservationRepository {
         this.is_loading = true
         this._reservService.getReservation(this.find)
             .subscribe(res => {
-                console.log(res);
+                // console.log(res);
                 this.dataReservation = res.data
 
                 let finds: FindReservation = new FindReservation()
@@ -72,7 +72,7 @@ export class ReservationRepository {
 
     listenChangeCash() {
         this._baseservice.numberResultGeneral$.subscribe(res => {
-            // console.log(res);
+            // // console.log(res);
             this.createReservation.cash = res
             this.calculate()
         })
@@ -107,7 +107,7 @@ export class ReservationRepository {
 
     set_bookingTime(selected: Date) {
         let get_time = this.timeUtil.getJustTime(this.createReservation.bookingTime)
-        // console.log(this.timeUtil.setTimeInDate2(get_time, selected));
+        // // console.log(this.timeUtil.setTimeInDate2(get_time, selected));
         this.createReservation.bookingTime = this.timeUtil.setTimeInDate2(get_time, selected)
         this.fetchReservation()
     }
@@ -174,7 +174,7 @@ export class ReservationRepository {
     }
 
     public submitReservation(custom?: string) {
-        console.log(this.createReservation);
+        // console.log(this.createReservation);
         switch (this.createReservation.paymentMethod) {
             case 'CASH':
                 if (this.validationCash()) {

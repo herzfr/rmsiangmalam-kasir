@@ -110,7 +110,7 @@ export class ReservasiEWalletComponent implements OnInit {
     ngOnInit() { }
 
     radioChange(payment: any) {
-        // console.log('change', payment);
+        // // console.log('change', payment);
         this.resvRepo.createReservation.adminFee = payment.adminFee
     }
 

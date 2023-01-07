@@ -86,7 +86,7 @@ export class OtherIncomeComponent implements OnInit {
     }
 
     checkpayment(payment_method?: string, payment_id?: number) {
-        // console.log(payment_method);
+        // // console.log(payment_method);
         if (payment_method === 'CASH') {
             return 'Tunai'
         } else if (payment_method === 'CUSTOM') {
@@ -97,7 +97,7 @@ export class OtherIncomeComponent implements OnInit {
     }
 
     inputDepositChange(e: any) {
-        console.log(e);
+        // console.log(e);
         this.oIncomeRepo.create_income.amount = e
         this.oIncomeRepo.update_cash()
         this.oIncomeRepo.calculate()
