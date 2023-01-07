@@ -13,6 +13,7 @@ export class UiImageLoaderDirective {
     constructor(
         @Attribute('loader') public loader: string,
         @Attribute('onErrorSrc') public onErrorSrc: string,
+        @Attribute('lazyload') public lazyLoad: string,
         private renderer: Renderer2,
         private el: ElementRef) {
         this.renderer.setAttribute(this.el.nativeElement, 'src', this.loader);
@@ -23,5 +24,9 @@ export class UiImageLoaderDirective {
     }
     @HostListener('error') onError() {
         this.renderer.setAttribute(this.el.nativeElement, 'src', this.onErrorSrc);
+    }
+
+    @HostListener('src') onSrc() {
+        this.renderer.setAttribute(this.el.nativeElement, 'src', this.lazyLoad)
     }
 }
