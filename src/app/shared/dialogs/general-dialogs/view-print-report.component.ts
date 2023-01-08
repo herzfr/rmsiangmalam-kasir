@@ -45,9 +45,15 @@ import { TimeUtil } from 'src/app/_utility/time.util';
                 </thead>
                 <tbody>
                     <tr valign="top">
-                    <td class="description">Kas Awal</td>
+                    <td class="description">Kas Kasir</td>
                     <td class="price" style="text-align: right !important">
                         {{ convertCurrency(reportSales?.startCash ?? 0) }}
+                    </td>
+                    </tr>
+                    <tr valign="top">
+                    <td class="description">Kas Sebenarnya</td>
+                    <td class="price" style="text-align: right !important">
+                        {{ convertCurrency(reportSales?.endOperationalCash ?? 0) }}
                     </td>
                     </tr>
                     <tr valign="top">

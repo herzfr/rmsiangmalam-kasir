@@ -21,6 +21,7 @@ export interface ShiftL {
     name: string
     startCash: number
     endCash: number
+    endOperationalCash: number
     subBranchId: number
     status: string
     startTime: string

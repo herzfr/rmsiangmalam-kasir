@@ -37,7 +37,27 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       this.dlg.showSWEDialog("Oops!!!", "Username tidak terdaftar atau Password Salah", "error")
       return throwError('error Username tidak terdaftar atau Password');
     } else {
-      this.userRepo.refreshToken()
+      this.isRefreshing = true;
+      this.refreshTokenSubject.next(null);
+
+      if (!this.isRefreshing) {
+        return this.authService.refresh().pipe(
+          switchMap((resMap: any) => {
+            this.isRefreshing = false;
+
+            this.userRepo.setUserLogin(resMap.data);
+            this.refreshTokenSubject.next(resMap.data);
+
+            return next.handle(this.addTokenHeader(request));
+          }),
+          catchError((err) => {
+            this.isRefreshing = false;
+            this.userRepo.signOut();
+            return throwError(err);
+          })
+        );
+      }
+
       return this.refreshTokenSubject.pipe(
         filter(token => token !== null),
         take(1),

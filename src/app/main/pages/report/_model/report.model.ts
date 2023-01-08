@@ -75,6 +75,7 @@ export interface ItemReportSales {
 export interface ReportShiftSales {
     totalOrder: number;
     startCash: number;
+    endOperationalCash: number;
     cashPayment: number;
     customPaymentList: CustomPaymentList[];
     totalDiscount: number;
