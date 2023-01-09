@@ -1,3 +1,13 @@
+.card-box-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0px 0px 18px rgb(166 166 166 / 16%);
+  height: fit-content !important;
+  /* margin-top: 10px; */
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
 .payment-container {
   height: 100vh !important;
   max-height: 100vh;
@@ -14,8 +24,15 @@
   height: auto;
 }
 
+.p-section-left .list-prod {
+  height: auto !important;
+  min-height: 30vh !important;
+  max-height: 30vh !important;
+}
+
 .p-section-right {
-  height: fit-content;
+  /* height: fit-content; */
+  grid-template-rows: max-content;
 }
 
 .p-container-right {
@@ -87,8 +104,8 @@
 
 .master-payment-page {
   height: auto;
-  min-height: 350px;
-  max-height: 350px;
+  /* min-height: 350px;
+  max-height: 350px; */
   overflow: auto;
 }
 
@@ -114,7 +131,7 @@
 
 .grid-row {
   display: grid;
-  grid-template-rows: 20% 80%;
+  grid-template-rows: 8% 20% auto;
 }
 
 .grid-row-2 {

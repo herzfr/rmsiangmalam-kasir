@@ -26,39 +26,39 @@ import { TimeUtil } from 'src/app/_utility/time.util';
                 </div>
 
                 <div id="printDiv" class="title center" style="text-align: center">
-                <span>{{ settingPrint?.headerTitle }}</span>
+                <span style="font-weight: bold;">{{ settingPrint?.headerTitle }}</span>
                 <br />
-                <span>{{ settingPrint?.headerAddress1 }}</span>
+                <span style="font-size: 15px;">{{ settingPrint?.headerAddress1 }}</span>
                 <br />
-                <span>{{ settingPrint?.headerAddress2 }}</span>
+                <span style="font-size: 15px;">{{ settingPrint?.headerAddress2 }}</span>
                 <br />
-                <span>{{ settingPrint?.phone }}</span>
+                <span style="font-size: 15px;">{{ settingPrint?.phone }}</span>
                 <br />
                 </div>
                 <hr />
                 <table style="width: 100%">
                 <thead>
                     <tr>
-                    <th class="description" style="text-align: left !important">Kasir.</th>
-                    <th class="price" style="text-align: right !important">{{ shiftRepo.shift?.name }}</th>
+                    <th class="description" style="text-align: left !important">Shift.</th>
+                    <th class="price" style="text-align: right !important; font-weight: bold">{{ shiftRepo.shift?.name }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr valign="top">
-                    <td class="description">Kas Kasir</td>
-                    <td class="price" style="text-align: right !important">
+                    <td class="description">Kas Sistem</td>
+                    <td class="price" style="text-align: right !important; font-weight: bold">
                         {{ convertCurrency(reportSales?.startCash ?? 0) }}
                     </td>
                     </tr>
                     <tr valign="top">
-                    <td class="description">Kas Sebenarnya</td>
-                    <td class="price" style="text-align: right !important">
+                    <td class="description">Kas Aktual</td>
+                    <td class="price" style="text-align: right !important; font-weight: bold">
                         {{ convertCurrency(reportSales?.endOperationalCash ?? 0) }}
                     </td>
                     </tr>
                     <tr valign="top">
                     <td class="description">Total Terjual</td>
-                    <td class="price" style="text-align: right !important">
+                    <td class="price" style="text-align: right !important; font-weight: bold">
                         {{ reportSales?.totalOrder ?? 0 }}
                     </td>
                     </tr>
@@ -114,6 +114,11 @@ import { TimeUtil } from 'src/app/_utility/time.util';
                 <hr *ngIf="(reportSales?.otherIncome)!.length > 0" />
                 <table style="width: 100%" *ngIf="(reportSales?.otherIncome)!.length > 0">
                 <thead>
+                    <tr>
+                    <th class="description" style="text-align: left !important">Pemasukan Lain.</th>
+                    </tr>
+                </thead>
+                <thead>
                     <tr valign="top" style="text-align: left !important">
                     <th class="quantity">M</th>
                     <th class="description">Deskripsi</th>
@@ -162,7 +167,7 @@ import { TimeUtil } from 'src/app/_utility/time.util';
                     <tr valign="top" *ngFor="let it of reportSales?.soldItems">
                     <td class="quantity">{{ it.amount }}</td>
                     <td class="description">{{ it.name }}</td>
-                    <td class="price" style="text-align: right !important">
+                    <td class="price" style="text-align: right !important; font-weight: bold;">
                         {{ convertCurrency(it.total) }}
                     </td>
                     </tr>
@@ -196,6 +201,12 @@ import { TimeUtil } from 'src/app/_utility/time.util';
                     <td class="description">Refund</td>
                     <td class="price" style="text-align: right !important">
                         {{ convertCurrency(reportSales?.totalRefund ?? 0) }}
+                    </td>
+                    </tr>
+                    <tr valign="top">
+                    <td class="description">Deposit</td>
+                    <td class="price" style="text-align: right !important">
+                        {{ convertCurrency(reportSales?.totalDeposit ?? 0) }}
                     </td>
                     </tr>
                     <tr valign="top">
@@ -290,6 +301,7 @@ export class ViewPrintReportComponent implements OnInit, AfterViewChecked {
 
     ngOnInit() {
         this.get_image()
+        this.getSettingPrint()
     }
 
     ngAfterViewChecked(): void {

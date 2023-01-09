@@ -36,6 +36,7 @@ export interface ReportSales {
     discount: number;
     tax: number;
     service: number;
+    deposit: number;
     refund: any;
     total: number;
     isDineIn: boolean;
@@ -79,6 +80,7 @@ export interface ReportShiftSales {
     cashPayment: number;
     customPaymentList: CustomPaymentList[];
     totalDiscount: number;
+    totalDeposit: number;
     totalService: number;
     totalRefund: number;
     tax: Tax;

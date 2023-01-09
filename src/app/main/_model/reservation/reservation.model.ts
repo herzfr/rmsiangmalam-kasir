@@ -41,6 +41,7 @@ export interface DataReservation {
 
 export interface Reservation {
     id: number
+    name: string
     note: string
     bookingTime: number
     branchId: number

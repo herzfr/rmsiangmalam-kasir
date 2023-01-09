@@ -213,6 +213,14 @@
                     </p>
                 </div>
 
+                <div class="list-a d-flex align-items-center">
+                    <mat-icon class="icon-calendar-2" svgIcon="debit"></mat-icon>
+                    <p class="mb-0 mr-1 text-temp t-primary">Deposit : </p>
+                    <p class="mb-0 fw-bold text-temp" style="font-size: 11px;">
+                        {{ report_detail?.deposit?? 0 | rupiah }}
+                    </p>
+                </div>
+
 
                 <div class="list-a d-flex align-items-center">
                     <mat-icon class="icon-calendar-2" svgIcon="receipt"></mat-icon>

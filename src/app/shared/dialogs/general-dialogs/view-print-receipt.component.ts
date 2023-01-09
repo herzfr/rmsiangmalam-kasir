@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ReportSales } from 'src/app/main/pages/report/_model/report.model';
+import { CustomerRepository } from 'src/app/main/_model/customer/customer.repository';
+import { PaymentRepository } from 'src/app/main/_model/payment/payment.repository';
 import { Setting } from 'src/app/main/_model/setting/setting.model';
 import { ShiftRepository } from 'src/app/main/_model/shift/shift.repository';
 import { SettingService } from 'src/app/main/_service/settings.service';
@@ -36,13 +38,16 @@ export class ViewPrintReceiptComponent implements OnInit {
         private _setting: SettingService,
         private cdref: ChangeDetectorRef,
         public shiftRepo: ShiftRepository,
-        private time: TimeUtil
+        private time: TimeUtil,
+        private paymRepo: PaymentRepository,
+        private custRepo: CustomerRepository
     ) {
         this.selectListSales = data
     }
 
-    ngOnInit() {
-        this.get_image()
+    async ngOnInit() {
+        await this.get_image()
+        await this.getSettingPrint()
     }
 
     ngAfterViewChecked(): void {
@@ -70,6 +75,8 @@ export class ViewPrintReceiptComponent implements OnInit {
         this._setting.getSetting(this.shiftRepo.onBranch, this.shiftRepo.onSubBranch).subscribe((res) => {
             if (res['statusCode'] === 0) {
                 this.settingPrint = res['data'];
+                // console.log(this.settingPrint);
+
                 this.paperSize = this.settingPrint?.paperSize ?? '77mm';
                 this.widthSize = this.settingPrint?.widthSize ?? '70mm';
                 this.fontSize = this.settingPrint?.fontSize ?? '5mm';
@@ -104,6 +111,37 @@ export class ViewPrintReceiptComponent implements OnInit {
             return this.time.getJustTimeLocal(dt)
         }
     }
+
+    getTypePayment() {
+        console.log(this.selectListSales);
+    }
+
+    getPayment(id?: number, method?: string, customerId?: number) {
+        console.log(id, method, customerId);
+
+        let payment = this.paymRepo.getPaymentTypeById(id)
+        let cstmr = this.custRepo.customer.find(x => x.id == (customerId ?? 0))?.name
+
+        console.log(payment);
+
+
+        switch (method) {
+            case 'CASH':
+                return 'Tunai'
+            case 'CUST_DEBT':
+                if (cstmr) {
+                    return 'INVOICE ' + cstmr
+                }
+                return 'Invoice'
+            case 'EMPL_DEBT':
+                return 'Kasbon Karyawan'
+            case 'CUSTOM':
+                return payment
+
+        }
+        return payment
+    }
+
 
     printNow() {
         let printContents, popupWin;

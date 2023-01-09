@@ -13,13 +13,13 @@
                 </div>
 
                 <div id="printDiv" class="title center" style="text-align: center;">
-                    <span>{{ settingPrint?.headerTitle }}</span>
+                    <span style="font-weight: bold;">{{ settingPrint?.headerTitle }}</span>
                     <br>
-                    <span>{{ settingPrint?.headerAddress1 }}</span>
+                    <span style="font-size: 15px;">{{ settingPrint?.headerAddress1 }}</span>
                     <br>
-                    <span>{{ settingPrint?.headerAddress2 }}</span>
+                    <span style="font-size: 15px;">{{ settingPrint?.headerAddress2 }}</span>
                     <br>
-                    <span>{{ settingPrint?.phone }}</span>
+                    <span style="font-size: 15px;">{{ settingPrint?.phone }}</span>
                     <br>
                 </div>
                 <hr>
@@ -107,7 +107,12 @@
                                     {{ convertCurrency(selectListSales.tax) }}
                                 </td>
                             </tr>
-
+                            <tr *ngIf="selectListSales.deposit > 0" valign="top" style="font-weight: normal;">
+                                <td class="description">Deposit</td>
+                                <td class="price" style="text-align: right !important;">
+                                    -{{ convertCurrency(selectListSales.deposit) }}
+                                </td>
+                            </tr>
                             <tr valign="top" style="font-weight: bold;">
                                 <td class="description">Grand Total</td>
                                 <td class="price" style="text-align: right !important;">
@@ -127,7 +132,7 @@
                             </tr>
                             <ng-container *ngIf="selectListSales.paymentMethod === 'CASH'">
                                 <tr valign="top">
-                                    <td class="description">Total</td>
+                                    <td class="description">Tunai</td>
                                     <td class="price" style="text-align: right !important;">
                                         {{ convertCurrency(selectListSales.cash) }}
                                     </td>
@@ -140,38 +145,47 @@
                                 </tr>
                             </ng-container>
                             <ng-container *ngIf="selectListSales.paymentMethod === 'CUSTOM'">
-                                <tr valign="top">
+                                <!-- <tr valign="top">
                                     <td class="description">Total</td>
                                     <td class="price" style="text-align: right !important;">
                                         {{ convertCurrency(selectListSales.total) }}
                                     </td>
+                                </tr> -->
+                                <tr valign="top">
+                                    <td class="description">Layanan.</td>
+                                    <td class="price"
+                                        style="text-align: right !important; max-width: 70px; overflow-wrap: break-word; font-weight: bold;">
+                                        {{ getPayment(selectListSales.paymentTypeId, selectListSales.paymentMethod,
+                                        selectListSales.customerId) }}
+                                    </td>
                                 </tr>
                                 <tr valign="top">
-                                    <td class="description">Trans No.</td>
-                                    <td class="price" style="text-align: right !important;">
-                                        {{ selectListSales.transactionNo }}
+                                    <td class="description">Biaya Admin.</td>
+                                    <td class="price"
+                                        style="text-align: right !important; max-width: 70px; overflow-wrap: break-word; font-weight: bold;">
+                                        {{ selectListSales.adminFee }}%
                                     </td>
                                 </tr>
                             </ng-container>
                             <ng-container *ngIf="selectListSales.paymentMethod === 'CUST_DEBT'">
                                 <tr valign="top">
-                                    <td class="description">Total</td>
-                                    <td class="price" style="text-align: right !important;">
-                                        {{ convertCurrency(selectListSales.total) }}
+                                    <td class="description">Layanan</td>
+                                    <td class="price" style="text-align: right !important; font-weight: bold;">
+                                        Invoice
                                     </td>
                                 </tr>
                                 <tr valign="top">
                                     <td class="description">Pelanggan</td>
-                                    <td class="price" style="text-align: right !important;">
+                                    <td class="price" style="text-align: right !important; font-weight: bold;">
                                         {{ selectListSales.customerName }}
                                     </td>
                                 </tr>
                             </ng-container>
                             <ng-container *ngIf="selectListSales.paymentMethod === 'EMPL_DEBT'">
                                 <tr valign="top">
-                                    <td class="description">Total</td>
-                                    <td class="price" style="text-align: right !important;">
-                                        {{ convertCurrency(selectListSales.total) }}
+                                    <td class="description">Layanan</td>
+                                    <td class="price" style="text-align: right !important; font-weight: bold;">
+                                        Kasbon
                                     </td>
                                 </tr>
                             </ng-container>

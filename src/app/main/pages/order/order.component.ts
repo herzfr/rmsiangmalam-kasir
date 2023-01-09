@@ -12,6 +12,7 @@ import { PriceCategory } from './_model/order.model';
 import { OrderRepository } from './_model/order.repository';
 import { CartRepository } from './_model/_cart/cart.repository';
 import { DialogService } from 'src/app/shared/dialogs/dialog.service';
+import { TempSalesRepository } from '../cashier/_model/tempsales.repository';
 
 @Component({
     selector: 'order-apps',
@@ -44,7 +45,7 @@ export class OrderComponent implements OnInit {
     }
 
 
-    constructor(private location: Location, private route: ActivatedRoute, private shiftRepo: ShiftRepository,
+    constructor(private location: Location, private route: ActivatedRoute, private shiftRepo: ShiftRepository, private tempSales: TempSalesRepository,
         private router: Router, public order: OrderRepository, public cartRepo: CartRepository, private dlg: DialogService) {
         order.getPriceCat().subscribe(res => this.selected = res[0].name)
     }
@@ -217,6 +218,8 @@ export class OrderComponent implements OnInit {
                     .subscribe(res => {
                         if (res) {
                             this.order.saveOrder(this.cartRepo.cartComplete!)
+                            this.cartRepo.clear()
+                            this.tempSales.getTempSales()
                         }
                     })
 
@@ -232,6 +235,8 @@ export class OrderComponent implements OnInit {
                     .subscribe(res => {
                         if (res) {
                             this.order.updateOrder(this.cartRepo.cartComplete!)
+                            this.cartRepo.clear()
+                            this.tempSales.getTempSales()
                         }
                     })
             } else {

@@ -1,14 +1,17 @@
 <div class="container-fluid payment-container p-0">
-    <div class="d-flex card-box-header">
-        <button class="" (click)="location.back()" mat-icon-button>
-            <mat-icon svgIcon="back"></mat-icon>
-        </button>
-        <p class="mb-0 text-title">Pisah Tagihan</p>
-    </div>
+
     <mat-progress-bar *ngIf="checkoutRepo.isLoading" mode="indeterminate"></mat-progress-bar>
     <div class="d-flex h-100">
         <!-- LEFT SIDE -->
         <div class="col-4 px-2 p-section-left grid-row">
+
+            <!-- BACK -->
+            <div class="d-flex card-box-header">
+                <button class="" (click)="location.back()" mat-icon-button>
+                    <mat-icon svgIcon="back"></mat-icon>
+                </button>
+                <p class="mb-0 text-title">Pisah Tagihan</p>
+            </div>
 
             <!-- CARD ORDER HEAD -->
             <div class="box-main">
@@ -42,7 +45,7 @@
             <div class="box-main h-auto" h>
                 <p class="mb-0 title-e">Rincian Pesanan</p>
                 <!-- CARD LIST ITEM -->
-                <ol class="list-group list-drop" style="height: 200px;">
+                <ol class="list-group list-drop list-prod">
                     <ng-container *ngFor="let item of checkoutRepo.lines; let idx = index">
                         <div class="d-flex w-100 text-box-list">
                             <div class="col-1 text-list">

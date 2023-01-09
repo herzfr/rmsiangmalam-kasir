@@ -77,7 +77,7 @@ export class PaymentComponent implements OnInit {
             // // console.log(res.get('id'));
             if (!_.isNull(res.get('id'))) {
                 this.checkoutRepo.paymentId = Number(res.get('id'))
-                this.checkoutRepo.tempSalesForCheckout
+                this.checkoutRepo.tempSalesForCheckout()
                 // // console.log(this.checkoutRepo.paymentId);
             } else {
                 this.location.back()

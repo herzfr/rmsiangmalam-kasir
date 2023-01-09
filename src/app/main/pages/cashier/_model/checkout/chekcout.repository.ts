@@ -98,14 +98,13 @@ export class CheckoutRepository {
         this.subs.push(usr)
     }
 
-    get tempSalesForCheckout() {
+    tempSalesForCheckout() {
         this.tempSalesService.getTempSalesById(this.paymentId).subscribe(res => {
             // // console.log(res);
             this.lines = (res.data as TempSales).items
             this.firstTempSalesToCheckout = res.data
             // console.log(this.checkout);
         })
-        return
     }
 
     set firstTempSalesToCheckout(temp: TempSales) {
