@@ -105,8 +105,10 @@
                                                         [ngClass]="order.searchProduct.option === pcat.id.toString()? 'bg-active' : ''"
                                                         class="owl-category-price">
                                                         <div class="d-flex align-items-center fs-12">
-                                                            <img class="category-picture" src="{{ pcat.pic }}"
-                                                                alt="img-category">
+                                                            <img uiImageLoader class="category-picture"
+                                                                onErrorSrc="assets/images/no_pic_square.png"
+                                                                loader="assets/images/no_pic_square.png"
+                                                                [src]="pcat.pic" alt="img-category">
                                                             <p class="mb-0">{{ pcat.name }} {{ pcat.id }}</p>
                                                         </div>
                                                     </div>

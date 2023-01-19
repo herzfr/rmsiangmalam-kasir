@@ -14,7 +14,7 @@ export class CartRepository {
     public cartPrice: number = 0;
 
     constructor(private _baseService: BaseService) {
-        this.cart.tableIds.push(0)
+        this.cart.tableIds.push()
         _baseService.tempSale$.subscribe(res => {
             // console.log(res);
             this.clear()
@@ -48,7 +48,7 @@ export class CartRepository {
                 totalPrice,
                 isPackage,
                 isPackage ? null : (prodpack as Product).stockId,
-                prodpack.pic,
+                prodpack.pic != null ? prodpack.pic : 'assets/images/no_pic_square.png',
                 priceCat!.id,
                 priceCat!.name,
                 isPackage ? (prodpack as Package).stockIds : [],
@@ -75,7 +75,7 @@ export class CartRepository {
                 totalPrice,
                 _.isUndefined(shortcut.packageId),
                 _.isUndefined(shortcut.packageId) ? null : (shortcut.stockId ?? null),
-                shortcut!.pic ?? '',
+                shortcut!.pic ?? 'assets/images/no_pic_square.png',
                 priceCat!.id,
                 priceCat!.name,
                 [],
@@ -131,6 +131,8 @@ export class CartRepository {
     }
 
     get cartComplete() {
+        // console.log(this.cart);
+
         if (this.cart) {
             this.cart.items = undefined
             let data: any[] = this.lines
@@ -171,7 +173,7 @@ export class CartRepository {
                 x.totalPrice,
                 x.isPackage,
                 x.isPackage ? 0 : (JSON.parse(x.stockId) as number[])[0], // STOCK ID
-                x.pic,
+                x.pic != '' ? x.pic : 'assets/images/no_pic_square.png',
                 x.priceCatId,
                 x.priceCat,
                 x.isPackage ? (JSON.parse(x.stockId) as number[]) : [] // STOCKIDS

@@ -4,13 +4,14 @@
 
 export const environment = {
   production: false,
-  url: 'https://app.rmsiangmalam.com/',
+  url: 'https://api.kodingin.me/',
+  // url: 'https://app.rmsiangmalam.com/',
   sessionName: 'TIME',
   minuteSum: 10,
   thresholdTime: 300,
   checkinterval: 10000,
   timeout: 3000,
-  socketHost: 'https://ws.rmsiangmalam.com/'
+  socketHost: 'https://ws.kodingin.me/'
 };
 
 /*

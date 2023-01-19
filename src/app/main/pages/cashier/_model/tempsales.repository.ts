@@ -79,15 +79,15 @@ export class TempSalesRepository {
         this.findTempSales.branchId = shiftRepo.onBranch;
         this.findTempSales.subBranchId = shiftRepo.onSubBranch;
         this.getTempSales()
-        this.initSocket()
+        // this.initSocket()
     }
 
-    initSocket() {
-        this.connectSocketServer();
-        this.listenError();
-        this.checkConnectionStatus();
-        this.getSocketStatusValue();
-    }
+    // initSocket() {
+    //     this.connectSocketServer();
+    //     this.listenError();
+    //     this.checkConnectionStatus();
+    //     this.getSocketStatusValue();
+    // }
 
     // =======================================================
     // AUDIO4
