@@ -383,6 +383,7 @@ export class CheckoutRepository {
                             this.shiftRepo.check()
                             this.location.back()
                             this._rsvpRepo.fetchReservation()
+                            this._dlg.showViewReceipt(res.data)
                         }
                     })
                 }
@@ -395,6 +396,7 @@ export class CheckoutRepository {
                     this.shiftRepo.check()
                     this.location.back()
                     this.reservation = undefined
+                    this._dlg.showViewReceipt(res.data)
                 }
 
 

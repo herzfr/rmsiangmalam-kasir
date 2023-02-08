@@ -27,7 +27,18 @@ export class UserRespository {
     timerSubcriber: any;
 
     constructor(private authService: AuthService, private router: Router, private timeUtil: TimeUtil,
-        public dialog: DialogService) { }
+        public dialog: DialogService) {
+        this.checkLogin()
+
+    }
+
+    checkLogin() {
+        let isLogin = localStorage.getItem('isLogin') || false
+        if (Boolean(isLogin)) {
+            this.authorizationTimer()
+        }
+
+    }
 
     async signIn(username: string, password: string): Promise<boolean> {
         let login: boolean = false;
@@ -41,6 +52,7 @@ export class UserRespository {
                     this.setTimeSession()
                     this.authorizationTimer()
                     login = true
+                    this.router.navigateByUrl('/')
                 } else {
                     this.dialog.showSWEDialog("Oops!!!", "Anda bukan user Kasir", "error")
                 }
@@ -93,10 +105,8 @@ export class UserRespository {
     runInterval() {
         //ambil data dari session
         let sessionTime = localStorage.getItem(environment.sessionName);
-
         //jika session data empty
         if (_.isNil(sessionTime)) {
-            // console.log('sesion data empty');
             this.timerSubcriber.unsubscribe();
         } else {
             //ambil tengat waktu dari sessionTime
@@ -108,7 +118,7 @@ export class UserRespository {
 
             //jika selisih nya kurang dari 0 atau yang lainnya (yang sudah di tentukan di threshold env)
             if (seconds < 0 || seconds < environment.thresholdTime) {
-                // console.log('refresh dong ');
+                console.log('refresh dong ');
                 this.authService.refresh().subscribe((res) => {
                     //jika response refresh success
                     if (res['statusCode'] == 0) {

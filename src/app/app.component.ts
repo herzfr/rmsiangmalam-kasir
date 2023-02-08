@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UserRespository } from './auth/auth.repository';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'rmsiangmalam-kasir';
+  constructor(private userRepo: UserRespository) { }
 }

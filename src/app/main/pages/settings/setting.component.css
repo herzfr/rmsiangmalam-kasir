@@ -243,6 +243,13 @@ input[type="file"].input-file {
   background: #fff;
 }
 
+.btn-test {
+  background: #fff;
+  border: 1px solid #045b62;
+  color: #045b62;
+  margin-left: 5px;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }

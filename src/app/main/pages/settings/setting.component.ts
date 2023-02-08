@@ -1,7 +1,8 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogService } from 'src/app/shared/dialogs/dialog.service';
 import { SettingRepository } from '../../_model/setting/setting.repository';
+import { PrintViewComponent } from './component/print-view.component';
 
 @Component({
     selector: 'setting-app',
@@ -10,12 +11,17 @@ import { SettingRepository } from '../../_model/setting/setting.repository';
 })
 
 export class SettingComponent implements OnInit {
+    @ViewChild(PrintViewComponent) prentv?: PrintViewComponent;
     constructor(public location: Location, public settingRepo: SettingRepository, private dlg: DialogService) { }
 
     ngOnInit() { }
 
     openDialog() {
         this.dlg.showCropImage
+    }
+
+    print() {
+        this.prentv?.printNow()
     }
 
     fileChangeEvent(event: any): void {

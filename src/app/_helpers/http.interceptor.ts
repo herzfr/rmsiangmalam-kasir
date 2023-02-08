@@ -6,6 +6,7 @@ import { UserRespository } from '../auth/auth.repository';
 import { UserLogin } from '../auth/auth.model';
 import { DialogService } from '../shared/dialogs/dialog.service';
 import { map } from 'lodash';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
@@ -37,26 +38,30 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       this.dlg.showSWEDialog("Oops!!!", "Username tidak terdaftar atau Password Salah", "error")
       return throwError('error Username tidak terdaftar atau Password');
     } else {
-      this.isRefreshing = true;
-      this.refreshTokenSubject.next(null);
+      // this.isRefreshing = true;
+      // this.refreshTokenSubject.next(null);
 
-      if (!this.isRefreshing) {
-        return this.authService.refresh().pipe(
-          switchMap((resMap: any) => {
-            this.isRefreshing = false;
+      // if (!this.isRefreshing) {
+      //   return this.authService.refresh().pipe(
+      //     switchMap((resMap: any) => {
+      //       this.isRefreshing = false;
 
-            this.userRepo.setUserLogin(resMap.data);
-            this.refreshTokenSubject.next(resMap.data);
+      //       this.userRepo.setUserLogin(resMap.data);
+      //       this.refreshTokenSubject.next(resMap.data);
 
-            return next.handle(this.addTokenHeader(request));
-          }),
-          catchError((err) => {
-            this.isRefreshing = false;
-            this.userRepo.signOut();
-            return throwError(err);
-          })
-        );
-      }
+      //       return next.handle(this.addTokenHeader(request));
+      //     }),
+      //     catchError((err) => {
+      //       this.isRefreshing = false;
+      //       this.userRepo.signOut();
+      //       return throwError(err);
+      //     })
+      //   );
+      // }
+
+      this.userRepo.clean()
+      location.reload();
+
 
       return this.refreshTokenSubject.pipe(
         filter(token => token !== null),
@@ -64,47 +69,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         switchMap(() => next.handle(this.addTokenHeader(request)))
       );
     }
-
-    // if (!this.isRefreshing) {
-    //   console.log('masuk ke !this.isRefreshing');
-
-    //   this.isRefreshing = true;
-    //   this.refreshTokenSubject.next(null);
-
-    //   let user: UserLogin | undefined;
-    //   // this.authService.refresh().subscribe(res => {
-    //   //   user = res.data
-    //   //   this.userRepo.setUserLogin(res.data)
-    //   // });
-
-    //   if (typeof this.userRepo.getUserLogin() == 'boolean' && !(this.userRepo.getUserLogin())) {
-    //     console.log('belum login');
-
-    //   } else {
-    //     if (this.userRepo.getUserLogin())
-    //       return this.authService.refresh().pipe(
-    //         switchMap((resMap: any) => {
-    //           this.isRefreshing = false;
-
-    //           this.userRepo.setUserLogin(resMap.data);
-    //           this.refreshTokenSubject.next(resMap.data);
-
-    //           return next.handle(this.addTokenHeader(request));
-    //         }),
-    //         catchError((err) => {
-    //           this.isRefreshing = false;
-    //           this.userRepo.signOut();
-    //           return throwError(err);
-    //         })
-    //       );
-    //   }
-    // }
-    // console.log('diluar dari !this.isRefreshing');
-    // return this.refreshTokenSubject.pipe(
-    //   filter(token => token !== null),
-    //   take(1),
-    //   switchMap(() => next.handle(this.addTokenHeader(request)))
-    // );
   }
 
   private addTokenHeader(request: HttpRequest<any>) {

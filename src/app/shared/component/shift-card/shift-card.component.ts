@@ -46,10 +46,6 @@ export class ShiftCardComponent implements OnInit {
 
 
     changeIsAcive(e: any) {
-        // console.log(e.value);
-
-        // console.log(this.isActive);
-
         if (this.isActive) {
             this.dialog.showConfirmationDialog("Akhiri Shift", "", "apakah anda ingin mengakhiri SHIFT ini?", "close-shift", "Ya")
                 .subscribe(res => {
@@ -67,6 +63,8 @@ export class ShiftCardComponent implements OnInit {
                                 }
                             })
                     }
+
+                    this.isActive = false
                 })
 
         } else {
@@ -92,7 +90,11 @@ export class ShiftCardComponent implements OnInit {
                                 })
                             }
                         })
+                    } else {
+                        this.isActive = false
                     }
+
+
                 })
         }
     }

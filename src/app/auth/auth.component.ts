@@ -54,7 +54,7 @@ export class AuthComponent implements OnInit {
     }
 
     ngDistroy() {
-        this.unsubcribe();
+        this.unsubcribe.unsubcribe()
     }
 
 
