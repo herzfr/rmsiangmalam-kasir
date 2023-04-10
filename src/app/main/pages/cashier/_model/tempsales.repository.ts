@@ -82,23 +82,23 @@ export class TempSalesRepository {
         this.findTempSales.branchId = shiftRepo.onBranch;
         this.findTempSales.subBranchId = shiftRepo.onSubBranch;
         this.getTempSales()
-        this.listen_report_initialize()
+        // this.listen_report_initialize()
         // this.initSocket()
     }
 
-    listen_report_initialize() {
-        this.find_report_data.subscribe(res => {
-            console.log('find_report_data => ', res);
-            console.log('length => ', Object.keys(res).length);
+    // listen_report_initialize() {
+    //     this.find_report_data.subscribe(res => {
+    //         // console.log('find_report_data => ', res);
+    //         // console.log('length => ', Object.keys(res).length);
             
-            if (Object.keys(res).length > 0) {
-                this._dlg.showViewReceipt(res).subscribe(res => {
-                    console.log('res ', res);
+    //         if (Object.keys(res).length > 0) {
+    //             this._dlg.showViewReceipt(res).subscribe(res => {
+    //                 console.log('res ', res);
                     
-                })
-            }
-        })
-    }
+    //             })
+    //         }
+    //     })
+    // }
 
     refreshTempsales() {
         this.findTempSales.branchId = this.shiftRepo.onBranch;

@@ -112,17 +112,17 @@ export class ViewPrintReceiptComponent implements OnInit {
         }
     }
 
-    getTypePayment() {
-        console.log(this.selectListSales);
-    }
+    // getTypePayment() {
+    //     // console.log(this.selectListSales);
+    // }
 
     getPayment(id?: number, method?: string, customerId?: number) {
-        console.log(id, method, customerId);
+        // console.log(id, method, customerId);
 
         let payment = this.paymRepo.getPaymentTypeById(id)
         let cstmr = this.custRepo.customer.find(x => x.id == (customerId ?? 0))?.name
 
-        console.log(payment);
+        // console.log(payment);
 
 
         switch (method) {
