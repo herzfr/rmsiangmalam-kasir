@@ -21,8 +21,9 @@ import { CheckoutService } from "../../_service/checkout.service";
 import { TemporarySalesService } from "../../_service/temporarysales.service";
 import { ItemTempSales, TempSales } from "../tempsales.model";
 import { TempSalesRepository } from "../tempsales.repository";
-import { Checkout } from "./checkout.model";
+import { Checkout, ResponCheckout } from "./checkout.model";
 import { ReportSales } from "../../../report/_model/report.model";
+import { ReportService } from "../../../report/_service/report.service";
 
 @Injectable()
 export class CheckoutRepository {
@@ -63,7 +64,8 @@ export class CheckoutRepository {
         private _dlg: DialogService,
         private _user_service: UsersService,
         private _reservService: ReservationService,
-        private _rsvpRepo: ReservationRepository
+        private _rsvpRepo: ReservationRepository,
+        private _reportService: ReportService
     ) {
         this.listenerNumberResult()
         this.listenTriggerFromDialog()
@@ -373,36 +375,45 @@ export class CheckoutRepository {
         this._checkout_service.checkout(this.checkout).subscribe(res => {
             if (_.isEqual(res.statusCode, 0)) {
                 // JIKA PAKAI DEPOSIT
+                console.log(`res data =`, res.data);
+                console.log(`as report =`, res.data as ResponCheckout);
+                let response = res.data as ResponCheckout
                 if (this.reservation !== undefined && this.checkout.deposit > 0) {
-                    this.tempRepo.find_report_data.next(res.data as ReportSales)
+                    // this.tempRepo.find_report_data.next(res.data as ReportSales)
                     this._reservService.updateReservation(this.reservation?.id, true).subscribe(res => {
                         if (_.isEqual(res.statusCode, 0)) {
-                            this._dlg.showViewReceipt(res.data as ReportSales)
-                            .subscribe(() => {
-                                    this._dlg.showSWEDialog('Berhasil!', `Checkout tagihan berhasil`, 'success')
-                                    this.reservation = undefined
-                                    this.reBuildPayment()
-                                    this.tempRepo.getTempSales()
-                                    this.shiftRepo.check()
-                                    this.location.back()
-                                    this._rsvpRepo.fetchReservation()
-                                    this.tempRepo.clearTempsalesActive()
+                            this._reportService.getReportById(response.id).subscribe(res => {
+                                console.log('ini response report ', res.data as ReportSales);
+                                this._dlg.showViewReceipt(res.data as ReportSales)
+                                .subscribe(() => {
+                                        this._dlg.showSWEDialog('Berhasil!', `Checkout tagihan berhasil`, 'success')
+                                        this.reservation = undefined
+                                        this.reBuildPayment()
+                                        this.tempRepo.getTempSales()
+                                        this.shiftRepo.check()
+                                        this.location.back()
+                                        this._rsvpRepo.fetchReservation()
+                                        this.tempRepo.clearTempsalesActive()
+                                })
                             })
                         }
                     })
                 }
                 // JIKA TIDAK PAKAI DEPOSIT
                 else {
-                    this._dlg.showViewReceipt(res.data as ReportSales)
-                    .subscribe(() => {
-                        this._dlg.showSWEDialog('Berhasil!', `Checkout tagihan berhasil`, 'success')
-                        this.reservation = undefined
-                        this.reBuildPayment()
-                        this.tempRepo.getTempSales()
-                        this.shiftRepo.check()
-                        this.location.back()
-                        this._rsvpRepo.fetchReservation()
-                        this.tempRepo.clearTempsalesActive()
+                    this._reportService.getReportById(response.id).subscribe(res => {
+                        console.log('ini response report ', res.data as ReportSales);
+                        this._dlg.showViewReceipt(res.data as ReportSales)
+                        .subscribe(() => {
+                            this._dlg.showSWEDialog('Berhasil!', `Checkout tagihan berhasil`, 'success')
+                            this.reservation = undefined
+                            this.reBuildPayment()
+                            this.tempRepo.getTempSales()
+                            this.shiftRepo.check()
+                            this.location.back()
+                            this._rsvpRepo.fetchReservation()
+                            this.tempRepo.clearTempsalesActive()
+                        })
                     })
                 }
             }
