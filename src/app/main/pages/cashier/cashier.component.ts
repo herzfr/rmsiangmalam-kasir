@@ -4,6 +4,7 @@ import { IOpt, OptTempSales } from '../../_const/options';
 import { ShiftRepository } from '../../_model/shift/shift.repository';
 import { TablesRepository } from '../tables/_model/tables.repository';
 import { TempSalesRepository } from './_model/tempsales.repository';
+import { OrderRepository } from '../order/_model/order.repository';
 
 @Component({
     selector: 'cashier-apps',
@@ -19,7 +20,8 @@ export class CashierComponent implements OnInit {
         private router: Router,
         public tableRepo: TablesRepository,
         public shiftRepo: ShiftRepository,
-    ) { }
+    ) { 
+    }
 
     ngOnInit() { }
 

@@ -64,6 +64,8 @@ import { ReportService } from './pages/report/_service/report.service';
 import { SocketIoModule } from 'ngx-socket-io';
 import { SocketIoConfig } from 'ngx-socket-io/src/config/socket-io.config';
 import { SocketService } from './_service/socket.service';
+import { OrderRepository } from './pages/order/_model/order.repository';
+import { CartRepository } from './pages/order/_model/_cart/cart.repository';
 
 const config: SocketIoConfig = { url: 'http://localhost:30000', options: {} };
 
@@ -146,7 +148,7 @@ const material = [
         SavingService,
         SavingRepository,
         ReportService,
-        SocketService
+        SocketService,
     ]
 })
 export class MainModule { }

@@ -6,6 +6,8 @@ import { DialogService } from '../shared/dialogs/dialog.service';
 import { Level } from '../_constant/role';
 import { Shift } from './_model/shift/shift.model';
 import { ShiftRepository } from './_model/shift/shift.repository';
+import { OrderRepository } from './pages/order/_model/order.repository';
+import { TablesRepository } from './pages/tables/_model/tables.repository';
 
 @Component({
     selector: 'main-app',
@@ -17,9 +19,11 @@ export class MainComponent implements OnInit {
     user: UserLogin;
     shift: Shift | undefined;
     subsShift?: Subscription;
-    constructor(private userRepo: UserRespository, private dialog: DialogService, public shiftRepo: ShiftRepository) {
+    constructor(private userRepo: UserRespository, private dialog: DialogService, 
+        public shiftRepo: ShiftRepository) {
         this.user = (typeof userRepo.getUserLogin() !== 'boolean') ? userRepo.getUserLogin() as UserLogin : new UserLogin();
         // console.log(this.user);
+
     }
 
     ngOnInit() {

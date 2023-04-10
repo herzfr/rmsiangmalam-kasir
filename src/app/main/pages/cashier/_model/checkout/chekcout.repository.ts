@@ -22,6 +22,7 @@ import { TemporarySalesService } from "../../_service/temporarysales.service";
 import { ItemTempSales, TempSales } from "../tempsales.model";
 import { TempSalesRepository } from "../tempsales.repository";
 import { Checkout } from "./checkout.model";
+import { ReportSales } from "../../../report/_model/report.model";
 
 @Injectable()
 export class CheckoutRepository {
@@ -371,35 +372,39 @@ export class CheckoutRepository {
         this.checkout.status = status
         this._checkout_service.checkout(this.checkout).subscribe(res => {
             if (_.isEqual(res.statusCode, 0)) {
-
                 // JIKA PAKAI DEPOSIT
                 if (this.reservation !== undefined && this.checkout.deposit > 0) {
+                    this.tempRepo.find_report_data.next(res.data as ReportSales)
                     this._reservService.updateReservation(this.reservation?.id, true).subscribe(res => {
                         if (_.isEqual(res.statusCode, 0)) {
-                            this.reservation = undefined
-                            this._dlg.showSWEDialog('Berhasil!', `Checkout tagihan berhasil`, 'success')
-                            this.reBuildPayment()
-                            this.tempRepo.getTempSales()
-                            this.shiftRepo.check()
-                            this.location.back()
-                            this._rsvpRepo.fetchReservation()
-                            this._dlg.showViewReceipt(res.data)
+                            this._dlg.showViewReceipt(res.data as ReportSales)
+                            .subscribe(() => {
+                                    this._dlg.showSWEDialog('Berhasil!', `Checkout tagihan berhasil`, 'success')
+                                    this.reservation = undefined
+                                    this.reBuildPayment()
+                                    this.tempRepo.getTempSales()
+                                    this.shiftRepo.check()
+                                    this.location.back()
+                                    this._rsvpRepo.fetchReservation()
+                                    this.tempRepo.clearTempsalesActive()
+                            })
                         }
                     })
                 }
                 // JIKA TIDAK PAKAI DEPOSIT
                 else {
-                    this.reservation = undefined
-                    this._dlg.showSWEDialog('Berhasil!', `Checkout tagihan berhasil`, 'success')
-                    this.reBuildPayment()
-                    this.tempRepo.getTempSales()
-                    this.shiftRepo.check()
-                    this.location.back()
-                    this.reservation = undefined
-                    this._dlg.showViewReceipt(res.data)
+                    this._dlg.showViewReceipt(res.data as ReportSales)
+                    .subscribe(() => {
+                        this._dlg.showSWEDialog('Berhasil!', `Checkout tagihan berhasil`, 'success')
+                        this.reservation = undefined
+                        this.reBuildPayment()
+                        this.tempRepo.getTempSales()
+                        this.shiftRepo.check()
+                        this.location.back()
+                        this._rsvpRepo.fetchReservation()
+                        this.tempRepo.clearTempsalesActive()
+                    })
                 }
-
-
             }
         }, (err: HttpErrorResponse) => {
             this._dlg.showSWEDialog('Oopps!', `Checkout tagihan gagal`, 'error')

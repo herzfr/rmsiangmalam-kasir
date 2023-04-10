@@ -33,3 +33,45 @@ export class Checkout {
     adminFee: number = 0;
     image?: string | null = null;
 }
+
+export interface ResponCheckout {
+    id: number
+    name: string
+    branchId: number
+    subBranchId: number
+    note: string
+    customerId: number
+    customerName: string
+    cashierName: string
+    cashierUserName: string
+    waiterName: string
+    waiterUserName: string
+    subTotal: number
+    total: number
+    discount: number
+    tax: number
+    isDineIn: boolean
+    status: string
+    change: number
+    cash: number
+    service: number
+    items: ItemCheckout[]
+  }
+
+
+  export interface ItemCheckout {
+    id: number
+    salesId: any
+    menuId: string
+    name: string
+    amount: number
+    unitPrice: number
+    unit: string
+    totalPrice: number
+    isPackage: boolean
+    createdBy: string
+    stockId: string
+    pic: string
+    priceCat: string
+    priceCatId: number
+  }

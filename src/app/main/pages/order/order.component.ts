@@ -219,7 +219,7 @@ export class OrderComponent implements OnInit {
                         if (res) {
                             this.order.saveOrder(this.cartRepo.cartComplete!)
                             this.cartRepo.clear()
-                            this.tempSales.getTempSales()
+                            setTimeout(()=> this.tempSales.refreshTempsales(), 2000)
                         }
                     })
 
@@ -236,7 +236,7 @@ export class OrderComponent implements OnInit {
                         if (res) {
                             this.order.updateOrder(this.cartRepo.cartComplete!)
                             this.cartRepo.clear()
-                            this.tempSales.getTempSales()
+                            setTimeout(()=> this.tempSales.refreshTempsales(), 2000)
                         }
                     })
             } else {

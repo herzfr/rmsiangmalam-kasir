@@ -30,6 +30,7 @@ export class DialogService {
             InfoDialogComponent,
             dialogConfig
         );
+        
         return dialogCustom.afterClosed();
     }
 

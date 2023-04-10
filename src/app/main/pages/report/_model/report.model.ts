@@ -61,6 +61,7 @@ export interface ReportSales {
     items: ItemReportSales[];
 }
 
+
 export interface ItemReportSales {
     menuId: string;
     name: string;
@@ -89,6 +90,7 @@ export interface ReportShiftSales {
     otherIncome: OtherIncome[];
     expense: ExpenseReport[];
 }
+
 
 export interface CustomPaymentList {
     name: string;

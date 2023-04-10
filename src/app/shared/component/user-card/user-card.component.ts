@@ -17,4 +17,8 @@ export class UserCardComponent implements OnInit {
     logout_confirmation() {
         this.logoutEmit.emit();
     }
+
+    onImageError(entity: any) {
+        entity.target.src = 'assets/images/avatar.png'
+    }
 }

@@ -5,7 +5,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { Router } from "@angular/router";
 import * as _ from "lodash";
 import { isNil } from "lodash";
-import { Subscription } from "rxjs";
+import { BehaviorSubject, Subscription } from "rxjs";
 import { Additional } from "src/app/main/_model/additional/additional.model";
 import { Discount } from "src/app/main/_model/discount/discount.model";
 import { Reservation } from "src/app/main/_model/reservation/reservation.model";
@@ -18,6 +18,7 @@ import { CartLine, ItemCart } from "../../order/_model/_cart/cart.model";
 import { TablesRepository } from "../../tables/_model/tables.repository";
 import { TemporarySalesService } from "../_service/temporarysales.service";
 import { DataTempSales, FindTempSales, ItemTempSales, Merge, Split, TempSales } from "./tempsales.model";
+import { ReportSales } from "../../report/_model/report.model";
 
 @Injectable()
 export class TempSalesRepository {
@@ -66,6 +67,8 @@ export class TempSalesRepository {
     /* Subscription Properties */
     //   =====================
 
+    find_report_data: BehaviorSubject<ReportSales> = new BehaviorSubject<ReportSales>({} as ReportSales)
+
 
     allsubs: Subscription[] = []
     constructor(private tempSalesService: TemporarySalesService,
@@ -79,7 +82,32 @@ export class TempSalesRepository {
         this.findTempSales.branchId = shiftRepo.onBranch;
         this.findTempSales.subBranchId = shiftRepo.onSubBranch;
         this.getTempSales()
+        this.listen_report_initialize()
         // this.initSocket()
+    }
+
+    listen_report_initialize() {
+        this.find_report_data.subscribe(res => {
+            console.log('find_report_data => ', res);
+            console.log('length => ', Object.keys(res).length);
+            
+            if (Object.keys(res).length > 0) {
+                this._dlg.showViewReceipt(res).subscribe(res => {
+                    console.log('res ', res);
+                    
+                })
+            }
+        })
+    }
+
+    refreshTempsales() {
+        this.findTempSales.branchId = this.shiftRepo.onBranch;
+        this.findTempSales.subBranchId = this.shiftRepo.onSubBranch;
+        this.getTempSales()
+    }
+
+    clearTempsalesActive() {
+        this.tempSalesActive = undefined
     }
 
     // initSocket() {
